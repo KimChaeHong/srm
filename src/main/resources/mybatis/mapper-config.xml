@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>	
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.birdie.srm.dto.CodeDto"
+					alias="Code"/>
+		<typeAlias type="com.birdie.srm.dto.SR001Dto"
+				    alias="Sr1"/>
+		<typeAlias type="com.birdie.srm.dto.SR002Dto"
+				    alias="Sr2"/>
+		<typeAlias type="com.birdie.srm.dto.HrDto"
+				    alias="Hr"/>
+		<typeAlias type="com.birdie.srm.dto.PrgDto"
+				    alias="Prg"/>
+		<typeAlias type="com.birdie.srm.dto.DeptDto"
+				    alias="Dept"/>
+		<typeAlias type="com.birdie.srm.dto.MemberDto"
+				    alias="Member"/>
+	</typeAliases>
+</configuration>
