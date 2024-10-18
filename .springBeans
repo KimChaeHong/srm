@@ -8,6 +8,9 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/resources/spring/dispatcher/aop.xml</config>
+		<config>src/main/resources/spring/dispatcher/component_scan.xml</config>
+		<config>src/main/resources/spring/dispatcher/view_resolver.xml</config>
+		<config>src/main/resources/spring/dispatcher/multifile_resolver.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
