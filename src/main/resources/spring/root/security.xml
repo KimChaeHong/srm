@@ -11,14 +11,14 @@
 	<!-- 브라우저의 id,pw를 받았을 때 로그인 할 것이냐 말것이냐의 기능 -->
 	<security:http>
 		<!-- 폼 인증 방식 선택 --><!-- loginform 파라미터 값을 가져옴 -->
-		<security:form-login login-page="/ch17/loginForm"
+		<security:form-login login-page="/membermanagement/loginForm"
 			username-parameter="mid" password-parameter="mpassword"
 			login-processing-url="/login"
-			authentication-success-handler-ref="ch17AuthenticationSuccessHandler"
-			authentication-failure-handler-ref="ch17AuthenticationFailureHandler" />
+			authentication-success-handler-ref="authenticationSuccessHandler"
+			authentication-failure-handler-ref="authenticationFailureHandler" />
 		<!-- 로그 아웃 설정 -->
 		<security:logout logout-url="/logout"
-			success-handler-ref="ch17LogoutSuccessHandler" />
+			success-handler-ref="logoutSuccessHandler" />
 
 		<!-- 사이트간 요청 위조 방지 비활성화 -->
 		<security:csrf disabled="true" />
@@ -27,7 +27,7 @@
 		<!-- 로그인이 안되어 있을 경우 : 로그인 폼으로 이동 -->
 		<!-- 현재 로그인 된 사용자가 권한 불충분 일 경우 이동할 경로 -->
 		<security:access-denied-handler
-			error-page="/ch17/error403" />
+			error-page="/security/error403" />
 
 	</security:http>
 
@@ -53,7 +53,7 @@
 	<bean id="daoAuthenticationProvider"
 		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 		<property name="userDetailsService"
-			ref="ch17UserDetailService" /> <!-- 사용자에 대해 상세 정보를 알려주는 서비스 객체 -->
+			ref="userDetailService" /> <!-- 사용자에 대해 상세 정보를 알려주는 서비스 객체 -->
 		<property name="authoritiesMapper"
 			ref="roleHierarchyAuthoritiesMapper" /><!-- 역할 계층을 정해놓은 객체 -->
 	</bean>
@@ -68,8 +68,8 @@
 		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<property name="hierarchy"> <!-- setter주입으로 string 매개값 한줄에 두가지 역할을 비교 -->
 			<value>
-				ROLE_ADMIN > ROLE_MANAGER
-				ROLE_MANAGER > ROLE_USER
+				ROLE_ADMIN > ROLE_DEV
+				ROLE_DEV > ROLE_USER
 			</value>
 		</property>
 	</bean>
