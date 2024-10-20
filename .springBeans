@@ -14,9 +14,9 @@
 		<config>src/main/resources/spring/root/datasource.xml</config>
 		<config>src/main/resources/spring/root/component_scan.xml</config>
 		<config>src/main/resources/spring/root/security.xml</config>
+		<config>src/main/resources/spring/root/mybatis.xml</config>
 	</configs>
 	<autoconfigs>
-		<config>src/main/resources/spring/root/mybatis.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
