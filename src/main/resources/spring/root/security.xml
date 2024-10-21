@@ -2,8 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
 	<!-- 시큐리티가 적용되지 않는 요청 경로를 설정 -->
 	<security:http pattern="/resources/**" security="none" />
 
@@ -12,7 +15,8 @@
 	<security:http>
 		<!-- 폼 인증 방식 선택 --><!-- loginform 파라미터 값을 가져옴 -->
 		<security:form-login login-page="/membermanagement/loginForm"
-			username-parameter="mid" password-parameter="mpassword"
+			username-parameter="mid" 
+			password-parameter="mpassword"
 			login-processing-url="/login"
 			authentication-success-handler-ref="authenticationSuccessHandler"
 			authentication-failure-handler-ref="authenticationFailureHandler" />
@@ -50,18 +54,15 @@
 			ref="daoAuthenticationProvider" /><!-- DB에서 값을 읽고 spring security에게 제공 -->
 	</security:authentication-manager>
 
-	<bean id="daoAuthenticationProvider"
-		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-		<property name="userDetailsService"
-			ref="userDetailService" /> <!-- 사용자에 대해 상세 정보를 알려주는 서비스 객체 -->
-		<property name="authoritiesMapper"
-			ref="roleHierarchyAuthoritiesMapper" /><!-- 역할 계층을 정해놓은 객체 -->
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="memberDetailService"/> 
+		<property name="authoritiesMapper" ref="roleHierarchyAuthoritiesMapper"/>
 	</bean>
-
+	
 	<bean id="roleHierarchyAuthoritiesMapper"
 		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyAuthoritiesMapper">
-		<constructor-arg ref="roleHierarchyImpl" /><!-- 생성자 매개값으로 
-			다시 만들어짐 -->
+		<constructor-arg ref="roleHierarchyImpl" />
+		<!-- 생성자 매개값으로 다시 만들어짐 -->
 	</bean>
 
 	<bean id="roleHierarchyImpl"

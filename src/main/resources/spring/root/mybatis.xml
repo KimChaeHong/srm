@@ -16,7 +16,7 @@
 	<!-- @Mapper를 사용하기 위한 설정 : 관리객체를 생성시키는 역할, 마이바티스가 제공하는 마크업 랭기지를 써야함, 네임스페이스 
 		선언해야함 -->
 	<mybatis-spring:scan
-		base-package="com.birdie.srm.dao.mybatis"
+		base-package="com.birdie.srm.dao"
 		annotation="org.apache.ibatis.annotations.Mapper" />
 
 

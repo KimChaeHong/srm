@@ -7,10 +7,11 @@ import org.springframework.security.core.userdetails.User;
 
 import com.birdie.srm.dto.MemberDto;
 
-public class CustomUserDetails extends User{
+public class MemberDetails extends User{
+	
 	private MemberDto member;
 	
-	public CustomUserDetails(
+	public MemberDetails(
 			MemberDto member,
 			List<GrantedAuthority> authorities) {
 		super(
@@ -23,5 +24,7 @@ public class CustomUserDetails extends User{
 		
 	}
 
-
+	public MemberDto getUserDto() {
+		return member;
+	}
 }
