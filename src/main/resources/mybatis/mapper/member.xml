@@ -17,7 +17,7 @@
 	        last_inpt_id, 
 	        last_inpt_dt
 	    from member
-	    where mem_id = #{memId}
+	    where mem_id = #{mem_id}
 	</select>
 
 </mapper>

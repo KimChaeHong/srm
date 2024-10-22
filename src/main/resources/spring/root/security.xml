@@ -14,9 +14,10 @@
 	<!-- 브라우저의 id,pw를 받았을 때 로그인 할 것이냐 말것이냐의 기능 -->
 	<security:http>
 		<!-- 폼 인증 방식 선택 --><!-- loginform 파라미터 값을 가져옴 -->
-		<security:form-login login-page="/membermanagement/loginForm"
-			username-parameter="mid" 
-			password-parameter="mpassword"
+		<security:form-login 
+			login-page="/membermanagement/loginForm"
+			username-parameter="mem_id" 
+			password-parameter="mem_pw"
 			login-processing-url="/login"
 			authentication-success-handler-ref="authenticationSuccessHandler"
 			authentication-failure-handler-ref="authenticationFailureHandler" />
