@@ -7,32 +7,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("membermanagement")
+@RequestMapping("member")
 @Slf4j
 public class MemberController {
 	
-	@GetMapping("/loginForm") 
+	@GetMapping("/loginform") 
 	public String login(){
 		log.info("로그인");
-		return "membermanagement/loginform";
+		return "member/loginForm";
 	}
 	
-	@GetMapping("/signupForm") 
+	@GetMapping("/signupform") 
 	public String signup(){
 		log.info("회원가입");
-		return "membermanagement/signupform";
+		return "member/signupForm";
 	}
 	
-	@GetMapping("/memberList")
+	@GetMapping("/list")
 	public String memberlist() {
 		log.info("회원 목록");
-		return "membermanagement/memberlist";
+		return "member/memberList";
 	}
 	
-	@GetMapping("/apprequestList")
+	@GetMapping("/mgmt")
 	public String apprequestlist() {
-		log.info("승인 요청 목록");
-		return "membermanagement/apprequestlist";
+		log.info("가입 요청 목록");
+		return "member/memberMgmt";
 	}
 	
 }

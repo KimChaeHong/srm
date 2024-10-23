@@ -15,7 +15,7 @@
 	<security:http>
 		<!-- 폼 인증 방식 선택 --><!-- loginform 파라미터 값을 가져옴 -->
 		<security:form-login 
-			login-page="/membermanagement/loginForm"
+			login-page="/member/loginForm"
 			username-parameter="mem_id" 
 			password-parameter="mem_pw"
 			login-processing-url="/login"

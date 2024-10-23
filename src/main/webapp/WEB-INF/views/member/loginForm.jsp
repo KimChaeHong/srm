@@ -9,9 +9,6 @@
 <meta charset="UTF-8">
 <title>SRM</title>
 
-
-
-
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
 <link

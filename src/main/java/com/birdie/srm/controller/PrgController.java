@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("myportal")
+@RequestMapping("prg")
 @Slf4j
-public class MyportalController {
+public class PrgController {
 	
-	@GetMapping("/mytask")
-	public String mytask() {
-		
-		log.info("나의  할 일");
-		return "myportal/mytask";
+	@GetMapping("/list") 
+	public String login(){
+		log.info("SR 진척 목록");
+		return "prg/prgList";
 	}
+
 	
 
 }
