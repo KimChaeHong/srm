@@ -6,7 +6,7 @@
         <a class="side-nav-link disabled sidebar-content" aria-disabled="true">My portal</a>
         <hr class="navbar-vertical-divider" id="sr-hr">
     </div>
-    <a class="side-nav-link" id="sr-request" href="#">
+    <a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}">
         <i id="chart" class="bi bi-clipboard-check"></i>나의 할 일
         <i id="chevron" class="bi bi-chevron-right"></i>
     </a>
@@ -14,11 +14,11 @@
         <a class="side-nav-link disabled sidebar-content" aria-disabled="true">SR 관리</a>
         <hr class="navbar-vertical-divider" id="sr-hr">
     </div>
-    <a class="side-nav-link" id="sr-request" href="#">
+    <a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/sr/list">
         <i id="chart" class="bi bi-clipboard-plus"></i>SR 요청 접수
         <i id="chevron" class="bi bi-chevron-right"></i>
     </a>
-    <a class="side-nav-link" id="sr-prg" href="#">
+    <a class="side-nav-link" id="sr-prg" href="${pageContext.request.contextPath}/prg/list">
         <i id="chart" class="bi bi-clipboard-data-fill"></i>SR 진척 조회
         <i id="chevron" class="bi bi-chevron-right"></i>
     </a>
