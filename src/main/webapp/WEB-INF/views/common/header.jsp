@@ -29,7 +29,7 @@
     <!-- 헤더 -->
     <div id="header">
         <div id="logo-container">
-            <img src="${pageContext.request.contextPath}/resources/images/SRM-logo.png" class="logo">
+            <img src="${pageContext.request.contextPath}/resources/images/OTI-logo.png" class="logo">
         </div>
         <div id="info-container">
             <div class="user-profile">

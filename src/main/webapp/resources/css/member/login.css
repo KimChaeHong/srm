@@ -33,11 +33,6 @@ input {
     font-size: 0.8rem;
 }
 
-.btn {
-    display: flex;
-    justify-content: center;
-}
-
 #btn-login {
     width: 70%;
     padding: 3px;
@@ -59,7 +54,7 @@ input {
     cursor: pointer;
 }
 
-.btn {
+#btn-container {
     margin: 20px 0 45px 180px;
 }
 

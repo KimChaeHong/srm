@@ -21,6 +21,7 @@ input, select {
     height: 80px;
     background-color: var(--bs-info);
     min-width: 1270px;
+    margin: 35px auto 0; /* 중앙 정렬 */
     width: 100%;
 }
 

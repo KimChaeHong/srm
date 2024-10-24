@@ -16,7 +16,7 @@
     <!-- 개별 css -->
     <link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet" type="text/css" />
     <link href="${pageContext.request.contextPath}/resources/css/sr/srList.css" rel="stylesheet" type="text/css" />
-    	<link href="${pageContext.request.contextPath}/resources/css/common/header.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/resources/css/common/header.css" rel="stylesheet" type="text/css" />
     
     
 

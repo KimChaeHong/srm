@@ -29,13 +29,13 @@
 			<input id="mem-pw" type="password" name="mem_pw"
 				placeholder="PW를 입력해 주세요." required>
 			<div id="pw-message"></div>
-			<button type="submit" id="btn-login">로그인</button>
+			<a type="submit" id="btn-login" class="btn" href="${pageContext.request.contextPath}">로그인</a>
 		</form>
 
-		<div class="btn">
-			<button type="submit" id="btn-signup">회원가입</button>
+		<div id="btn-container" class="d-flex align-items-center justify-content-center">
+			<a id="btn-signup" href="${pageContext.request.contextPath}/member/signupform" class="btn">회원가입</a>
 			<div class="line">|</div>
-			<button type="submit" id="btn-search">아이디 & 비밀번호 찾기</button>
+			<a id="btn-search" class="btn">아이디 & 비밀번호 찾기</a>
 		</div>
 	</div>
 </body>

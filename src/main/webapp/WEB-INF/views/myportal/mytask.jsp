@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/myportal/mytask.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myportal/mytask.css" />
 
 <!-- section -->
 <div id="section">
@@ -12,7 +11,6 @@
 		<div class="task-line">
 			<h2 id="h2-style">나의 할 일</h2>
 		</div>
-
 		<div class="tabs-container">
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link tb-tab active"
@@ -88,7 +86,6 @@
 						<td>24/10/16</td>
 						<td><button class="detail-btn">요청 상세</button></td>
 					</tr>
-
 				</tbody>
 			</table>
 		</div>
