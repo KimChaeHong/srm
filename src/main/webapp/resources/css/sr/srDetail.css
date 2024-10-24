@@ -1,0 +1,133 @@
+.modal-content {
+    border-radius: 3px;
+    /* 테두리를 3px로 둥글게 */
+}
+
+.modal-dialog {
+    width: 769px;
+    height: 830px;
+    max-width: 100%;
+    max-height: 100%;
+    /* 화면 크기에 맞춰 자동으로 조정되도록 */
+}
+
+/* 부모 컨테이너를 flex로 설정하고 가운데 정렬 */
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    /* 수평 가운데 정렬 */
+    align-items: center;
+    /* 수직 가운데 정렬 (필요할 경우) */
+}
+
+.row {
+    width: 653px;
+
+}
+
+#exampleModalLabel {
+    font-size: 15px;
+    font-weight: 600;
+    /* semibold */
+}
+
+input {
+    width: 193px;
+    height: 31px;
+    border-radius: 2px;
+    border: 1px solid #D9D9D9;
+    margin: 12px 0px 12px 0px;
+    font-size: 12px;
+    /* input 안의 글씨 크기 */
+    padding: 0 0 0 10px;
+    line-height: 20px;
+    /* 수직정렬을 위한 line-height */
+}
+
+label {
+    width: 95px;
+    font-size: 13px;
+    color: #000000;
+    font-weight: 700;
+}
+
+#manager {
+    width: 145px;
+}
+
+#manager+button {
+    width: 44px;
+    height: 31px;
+    border-radius: 2px;
+    border: 1px solid #DCDCE1;
+    margin: 12px 0px 12px 0px;
+    padding: 1px 2px;
+}
+
+#sr-content {
+    border-radius: 2px;
+    width: 520px;
+    height: 223px;
+    border: 1px solid #DCDCE1;
+    font-size: 12px;
+    margin: 12px 0px 12px 0px;
+
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#attachment,
+#sr-title,
+#related-system {
+    padding-left: 10px;
+    width: 520px;
+    margin: 12px 0px 12px 0px;
+}
+
+.form-select {
+    width: 130px;
+    height: 31px;
+    border-radius: 2px;
+    border: 1px solid #D9D9D9;
+    margin: 12px 0px 12px 0px;
+    font-size: 12px;
+}
+
+#save-btn {
+    border: 1px solid #DCDCE1;
+    background-color: white;
+    color: #4D5969;
+
+    width: 63px;
+    /* 버튼 너비 고정 */
+    height: 28px;
+    /* 버튼 높이 고정 */
+    font-size: 12px;
+    /* 텍스트 크기 고정 */
+
+    display: flex;
+    justify-content: center;
+    /* 수평 가운데 정렬 */
+    align-items: center;
+    /* 수직 가운데 정렬 */
+    padding: 0;
+    /* 기본 padding 제거 */
+
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.bi-x-square {
+    color: #DCDCE1;
+}
+
+#close-btn {
+    width: 30px !important;
+    height: 30px !important;
+    padding: 4px;
+    border: none;
+    background-color: white;
+}

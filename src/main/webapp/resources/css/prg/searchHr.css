@@ -1,0 +1,109 @@
+#search-box {
+    height: 60px;
+    background-color: #F9FAFD;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 12px;
+    font-weight: 550;
+}
+
+#modal-title {
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#dept-select {
+    width: 250px;
+}
+
+#name-search {
+    width: 250px;
+}
+
+.hr-select{
+    width: 140px !important;
+    height: 30px;
+    font-size: 12px;
+}
+
+.hr-input{
+    width: 140px !important;
+    height: 30px;
+    font-size: 12px;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #EDF2F9;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+thead th {
+    background-color: #EDF2F9;
+    padding: 10px 0px;
+    text-align: left;
+    font-size: 12px;
+    text-align: center;
+}
+tr {
+    border-bottom: 1px solid #EDF2F9;
+}
+
+tbody td {
+    font-size: 13px;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.search-btn {
+    width: 60px;
+    height: 30px;
+    border: 1px solid #DCDCE1 !important;
+    box-shadow: 0px 1px 3px rgb(0, 0, 0, 0.25);
+    font-size: 12px;
+    color: #4D5969;
+    margin-right: 20px;
+}
+
+.last-btn{
+    width: 60px;
+    height: 30px;
+    border: 1px solid #DCDCE1 !important;
+    box-shadow: 0px 1px 3px rgb(0, 0, 0, 0.25);
+    font-size: 12px;
+    color: #4D5969;
+}
+
+#close-btn{
+    width: 30px !important;
+    height: 30px !important;
+    padding: 4px;
+    border: none;
+    background-color: white;
+}
+
+.bi-x-square {
+    color: #DCDCE1;
+}
+
+.modal-dialog {
+    top: 20%;
+}
+
+.col-1 {
+    width: 60px;
+}
+
+.col-2 {
+    width: 300px;
+}
+.col-3 {
+    width: 240px;
+}
+.col-4 {
+    width: 200px;
+}
