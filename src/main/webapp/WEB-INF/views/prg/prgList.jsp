@@ -13,19 +13,19 @@
                            <li class="li-style">
                                <div id="search-thing">조회기간</div>
                                <div class="date-style">
-                                   <input id="prg-search" type="date" class="date-form"> -
-                                   <input id="prg-search" type="date" class="date-form">
+                                   <input type="date" class="date-form prg-search"> -
+                                   <input type="date" class="date-form prg-search">
                                </div>
                            </li>
                            <li class="li-style">
                                <div id="search-thing">관련 시스템</div>
-                               <select id="prg-search" class="select-style">
+                               <select class="select-style prg-search">
                                    <option>Value</option>
                                </select>
                            </li>
                            <li class="li-style">
                                <div id="search-thing">업무구분</div>
-                               <select id="prg-search" class="select-style">
+                               <select class="select-style prg-search">
                                    <option>Value</option>
                                </select>
                            </li>
@@ -35,18 +35,18 @@
                        <ul class="ul-style">
                            <li class="li-style">
                                <div id="search-thing">키워드</div>
-                               <input id="prg-search" type="text" class="prg">
+                               <input type="text" class="prg prg-search">
                            </li>
                            <li class="li-style">
                                <div id="search-thing">진행상태</div>
-                               <select id="prg-search" class="select-style">
+                               <select class="select-style prg-search">
                                    <option>Value</option>
                                </select>
                            </li>
 
                            <li class="li-style">
                                <div id="search-thing">접수상태</div>
-                               <select id="prg-search" class="select-style">
+                               <select class="select-style prg-search">
                                    <option>Value</option>
                                </select>
                            </li>

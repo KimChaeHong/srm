@@ -1,66 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>SRM</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/memList.css" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.js" defer></script>
-<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/memList.css"/>
-</head>
-<body>
-	<!-- 헤더 -->
-	<div id="header"></div>
-
-	<div id="main-content">
-		<!-- 사이드바 -->
-		<div id="side-bar" class="col-md-2">
-			<div id="chart" class="nav-item">
-				<a class="nav-link disabled" aria-disabled="true" id="sr-contents">My
-					portal</a>
-				<hr class="navbar-vertical-divider" id="sr-hr">
-			</div>
-			<a class="nav-link" id="sr-request" href="#"> <i id="chart"
-				class="bi bi-clipboard-check"></i>나의 할 일 <i id="chevron"
-				class="bi bi-chevron-right"></i>
-			</a>
-
-			<div id="chart" class="nav-item">
-				<a class="nav-link disabled" aria-disabled="true" id="sr-contents">SR
-					관리</a>
-				<hr class="navbar-vertical-divider" id="sr-hr">
-			</div>
-			<a class="nav-link" id="sr-request" href="#"> <i id="chart"
-				class="bi bi-clipboard-plus"></i>SR 요청 접수 <i id="chevron"
-				class="bi bi-chevron-right"></i>
-			</a> <a class="nav-link" id="sr-prg" href="#"> <i id="chart"
-				class="bi bi-clipboard-data-fill"></i>SR 진척 조회 <i id="chevron"
-				class="bi bi-chevron-right"></i>
-			</a>
-
-			<div id="chart" class="nav-item">
-				<a class="nav-link disabled" aria-disabled="true" id="sr-contents">회원관리</a>
-				<hr class="navbar-vertical-divider" id="sr-hr">
-			</div>
-			<a class="nav-link" id="sr-request" href="#"> <i id="chart"
-				class="bi bi-person-lines-fill"></i>회원 조회 <i id="chevron"
-				class="bi bi-chevron-right"></i>
-			</a>
-
-			<div id="chart" class="nav-item">
-				<a class="nav-link disabled" aria-disabled="true" id="sr-contents">게시판</a>
-				<hr class="navbar-vertical-divider" id="sr-hr">
-			</div>
-			<a class="nav-link" id="sr-request" href="#"> <i id="chart"
-				class="bi bi-book-half"></i>공지사항 <i id="chevron"
-				class="bi bi-chevron-right"></i>
-			</a>
-		</div>
 		<!-- section -->
 		<div id="section">
 			<!-- 검색창 -->
@@ -69,22 +11,22 @@
 					<div class="searchBox1">
 						<ul class="ul-style">
 							<li class="li-style first-li">
-								<div id="search-thing">소속</div> <select id="prg-search"
-								class="select-style">
+								<div id="search-thing">소속</div> 
+								<select class="select-style prg-search">
 									<option>Value</option>
 							</select>
 							</li>
 							<li class="li-style">
-								<div id="search-thing">부서</div> <select id="prg-search"
-								class="select-style dept">
+								<div id="search-thing">부서</div> 
+								<select class="select-style dept prg-search">
 									<option>Value</option>
-							</select>
+								</select>
 							</li>
 							<li class="li-style">
 								<div id="search-thing">가입 일자</div>
 								<div class="div-style">
-									<input id="prg-search" type="date" class="date-form date1">
-									- <input id="prg-search" type="date" class="date-form">
+									<input type="date" class="date-form date1 prg-search">
+									- <input type="date" class="date-form prg-search">
 								</div>
 							</li>
 
@@ -93,20 +35,20 @@
 					<div class="searchBox2">
 						<ul class="ul-style">
 							<li class="li-style first-li">
-								<div id="search-thing">권한</div> <select id="prg-search"
-								class="select-style">
+								<div id="search-thing">권한</div> 
+								<select class="select-style prg-search">
 									<option>Value</option>
 							</select>
 							</li>
 							<li class="li-style">
-								<div id="search-thing">승인여부</div> <select id="prg-search"
-								class="select-style">
+								<div id="search-thing">승인여부</div> 
+								<select class="select-style prg-search">
 									<option>Value</option>
 							</select>
 							</li>
 							<li class="li-style">
-								<div id="search-thing">이름 검색</div> <input id="search-name"
-								type="text">
+								<div id="search-thing">이름 검색</div> 
+								<input id="search-name" type="text">
 							</li>
 							<div class="btn-box">
 								<button id="search-btn" class="search-btn">검색</button>
