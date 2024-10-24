@@ -12,11 +12,25 @@
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myportal/mytask.css"/>
+<link href="${pageContext.request.contextPath}/resources/css/common/header.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
     <!-- 헤더 -->
-    <div id="header"></div>
+    <div id="header">
+        <div id="logo-container">
+            <img src="${pageContext.request.contextPath}/resources/images/SRM-logo.png" class="logo">
+        </div>
+        <div id="info-container">
+            <div class="user-profile">
+                <span class="badge" id="user-role">개발자</span>
+                <i class="bi bi-person-circle icon"></i>
+                <div class="user-name">이민성 님</div>
+                <i class="bi bi-box-arrow-right logout"></i>
+            </div>
+            
+        </div>
+    </div>
 
     <div id="main-content">
         <!-- 사이드바 -->
@@ -25,7 +39,7 @@
                 <a class="nav-link disabled" aria-disabled="true" id="sr-mgmt">My portal</a>
                 <hr class="navbar-vertical-divider" id="sr-hr">
             </div>
-            <a class="nav-link" id="sr-request" href="#">
+            <a class="nav-link" id="sr-request" href="${pageContext.request.contextPath}">
                 <i id="chart" class="bi bi-clipboard-check"></i>나의 할 일
                 <i id="chevron" class="bi bi-chevron-right"></i>
             </a>
@@ -33,11 +47,11 @@
                 <a class="nav-link disabled" aria-disabled="true" id="sr-mgmt">SR 관리</a>
                 <hr class="navbar-vertical-divider" id="sr-hr">
             </div>
-            <a class="nav-link" id="sr-request" href="#">
+            <a class="nav-link" id="sr-request" href="${pageContext.request.contextPath}/sr/list">
                 <i id="chart" class="bi bi-clipboard-plus"></i>SR 요청 접수
                 <i id="chevron" class="bi bi-chevron-right"></i>
             </a>
-            <a class="nav-link" id="sr-prg" href="#">
+            <a class="nav-link" id="sr-prg" href="${pageContext.request.contextPath}/prg/list">
                 <i id="chart" class="bi bi-clipboard-data-fill"></i>SR 진척 조회
                 <i id="chevron" class="bi bi-chevron-right"></i>
             </a>

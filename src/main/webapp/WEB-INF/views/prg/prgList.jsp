@@ -13,11 +13,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/prgList.css" />
+	<link href="${pageContext.request.contextPath}/resources/css/common/header.css" rel="stylesheet" type="text/css" />
+
 
 </head>
 <body>
 	<!-- 헤더 -->
-    <div id="header"></div>
+        <!-- 헤더 -->
+    <div id="header">
+        <div id="logo-container">
+            <img src="${pageContext.request.contextPath}/resources/images/SRM-logo.png" class="logo">
+        </div>
+        <div id="info-container">
+            <div class="user-profile">
+                <span class="badge" id="user-role">개발자</span>
+                <i class="bi bi-person-circle icon"></i>
+                <div class="user-name">이민성 님</div>
+                <i class="bi bi-box-arrow-right logout"></i>
+            </div>
+            
+        </div>
+    </div>
 
     <div id="main-content">
         <!-- 사이드바 -->
