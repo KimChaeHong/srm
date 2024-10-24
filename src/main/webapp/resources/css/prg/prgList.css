@@ -340,16 +340,6 @@ th {
     border-radius: 10px;
 }
 
-#title{
-    font-size: 15px;
-    font-weight:600;
-    margin: 12px 12px 5px 14px;
-    width: 109px;
-    height: 20px;
-    display: inline-block; /* 마진 상쇄 방지 */
-    
-}
-
 hr{
     columns: 1px #EBEBEB;
     margin: 0px 0px 14px 0px;
@@ -410,7 +400,6 @@ label{
     font-size: 15px;
     font-weight: 600;
     margin: 12px 12px 5px 14px;
-    width: 109px;
     height: 20px;
     display: inline-block;
 }
