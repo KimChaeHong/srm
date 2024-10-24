@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,18 +17,13 @@
 
 </head>
 <body>
- <!-- 헤더 -->
-    <div id="header"></div>
-
-    <div id="main-content">
-        <!-- 사이드바 -->
-        <div id="side-bar" class="bg-primary-subtle"></div>
         <!-- section -->
         <div id="section">
             <!-- SR목록 -->
-            <div id="sr-list" class="bg-white">
-                <div class="join-line">
-                    <h2>가입 요청 관리</h2>
+            <div id="sr-list">
+                <div>
+                    <h2 id="member-list-title">가입 요청 관리</h2>
+                    <hr>
                 </div>
                 <div class="container">
                     <div class="request">
@@ -73,7 +70,7 @@
                 
             </div>
         </div>
-    </div>
+
 
 </body>
 </html>

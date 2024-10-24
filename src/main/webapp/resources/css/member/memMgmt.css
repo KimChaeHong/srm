@@ -6,51 +6,54 @@ body {
     padding: 0;
 }
 
-/* 헤더 스타일 */
-#header {
-    border-radius: 10px;
-    height: 80px;
-    background-color: var(--bs-info);
-    min-width: 1270px;
-    width: 100%;
+/* a 태그 기본 스타일 */
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
 }
-
 /* 메인 콘텐츠 영역 */
 #main-content {
     display: flex;
     width: 1534px; /* 고정 너비 */
-    margin: 35px auto 0; /* 중앙 정렬 */
+    margin: 10px auto 0; /* 중앙 정렬 */
+    align-items: flex-start;
 }
 
-/* 사이드바 스타일 */
-#side-bar {
-    width: 220px;
-    height: 700px;
-    flex-grow: 0;
-    
-}
 
 /* 섹션 스타일 */
 #section {
     width: 1270px;
     height: 700px;
     margin-left: 44px;
-    background-color: white;
 }
 
 /* SR 목록 스타일 */
 #sr-list {
     height: 700px;
-    padding: 15px;
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: white;
+}
+#member-list-title{
+    font-size: 15px;
+    font-weight: 600;
+    margin: 12px 12px 5px 14px;
+    width: 109px;
+    height: 20px;
+    display: inline-block;
+}
+.title {
+    font-size: 15px;
+    font-weight: 900;
+    padding: 15px 0px 0px 15px;
 }
 
-.join-line {
-    border-bottom: 2px solid #EBEBEB;
-}
-h2{
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+#sr-list hr {
+    margin: 6px 0px;
 }
 
 /* ---------------------회원 상세 정보--------------- */
