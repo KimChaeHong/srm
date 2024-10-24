@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 <script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myportal/mytask.css"/>
 
@@ -140,17 +141,13 @@
                 
                 <div id="pagination">
                     <a class="btn page-btn shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-                        </svg>
+                        <i class="bi bi-chevron-left"></i>
                     </a>
                     <a class="btn page-btn shadow-sm active">1</a>
                     <a class="btn page-btn shadow-sm">2</a>
                     <a class="btn page-btn shadow-sm">3</a>
                     <a class="btn page-btn shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
-                        </svg>
+                        <i class="bi bi-chevron-right"></i>
                     </a>
                     <select class="row-select form-select">
                         <option value="10">10</option>
