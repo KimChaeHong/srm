@@ -1,88 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- 부트스트랩 아이콘 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- 부트스트랩 css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 부트스트랩 js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- 개별 css -->
-    <link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet" type="text/css" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
     <link href="${pageContext.request.contextPath}/resources/css/sr/srList.css" rel="stylesheet" type="text/css" />
-    <link href="${pageContext.request.contextPath}/resources/css/common/header.css" rel="stylesheet" type="text/css" />
-    
-    
 
 </head>
 
-<body>
-    <!-- 헤더 -->
-        <!-- 헤더 -->
-    <div id="header">
-        <div id="logo-container">
-            <img src="${pageContext.request.contextPath}/resources/images/SRM-logo.png" class="logo">
-        </div>
-        <div id="info-container">
-            <div class="user-profile">
-                <span class="badge" id="user-role">개발자</span>
-                <i class="bi bi-person-circle icon"></i>
-                <div class="user-name">이민성 님</div>
-                <i class="bi bi-box-arrow-right logout"></i>
-            </div>
-            
-        </div>
-    </div>
-
-    <div id="main-content">
-        <!-- 사이드바 -->
-        <div id="side-bar" class="col-md-2">
-            <div id="chart" class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true" id="sr-contents">My portal</a>
-                <hr class="navbar-vertical-divider" id="sr-hr">
-            </div>
-            <a class="nav-link" id="sr-request" href="#">
-                <i id="chart" class="bi bi-clipboard-check"></i>나의 할 일
-                <i id="chevron" class="bi bi-chevron-right"></i>
-            </a>
-
-            <div id="chart" class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true" id="sr-contents">SR 관리</a>
-                <hr class="navbar-vertical-divider" id="sr-hr">
-            </div>
-            <a class="nav-link" id="sr-request" href="#">
-                <i id="chart" class="bi bi-clipboard-plus"></i>SR 요청 접수
-                <i id="chevron" class="bi bi-chevron-right"></i>
-            </a>
-            <a class="nav-link" id="sr-prg" href="#">
-                <i id="chart" class="bi bi-clipboard-data-fill"></i>SR 진척 조회
-                <i id="chevron" class="bi bi-chevron-right"></i>
-            </a>
-
-            <div id="chart" class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true" id="sr-contents">회원관리</a>
-                <hr class="navbar-vertical-divider" id="sr-hr">
-            </div>
-            <a class="nav-link" id="sr-request" href="#">
-                <i id="chart" class="bi bi-person-lines-fill"></i>회원 조회
-                <i id="chevron" class="bi bi-chevron-right"></i>
-            </a>
-
-            <div id="chart" class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true" id="sr-contents">게시판</a>
-                <hr class="navbar-vertical-divider" id="sr-hr">
-            </div>
-            <a class="nav-link" id="sr-request" href="#">
-                <i id="chart"  class="bi bi-book-half"></i>공지사항
-                <i id="chevron" class="bi bi-chevron-right"></i>
-            </a>
-        </div>
         <!-- section -->
         <div id="section">
             <!-- 검색창 -->
@@ -136,8 +58,8 @@
             </div>
             <!-- SR목록 -->
             <div id="sr-list">
-                <h2 class="title">SR요청 목록</h2>
-                <hr>
+                <h2 id="sr-list-title">SR요청 목록</h2>
+                <hr id="sr-list-hr">
                 <div id="table-container">
                     <table id="pg-table">
                         <thead>
