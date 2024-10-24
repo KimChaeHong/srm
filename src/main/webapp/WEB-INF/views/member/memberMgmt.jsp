@@ -21,10 +21,8 @@
         <div id="section">
             <!-- SR목록 -->
             <div id="sr-list">
-                <div>
-                    <h2 id="member-list-title">가입 요청 관리</h2>
-                    <hr>
-                </div>
+               <h2 id="member-list-title">가입 요청 관리</h2>
+               <hr id="mem-list-hr">
                 <div class="container">
                     <div class="request">
                         <div class="input-div">
