@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,8 +30,10 @@
     <!-- 헤더 -->
     <div id="header">
         <div id="logo-container">
-            <img src="${pageContext.request.contextPath}/resources/images/OTI-logo.png" class="logo">
+            <img src="${pageContext.request.contextPath}/resources/images/OTI-logo.png" class="logo" 
+            	onclick="location.href='${pageContext.request.contextPath}'">
         </div>
+        
         <div id="info-container">
             <div class="user-profile">
                 <span class="badge" id="user-role">개발자</span>
@@ -38,6 +41,7 @@
                 <div class="user-name">이민성 님</div>
                 <i class="bi bi-box-arrow-right logout"></i>
             </div>
-            
         </div>
+  
+        
     </div>
