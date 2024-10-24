@@ -1,0 +1,63 @@
+
+#sr-detail{
+    width: 440px;
+    height: 306px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+#title{
+    font-size: 15px;
+    font-weight:600;
+    margin: 12px 12px 5px 14px;
+    width: 109px;
+    height: 20px;
+    display: inline-block; /* 마진 상쇄 방지 */
+    
+}
+
+hr{
+    columns: 1px #EBEBEB;
+    margin: 0px 0px 14px 0px;
+}
+
+label{
+    font-size: 8px;
+    width: 40px;
+}
+
+input{
+    height: 15px;
+    width: 140px;
+    font-size: 8px;
+    border: 0.5px solid #D9D9D9;
+    border-radius: 3px;
+    margin: 4px 0px 4px 0px;
+    padding: 2.5px 10px 2.5px 10px;
+}
+
+.form-group{
+    display: flex;              /* 가로 정렬 */
+    align-items: center;        /* 수직 가운데 정렬 */
+    gap: 15px;                  /* input과 button 사이의 간격 */
+}
+
+#sr-detail-form{
+    padding: 0px 5px 0px 5px;
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+}
+
+#relatedReference, #srTitle, #srRequestNumber, #attachment{
+    width: 350px;
+}
+
+#srContent {
+    font-size: 8px;
+    border: 0.5px solid #D9D9D9;
+    border-radius: 3px;
+    width: 350px;
+    height: 75px;
+    margin: 4px 0px 4px 0px;
+}

@@ -1,0 +1,58 @@
+/* 헤더 스타일 */
+#header {
+    border-radius: 10px;
+    height: 80px;
+    background-color: #EDF2F9;
+    width: 1531px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    margin-left: 80px;
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+}
+
+
+#user-role {
+    border: 1px solid #788596;
+    background: #EDF2F9;
+    padding: 6px 7px;
+    margin-right: 20px;
+    color: #788596;
+    font-weight: bold;
+}
+
+#info-container {
+    display: flex;
+    align-items: center;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.bi-person-circle {
+    font-size: 23px;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 30px;
+    color: #748194;
+}
+
+.line {
+    margin: 0 10px; /* 구분선 양쪽 여백 */
+}
+
+.logout{
+    font-size: 21px;
+    color: #748194;
+}
