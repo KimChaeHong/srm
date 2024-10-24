@@ -29,7 +29,7 @@ input, select {
 #main-content {
     display: flex;
     width: 1534px; /* 고정 너비 */
-    margin: 35px auto 0; /* 중앙 정렬 */
+    margin: 10px auto 0; /* 중앙 정렬 */
     align-items: flex-start;
 }
 
