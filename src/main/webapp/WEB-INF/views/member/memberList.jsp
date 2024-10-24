@@ -59,8 +59,8 @@
 			</div>
 			<!-- 회원목록 -->
 			<div id="member-list">
-				<h2 class="title">회원 목록</h2>
-				<hr>
+				<h2 id="mem-list-title">회원 목록</h2>
+				<hr id="mem-list-hr">
 				<div id="table-container">
 					<table id="pg-table">
 						<thead>

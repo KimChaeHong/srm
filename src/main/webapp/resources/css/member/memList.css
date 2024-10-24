@@ -20,14 +20,17 @@ body {
     margin-left: 44px;
 }
 
-.title {
+#mem-list-title {
     font-size: 15px;
-    font-weight: 900;
-    padding: 15px 0px 0px 15px;
+    font-weight: 600;
+    margin: 12px 12px 5px 14px;
+    width: 109px;
+    height: 20px;
+    display: inline-block;
 }
 
-#sr-list hr {
-    margin: 6px 0px;
+#mem-list-hr {
+    margin: 0px 0px 11px 0px;
 }
 
 /* 검색 */
