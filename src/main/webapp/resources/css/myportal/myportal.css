@@ -1,0 +1,235 @@
+/* 공통 스타일 */
+body {
+    background-color: #EDF2F9;
+    margin: 0;
+    padding: 0;
+}
+
+/* 헤더 스타일 */
+#header {
+    border-radius: 10px;
+    height: 80px;
+    background-color: var(--bs-info);
+    min-width: 1270px;
+    width: 100%;
+}
+
+/* 메인 콘텐츠 영역 */
+#main-content {
+    display: flex;
+    width: 1534px; /* 고정 너비 */
+    margin: 35px auto 0; /* 중앙 정렬 */
+    align-items: flex-start;
+}
+
+/* -----------------------사이드바 스타일------------------- */
+/* 사이드바 스타일 */
+#side-bar {
+    padding: 23px 0 23px 15px;
+    width: 220px;
+    background-color: #FFFFFF;
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    height: auto; /* 자식 요소에 따라 높이 자동 조정 */
+}
+
+/* a 태그 기본 스타일 */
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+}
+
+/* 네비게이션 아이템 스타일 */
+.nav-item {
+    width: 190px;
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+/* SR 관리 링크 스타일 */
+#sr-mgmt {
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600; 
+    padding: 7px 15px;
+    margin-bottom: 9px; /* 링크 사이의 간격 */
+    color: #ABB5C5; /* 비활성화된 상태의 색상 */
+}
+
+/* hr 스타일 */
+#sr-hr {
+    flex-grow: 1;
+    margin-left: 9px; /* a 태그와 hr 사이의 간격 */
+    padding: 7px 15px;
+    margin-top: auto;
+    margin-bottom: 9px;
+    border: none;
+    border-top: 1px solid black; /* 상단에만 선을 적용 */
+}
+
+/* SR 요청 및 진척 조회 링크 스타일 */
+#sr-request,
+#sr-prg {
+    width: 220px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 600; 
+    padding: 7px 15px;
+    margin-bottom: 9px; /* 링크 사이의 간격 */
+    color: #788596; /* 기본 색상 */
+}
+
+#sr-request:focus,
+#sr-prg:focus {
+    color: #3D86E7; /* 포커스 시 색상 */
+}
+
+/* 네비게이션 링크 내부 아이콘과 텍스트 정렬 */
+.nav-link {
+    display: flex;
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: space-between; /* 아이콘과 텍스트 간의 간격을 유연하게 처리 */
+}
+
+/* chart 아이콘 스타일 */
+.nav-link #chart {
+    color: black; /* 아이콘 색상 */
+    margin-right: 11px; /* 텍스트와 아이콘 사이의 간격 */
+    font-size: 16px; /* 아이콘 크기 */
+}
+
+/* chevron 아이콘 스타일 */
+.nav-link #chevron {
+    margin-left: auto; /* chevron 아이콘을 오른쪽으로 밀어 정렬 */
+    margin-right: 20px; /* 오른쪽 간격 */
+}
+
+/* 섹션 스타일 */
+#section {
+    width: 1270px;
+    height: 700px;
+    margin-left: 44px;
+    background-color: white;
+    box-shadow: 4px 4px 10px rgba(190, 190, 190, 0.5);
+    border-radius: 10px;
+}
+
+/* SR 목록 스타일 */
+#sr-list {
+    height: 700px;
+    padding: 15px 0;
+    position: relative;
+}
+
+/* -------------제목------- */
+.task-line {
+    border-bottom: 2px solid #EBEBEB;
+}
+h2{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+#h2-style {
+    margin-left: 15px;
+}
+
+/* --------------탭------------- */
+.tabs-container {
+    width: 100%;
+    margin-top: 15px;
+    padding: 15px 17px 0 17px;
+}
+
+.tb-tab {
+    color: #748194;
+}
+
+.tb-tab.active {
+    border-bottom: 2px solid #2C7BE5 !important;
+    font-weight: bold;
+}
+
+.tb-tab.active > .row-cnt {
+    color: #2C7BE5;
+}
+
+/* ---------------테이블 ---------------*/
+#table-container {
+    padding: 0 17px;
+}
+table {
+    width: 100%;
+    border: 1px solid #EDF2F9;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+thead th {
+    background-color: #f2f4f6;
+    padding: 10px 0px;
+    text-align: left;
+    font-size: 14px;
+    text-align: center;
+}
+tr {
+    border-bottom: 1px solid #EDF2F9;
+}
+
+tbody td {
+    font-size: 13px;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.detail-btn {
+    width: 50px;
+    height: 20px;
+    font-size: 8px;
+    color: #4D5969;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.bottom-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+#pagination {
+    width: 98%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    background-color: #F9FAFD;
+    position: absolute;
+    bottom: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.page-btn {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    border: 1px solid #dee2e6;
+    margin-right: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-btn.active {
+    color: #3D86E7;
+}
+
+.row-select{
+    width: 100px !important;
+    margin-left: 50px;
+}
