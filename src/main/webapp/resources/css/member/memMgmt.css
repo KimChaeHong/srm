@@ -1,0 +1,113 @@
+/* 공통 스타일 */
+body {
+    background-color: #EDF2F9;
+    
+    margin: 0;
+    padding: 0;
+}
+
+/* 헤더 스타일 */
+#header {
+    border-radius: 10px;
+    height: 80px;
+    background-color: var(--bs-info);
+    min-width: 1270px;
+    width: 100%;
+}
+
+/* 메인 콘텐츠 영역 */
+#main-content {
+    display: flex;
+    width: 1534px; /* 고정 너비 */
+    margin: 35px auto 0; /* 중앙 정렬 */
+}
+
+/* 사이드바 스타일 */
+#side-bar {
+    width: 220px;
+    height: 700px;
+    flex-grow: 0;
+    
+}
+
+/* 섹션 스타일 */
+#section {
+    width: 1270px;
+    height: 700px;
+    margin-left: 44px;
+    background-color: white;
+}
+
+/* SR 목록 스타일 */
+#sr-list {
+    height: 700px;
+    padding: 15px;
+}
+
+.join-line {
+    border-bottom: 2px solid #EBEBEB;
+}
+h2{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ---------------------회원 상세 정보--------------- */
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    height: 650px;
+}
+.request{
+    width: 510px;
+    height: 590px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid black;
+
+}
+.input-div {
+    margin-left: 20px;
+    width: 350px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+input {
+    width: 65%;
+    padding: 5px;
+    margin: 15px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 12px;
+    color: #9D9D9D;
+}
+label {
+    font-size: 13px;
+    font-weight: bold;
+    
+}
+#ok,
+#reject {
+    width: 50px;
+    height: 25px;
+    font-size: 8px;
+    color: #4D5969;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 4px 0 4px;
+}
+.btn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 20px;
+}

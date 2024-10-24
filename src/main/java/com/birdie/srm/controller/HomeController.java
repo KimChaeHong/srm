@@ -12,7 +12,7 @@ public class HomeController {
 	@RequestMapping("")
 	public String myportal() {
 		log.info("my portal");
-		return "myportal/myportal";
+		return "myportal/mytask";
 	}
 	
 
