@@ -5,119 +5,12 @@ body {
     padding: 0;
 }
 
-/* 공통 스타일 정의 (input, select, textarea) */
-input, select {
-    width: 120px;   
-    height: 30px;
-    border: 1px solid #D9D9D9;
-    border-radius: 3px;
-    font-size: 10px;
-    padding: 0 10px 0 10px;
-}
-
-/* 헤더 스타일 */
-#header {
-    border-radius: 10px;
-    height: 80px;
-    background-color: var(--bs-info);
-    min-width: 1270px;
-    margin: 35px auto 0; /* 중앙 정렬 */
-    width: 100%;
-}
-
 /* 메인 콘텐츠 영역 */
 #main-content {
     display: flex;
     width: 1534px; /* 고정 너비 */
     margin: 10px auto 0; /* 중앙 정렬 */
     align-items: flex-start;
-}
-
-/* -------------------------------------------- */
-
-/* 사이드바 스타일 */
-#side-bar {
-    padding: 23px 0 23px 15px;
-    width: 220px;
-    background-color: #FFFFFF;
-    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    height: auto; /* 자식 요소에 따라 높이 자동 조정 */
-}
-
-/* a 태그 기본 스타일 */
-a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: none;
-}
-
-/* 네비게이션 아이템 스타일 */
-.nav-item {
-    width: 190px;
-    display: flex;
-    align-items: center; /* 수직 가운데 정렬 */
-}
-
-/* SR 관리 링크 스타일 */
-#sr-contents {
-    height: 30px;
-    font-size: 12px;
-    font-weight: 600; 
-    padding: 7px 15px;
-    margin-bottom: 9px; /* 링크 사이의 간격 */
-    color: #ABB5C5; /* 비활성화된 상태의 색상 */
-}
-
-/* hr 스타일 */
-#sr-hr {
-    flex-grow: 1;
-    margin-left: 9px; /* a 태그와 hr 사이의 간격 */
-    padding: 7px 15px;
-    margin-top: auto;
-    margin-bottom: 9px;
-    border: none;
-    border-top: 1px solid black; /* 상단에만 선을 적용 */
-}
-
-/* SR 요청 및 진척 조회 링크 스타일 */
-#sr-request,
-#sr-prg {
-    width: 220px;
-    height: 30px;
-    font-size: 12px;
-    font-weight: 600; 
-    padding: 7px 15px;
-    margin-bottom: 9px; /* 링크 사이의 간격 */
-    color: #788596; /* 기본 색상 */
-}
-
-#sr-request:focus,
-#sr-prg:focus {
-    color: #3D86E7; /* 포커스 시 색상 */
-}
-
-/* 네비게이션 링크 내부 아이콘과 텍스트 정렬 */
-.nav-link {
-    display: flex;
-    align-items: center; /* 수직 가운데 정렬 */
-    justify-content: space-between; /* 아이콘과 텍스트 간의 간격을 유연하게 처리 */
-}
-
-/* chart 아이콘 스타일 */
-.nav-link #chart {
-    color: black; /* 아이콘 색상 */
-    margin-right: 11px; /* 텍스트와 아이콘 사이의 간격 */
-    font-size: 16px; /* 아이콘 크기 */
-}
-
-/* chevron 아이콘 스타일 */
-.nav-link #chevron {
-    margin-left: auto; /* chevron 아이콘을 오른쪽으로 밀어 정렬 */
-    margin-right: 20px; /* 오른쪽 간격 */
 }
 
 /* -------------------------------------------- */
@@ -129,14 +22,17 @@ a {
     margin-left: 44px;
 }
 
-.title {
+#sr-list-title{
     font-size: 15px;
-    font-weight: 900;
-    padding: 15px 0px 0px 15px;
+    font-weight: 600;
+    margin: 12px 12px 5px 14px;
+    width: 109px;
+    height: 20px;
+    display: inline-block;
 }
 
 #sr-list hr {
-    margin: 6px 0px;
+    margin: 0px 0px 11px 0px;
 }
 
 /* 검색 */
@@ -161,7 +57,7 @@ a {
     background-color: white;
     display: flex;
     justify-content: space-between;
-    box-shadow: 4px 4px 10px rgba(190, 190, 190, 0.5);
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
 
@@ -217,7 +113,7 @@ a {
     height: 547px;
     border-radius: 10px;
     background-color: white;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
@@ -268,7 +164,7 @@ tr {
 }
 
 td {
-    font-size: 15px;
+    font-size: 13px;
     padding: 10px 0px;
     text-align: center;
     line-height: 1;
@@ -281,6 +177,7 @@ th {
     padding: 10px 0px;
     font-size: 15px;
     text-align: center;
+    font-weight: 600;
 }
 
 /* Pagination */
