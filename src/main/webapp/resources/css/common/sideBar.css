@@ -26,7 +26,7 @@ a {
 }
 
 /* SR 관리 링크 스타일 */
-#sr-mgmt {
+.sidebar-content{
     height: 30px;
     font-size: 12px;
     font-weight: 600; 
