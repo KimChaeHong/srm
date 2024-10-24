@@ -22,43 +22,6 @@ body {
     align-items: flex-start;
 }
 
-/* -----------------------사이드바 스타일------------------- */
-/* 사이드바 스타일 */
-#side-bar {
-    padding: 23px 0 23px 15px;
-    width: 220px;
-    background-color: #FFFFFF;
-    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    height: auto; /* 자식 요소에 따라 높이 자동 조정 */
-}
-
-/* a 태그 기본 스타일 */
-a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: none;
-}
-
-/* 네비게이션 아이템 스타일 */
-.nav-item {
-    display: flex;
-    align-items: center; /* 수직 가운데 정렬 */
-}
-
-/* SR 관리 링크 스타일 */
-#sr-mgmt {
-    height: 30px;
-    font-size: 12px;
-    font-weight: 600; 
-    padding: 7px 15px;
-    margin-bottom: 9px; /* 링크 사이의 간격 */
-    color: #ABB5C5; /* 비활성화된 상태의 색상 */
-}
-
 /* hr 스타일 */
 #sr-hr {
     flex-grow: 1;
