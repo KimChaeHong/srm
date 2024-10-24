@@ -10,7 +10,7 @@
                <div id="search-box">
                    <div class="searchBox1">
                        <ul class="ul-style">
-                           <li class="li-style">
+                           <li class="li-style first-li">
                                <div id="search-thing">조회기간</div>
                                <div class="date-style">
                                    <input type="date" class="date-form prg-search"> -
@@ -33,7 +33,7 @@
                    </div>
                    <div class="searchBox2">
                        <ul class="ul-style">
-                           <li class="li-style">
+                           <li class="li-style first-li" >
                                <div id="search-thing">키워드</div>
                                <input type="text" class="prg prg-search">
                            </li>
