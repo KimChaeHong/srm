@@ -70,7 +70,7 @@
 								<th class="col-3">소속</th>
 								<th class="col-4">부서</th>
 								<th class="col-5">사용자역할</th>
-								<th class="col-6">팀 역할</th>
+								<th class="col-6">직급</th>
 								<th class="col-7">가입일</th>
 								<th class="col-8">승인 여부</th>
 								<th class="col-9">회원상세</th>

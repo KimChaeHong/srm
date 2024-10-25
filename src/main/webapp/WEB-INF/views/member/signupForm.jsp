@@ -47,6 +47,15 @@
                             <option value="관리자">관리자</option>
                         </select>
                     </div>
+                     <div class="select-div">
+                        <label>소속</label>
+                        <select class="form-select">
+                            <option selected>선택</option>
+                            <option value="소속1">고용노동부</option>
+                            <option value="소속2">보건복지부</option>
+                            <option value="소속3">부부젤라</option>
+                        </select>
+                    </div>
                     <div class="select-div">
                         <label>부서</label>
                         <select class="form-select">

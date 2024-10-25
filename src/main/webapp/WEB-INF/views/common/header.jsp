@@ -36,7 +36,7 @@
         
         <div id="info-container">
             <div class="user-profile">
-                <span class="badge" id="user-role">개발자</span>
+                <span class="badge" id="user-role">일반 사용자</span>
                 <i class="bi bi-person-circle icon"></i>
                 <div class="user-name">이민성 님</div>
                 <i class="bi bi-box-arrow-right logout"></i>
