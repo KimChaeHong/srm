@@ -28,7 +28,18 @@ body {
     margin: 12px 12px 5px 14px;
     width: 109px;
     height: 20px;
-    display: inline-block;
+}
+
+#reg-btn{
+	width: 50px;
+    height: 20px;
+    font-size: 8px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+	margin-right: 30px;
 }
 
 #sr-list hr {
@@ -94,15 +105,15 @@ body {
 .search-btn {
     width: 63px;
     height: 28px;
-}
-
-#search-btn {
     font-size: 12px;
     color: #4D5969;
     background-color: white;
     border: 1px solid #DCDCE1;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
+}
+
+#search-btn {
 }
 /* -------------------------------------------- */
 
@@ -223,7 +234,7 @@ th {
     font-size: 8px;
     color: #4D5969;
     border: 1px solid #DCDCE1;
-    box-shadow: 0px 1px 2px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
     background-color: white;
     border-radius: 4px;
     cursor: pointer;
