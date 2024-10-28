@@ -58,9 +58,9 @@
             </div>
             <!-- SR목록 -->
             <div id="sr-list">
-                <div id="sr-list-title">
-                	SR요청 목록
-                	<button class="search-btn ms-auto" data-bs-toggle="modal" data-bs-target="#reg-modal">등록</button>
+                <div class="d-flex align-items-center">
+                	<p id="sr-list-title">SR요청 목록</p>
+                	<button id="reg-btn" class="search-btn ms-auto" data-bs-toggle="modal" data-bs-target="#reg-modal">SR 등록</button>
                 </div>
                 <hr id="sr-list-hr">
                 <div id="table-container">
@@ -212,7 +212,7 @@
 		        <div class="modal-content">
 		            <div class="modal-header">
 		                <p class="modal-title" id="exampleModalLabel">SR 등록</p>
-		                <button id="close-btn" type="button" data-bs-dismiss="modal">
+		                <button class="close-btn ms-auto" type="button" data-bs-dismiss="modal">
 		                    <i class="bi bi-x-square"></i>
 		                </button>
 		            </div>
