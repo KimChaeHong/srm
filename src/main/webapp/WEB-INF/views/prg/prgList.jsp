@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/prgList.css" />
@@ -76,24 +77,28 @@
                                    <th class="col-6">완료요청일</th>
                                    <th class="col-7">완료예정일</th>
                                    <th class="col-8">접수상태</th>
-                                   <th class="col-9">진행상황</th>
+                                   <th class="col-9">진행상태</th>
                                </tr>
                            </thead>
                            <tbody>
-                               <tr>
-                                   <td class="col-1">1</td>
-                                   <td class="col-2">SR_1234_0001</td>
-                                   <td class="col-3">고용보험</td>
-                                   <td class="col-4">이런저런거 수정부탁드립니다.</td>
-                                   <td class="col-5">김김김</td>
-                                   <td class="col-6">2024.10.30</td>
-                                   <td class="col-7">2024.11.03</td>
-                                   <td class="col-8">접수</td>
-                                   <td class="col-9">분석</td>
-                               </tr>
+                               <c:forEach items="${srList}" var="i" varStatus="status">
+                               		<tr>
+                               			<td class="col-1">${status.index + 1 }</td>
+	                                    <td class="col-2">${i.appSrId }</td>
+	                                    <td class="col-3">${i.relSys }</td>
+	                                    <td class="col-4">${i.srTitle }</td>
+	                                    <td class="col-5">아직 로그인x</td>
+	                                    <td class="col-6">${i.reqDt }</td>
+	                                    <td class="col-7">${i.dueDt }</td>
+	                                    <td class="col-8">${i.rcpStat }</td>
+	                                    <td class="col-9">${i.srStat }</td>
+                               		</tr>
+                               </c:forEach>
+                              
                            </tbody>
                        </table>
                    </div>
+                   
                    <div id="pagination">
                        <a class="btn page-btn shadow-sm">
                            <i class="bi bi-chevron-left"></i>
