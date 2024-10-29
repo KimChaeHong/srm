@@ -21,5 +21,7 @@
 				    alias="Dept"/>
 		<typeAlias type="com.birdie.srm.dto.MemberDto"
 				    alias="Member"/>
+		<typeAlias type="com.birdie.srm.dto.PagerDto"
+				    alias="Pager"/>
 	</typeAliases>
 </configuration>
