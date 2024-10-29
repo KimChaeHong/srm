@@ -29,7 +29,7 @@ public class MemberDetailService implements UserDetailsService{
 		MemberDto member = memberDao.selectByMemId(username);
 		
 		if(member == null) {
-			throw new UsernameNotFoundException("Bad username");
+			throw new UsernameNotFoundException("Bad credentials");
 		}
 		
 		List<GrantedAuthority> authorities = new ArrayList<>();

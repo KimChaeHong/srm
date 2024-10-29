@@ -62,30 +62,6 @@
 						<td>24/10/16</td>
 						<td><button class="detail-btn" data-bs-toggle="modal" data-bs-target="#detail-modal">요청 상세</button></td>
 					</tr>
-					<tr>
-						<td>SR1008_001</td>
-						<td>화면 기능 수정해주세요.</td>
-						<td>고용 보험</td>
-						<td>이민성</td>
-						<td>고용노동부</td>
-						<td>서비스 개발 2팀</td>
-						<td>반려</td>
-						<td>24/10/09</td>
-						<td>24/10/16</td>
-						<td><button class="detail-btn">요청 상세</button></td>
-					</tr>
-					<tr>
-						<td>SR1008_001</td>
-						<td>화면 기능 수정해주세요.</td>
-						<td>고용 보험</td>
-						<td>이민성</td>
-						<td>고용노동부</td>
-						<td>서비스 개발 2팀</td>
-						<td>반려</td>
-						<td>24/10/09</td>
-						<td>24/10/16</td>
-						<td><button class="detail-btn">요청 상세</button></td>
-					</tr>
 				</tbody>
 			</table>
 		</div>
