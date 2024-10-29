@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/prgList.css" />
@@ -8,55 +9,59 @@
        <div id="section">
            <!-- 검색창 -->
            <div id="search-container">
-               <div id="search-box">
-                   <div class="searchBox1">
-                       <ul class="ul-style">
-                           <li class="li-style first-li">
-                               <div id="search-thing">조회기간</div>
-                               <div class="date-style">
-                                   <input type="date" class="date-form prg-search"> -
-                                   <input type="date" class="date-form prg-search">
-                               </div>
-                           </li>
-                           <li class="li-style">
-                               <div id="search-thing">관련 시스템</div>
-                               <select class="select-style prg-search">
-                                   <option>Value</option>
-                               </select>
-                           </li>
-                           <li class="li-style">
-                               <div id="search-thing">업무구분</div>
-                               <select class="select-style prg-search">
-                                   <option>Value</option>
-                               </select>
-                           </li>
-                       </ul>
-                   </div>
-                   <div class="searchBox2">
-                       <ul class="ul-style">
-                           <li class="li-style first-li" >
-                               <div id="search-thing">키워드</div>
-                               <input type="text" class="prg prg-search">
-                           </li>
-                           <li class="li-style">
-                               <div id="search-thing">진행상태</div>
-                               <select class="select-style prg-search">
-                                   <option>Value</option>
-                               </select>
-                           </li>
-
-                           <li class="li-style">
-                               <div id="search-thing">접수상태</div>
-                               <select class="select-style prg-search">
-                                   <option>Value</option>
-                               </select>
-                           </li>
-                           <div class="btn-box">
-                               <button id="search-btn" class="search-btn">검색</button>
-                           </div>
-                       </ul>
-                   </div>
-               </div>
+	           <form action="list" method="get">
+	               <div id="search-box">
+	                   <div class="searchBox1">
+	                       <ul class="ul-style">
+	                           <li class="li-style first-li">
+	                               <div id="search-thing">조회기간</div>
+	                               <div class="date-style">
+	                                   <input type="date" class="date-form prg-search" name="startDate"> -
+	                                   <input type="date" class="date-form prg-search" name="endDate">
+	                               </div>
+	                           </li>
+	                           <li class="li-style">
+	                               <div id="search-thing">관련 시스템</div>
+	                               <select class="select-style prg-search">
+	                                   <option value="고용보험">고용보험</option>
+				                       <option value="HRD">HRD</option>
+				                       <option value="워크넷">워크넷</option>
+	                               </select>
+	                           </li>
+	                           <li class="li-style">
+	                               <div id="search-thing">업무구분</div>
+	                               <select class="select-style prg-search">
+	                                   <option>Value</option>
+	                               </select>
+	                           </li>
+	                       </ul>
+	                   </div>
+	                   <div class="searchBox2">
+	                       <ul class="ul-style">
+	                           <li class="li-style first-li" >
+	                               <div id="search-thing">제목</div>
+	                               <input type="text" class="prg prg-search" name="keyword">
+	                           </li>
+	                           <li class="li-style">
+	                               <div id="search-thing">진행상태</div>
+	                               <select class="select-style prg-search">
+	                                   <option>Value</option>
+	                               </select>
+	                           </li>
+	
+	                           <li class="li-style">
+	                               <div id="search-thing">접수상태</div>
+	                               <select class="select-style prg-search">
+	                                   <option>Value</option>
+	                               </select>
+	                           </li>
+	                           <div class="btn-box">
+	                               <button id="search-btn" class="search-btn">검색</button>
+	                           </div>
+	                       </ul>
+	                   </div>
+	               </div>
+               </form>
            </div>
 
            <!-- SR 관리 -->
@@ -88,8 +93,12 @@
 	                                    <td class="col-3">${i.relSys }</td>
 	                                    <td class="col-4">${i.srTitle }</td>
 	                                    <td class="col-5">아직 로그인x</td>
-	                                    <td class="col-6">${i.reqDt }</td>
-	                                    <td class="col-7">${i.dueDt }</td>
+	                                    <td class="col-6">
+	                                    	<fmt:formatDate value="${i.reqDt }" pattern="yyyy-MM-dd"/>
+	                                    </td>
+	                                    <td class="col-7">
+	                                    	<fmt:formatDate value="${i.dueDt }" pattern="yyyy-MM-dd" />
+	                                    </td>
 	                                    <td class="col-8">${i.rcpStat }</td>
 	                                    <td class="col-9">${i.srStat }</td>
                                		</tr>

@@ -30,12 +30,11 @@ public class SR002Dto {
 	private String lastInptId;	// 수정입력자
 
 	
-	private String relSys;
-	private String srTitle;
-	private Date reqDt;
+	private String relSys;		// sr001 - 관련 시스템
+	private String srTitle;		// sr001 - sr제목
+	private Date reqDt;			// sr001 - 완료요청일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")		
+	private Date dueDt;			// sr001 - 완료예정일
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date dueDt;
-	
-	private String srStat;
+	private String srStat;		// sr001 - 진행상태
 }

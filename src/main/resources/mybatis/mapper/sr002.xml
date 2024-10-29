@@ -3,14 +3,47 @@
 <mapper namespace="com.birdie.srm.dao.SR002Dao">
 	
 	<!-- 승인된 SR 목록 조회 -->
-	<select id="selectAll" resultType="Sr2">
+	<select id="getSrAll" resultType="Sr2">*
 		select a.app_sr_id, r.rel_sys, r.sr_title, r.req_dt, r.due_dt,
 			a.rcp_stat, r.sr_stat
 		from TB_SR_002MT a join TB_SR_001MT r
-		on a.sr_id = r.sr_id
+			on a.sr_id = r.sr_id
 		where a.delt_yn = 'N'
-		and r.sr_stat = 'ok'
+			and r.sr_stat = 'ok'
 	</select>
 	
-
+	<!-- 승인된 SR 리스트 검색 기능 --> 
+	<select id="getSearchedSr" parameterType="Map" resultType="Sr2">	    
+	    SELECT
+	        rnum, a.app_sr_id, r.sr_id, r.sr_title, r.rel_sys, 
+	        r.first_inpt_id, r.sr_stat, r.req_dt, r.due_dt
+	    FROM (
+	        SELECT
+	            a.app_sr_id, r.sr_id, r.sr_title, r.rel_sys, 
+	            r.first_inpt_id, r.sr_stat, r.req_dt, r.due_dt,
+	            ROW_NUMBER() OVER (ORDER BY r.first_inpt_dt DESC) AS rnum
+	        FROM TB_SR_002MT a 
+	        JOIN TB_SR_001MT r ON a.sr_id = r.sr_id
+	        WHERE a.delt_yn = 'N'
+	          AND r.sr_stat = 'ok'
+	          <if test="search.startDate != null and search.endDate != null">	<!-- 조회기간 -->
+	              AND r.first_inpt_dt BETWEEN #{search.startDate} AND #{search.endDate}
+	          </if>
+	          <if test="search.relSys != null">			<!-- 관련 시스템 -->
+	              AND r.rel_sys = #{search.relSys}
+	          </if>
+	          <if test="search.progs != null">			<!-- 진행상황 -->
+	              AND r.sr_stat = #{search.progs}
+	          </if>
+	          <if test="search.keyword != null">		<!-- 제목 -->
+	              AND r.sr_title LIKE '%' || #{search.keyword} || '%'
+	          </if>
+	    	)
+	    WHERE rnum BETWEEN #{pager.startRowNo} AND #{pager.endRowNo}
+	</select>
+	
+	<!-- 전체 행 개수 -->
+	<select id="countRows" resultType="int">
+		select count(*) from TB_SR_002MT
+	</select>
 </mapper>
