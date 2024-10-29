@@ -22,4 +22,6 @@ public class SR001Dto {
 	private String firstInptId;
 	private Date lastInptDt;
 	private String lastInptId;
+	
+	private int rnum;
 }

@@ -48,8 +48,17 @@ body {
 
 /* 검색 */
 /* 공통 스타일 정의 (input, select, textarea) */
-#prg-search, #search-dept{
+#search-dept, #prg-search{
     width: 130px;   
+    height: 30px;
+    border: 1px solid #D9D9D9;
+    border-radius: 3px;
+    font-size: 10px;
+    padding: 0 10px;
+}
+
+#title-search {
+    width: 280px;
     height: 30px;
     border: 1px solid #D9D9D9;
     border-radius: 3px;
@@ -98,10 +107,6 @@ body {
     font-weight: bold;
 }
 
-#search-dept {
-    width: 280px;
-}
-
 .search-btn {
     width: 63px;
     height: 28px;
@@ -145,28 +150,25 @@ body {
     width: 270px;
 }
 .col-4 {
-    width: 100px;
+    width: 120px;
 }
 .col-5 {
     width: 100px;
 }
 .col-6 {
-    width: 100px;
+    width: 120px;
 }
 .col-7 {
     width: 100px;
 }
 .col-8 {
-    width: 100px;
+    width: 120px;
 }
 .col-9 {
-    width: 100px;
+    width: 120px;
 }
 .col-10 {
-    width: 100px;
-}
-.col-11 {
-    width: 100px;
+    width: 120px;
 }
 
 tr {

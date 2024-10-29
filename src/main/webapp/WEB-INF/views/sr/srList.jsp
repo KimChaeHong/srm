@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
     <link href="${pageContext.request.contextPath}/resources/css/sr/srList.css" rel="stylesheet" type="text/css" />
 
 </head>
@@ -9,52 +11,56 @@
         <div id="section">
             <!-- 검색창 -->
             <div id="search-container">
-                <div id="search-box">
-                    <div class="searchBox1">
-                        <ul class="ul-style">
-                            <li class="li-style first-li">
-                                <div id="search-thing">조회기간</div>
-                                <div class="date-style">
-                                    <input id="prg-search" type="date" class="date-form"> -
-                                    <input id="prg-search" type="date" class="date-form">
-                                </div>
-                            </li>
-                            <li class="li-style">
-                                <div id="search-thing">관련 시스템</div>
-                                <select id="prg-search" class="select-style">
-                                    <option>Value</option>
-                                </select>
-                            </li>
-                            <li class="li-style">
-                                <div id="search-thing">진행상태</div>
-                                <select id="prg-search" class="select-style">
-                                    <option>Value</option>
-                                </select>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="searchBox2">
-                        <ul class="ul-style">
-                            <li class="li-style first-li">
-                                <div id="search-thing">등록자 소속</div>
-                                <input id="search-dept" type="text">
-                            </li>
-                            <li class="li-style">
-                                <div id="search-thing">개발부서</div>
-                                <select id="prg-search" class="select-style">
-                                    <option>Value</option>
-                                </select>
-                            </li>
-                            <li class="li-style">
-                                <div id="search-thing">제목</div>
-                                <input id="prg-search" type="text">
-                            </li>
-                            <div class="btn-box">
-                                <button id="search-btn" class="search-btn">검색</button>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
+            	<form method="post" action="list">
+	                <div id="search-box">
+	                    <div class="searchBox1">
+	                        <ul class="ul-style">
+	                            <li class="li-style first-li">
+	                                <div id="search-thing">조회기간</div>
+	                                <div class="date-style">
+	                                    <input id="prg-search" type="date" class="date-form" name="startDate"> -
+	                                    <input id="prg-search" type="date" class="date-form" name="endDate">
+	                                </div>
+	                            </li>
+	                            <li class="li-style">
+	                                <div id="search-thing">관련 시스템</div>
+	                                <select id="prg-search" class="select-style" name="relSys">
+	                                    <option value="">Value</option>
+	                                </select>
+	                            </li>
+	                            <li class="li-style">
+	                                <div id="search-thing">진행상태</div>
+	                                <select id="prg-search" class="select-style" name="progs">
+	                                    <option value="">Value</option>
+	                                </select>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                    <div class="searchBox2">
+	                        <ul class="ul-style">
+	                            <li class="li-style first-li">
+	                                <div id="search-thing">제목</div>
+	                                <input id="title-search" type="text" name="keyword">
+	                            </li>
+	                            <li class="li-style">
+	                                <div id="search-thing">개발부서</div>
+	                                <select id="prg-search" class="select-style" disabled>
+	                                    <option>Value</option>
+	                                </select>
+	                            </li>
+	                            <li class="li-style">
+	                                <div id="search-thing">등록자 소속</div>
+	                                <select id="search-dept" type="text" name="nInst">
+	                                	<option value="">선택</option>
+	                                </select>
+	                            </li>
+	                            <div class="btn-box">
+	                                <button id="search-btn" class="search-btn" type="submit">검색</button>
+	                            </div>
+	                        </ul>
+	                    </div>
+	                </div>
+            	</form>
             </div>
             <!-- SR목록 -->
             <div id="sr-list">
@@ -68,34 +74,34 @@
                         <thead>
                             <tr>
                                 <th class="col-1"></th>
-                                <th class="col-2">요청번호</th>
+                                <th class="col-2">SR 번호</th>
                                 <th class="col-3">SR 제목</th>
                                 <th class="col-4">관련 시스템</th>
                                 <th class="col-5">등록자</th>
                                 <th class="col-6">소속</th>
-                                <th class="col-7">개발부서</th>
-                                <th class="col-8">상태</th>
-                                <th class="col-9">요청일</th>
-                                <th class="col-10">완료(예정)일</th>
-                                <th class="col-11">상세보기</th>
+                                <th class="col-7">상태</th>
+                                <th class="col-8">요청일</th>
+                                <th class="col-9">완료(예정)일</th>
+                                <th class="col-10">상세보기</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="col-1">1</td>
-                                <td class="col-2">SR_0001</td>
-                                <td class="col-3">이런저런거 수정 부탁드립니다.</td>
-                                <td class="col-4">고용보험</td>
-                                <td class="col-5">정준범</td>
-                                <td class="col-6">오티아이</td>
-                                <td class="col-7">개발1팀</td>
-                                <td class="col-8">등록</td>
-                                <td class="col-9">2024.10.22</td>
-                                <td class="col-10">2024.10.30</td>
-                                <td class="col-11">
-                                    <button class="detail-btn" data-bs-toggle="modal" data-bs-target="#detail-modal">상세보기</button>
-                                </td>
-                            </tr>
+                        	<c:forEach items="${srList}" var="sr">
+	                            <tr>
+	                                <td class="col-1">${sr.rnum}</td>
+	                                <td class="col-2">${sr.srId}</td>
+	                                <td class="col-3">${sr.srTitle}</td>
+	                                <td class="col-4">${sr.relSys}</td>
+	                                <td class="col-5">${sr.firstInptId}</td>
+	                                <td class="col-6">오티아이</td>
+	                                <td class="col-7">${sr.srStat}</td>
+	                                <td class="col-8"><fmt:formatDate value="${sr.reqDt}" pattern="yyyy-MM-dd"/></td>
+	                                <td class="col-9"><fmt:formatDate value="${sr.dueDt}" pattern="yyyy-MM-dd"/></td>
+	                                <td class="col-10">
+	                                    <button class="detail-btn" data-srid="${sr.srId}" data-bs-toggle="modal" data-bs-target="#detail-modal">상세보기</button>
+	                                </td>
+	                            </tr>
+                        	</c:forEach>
                         </tbody>
                     </table>
                 </div>
