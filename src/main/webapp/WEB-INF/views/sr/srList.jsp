@@ -4,34 +4,41 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
     <link href="${pageContext.request.contextPath}/resources/css/sr/srList.css" rel="stylesheet" type="text/css" />
-
+    <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
         <!-- section -->
         <div id="section">
             <!-- 검색창 -->
             <div id="search-container">
-            	<form method="post" action="list">
+            	<form method="get" action="list">
 	                <div id="search-box">
 	                    <div class="searchBox1">
 	                        <ul class="ul-style">
 	                            <li class="li-style first-li">
 	                                <div id="search-thing">조회기간</div>
 	                                <div class="date-style">
-	                                    <input id="prg-search" type="date" class="date-form" name="startDate"> -
-	                                    <input id="prg-search" type="date" class="date-form" name="endDate">
+	                                    <input id="prg-search" type="date" class="date-form" name="startDate"
+	                                    	value="${searchCont.search.keyword}"> -
+	                                    <input id="prg-search" type="date" class="date-form" name="endDate"
+	                                    	value="${searchCont.search.keyword}">
 	                                </div>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">관련 시스템</div>
 	                                <select id="prg-search" class="select-style" name="relSys">
-	                                    <option value="">Value</option>
+	                                    <option value="">선택</option>
+	                                    <option value="TEST" ${searchCont.search.relSys == 'TEST' ? 'selected' : ''}>TEST</option>
+	                                    <option value="AAAA" ${searchCont.search.relSys == 'AAAA' ? 'selected' : ''}>AAAA</option>
+	                                    <option value="BBBB" ${searchCont.search.relSys == 'BBBB' ? 'selected' : ''}>BBBB</option>
 	                                </select>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">진행상태</div>
-	                                <select id="prg-search" class="select-style" name="progs">
-	                                    <option value="">Value</option>
+	                                <select id="prg-search" class="select-style" name="srStat">
+	                                    <option value="">선택</option>
+	                                    <option value="등록" ${searchCont.search.srStat == '등록' ? 'selected' : ''}>등록</option>
 	                                </select>
 	                            </li>
 	                        </ul>
@@ -40,17 +47,17 @@
 	                        <ul class="ul-style">
 	                            <li class="li-style first-li">
 	                                <div id="search-thing">제목</div>
-	                                <input id="title-search" type="text" name="keyword">
+	                                <input id="title-search" type="text" name="keyword" value="${searchCont.search.keyword}">
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">개발부서</div>
 	                                <select id="prg-search" class="select-style" disabled>
-	                                    <option>Value</option>
+	                                    <option>선택</option>
 	                                </select>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">등록자 소속</div>
-	                                <select id="search-dept" type="text" name="nInst">
+	                                <select id="search-dept" type="text" name="instId">
 	                                	<option value="">선택</option>
 	                                </select>
 	                            </li>
@@ -69,7 +76,7 @@
                 	<button id="reg-btn" class="search-btn ms-auto" data-bs-toggle="modal" data-bs-target="#reg-modal">SR 등록</button>
                 </div>
                 <hr id="sr-list-hr">
-                <div id="table-container">
+                <div id="table-container" class="overflow-auto">
                     <table id="pg-table">
                         <thead>
                             <tr>
@@ -109,19 +116,37 @@
                     <a class="btn page-btn shadow-sm">
                         <i class="bi bi-chevron-left"></i>
                     </a>
-                    <a class="btn page-btn shadow-sm active">1</a>
-                    <a class="btn page-btn shadow-sm">2</a>
-                    <a class="btn page-btn shadow-sm">3</a>
+                    <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
+                    	<c:if test="${searchCont.pager.pageNo == i}">
+							<a class="btn page-btn shadow-sm active"
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.search.startDate}&endDate=${searchCont.search.endDate}&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
+						</c:if>
+						<c:if test="${searchCont.pager.pageNo != i}">
+							<a class="btn page-btn shadow-sm"
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.search.startDate}&endDate=${searchCont.search.endDate}&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
+						</c:if>
+                    </c:forEach>
                     <a class="btn page-btn shadow-sm">
                         <i class="bi bi-chevron-right"></i>
                     </a>
-                    <select class="row-select form-select">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
-                    </select>
+	                <form id="row-select" action="list" method="get">
+					    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
+					    <input type="hidden" name="startDate" value="${searchCont.search.startDate}">
+					    <input type="hidden" name="endDate" value="${searchCont.search.endDate}">
+					    <input type="hidden" name="relSys" value="${searchCont.search.relSys}">
+					    <input type="hidden" name="srStat" value="${searchCont.search.srStat}">
+					    <input type="hidden" name="keyword" value="${searchCont.search.keyword}">
+					    <input type="hidden" name="instId" value="${searchCont.search.instId}">
+					    
+					    <!--rowPerPage 선택 -->
+					    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
+					        <option value="10" ${searchCont.pager.rowsPerPage == '10' ? 'selected' : ''}>10</option>
+					        <option value="20" ${searchCont.pager.rowsPerPage == '20' ? 'selected' : ''}>20</option>
+					        <option value="30" ${searchCont.pager.rowsPerPage == '30' ? 'selected' : ''}>30</option>
+					        <option value="40" ${searchCont.pager.rowsPerPage == '40' ? 'selected' : ''}>40</option>
+					        <option value="50" ${searchCont.pager.rowsPerPage == '50' ? 'selected' : ''}>50</option>
+					    </select>
+					</form>
                 </div>
 
             </div>
@@ -289,7 +314,6 @@
 		    </div>
 		</div>
     </div>
-
 </body>
-
+<script src="${pageContext.request.contextPath}/resources/js/srList.js"></script>
 </html>

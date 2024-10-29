@@ -136,6 +136,7 @@ body {
 /* 테이블 */
 #table-container {
     width: 1230px;
+    height: 460px;
     border: 1px solid #EDF2F9;
     margin: 0px auto;
 }

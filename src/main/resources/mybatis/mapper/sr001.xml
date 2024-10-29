@@ -10,17 +10,6 @@
 		)
 	</insert>
 	
-	<select id="getSrList" parameterType="Pager" resultType="Sr1">	    
-	    select
-			rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT
-		from(
-			select SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT,
-				row_number() over( order by FIRST_INPT_DT desc) as rnum
-			from TB_SR_001MT
-		)
-		where rnum between #{startRowNo} and #{endRowNo}
-	</select>
-	
 	<select id="getSearchedSr" parameterType="Map" resultType="Sr1">	    
 	    select
 			rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT
@@ -37,8 +26,8 @@
 				<if test="search.relSys != null">
 					and REL_SYS = #{search.relSys}
 				</if>
-				<if test="search.progs != null">
-					and SR_STAT = #{search.progs}
+				<if test="srStat != null">
+					and SR_STAT = #{search.srStat}
 				</if>
 				<if test="search.keyword != null">
 					and SR_TITLE like '%' || #{search.keyword}|| '%'
@@ -47,5 +36,21 @@
 		where rnum between #{pager.startRowNo} and #{pager.endRowNo}
 	</select>
 	
-
+	<select id="getRows" parameterType="Search" resultType="int">
+		select count(*)
+		from TB_SR_001MT
+		where 1=1
+			<if test="startDate != null and endDate != null">
+				and FIRST_INPT_DT between #{startDate} and #{endDate}
+			</if>
+			<if test="relSys != null">
+				and REL_SYS = #{relSys}
+			</if>
+			<if test="srStat != null">
+				and SR_STAT = #{srStat}
+			</if>
+			<if test="keyword != null">
+				and SR_TITLE like '%' || #{keyword}|| '%'
+			</if>
+	</select>
 </mapper>

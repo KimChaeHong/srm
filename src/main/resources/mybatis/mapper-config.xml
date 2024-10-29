@@ -23,5 +23,7 @@
 				    alias="Member"/>
 		<typeAlias type="com.birdie.srm.dto.PagerDto"
 				    alias="Pager"/>
+		<typeAlias type="com.birdie.srm.dto.SearchDto"
+				    alias="Search"/>
 	</typeAliases>
 </configuration>

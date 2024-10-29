@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.birdie.srm.dao.SR001Dao;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001Dto;
+import com.birdie.srm.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,14 +24,14 @@ public class SrService {
 		sr001Dao.insertSr(sr001Dto);
 	}
 
-	public List<SR001Dto> getSrList(PagerDto pager) {
-		List<SR001Dto> srList = sr001Dao.getSrList(pager);
-		return srList;
-	}
-
 	public List<SR001Dto> getSearchedSr(Map<String, Object> searchCont) {
 		List<SR001Dto> srList = sr001Dao.getSearchedSr(searchCont);
 		return srList;
+	}
+
+	public int getRows(SearchDto search) {
+		int Rows = sr001Dao.getRows(search);
+		return Rows;
 	}
 	
 }

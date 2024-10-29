@@ -13,20 +13,23 @@ public class SearchDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	private String relSys;
-	private String progs;
-	private String nInst;
+	private String srStat;
+	private String instId;
 	private String dDept;
 	private String keyword;
 	
 	public void makeNull() {
+		if("".equals(this.keyword)) {
+			this.keyword = null;
+		}
 		if("".equals(this.relSys)) {
 			this.relSys = null;
 		}
-		if("".equals(this.progs)) {
-			this.progs = null;
+		if("".equals(this.srStat)) {
+			this.srStat = null;
 		}
-		if("".equals(this.nInst)) {
-			this.nInst = null;
+		if("".equals(this.instId)) {
+			this.instId = null;
 		}
 	}
 }
