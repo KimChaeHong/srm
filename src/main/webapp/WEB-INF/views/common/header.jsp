@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -28,20 +29,20 @@
 
 <body>
     <!-- 헤더 -->
-    <div id="header">
-        <div id="logo-container">
-            <img src="${pageContext.request.contextPath}/resources/images/OTI-logo.png" class="logo" 
-            	onclick="location.href='${pageContext.request.contextPath}'">
-        </div>
-        
-        <div id="info-container">
-            <div class="user-profile">
-                <span class="badge" id="user-role">일반 사용자</span>
-                <i class="bi bi-person-circle icon"></i>
-                <div class="user-name">이민성 님</div>
-                <i class="bi bi-box-arrow-right logout"></i>
-            </div>
-        </div>
-  
-        
-    </div>
+		<div id="header">
+		    <div id="logo-container">
+		        <img src="${pageContext.request.contextPath}/resources/images/OTI-logo.png" class="logo" 
+		       	onclick="location.href='${pageContext.request.contextPath}'">
+		    </div>
+		    
+			<sec:authorize access="isAuthenticated()"><!-- 로그인 했다는 뜻 -->
+			    <div id="info-container">
+			        <div class="user-profile">
+			            <span class="badge" id="user-role">일반 사용자</span>
+			            <i class="bi bi-person-circle icon"></i>
+			            <div class="user-name"><sec:authentication property="principal.username"/></div>
+			            <i class="bi bi-box-arrow-right logout"></i>
+			        </div>
+			    </div>     
+		    </sec:authorize>
+		</div>

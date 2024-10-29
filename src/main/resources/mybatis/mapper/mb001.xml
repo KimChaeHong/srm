@@ -5,19 +5,22 @@
 	<select id="selectByMemId" parameterType="String"
 		resultType="Member">
 		select
-		mem_id,
-		dept_id,
-		mem_no,
-		mem_nm,
-		mem_pw,
-		role1,
-		role2,
-		delt_yn,
-		first_inpt_id,
-		first_inpt_dt,
-		last_inpt_id,
-		last_inpt_dt
-		from member
+	        MEM_ID,
+	        INST_ID,
+	        DEPT_ID,
+	        MEM_NO,
+	        MEM_NM,
+	        MEM_PW,
+	        ROLE_1,
+	        ROLE_2,
+	        MEM_EMAIL,
+	        DELT_YN,
+	        APP_YN,
+	        FIRST_INPT_DT,
+	        FIRST_INPT_ID,
+	        LAST_INPT_DT,
+	        LAST_INPT_ID
+		from TB_MB_001MT
 		where mem_id = #{mem_id}
 	</select>
 
