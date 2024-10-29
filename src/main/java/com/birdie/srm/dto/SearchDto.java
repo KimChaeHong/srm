@@ -14,7 +14,7 @@ public class SearchDto {
 	private Date endDate;
 	private String relSys;
 	private String progs;
-	private String nDept;
+	private String nInst;
 	private String dDept;
 	private String keyword;
 }
