@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.MemberDao">
+	<!-- 회원 정보 가져오기 -->
+	<select id="selectByMemId" parameterType="String"
+		resultType="Member">
+		select
+		mem_id,
+		dept_id,
+		mem_no,
+		mem_nm,
+		mem_pw,
+		role1,
+		role2,
+		delt_yn,
+		first_inpt_id,
+		first_inpt_dt,
+		last_inpt_id,
+		last_inpt_dt
+		from member
+		where mem_id = #{mem_id}
+	</select>
+
+	<!-- 회원 가입 -->
+	<insert id="signUp" parameterType="Member">
+   	    <selectKey keyProperty="memNo" resultType="string" order="BEFORE">
+	        SELECT #{instId} || LPAD(SEQ_001MT.NEXTVAL, 4, '0') AS memNo 
+	        FROM dual
+	    </selectKey>
+		INSERT INTO TB_MB_001MT (
+	        MEM_ID,
+	        INST_ID,
+	        DEPT_ID,
+	        MEM_NO,
+	        MEM_NM,
+	        MEM_PW,
+	        ROLE_1,
+	        ROLE_2,
+	        MEM_EMAIL,
+	        DELT_YN,
+	        APP_YN,
+	        FIRST_INPT_DT,
+	        FIRST_INPT_ID,
+	        LAST_INPT_DT,
+	        LAST_INPT_ID
+    	) VALUES (
+	        #{memId},
+	        #{instId},
+	        #{deptId},
+	        #{memNo},
+	        #{memNm},
+	        #{memPw},
+	        #{role1},
+	        #{role2},
+	        #{memEmail},
+	        'N',                          <!-- DELT_YN 기본값으로 'N' 설정 -->
+	        'N',                          <!-- APP_YN 기본값으로 'N' 설정 -->
+	        SYSDATE,                      <!-- 현재 날짜와 시간 입력 -->
+	        #{memNo},
+	        SYSDATE,                      <!-- 현재 날짜와 시간 입력 -->
+	        #{memNo}
+    	)
+	</insert>
+
+
+</mapper>

@@ -21,6 +21,7 @@ span {
     background-color: white;
     padding: 30px;
     text-align: center;
+    border-radius: 10px;
 }
 
 #left-side, #right-side {
@@ -88,3 +89,10 @@ select {
     background-color: #3D86E7;
     color: white;
 }
+
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+

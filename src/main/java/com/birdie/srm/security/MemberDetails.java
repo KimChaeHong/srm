@@ -17,7 +17,7 @@ public class MemberDetails extends User{
 		super(
 				member.getMemId(), 
 				member.getMemPw(), 
-				member.isDeltYn(),
+				 "Y".equals(member.getDeltYn()), // "Y"일 때 계정 활성화
 				true, true, true, authorities
 				);
 		this.member = member;
