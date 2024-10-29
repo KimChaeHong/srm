@@ -12,8 +12,8 @@
 <link rel="stylesheet"href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
-<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
-<script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.js" defer></script>
+<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script><script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.js" defer></script>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css" />
 
 
@@ -21,6 +21,7 @@
 <body>
 	<div class="login-container">
 		<span>SRM 시스템 로그인</span>
+
 		<form method="post" action="${pageContext.request.contextPath}/login">
 			<input id="mem-id" type="text" name="mem_id"
 				placeholder="ID를 입력해 주세요." required>
