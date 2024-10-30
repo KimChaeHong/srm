@@ -8,20 +8,32 @@
 <head>
 <meta charset="UTF-8">
 <title>SRM</title>
+    <!-- jQuery -->
+    <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 
-<link rel="stylesheet"href="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.css" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script><script src="${pageContext.request.contextPath}/resources/bootstrap/bootstrap.min.js" defer></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css" />
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/login.css" />
 
 </head>
 <body>
 	<div class="login-container">
 		<span>SRM 시스템 로그인</span>
-
+		
+		<c:if test="${not empty loginError}">
+		    <div class="alert alert-danger mb-2" role="alert" style="width: 350px; text-align: center; margin: 0 auto;">
+		        ${loginError}
+		    </div>
+		</c:if>
+		
 		<form method="post" action="${pageContext.request.contextPath}/login">
 			<input id="mem-id" type="text" name="mem_id"
 				placeholder="ID를 입력해 주세요." required>
