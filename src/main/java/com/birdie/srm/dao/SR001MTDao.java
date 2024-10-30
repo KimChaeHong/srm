@@ -17,7 +17,7 @@ public interface SR001MTDao {
 
 	public int getRows(SearchDto search);
 
-	public SR001Dto getDetail(String srId);
+	public SR001MT getDetail(String srId);
 
 	public void srDelete(String srId);
 

@@ -61,7 +61,7 @@ public class SrController {
 	@PostMapping("/srDetail")
 	public void srDetail(String srId, HttpServletResponse response, HttpServletRequest request) throws Exception{
 		
-		SR001Dto srDetail = srService.getDetail(srId);
+		SR001MT srDetail = srService.getDetail(srId);
 		String jspUrl = "/WEB-INF/views/sr/srDetail.jsp";
 		
 		request.setAttribute("srDetail", srDetail);
@@ -75,13 +75,13 @@ public class SrController {
 	}
 	
 	@PostMapping("/srDelete")
-	public String srDelete(SR001Dto sr001Dto) {
+	public String srDelete(SR001MT sr001Dto) {
 		srService.srDelete(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}
 
 	@PostMapping("/srAppReq")
-	public String srAppReq(SR001Dto sr001Dto) {
+	public String srAppReq(SR001MT sr001Dto) {
 		srService.srAppReq(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}

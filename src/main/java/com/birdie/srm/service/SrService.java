@@ -34,8 +34,8 @@ public class SrService {
 		return Rows;
 	}
 
-	public SR001Dto getDetail(String srId) {
-		SR001Dto srDetail = sr001Dao.getDetail(srId);
+	public SR001MT getDetail(String srId) {
+		SR001MT srDetail = sr001Dao.getDetail(srId);
 		return srDetail;
 	}
 
