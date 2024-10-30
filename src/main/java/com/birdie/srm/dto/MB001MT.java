@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class MemberDto {
+public class MB001MT {
 	
 	private String memId;          // 사용자 ID
     private String instId;         // 기관

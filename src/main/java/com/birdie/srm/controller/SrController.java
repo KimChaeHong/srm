@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR001Dto;
+import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.SrService;
 
@@ -37,14 +38,14 @@ public class SrController {
 		searchCont.put("pager", pager);
 		log.info("SR 목록");
 		
-		List<SR001Dto> srList = srService.getSearchedSr(searchCont);
+		List<SR001MTDao> srList = srService.getSearchedSr(searchCont);
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
 		return "sr/srList";
 	}
 	
 	@PostMapping("/registerSr")
-	public String registerSr(SR001Dto sr001Dto) {	
+	public String registerSr(SR001MT sr001Dto) {	
 		srService.insertSr(sr001Dto);
 		
 		return "redirect:/sr/list";

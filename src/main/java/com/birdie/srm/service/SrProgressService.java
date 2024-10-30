@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.birdie.srm.dao.SR002Dao;
+import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR002Dto;
+import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SrProgressService {
 	@Autowired
-	private SR002Dao sr002Dao;
+	private SR002MTDao sr002Dao;
 	
 	// 승인된 SR 전체 목록 조회
-	public List<SR002Dto> getSrAll(PagerDto pager){
-		List<SR002Dto> srList = sr002Dao.getSrAll(pager);	//List타입으로 승인된 SR전체 조회
+	public List<SR002MTDao> getSrAll(PagerDto pager){
+		List<SR002MTDao> srList = sr002Dao.getSrAll(pager);	//List타입으로 승인된 SR전체 조회
 		return srList;
 	}
 	/* 
@@ -35,8 +35,8 @@ public class SrProgressService {
 		return srList;
 	}*/
 	
-	public List<SR002Dto> getSearchedSr(Map<String, Object> searchPager){	// 검색 기능 처리 메소드
-		List<SR002Dto> srList = sr002Dao.getSearchedSr(searchPager);
+	public List<SR002MTDao> getSearchedSr(Map<String, Object> searchPager){	// 검색 기능 처리 메소드
+		List<SR002MTDao> srList = sr002Dao.getSearchedSr(searchPager);
 		return srList;
 	}
 	
