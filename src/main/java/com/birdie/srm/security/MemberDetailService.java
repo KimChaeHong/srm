@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.birdie.srm.dao.MemberDao;
-import com.birdie.srm.dto.MemberDto;
+import com.birdie.srm.dao.MB001MTDao;
+import com.birdie.srm.dto.MB001MT;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,13 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberDetailService implements UserDetailsService{
 	@Autowired
-	private MemberDao memberDao;
+	private MB001MTDao memberDao;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) 
 			throws UsernameNotFoundException {
 		
-		MemberDto member = memberDao.selectByMemId(username);
+		MB001MT member = memberDao.selectByMemId(username);
 		
 		if(member == null) {
 			throw new UsernameNotFoundException("Bad credentials");

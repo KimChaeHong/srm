@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR002Dto;
+import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.SrProgressService;
 
@@ -43,7 +44,7 @@ public class PrgController {
 		searchCont.put("search", search);
 		searchCont.put("pager", pager);
 		
-		List<SR002Dto> srList = srProgressService.getSearchedSr(searchCont);
+		List<SR002MTDao> srList = srProgressService.getSearchedSr(searchCont);
 		model.addAttribute("srList", srList);
 		return "prg/prgList";
 	}

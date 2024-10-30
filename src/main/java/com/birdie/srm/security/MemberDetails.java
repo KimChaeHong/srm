@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.birdie.srm.dto.MemberDto;
+import com.birdie.srm.dto.MB001MT;
 
 public class MemberDetails extends User{
 	
-	private MemberDto member;
+	private MB001MT member;
 	
 	public MemberDetails(
-			MemberDto member,
+			MB001MT member,
 			List<GrantedAuthority> authorities) {
 		super(
 				member.getMemId(), 
@@ -24,7 +24,7 @@ public class MemberDetails extends User{
 		
 	}
 
-	public MemberDto getUserDto() {
+	public MB001MT getUserDto() {
 		return member;
 	}
 }

@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.birdie.srm.dao.SR001Dao;
+import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR001Dto;
+import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SrService {
 	@Autowired
-	private SR001Dao sr001Dao;
+	private SR001MTDao sr001Dao;
 	
-	public void insertSr(SR001Dto sr001Dto) {
+	public void insertSr(SR001MT sr001Dto) {
 		log.info("insertSr");
 		sr001Dao.insertSr(sr001Dto);
 	}
 
-	public List<SR001Dto> getSearchedSr(Map<String, Object> searchCont) {
-		List<SR001Dto> srList = sr001Dao.getSearchedSr(searchCont);
+	public List<SR001MTDao> getSearchedSr(Map<String, Object> searchCont) {
+		List<SR001MTDao> srList = sr001Dao.getSearchedSr(searchCont);
 		return srList;
 	}
 

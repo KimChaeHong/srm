@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.birdie.srm.dao.SR001Dao">
-	<insert id="insertSr" parameterType="Sr1">
+	<insert id="insertSr" parameterType="SR001MT">
 		insert into TB_SR_001MT (
 			SR_TITLE, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, LAST_INPT_DT
 		)
@@ -10,7 +10,7 @@
 		)
 	</insert>
 	
-	<select id="getSearchedSr" parameterType="Map" resultType="Sr1">	    
+	<select id="getSearchedSr" parameterType="Map" resultType="SR001MT">	    
 	    select
 			rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT
 		from(

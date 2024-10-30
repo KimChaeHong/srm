@@ -7,22 +7,40 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.birdie.srm.dto.CodeDto"
-					alias="Code"/>
-		<typeAlias type="com.birdie.srm.dto.SR001Dto"
-				    alias="Sr1"/>
-		<typeAlias type="com.birdie.srm.dto.SR002Dto"
-				    alias="Sr2"/>
-		<typeAlias type="com.birdie.srm.dto.HrDto"
-				    alias="Hr"/>
-		<typeAlias type="com.birdie.srm.dto.PrgDto"
-				    alias="Prg"/>
-		<typeAlias type="com.birdie.srm.dto.DeptDto"
-				    alias="Dept"/>
-		<typeAlias type="com.birdie.srm.dto.MemberDto"
-				    alias="Member"/>
+		<!-- 코드 -->
+		<typeAlias type="com.birdie.srm.dto.CDMT"
+					alias="CDMT"/>
+		<!-- 로그인 이력 -->
+		<typeAlias type="com.birdie.srm.dto.LHMT"
+					alias="LHMT"/>	
+		<!-- 요청 -->
+		<typeAlias type="com.birdie.srm.dto.SR001MT"
+				    alias="SR001MT"/>
+		<!-- 승인 된 요청 -->
+		<typeAlias type="com.birdie.srm.dto.SR002MT"
+				    alias="SR002MT"/>
+		<!-- 자원 -->
+		<typeAlias type="com.birdie.srm.dto.SR001NT"
+				    alias="SR001NT"/>
+		<!-- 진척율 -->
+		<typeAlias type="com.birdie.srm.dto.SR002NT"
+				    alias="SR002NT"/>
+		<!-- 실적 -->
+		<typeAlias type="com.birdie.srm.dto.SR003NT"
+				    alias="SR003NT"/>				    
+		<!-- 첨부파일 -->
+		<typeAlias type="com.birdie.srm.dto.SR004NT"
+				    alias="SR004NT"/>
+		<!-- 기관 -->
+		<typeAlias type="com.birdie.srm.dto.SR001MT"
+				    alias="SR001MT"/>		    
+		<!-- 회원가입 -->
+		<typeAlias type="com.birdie.srm.dto.MB001MT"
+				    alias="MB001MT"/>
+		<!-- 페이징 -->
 		<typeAlias type="com.birdie.srm.dto.PagerDto"
 				    alias="Pager"/>
+		<!-- 검색 -->
 		<typeAlias type="com.birdie.srm.dto.SearchDto"
 				    alias="Search"/>
 	</typeAliases>
