@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.SR001MTDao">
+
+	<!-- 나의 할 일 목록 가져오기 -->
+    <select id="selectMyList" resultType="SR001MT">
+        SELECT 
+            SR_ID,
+            SR_TITLE,
+            REQ_DT,
+            DUE_DT,
+            SR_CONT,
+            REL_SYS,
+            SR_STAT,
+            DELT_YN,
+            FIRST_INPT_DT,
+            FIRST_INPT_ID,
+            LAST_INPT_DT,
+            LAST_INPT_ID
+        FROM TB_SR_001MT
+    </select>
+    
+</mapper>

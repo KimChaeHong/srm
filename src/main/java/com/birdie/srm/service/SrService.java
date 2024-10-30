@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.SR001MTDao;
-import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
 
