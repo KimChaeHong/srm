@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myportal/mytask.css" />
@@ -46,23 +49,26 @@
 						<th>상태</th>
 						<th>요청일</th>
 						<th>완료(예정)일</th>
-						<th>상세보기</th>
+						<th>상세보기</th> 
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>SR1008_001</td>
-						<td>화면 기능 수정해주세요.</td>
-						<td>고용 보험</td>
-						<td>이민성</td>
-						<td>고용노동부</td>
-						<td>서비스 개발 2팀</td>
-						<td>반려</td>
-						<td>24/10/09</td>
-						<td>24/10/16</td>
-						<td><button class="detail-btn" data-bs-toggle="modal" data-bs-target="#detail-modal">요청 상세</button></td>
-					</tr>
-				</tbody>
+				
+					<c:forEach items="${mySrList}" var="sr001mt">
+						<tbody>	
+							<tr>
+								<td>${sr001mt.srId}</td>
+								<td>${sr001mt.srTitle}</td>
+								<td>${sr001mt.relSys}</td>
+								<td>등록자</td>
+								<td>소속</td>
+								<td>부서</td>
+								<td>${sr001mt.srStat}</td>
+								<td><fmt:formatDate value="${sr001mt.reqDt}" pattern="yy/MM/dd"/></td>
+								<td><fmt:formatDate value="${sr001mt.dueDt}" pattern="yy/MM/dd"/></td>
+								<td><button class="detail-btn" data-bs-toggle="modal" data-bs-target="#detail-modal">요청 상세</button></td>
+							</tr>
+						</tbody>
+					</c:forEach>
 			</table>
 		</div>
 

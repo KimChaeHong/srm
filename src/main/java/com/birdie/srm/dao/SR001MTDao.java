@@ -22,4 +22,7 @@ public interface SR001MTDao {
 	public void srDelete(String srId);
 
 	public void srAppReq(String srId);
+
+	//나의 할 일 목록 가져오기
+	public List<SR001MT> selectMyList();
 }
