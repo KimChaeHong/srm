@@ -53,4 +53,26 @@
 				and SR_TITLE like '%' || #{keyword}|| '%'
 			</if>
 	</select>
+	
+	<select id="getDetail" parameterType="String" resultType="Sr1">
+		select
+			SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID
+		from TB_SR_001MT
+		where SR_ID = #{srId}
+	</select>
+	
+	<update id="srDelete" parameterType="String">
+		update TB_SR_001MT
+		set DELT_YN = 'Y'
+			LAST_INPT_DT = sysdate
+		where SR_ID = #{srId}
+	</update>
+	
+	<update id="srAppReq" parameterType="String">
+		update TB_SR_001MT
+		set SR_STAT = 'REQT'
+			LAST_INPT_DT = sysdate
+		where SR_ID = #{srId}
+	</update>
+	
 </mapper>
