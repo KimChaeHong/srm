@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.birdie.srm.dao.SR001Dao">
+<mapper namespace="com.birdie.srm.dao.SR001MTDao">
 	<insert id="insertSr" parameterType="SR001MT">
 		insert into TB_SR_001MT (
 			SR_TITLE, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, LAST_INPT_DT
@@ -19,17 +19,17 @@
 				row_number() over( order by FIRST_INPT_DT desc) as rnum
 			from TB_SR_001MT
 			where
-				1 = 1
+				DELT_YN = 'N'
 				<if test="search.startDate != null and search.endDate != null">
 					and FIRST_INPT_DT between #{search.startDate} and #{search.endDate}
 				</if>
-				<if test="search.relSys != null">
+				<if test="search.relSys != null and search.relSys != ''">
 					and REL_SYS = #{search.relSys}
 				</if>
-				<if test="srStat != null">
+				<if test="srStat != null and srStat != ''">
 					and SR_STAT = #{search.srStat}
 				</if>
-				<if test="search.keyword != null">
+				<if test="search.keyword != null and search.keyword != ''">
 					and SR_TITLE like '%' || #{search.keyword}|| '%'
 				</if>
 		)
@@ -39,17 +39,18 @@
 	<select id="getRows" parameterType="Search" resultType="int">
 		select count(*)
 		from TB_SR_001MT
-		where 1=1
+		where
+			DELT_YN = 'N'
 			<if test="startDate != null and endDate != null">
 				and FIRST_INPT_DT between #{startDate} and #{endDate}
 			</if>
-			<if test="relSys != null">
+			<if test="relSys != null and relSys != ''">
 				and REL_SYS = #{relSys}
 			</if>
-			<if test="srStat != null">
+			<if test="srStat != null and srStat != ''" >
 				and SR_STAT = #{srStat}
 			</if>
-			<if test="keyword != null">
+			<if test="keyword != null and keyword != ''">
 				and SR_TITLE like '%' || #{keyword}|| '%'
 			</if>
 	</select>
@@ -63,16 +64,25 @@
 	
 	<update id="srDelete" parameterType="String">
 		update TB_SR_001MT
-		set DELT_YN = 'Y'
+		set DELT_YN = 'Y',
 			LAST_INPT_DT = sysdate
 		where SR_ID = #{srId}
 	</update>
 	
 	<update id="srAppReq" parameterType="String">
 		update TB_SR_001MT
-		set SR_STAT = 'REQT'
-			LAST_INPT_DT = sysdate
+		set SR_STAT = 'REQT',
+			LAST_INPT_DT = sysdate,
+			REQ_DT = sysdate
 		where SR_ID = #{srId}
 	</update>
 	
+	<update id="srUpdate" parameterType="SR001MT">
+		update TB_SR_001MT
+		set SR_STAT = 'REQT',
+			LAST_INPT_DT = sysdate,
+			REQ_DT = sysdate
+		where SR_ID = #{srId}
+	</update>
+
 </mapper>
