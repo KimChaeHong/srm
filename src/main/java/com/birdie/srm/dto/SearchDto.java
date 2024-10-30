@@ -20,7 +20,7 @@ public class SearchDto {
 	private String wkType;		// 업무구분
 	private String rcpStat;		// 접수상태(접수, 취소, 보류)
 	
-	public void makeNull() {
+/*	public void makeNull() {
 		if("".equals(this.keyword)) {
 			this.keyword = null;
 		}
@@ -39,5 +39,5 @@ public class SearchDto {
 		if("".equals(this.wkType)) {
 			this.wkType = null;
 		}
-	}
+	}*/
 }

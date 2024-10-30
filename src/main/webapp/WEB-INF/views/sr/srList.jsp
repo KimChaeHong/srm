@@ -103,7 +103,15 @@
 	                                <td class="col-4">${sr.relSys}</td>
 	                                <td class="col-5">${sr.firstInptId}</td>
 	                                <td class="col-6">오티아이</td>
-	                                <td class="col-7">${sr.srStat}</td>
+	                                <td class="col-7">
+	                                	<c:choose>
+	                                		<c:when test="${sr.srStat == 'REGI'}">등록</c:when>
+	                                		<c:when test="${sr.srStat == 'REQT'}">요청</c:when>
+	                                		<c:when test="${sr.srStat == 'REJC'}">반려</c:when>
+	                                		<c:when test="${sr.srStat == 'RECE'}">접수</c:when>
+	                                		<c:when test="${sr.srStat == 'RERE'}">재검토</c:when>
+	                                	</c:choose>
+	                                </td>
 	                                <td class="col-8"><fmt:formatDate value="${sr.reqDt}" pattern="yyyy-MM-dd"/></td>
 	                                <td class="col-9"><fmt:formatDate value="${sr.dueDt}" pattern="yyyy-MM-dd"/></td>
 	                                <td class="col-10">
@@ -164,13 +172,13 @@
 		                    <i class="bi bi-x-square"></i>
 		                </button>
 		            </div>
-		            <form id="detail-form" method="Get">
+		            <form id="detail-form" method="post" action="">
 			            <div id="detail-modal-body" class="modal-body">
 			            </div>
 			            <div class="modal-footer">
 			                <button id="delete-btn" type="button" class="btn btn-primary modal-btn">삭제</button>
 			                <button id="save-btn" type="button" class="btn btn-primary modal-btn">저장</button>
-			                <button id="req-btn" class="btn btn-primary modal-btn">접수요청</button>
+			                <button id="req-btn" type="button" class="btn btn-primary modal-btn">접수요청</button>
 			            </div>
 		            </form>
 		

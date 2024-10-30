@@ -34,7 +34,7 @@ public class SrController {
 	@RequestMapping("/list") 
 	public String sRMngList(SearchDto search, @RequestParam(defaultValue="1") int pageNo,
 			@RequestParam(defaultValue="10")int rowsPerPage, Model model){
-		search.makeNull(); // 빈 문자열로 받아진 검색내용들 null값으로 변경하는 메서드 (SearchDto에 만든 메서드)
+		/*search.makeNull();*/ // 빈 문자열로 받아진 검색내용들 null값으로 변경하는 메서드 (SearchDto에 만든 메서드)
 		int Rows = srService.getRows(search); // 페이징처리를 위해 검색된 내용이 몇개인지 DB에서 확인
 		log.info("Rows:" +Rows);
 		PagerDto pager = new PagerDto(rowsPerPage, 5, Rows, pageNo); // Pager 설정
@@ -60,28 +60,33 @@ public class SrController {
 	//SR 상세보기
 	@PostMapping("/srDetail")
 	public void srDetail(String srId, HttpServletResponse response, HttpServletRequest request) throws Exception{
-		
+		// srId가 일치하는 데이터 가져오기
 		SR001MT srDetail = srService.getDetail(srId);
+		//response에 담을 jsp 경로 설정
 		String jspUrl = "/WEB-INF/views/sr/srDetail.jsp";
-		
+		//jsp를 요청에  값 설정
 		request.setAttribute("srDetail", srDetail);
 
+		// response 타입설정 및 요청에 request와 response 설정
 		response.setContentType("text/html; charset=UTF-8");
-		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
         dispatcher.include(request, response);
 		
 		log.info("srId : "+ srId);
 		
 	}
 	
+	// SR 삭제
 	@PostMapping("/srDelete")
 	public String srDelete(SR001MT sr001Dto) {
 		srService.srDelete(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}
 
+	// SR 접수요청
 	@PostMapping("/srAppReq")
 	public String srAppReq(SR001MT sr001Dto) {
+		log.info("접수요청");
 		srService.srAppReq(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}
