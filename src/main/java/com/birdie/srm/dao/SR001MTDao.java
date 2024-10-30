@@ -30,4 +30,8 @@ public interface SR001MTDao {
 
 	// srId와 일치하는 데이터의 모든 내용을 수정한 내용으로 update
 	public void srUpdate(SR001MT sr001MT);
+
+	//나의 할 일 목록 가져오기
+	public List<SR001MT> selectMyList();
+
 }
