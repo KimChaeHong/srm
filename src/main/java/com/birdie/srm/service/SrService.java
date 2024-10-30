@@ -33,5 +33,17 @@ public class SrService {
 		int Rows = sr001Dao.getRows(search);
 		return Rows;
 	}
+
+	public SR001Dto getDetail(String srId) {
+		SR001Dto srDetail = sr001Dao.getDetail(srId);
+		return srDetail;
+	}
+
+	public void srDelete(String srId) {
+		sr001Dao.srDelete(srId);
+	}
 	
+	public void srAppReq(String srId) {
+		sr001Dao.srAppReq(srId);
+	}
 }
