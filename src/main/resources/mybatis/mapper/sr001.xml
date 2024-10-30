@@ -54,7 +54,7 @@
 			</if>
 	</select>
 	
-	<select id="getDetail" parameterType="String" resultType="Sr1">
+	<select id="getDetail" parameterType="String" resultType="SR001MT">
 		select
 			SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID
 		from TB_SR_001MT
