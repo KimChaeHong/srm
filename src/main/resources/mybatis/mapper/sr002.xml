@@ -3,7 +3,7 @@
 <mapper namespace="com.birdie.srm.dao.SR002Dao">
 	
 	<!-- 승인된 SR 목록 조회 -->
-	<select id="getSrAll" resultType="Sr2">*
+	<select id="getSrAll" resultType="SR002MT">*
 		select a.app_sr_id, r.rel_sys, r.sr_title, r.req_dt, r.due_dt,
 			a.rcp_stat, r.sr_stat
 		from TB_SR_002MT a join TB_SR_001MT r
@@ -13,7 +13,7 @@
 	</select>
 	
 	<!-- 승인된 SR 리스트 검색 기능 --> 
-	<select id="getSearchedSr" parameterType="Map" resultType="Sr2">	    
+	<select id="getSearchedSr" parameterType="Map" resultType="SR002MT">	    
 	    SELECT
 	        rnum, a.app_sr_id, r.sr_id, r.sr_title, r.rel_sys, 
 	        r.first_inpt_id, r.sr_stat, r.req_dt, r.due_dt

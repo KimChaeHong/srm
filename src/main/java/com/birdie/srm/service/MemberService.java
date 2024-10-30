@@ -4,8 +4,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.birdie.srm.dao.MemberDao;
-import com.birdie.srm.dto.MemberDto;
+import com.birdie.srm.dao.MB001MTDao;
+import com.birdie.srm.dto.MB001MT;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,10 +25,10 @@ public class MemberService {
 
 
 	@Resource
-	private MemberDao memberDao;
+	private MB001MTDao memberDao;
 
 	//회원가입
-	public JoinResult join(MemberDto member) {
+	public JoinResult join(MB001MT member) {
 
 
 		memberDao.signUp(member);
@@ -37,8 +37,8 @@ public class MemberService {
 
 	
 	// 로그인 결과값 반환 메서드
-	public LoginResult login(MemberDto member) {
-		MemberDto dbmember = memberDao.selectByMemId(member.getMemId());
+	public LoginResult login(MB001MT member) {
+		MB001MT dbmember = memberDao.selectByMemId(member.getMemId());
 
 		// 1. 아이디 존재 안함
 		if (dbmember == null) {

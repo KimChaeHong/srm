@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.birdie.srm.dto.MemberDto;
+import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.MemberService.JoinResult;
 
@@ -48,7 +48,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/signup")
-	public String signup(MemberDto member) {
+	public String signup(MB001MT member) {
 		log.info("회원가입");
 		
 		//계정 활성화
