@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.CDMTDao">
+	<select id="selectByGroupId" resultType="CDMT" parameterType="string">
+		select CD_ID, CD_GROUP_ID, CD_NM, USE_YN, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+		from TB_CD_MT
+		where CD_GROUP_ID = #{groupId}
+	</select>
+
+</mapper>

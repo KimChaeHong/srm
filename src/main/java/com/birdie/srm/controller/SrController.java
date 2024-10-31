@@ -41,6 +41,7 @@ public class SrController {
 		// SearchDto와 PagerDto를 동시에 보내기 위해 Map 생성
 		Map<String,Object> searchCont = new HashMap<String,Object>();
 		log.info("Rows:" +rows);
+
 		searchCont.put("search", search);
 		searchCont.put("pager", pager);
 		log.info("SR 목록");

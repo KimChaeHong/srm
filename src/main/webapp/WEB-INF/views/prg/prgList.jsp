@@ -16,22 +16,51 @@
 	                           <li class="li-style first-li">
 	                               <div id="search-thing">조회기간</div>
 	                               <div class="date-style">
-	                                   <input type="date" class="date-form prg-search" name="startDate"> -
-	                                   <input type="date" class="date-form prg-search" name="endDate">
+	                                   <input type="date" class="date-form prg-search" name="startDate"
+	                                   		value="${searchCont.search.startDate }"> -
+	                                   <input type="date" class="date-form prg-search" name="endDate"
+	                                   		value="${searchCont.search.endDate }">
 	                               </div>
 	                           </li>
 	                           <li class="li-style">
 	                               <div id="search-thing">관련 시스템</div>
-	                               <select class="select-style prg-search">
-	                                   <option value="고용보험">고용보험</option>
-				                       <option value="HRD">HRD</option>
-				                       <option value="워크넷">워크넷</option>
+	                               <select class="select-style prg-search" name="relSys" onchange="changeRelSys(this)"> 
+	                               		<option value="" <c:if test="${sys.cdId==''}">selected</c:if>>전체</option>
+										<c:forEach items="${listSys}" var="sys">
+				                       		<option value="${sys.cdId}" <c:if test="${sys.cdId==searchDto.relSys}">selected</c:if>>${sys.cdNm}</option>
+										</c:forEach>				                       
 	                               </select>
+	                               
+	                               <script>
+	                               		function changeRelSys(relSys){
+	                               			if(relSys.value == "") {
+	                               				$('#wkType').html("<option value=''>전체</option>");
+	                               			} else {
+		                               			$.ajax({
+		                               				method: 'get',
+		                               				url: "getWkTypeList",
+		                               				data: {selectedCdId: relSys.value},
+		                               				success: function(data){
+		                               					//[ {cdId:xxx, cdNm:yyy}, {...}, {...} ]
+		                               					var options = "<option value=''>전체</option>";
+		                               					for (let x of data) {
+		                               					  options += "<option value='" + x.cdId + "'>" + x.cdNm + "</option>";
+		                               					}
+		                               					$('#wkType').html(options);
+		                               				}
+		                               			});
+	                               			}
+	                               		}
+	                               </script>
+	                               
 	                           </li>
 	                           <li class="li-style">
-	                               <div id="search-thing">업무구분</div>
-	                               <select class="select-style prg-search">
-	                                   <option>Value</option>
+	                               <div id="search-thing">업무구분</div>	
+	                               <select class="select-style prg-search" name="wkType" id="wkType">
+	                               		<option value="" <c:if test="${oper.cdId==''}">selected</c:if>>전체</option>
+	                               		<c:forEach items="${listOper}" var="oper">
+				                       		<option value="${oper.cdId}" <c:if test="${oper.cdId==searchDto.wkType}">selected</c:if>>${oper.cdNm}</option>
+				                       	</c:forEach>		
 	                               </select>
 	                           </li>
 	                       </ul>
@@ -40,19 +69,28 @@
 	                       <ul class="ul-style">
 	                           <li class="li-style first-li" >
 	                               <div id="search-thing">제목</div>
-	                               <input type="text" class="prg prg-search" name="keyword">
+	                               <input type="text" class="prg prg-search" name="keyword" value="">
 	                           </li>
 	                           <li class="li-style">
-	                               <div id="search-thing">진행상태</div>
-	                               <select class="select-style prg-search">
-	                                   <option>Value</option>
+	                               <div id="search-thing">진행상태</div>		<!-- 분석, 설계, 구현, 시험, 반영요청, 운영반영 -->
+	                               <select class="select-style prg-search" name="tkType">
+	                               	   <option value="" <c:if test="${searchDto.tkType==''}">selected</c:if>>전체</option>
+	                                   <option value="ANAL" <c:if test="${searchDto.tkType=='ANAL'}">selected</c:if>>분석</option>
+	                                   <option value="DESI" <c:if test="${searchDto.tkType=='DESI'}">selected</c:if>>설계</option>
+	                                   <option value="IMPL" <c:if test="${searchDto.tkType=='IMPL'}">selected</c:if>>구현</option>
+	                                   <option value="TEST" <c:if test="${searchDto.tkType=='TEST'}">selected</c:if>>시험</option>
+	                                   <option value="REFL" <c:if test="${searchDto.tkType=='REFL'}">selected</c:if>>반영요청</option>
+	                                   <option value="OPER" <c:if test="${searchDto.tkType=='OPER'}">selected</c:if>>운영반영</option>
 	                               </select>
 	                           </li>
 	
 	                           <li class="li-style">
-	                               <div id="search-thing">접수상태</div>
-	                               <select class="select-style prg-search">
-	                                   <option>Value</option>
+	                               <div id="search-thing">접수상태</div>		<!-- 접수, 취소, 보류 -->
+	                               <select class="select-style prg-search" name="rcpStat">
+	                               	   <option value="" <c:if test="${searchDto.rcpStat==''}">selected</c:if>>전체</option>
+	                                   <option value="RECE" <c:if test="${searchDto.rcpStat=='RECE'}">selected</c:if>>접수</option>
+	                                   <option value="CANC" <c:if test="${searchDto.rcpStat=='CANC'}">selected</c:if>>취소</option>
+	                                   <option value="HOLD" <c:if test="${searchDto.rcpStat=='HOLD'}">selected</c:if>>보류</option>
 	                               </select>
 	                           </li>
 	                           <div class="btn-box">
@@ -100,7 +138,7 @@
 	                                    	<fmt:formatDate value="${i.dueDt }" pattern="yyyy-MM-dd" />
 	                                    </td>
 	                                    <td class="col-8">${i.rcpStat }</td>
-	                                    <td class="col-9">${i.srStat }</td>
+	                                    <td class="col-9">${i.tkType }</td>
                                		</tr>
                                </c:forEach>
                               
@@ -109,24 +147,42 @@
                    </div>
                    
                    <div id="pagination">
-                       <a class="btn page-btn shadow-sm">
-                           <i class="bi bi-chevron-left"></i>
-                       </a>
-                       <a class="btn page-btn shadow-sm active">1</a>
-                       <a class="btn page-btn shadow-sm">2</a>
-                       <a class="btn page-btn shadow-sm">3</a>
-                       <a class="btn page-btn shadow-sm">
-                           <i class="bi bi-chevron-right"></i>
-                       </a>
-                       <select class="row-select form-select">
-                           <option value="10">10</option>
-                           <option value="20">20</option>
-                           <option value="30">30</option>
-                           <option value="40">40</option>
-                           <option value="50">50</option>
-                       </select>
-                   </div>
-
+                    <a class="btn page-btn shadow-sm">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                    <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
+                    	<c:if test="${searchCont.pager.pageNo == i}">
+							<a class="btn page-btn shadow-sm active"
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
+						</c:if>
+						<c:if test="${searchCont.pager.pageNo != i}">
+							<a class="btn page-btn shadow-sm"
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
+						</c:if>
+                    </c:forEach>
+                    <a class="btn page-btn shadow-sm">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+	                <form id="row-select" action="list" method="get">
+					    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
+					    <input type="hidden" name="startDate" value="${searchCont.searchDto.startDate}">
+					    <input type="hidden" name="endDate" value="${searchCont.searchDto.endDate}">
+					    <input type="hidden" name="relSys" value="${searchCont.searchDto.relSys}">		
+					    <input type="hidden" name="wkType" value="${searchCont.searchDto.wkType}">
+					    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">
+					    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
+					    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
+					    
+					    <!--rowPerPage 선택 -->
+					    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
+					        <option value="10" ${searchCont.pager.rowsPerPage == '10' ? 'selected' : ''}>10</option>
+					        <option value="20" ${searchCont.pager.rowsPerPage == '20' ? 'selected' : ''}>20</option>
+					        <option value="30" ${searchCont.pager.rowsPerPage == '30' ? 'selected' : ''}>30</option>
+					        <option value="40" ${searchCont.pager.rowsPerPage == '40' ? 'selected' : ''}>40</option>
+					        <option value="50" ${searchCont.pager.rowsPerPage == '50' ? 'selected' : ''}>50</option>
+					    </select>
+					</form>
+                </div>
                </div>
                <!-- SR 상세 -->
                <div id="sr-mgmt">
