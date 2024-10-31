@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.CDMTDao;
 import com.birdie.srm.dao.SR002MTDao;
-import com.birdie.srm.dto.CDMTDto;
+import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
@@ -42,8 +42,8 @@ public class SrProgressService {
 	}
 	
 	/* 검색 기능 - 코드 테이블 그룹Id 반환 */
-	public List<CDMTDto> getCDMTByGroupId(String groupId){
-		List<CDMTDto> listCDMTDto = cmdtDao.selectByGroupId(groupId);
+	public List<CDMT> getCDMTByGroupId(String groupId){
+		List<CDMT> listCDMTDto = cmdtDao.selectByGroupId(groupId);
 		return listCDMTDto;
 	}
 	
