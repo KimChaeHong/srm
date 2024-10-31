@@ -32,9 +32,12 @@ public class SR002MT {
 	
 	private String relSys;		// sr001 - 관련 시스템
 	private String srTitle;		// sr001 - sr제목
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date reqDt;			// sr001 - 완료요청일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")		
 	private Date dueDt;			// sr001 - 완료예정일
 	
 	private String srStat;		// sr001 - 진행상태
+	private String tkType;		// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
 }

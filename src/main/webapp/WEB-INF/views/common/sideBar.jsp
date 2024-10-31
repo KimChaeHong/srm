@@ -6,7 +6,7 @@
         <a class="side-nav-link disabled sidebar-content" aria-disabled="true">My portal</a>
         <hr class="navbar-vertical-divider" id="sr-hr">
     </div>
-    <a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}">
+    <a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/myportal/mytask">
         <i id="chart" class="bi bi-clipboard-check"></i>나의 할 일
         <i id="chevron" class="bi bi-chevron-right"></i>
     </a>

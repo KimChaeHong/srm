@@ -16,8 +16,9 @@ public class MemberDetails extends User{
 			List<GrantedAuthority> authorities) {
 		super(
 				member.getMemId(), 
-				member.getMemPw(), 
-				 "Y".equals(member.getDeltYn()), // "Y"일 때 계정 활성화
+				member.getMemPw(),
+				// DeltYn이 "N"이고 AppYn이 "Y"일 때만 계정 활성화
+				 "N".equals(member.getDeltYn()) && "Y".equals(member.getAppYn()),
 				true, true, true, authorities
 				);
 		this.member = member;

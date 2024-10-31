@@ -63,6 +63,7 @@ body {
 /* 테이블 */
 #table-container {
     width: 780px;
+    height: 522px;
     border: 1px solid #EDF2F9;
     margin: 0px auto;
 }
