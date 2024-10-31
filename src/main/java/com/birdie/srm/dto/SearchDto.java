@@ -20,4 +20,7 @@ public class SearchDto {
 	private String wkType;		// 업무구분
 	private String tkType;		// 작업구분 진행상태(분석, 설계, 구현, 시험, 반영요청, 운영반영)
 	private String rcpStat;		// 접수상태(접수, 취소, 보류)
+
 }
+
+

@@ -21,26 +21,30 @@
 	                            <li class="li-style first-li">
 	                                <div id="search-thing">조회기간</div>
 	                                <div class="date-style">
-	                                    <input id="prg-search" type="date" class="date-form" name="startDate"
-	                                    	value="${searchCont.search.keyword}"> -
-	                                    <input id="prg-search" type="date" class="date-form" name="endDate"
-	                                    	value="${searchCont.search.keyword}">
+	                                    <input id="stdt-search" type="date" class="search-box date-form" name="startDate"
+	                                    	value="<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>"> -
+	                                    <input id="enddt-search" type="date" class="search-box date-form" name="endDate"
+	                                    	value="<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>">
 	                                </div>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">관련 시스템</div>
-	                                <select id="prg-search" class="select-style" name="relSys">
-	                                    <option value="">선택</option>
-	                                    <option value="TEST" ${searchCont.search.relSys == 'TEST' ? 'selected' : ''}>TEST</option>
-	                                    <option value="AAAA" ${searchCont.search.relSys == 'AAAA' ? 'selected' : ''}>AAAA</option>
-	                                    <option value="BBBB" ${searchCont.search.relSys == 'BBBB' ? 'selected' : ''}>BBBB</option>
-	                                </select>
+	                                <select id="relsys-search" class="search-box select-style" name="relSys">
+	                                    <option>선택</option>
+					                	<c:forEach items="${sysList}" var="sysList">
+						                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
+					                	</c:forEach>
+					                </select>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">진행상태</div>
-	                                <select id="prg-search" class="select-style" name="srStat">
+	                                <select id="srstat-search" class="search-box select-style" name="srStat">
 	                                    <option value="">선택</option>
-	                                    <option value="등록" ${searchCont.search.srStat == '등록' ? 'selected' : ''}>등록</option>
+	                                    <option value="REGI" ${searchCont.search.srStat == 'REGI' ? 'selected' : ''}>등록</option>
+	                                    <option value="REQT" ${searchCont.search.srStat == 'REQT' ? 'selected' : ''}>요청</option>
+	                                    <option value="RECE" ${searchCont.search.srStat == 'RECE' ? 'selected' : ''}>접수</option>
+	                                    <option value="REJC" ${searchCont.search.srStat == 'REJC' ? 'selected' : ''}>반려</option>
+	                                    <option value="RERE" ${searchCont.search.srStat == 'RERE' ? 'selected' : ''}>재검토</option>
 	                                </select>
 	                            </li>
 	                        </ul>
@@ -53,13 +57,13 @@
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">개발부서</div>
-	                                <select id="prg-search" class="select-style" disabled>
+	                                <select id="dept-search" class="search-box select-style" disabled>
 	                                    <option>선택</option>
 	                                </select>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">등록자 소속</div>
-	                                <select id="search-dept" type="text" name="instId">
+	                                <select id="inst-search" class="search-box" name="instId">
 	                                	<option value="">선택</option>
 	                                </select>
 	                            </li>
@@ -100,7 +104,11 @@
 	                                <td class="col-1">${sr.rnum}</td>
 	                                <td class="col-2">${sr.srId}</td>
 	                                <td class="col-3">${sr.srTitle}</td>
-	                                <td class="col-4">${sr.relSys}</td>
+	                                <td class="col-4">
+	                                	<c:forEach items="${sysList}" var="sysList">
+		                                	${sr.relSys == sysList.cdId ? sysList.cdNm : ''}
+	                                	</c:forEach>
+	                                </td>
 	                                <td class="col-5">${sr.firstInptId}</td>
 	                                <td class="col-6">오티아이</td>
 	                                <td class="col-7">
@@ -123,20 +131,20 @@
                     </table>
                 </div>
                 <div id="pagination">
-                    <a class="btn page-btn shadow-sm">
+                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.startPageNo - 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                     <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
                     	<c:if test="${searchCont.pager.pageNo == i}">
-							<a class="btn page-btn shadow-sm active"
-							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.search.startDate}&endDate=${searchCont.search.endDate}&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
+							<a class="btn page-btn shadow-sm active" <fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
 						</c:if>
 						<c:if test="${searchCont.pager.pageNo != i}">
 							<a class="btn page-btn shadow-sm"
-							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.search.startDate}&endDate=${searchCont.search.endDate}&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
 						</c:if>
                     </c:forEach>
-                    <a class="btn page-btn shadow-sm">
+                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.endPageNo + 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
                         <i class="bi bi-chevron-right"></i>
                     </a>
 	                <form id="row-select" action="list" method="get">
@@ -173,13 +181,7 @@
 		                </button>
 		            </div>
 		            <form id="detail-form" method="post" action="">
-			            <div id="detail-modal-body" class="modal-body">
-			            </div>
-			            <div class="modal-footer">
-			                <button id="delete-btn" type="button" class="btn btn-primary modal-btn">삭제</button>
-			                <button id="save-btn" type="button" class="btn btn-primary modal-btn">저장</button>
-			                <button id="req-btn" type="button" class="btn btn-primary modal-btn">접수요청</button>
-			            </div>
+
 		            </form>
 		
 		        </div>
@@ -233,18 +235,23 @@
 			
 			                        <div>
 			                            <div class="form-row">
+			                                <label for="related-system">관련 시스템</label>
+			                                <select id="relsys-select" name="relSys">
+			                                    <option>선택</option>
+							                	<c:forEach items="${sysList}" var="sysList">
+								                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
+							                	</c:forEach>
+							                </select>
+			                            </div>
+
+			                            <div class="form-row">
 			                                <label for="sr-title">SR 제목</label>
 			                                <input type="text" id="sr-title" name="srTitle">
 			                            </div>
 			
 			                            <div class="form-row">
-			                                <label for="related-system">관련 시스템</label>
-			                                <input type="text" id="related-system" name="relSys">
-			                            </div>
-			
-			                            <div class="form-row">
 			                                <label for="sr-content">SR 내용</label>
-			                                <textarea id="sr-content" name="srCont"></textarea>
+			                                <textarea class="sr-content" name="srCont"></textarea>
 			                            </div>
 			
 			                            <div class="form-row">
@@ -257,7 +264,7 @@
 			                </div>
 			            </div>
 			            <div class="modal-footer">
-			                <button id="save-btn" type="submit" class="btn btn-primary">저장</button>
+			                <button id="register-btn" type="submit" class="btn btn-primary modal-btn">등록</button>
 			            </div>
 		            </form>
 		        </div>

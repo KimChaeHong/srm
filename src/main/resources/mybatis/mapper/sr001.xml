@@ -6,11 +6,11 @@
 			SR_TITLE, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, LAST_INPT_DT
 		)
 		values (
-			#{srTitle}, #{dueDt, jdbcType=DATE}, #{srCont}, #{relSys}, #{srStat}, 'N', sysdate, sysdate
+			#{srTitle}, #{dueDt, jdbcType=DATE}, #{srCont}, #{relSys}, 'REGI', 'N', sysdate, sysdate
 		)
 	</insert>
 	
-	<select id="getSearchedSr" parameterType="Map" resultType="SR001MT">	    
+	<select id="selectSearchedSr" parameterType="Map" resultType="SR001MT">	    
 	    select
 			rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT
 		from(
@@ -26,7 +26,7 @@
 				<if test="search.relSys != null and search.relSys != ''">
 					and REL_SYS = #{search.relSys}
 				</if>
-				<if test="srStat != null and srStat != ''">
+				<if test="search.srStat != null and search.srStat != ''">
 					and SR_STAT = #{search.srStat}
 				</if>
 				<if test="search.keyword != null and search.keyword != ''">
@@ -36,7 +36,7 @@
 		where rnum between #{pager.startRowNo} and #{pager.endRowNo}
 	</select>
 	
-	<select id="getRows" parameterType="Search" resultType="int">
+	<select id="selectSearchedRows" parameterType="Search" resultType="int">
 		select count(*)
 		from TB_SR_001MT
 		where
@@ -55,21 +55,21 @@
 			</if>
 	</select>
 	
-	<select id="getDetail" parameterType="String" resultType="SR001MT">
+	<select id="selectDetail" parameterType="String" resultType="SR001MT">
 		select
-			SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID
+			SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, REV_CMT
 		from TB_SR_001MT
 		where SR_ID = #{srId}
 	</select>
 	
-	<update id="srDelete" parameterType="String">
+	<update id="deleteSr" parameterType="String">
 		update TB_SR_001MT
 		set DELT_YN = 'Y',
 			LAST_INPT_DT = sysdate
 		where SR_ID = #{srId}
 	</update>
 	
-	<update id="srAppReq" parameterType="String">
+	<update id="updateSrREQT" parameterType="String">
 		update TB_SR_001MT
 		set SR_STAT = 'REQT',
 			LAST_INPT_DT = sysdate,
@@ -77,12 +77,23 @@
 		where SR_ID = #{srId}
 	</update>
 	
-	<update id="srUpdate" parameterType="SR001MT">
+	<update id="updateSr" parameterType="SR001MT">
 		update TB_SR_001MT
-		set SR_STAT = 'REQT',
-			LAST_INPT_DT = sysdate,
-			REQ_DT = sysdate
+		set LAST_INPT_DT = sysdate,
+			DUE_DT = #{dueDt},
+			SR_TITLE = #{srTitle},
+			REL_SYS = #{relSys},
+			SR_CONT = #{srCont}
 		where SR_ID = #{srId}
 	</update>
+
+	<update id="updateSrProcess" parameterType="SR001MT">
+		update TB_SR_001MT
+		set SR_STAT = #{srStat},
+			REV_CMT = #{revCmt},
+			LAST_INPT_DT = sysdate
+		where SR_ID = #{srId}
+	</update>
+
 
 </mapper>
