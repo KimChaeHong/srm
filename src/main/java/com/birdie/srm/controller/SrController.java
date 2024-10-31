@@ -34,11 +34,13 @@ public class SrController {
 	@RequestMapping("/list") 
 	public String sRMngList(SearchDto search, @RequestParam(defaultValue="1") int pageNo,
 			@RequestParam(defaultValue="10")int rowsPerPage, Model model){
-		/*search.makeNull();*/ // 빈 문자열로 받아진 검색내용들 null값으로 변경하는 메서드 (SearchDto에 만든 메서드)
-		int Rows = srService.getRows(search); // 페이징처리를 위해 검색된 내용이 몇개인지 DB에서 확인
-		log.info("Rows:" +Rows);
-		PagerDto pager = new PagerDto(rowsPerPage, 5, Rows, pageNo); // Pager 설정
-		Map<String,Object> searchCont = new HashMap<String,Object>(); // SearchDto와 PagerDto를 동시에 보내기 위해 Map 생성
+		// 페이징처리를 위해 검색된 내용이 몇개인지 DB에서 확인
+		int rows = srService.getRows(search);
+		// Pager 설정
+		PagerDto pager = new PagerDto(rowsPerPage, 5, rows, pageNo);
+		// SearchDto와 PagerDto를 동시에 보내기 위해 Map 생성
+		Map<String,Object> searchCont = new HashMap<String,Object>();
+		log.info("Rows:" +rows);
 		searchCont.put("search", search);
 		searchCont.put("pager", pager);
 		log.info("SR 목록");
@@ -90,5 +92,12 @@ public class SrController {
 		srService.srAppReq(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}
-
+	
+	// SR 수정(업데이트)
+	@PostMapping("/srUpdate")
+	public String srUpdate(SR001MT sr001mt) {
+		log.info("접수요청");
+		srService.srUpdate(sr001mt);
+		return "redirect:/sr/list";
+	}
 }
