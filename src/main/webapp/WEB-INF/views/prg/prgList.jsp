@@ -17,9 +17,9 @@
 	                               <div id="search-thing">조회기간</div>
 	                               <div class="date-style">
 	                                   <input type="date" class="date-form prg-search" name="startDate"
-	                                   		value="${searchCont.search.startDate }"> -
+	                                   		value="${searchCont.searchDto.startDate }"> -
 	                                   <input type="date" class="date-form prg-search" name="endDate"
-	                                   		value="${searchCont.search.endDate }">
+	                                   		value="${searchCont.searchDto.endDate }">
 	                               </div>
 	                           </li>
 	                           <li class="li-style">
@@ -94,7 +94,7 @@
 	                               </select>
 	                           </li>
 	                           <div class="btn-box">
-	                               <button id="search-btn" class="search-btn">검색</button>
+	                               <button id="search-btn" class="search-btn" type="submit">검색</button>
 	                           </div>
 	                       </ul>
 	                   </div>
@@ -108,7 +108,7 @@
                <div id="sr-list">
                    <h2 id="sr-list-title">SR요청 목록</h2>
                    <hr>
-                   <div id="table-container">
+                   <div id="table-container" class="overflow-auto">
                        <table id="pg-table">
                            <thead>
                                <tr>
@@ -128,7 +128,14 @@
                                		<tr>
                                			<td class="col-1">${status.index + 1 }</td>
 	                                    <td class="col-2">${i.appSrId }</td>
-	                                    <td class="col-3">${i.relSys }</td>
+	                                    <%-- <td class="col-3">${i.relSys }</td> --%>
+		                                <td class="col-3">
+		                                    <c:choose>
+	                                    		<c:when test="${i.relSys == 'EMPL'}">고용보험</c:when>
+	                                    		<c:when test="${i.relSys == 'HRDV'}">HRD</c:when>
+	                                    		<c:when test="${i.relSys == 'WORK'}">워크넷</c:when>
+	                                    	</c:choose>
+	                                    </td>
 	                                    <td class="col-4">${i.srTitle }</td>
 	                                    <td class="col-5">아직 로그인x</td>
 	                                    <td class="col-6">
@@ -137,8 +144,23 @@
 	                                    <td class="col-7">
 	                                    	<fmt:formatDate value="${i.dueDt }" pattern="yyyy-MM-dd" />
 	                                    </td>
-	                                    <td class="col-8">${i.rcpStat }</td>
-	                                    <td class="col-9">${i.tkType }</td>
+	                                    <td class="col-8">
+	                                    	<c:choose>
+	                                    		<c:when test="${i.rcpStat == 'RECE' }">접수</c:when>
+	                                    		<c:when test="${i.rcpStat == 'CANC' }">취소</c:when>
+	                                    		<c:when test="${i.rcpStat == 'HOLD' }">보류</c:when>
+	                                    	</c:choose>
+										</td>
+	                                    <td class="col-9">
+	                                    	<c:choose>
+	                                    		<c:when test="${i.tkType == 'ANAL' }">분석</c:when>
+	                                    		<c:when test="${i.tkType == 'DESI' }">설계</c:when>
+	                                    		<c:when test="${i.tkType == 'IMPL' }">구현</c:when>
+	                                    		<c:when test="${i.tkType == 'TEST' }">시험</c:when>
+	                                    		<c:when test="${i.tkType == 'REFL' }">반영요청</c:when>
+	                                    		<c:when test="${i.tkType == 'OPER' }">운영반영</c:when>
+	                                    	</c:choose>
+	                                    </td> 
                                		</tr>
                                </c:forEach>
                               
@@ -147,44 +169,44 @@
                    </div>
                    
                    <div id="pagination">
-                    <a class="btn page-btn shadow-sm">
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-                    <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
-                    	<c:if test="${searchCont.pager.pageNo == i}">
-							<a class="btn page-btn shadow-sm active"
-							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
-						</c:if>
-						<c:if test="${searchCont.pager.pageNo != i}">
-							<a class="btn page-btn shadow-sm"
-							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
-						</c:if>
-                    </c:forEach>
-                    <a class="btn page-btn shadow-sm">
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
-	                <form id="row-select" action="list" method="get">
-					    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
-					    <input type="hidden" name="startDate" value="${searchCont.searchDto.startDate}">
-					    <input type="hidden" name="endDate" value="${searchCont.searchDto.endDate}">
-					    <input type="hidden" name="relSys" value="${searchCont.searchDto.relSys}">		
-					    <input type="hidden" name="wkType" value="${searchCont.searchDto.wkType}">
-					    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">
-					    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
-					    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
-					    
-					    <!--rowPerPage 선택 -->
-					    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
-					        <option value="10" ${searchCont.pager.rowsPerPage == '10' ? 'selected' : ''}>10</option>
-					        <option value="20" ${searchCont.pager.rowsPerPage == '20' ? 'selected' : ''}>20</option>
-					        <option value="30" ${searchCont.pager.rowsPerPage == '30' ? 'selected' : ''}>30</option>
-					        <option value="40" ${searchCont.pager.rowsPerPage == '40' ? 'selected' : ''}>40</option>
-					        <option value="50" ${searchCont.pager.rowsPerPage == '50' ? 'selected' : ''}>50</option>
-					    </select>
-					</form>
-                </div>
+	                    <a class="btn page-btn shadow-sm">
+	                        <i class="bi bi-chevron-left"></i>
+	                    </a>
+	                    <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
+	                    	<c:if test="${searchCont.pager.pageNo == i}">
+								<a class="btn page-btn shadow-sm active"
+								href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
+							</c:if>
+							<c:if test="${searchCont.pager.pageNo != i}">
+								<a class="btn page-btn shadow-sm"
+								href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
+							</c:if>
+	                    </c:forEach>
+	                    <a class="btn page-btn shadow-sm">
+	                        <i class="bi bi-chevron-right"></i>
+	                    </a>
+		                <form id="row-select" action="list" method="get">
+						    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
+						    <input type="hidden" name="startDate" value="${searchCont.searchDto.startDate}">
+						    <input type="hidden" name="endDate" value="${searchCont.searchDto.endDate}">
+						    <input type="hidden" name="relSys" value="${searchCont.searchDto.relSys}">		
+						    <input type="hidden" name="wkType" value="${searchCont.searchDto.wkType}">
+						    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">
+						    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
+						    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
+						    
+						    <!--rowPerPage 선택 -->
+						    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
+						        <option value="10" ${searchCont.pager.rowsPerPage == '10' ? 'selected' : ''}>10</option>
+						        <option value="20" ${searchCont.pager.rowsPerPage == '20' ? 'selected' : ''}>20</option>
+						        <option value="30" ${searchCont.pager.rowsPerPage == '30' ? 'selected' : ''}>30</option>
+						        <option value="40" ${searchCont.pager.rowsPerPage == '40' ? 'selected' : ''}>40</option>
+						        <option value="50" ${searchCont.pager.rowsPerPage == '50' ? 'selected' : ''}>50</option>
+						    </select>
+						</form>
+	                </div>
                </div>
-               <!-- SR 상세 -->
+               <!-- SR 상세 ------------------------------------------------------------------------>
                <div id="sr-mgmt">
                    <!-- SR 요청 상세 정보 -->
                    <div id="sr-detail">

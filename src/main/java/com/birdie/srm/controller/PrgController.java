@@ -40,10 +40,10 @@ public class PrgController {
 		List<CDMT> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
 		
 		JSONArray jsonArray = new JSONArray(); //"[ {cdId:xxx, cdNm:yyy}, {...}, {...} ]"
-		for(CDMT cdmtDto : listOper) {
+		for(CDMT i : listOper) {
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("cdId", cdmtDto.getCdId());
-			jsonObject.put("cdNm", cdmtDto.getCdNm());
+			jsonObject.put("cdId", i.getCdId());
+			jsonObject.put("cdNm", i.getCdNm());
 			jsonArray.put(jsonObject);	
 		}
 		String json = jsonArray.toString();
@@ -89,11 +89,11 @@ public class PrgController {
 		
 		log.info(searchDto.toString());
 		
-		int rows = srProgressService.getRows(searchDto);			// jsp에서 받은 검색 정보를 가지고 그 검색 결과에 해당하는 행을 반환
+		int rows = srProgressService.countRows(searchDto);			// jsp에서 받은 검색 정보를 가지고 그 검색 결과에 해당하는 행을 반환
 		PagerDto pager = new PagerDto(rowsPerPage, 5, rows, pageNo);		// 반환된 행을 페이저 객체에 저장
 		
 		Map<String,Object> searchCont = new HashMap<String,Object>();	
-		searchCont.put("search", searchDto);
+		searchCont.put("searchDto", searchDto);
 		searchCont.put("pager", pager);
 
 		List<SR002MT> srList = srProgressService.getSearchedSr(searchCont);

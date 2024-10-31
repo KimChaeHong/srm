@@ -36,7 +36,7 @@ public class SrProgressService {
 	}
 	
 	// 검색 조건을 처리한 행 반환
-	public int getRows(SearchDto searchDto) {
+	public int countRows(SearchDto searchDto) {
 		int rows = sr002mt.countRows(searchDto);
 		return rows;
 	}
