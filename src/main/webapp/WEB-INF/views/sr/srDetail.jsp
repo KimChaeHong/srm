@@ -47,15 +47,19 @@
 	
 	        <div>
 	            <div class="form-row">
+	                <label for="related-system">관련 시스템</label>
+	                <select id="sys-select" name="relSys">
+						<option>선택</option>
+						<c:forEach items="${sysList}" var="sysList">
+							<option value="${sysList.cdId}" ${sysList.cdId == srDetail.relSys ? 'selected' : ''}>${sysList.cdNm}</option>
+						</c:forEach>
+					</select>
+				</div>
+
+	            <div class="form-row">
 	                <label for="sr-title">SR 제목</label>
 	                <input type="text" id="sr-title" name="srTitle" value="${srDetail.srTitle}" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
-	            </div>
-	
-	            <div class="form-row">
-	                <label for="related-system">관련 시스템</label>
-	                <select id="related-system" name="relSys" value="${srDetail.relSys}" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
-	                </select>
-	            </div>
+	            </div>	
 	
 	            <div class="form-row">
 	                <label for="sr-content">SR 내용</label>
@@ -67,7 +71,7 @@
 	            <input type="file" id="attachment" name="attachment" disabled>
 	        	</div>
 	        </div>
-	        <c:if test="${srDetail.revCmt != null || srDetail.revCmt !=''}">
+	        <c:if test="${srDetail.revCmt != null && srDetail.revCmt !=''}">
 				<div>
 					<div class="form-row">
 						<label for="sr-title">검토상태</label>

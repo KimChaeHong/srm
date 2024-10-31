@@ -278,7 +278,7 @@ th {
     /* semibold */
 }
 
-.modal input {
+.modal input, .modal select{
     width: 193px;
     height: 31px;
     border-radius: 2px;

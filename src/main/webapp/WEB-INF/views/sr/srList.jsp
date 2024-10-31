@@ -30,11 +30,11 @@
 	                            <li class="li-style">
 	                                <div id="search-thing">관련 시스템</div>
 	                                <select id="relsys-search" class="search-box select-style" name="relSys">
-	                                    <option value="">선택</option>
-	                                    <option value="TEST" ${searchCont.search.relSys == 'TEST' ? 'selected' : ''}>TEST</option>
-	                                    <option value="AAAA" ${searchCont.search.relSys == 'AAAA' ? 'selected' : ''}>AAAA</option>
-	                                    <option value="BBBB" ${searchCont.search.relSys == 'BBBB' ? 'selected' : ''}>BBBB</option>
-	                                </select>
+	                                    <option>선택</option>
+					                	<c:forEach items="${sysList}" var="sysList">
+						                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
+					                	</c:forEach>
+					                </select>
 	                            </li>
 	                            <li class="li-style">
 	                                <div id="search-thing">진행상태</div>
@@ -104,7 +104,11 @@
 	                                <td class="col-1">${sr.rnum}</td>
 	                                <td class="col-2">${sr.srId}</td>
 	                                <td class="col-3">${sr.srTitle}</td>
-	                                <td class="col-4">${sr.relSys}</td>
+	                                <td class="col-4">
+	                                	<c:forEach items="${sysList}" var="sysList">
+		                                	${sr.relSys == sysList.cdId ? sysList.cdNm : ''}
+	                                	</c:forEach>
+	                                </td>
 	                                <td class="col-5">${sr.firstInptId}</td>
 	                                <td class="col-6">오티아이</td>
 	                                <td class="col-7">
@@ -127,7 +131,7 @@
                     </table>
                 </div>
                 <div id="pagination">
-                    <a class="btn page-btn shadow-sm">
+                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.startPageNo - 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
                         <i class="bi bi-chevron-left"></i>
                     </a>
                     <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
@@ -140,7 +144,7 @@
 							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
 						</c:if>
                     </c:forEach>
-                    <a class="btn page-btn shadow-sm">
+                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.endPageNo + 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
                         <i class="bi bi-chevron-right"></i>
                     </a>
 	                <form id="row-select" action="list" method="get">
@@ -231,13 +235,18 @@
 			
 			                        <div>
 			                            <div class="form-row">
+			                                <label for="related-system">관련 시스템</label>
+			                                <select id="relsys-select" name="relSys">
+			                                    <option>선택</option>
+							                	<c:forEach items="${sysList}" var="sysList">
+								                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
+							                	</c:forEach>
+							                </select>
+			                            </div>
+
+			                            <div class="form-row">
 			                                <label for="sr-title">SR 제목</label>
 			                                <input type="text" id="sr-title" name="srTitle">
-			                            </div>
-			
-			                            <div class="form-row">
-			                                <label for="related-system">관련 시스템</label>
-			                                <input type="text" id="related-system" name="relSys">
 			                            </div>
 			
 			                            <div class="form-row">

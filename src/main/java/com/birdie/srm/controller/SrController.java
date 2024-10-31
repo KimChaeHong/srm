@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.birdie.srm.dao.SR001MTDao;
+import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
@@ -47,8 +48,8 @@ public class SrController {
 		log.info("SR 목록");
 		
 		List<SR001MTDao> srList = srService.SearchSr(searchCont);
-/*		List<String> sysList = srService.searchRelSys();
-		model.addAttribute("sysList", sysList);*/
+		List<CDMT> sysList = srService.searchRelSys("SYS");
+		model.addAttribute("sysList", sysList);
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
 		return "sr/srList";
@@ -67,11 +68,14 @@ public class SrController {
 	public void srDetail(String srId, HttpServletResponse response, HttpServletRequest request) throws Exception{
 		// srId가 일치하는 데이터 가져오기
 		SR001MT srDetail = srService.searchDetail(srId);
+		//관련시스템 목록 가져오기
+		List<CDMT> sysList = srService.searchRelSys("SYS");
 		//response에 담을 jsp 경로 설정
 		String jspUrl = "/WEB-INF/views/sr/srDetail.jsp";
-		//jsp를 요청에  값 설정
+		//요청에  값 설정
 		request.setAttribute("srDetail", srDetail);
-
+		request.setAttribute("sysList", sysList);
+		
 		// response 타입설정 및 요청에 request와 response 설정
 		response.setContentType("text/html; charset=UTF-8");
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
