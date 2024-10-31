@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
 
@@ -32,6 +33,9 @@ public interface SR001MTDao {
 	public void srUpdate(SR001MT sr001MT);
 
 	//나의 할 일 목록 가져오기
-	public List<SR001MT> selectMyList();
+	public List<SR001MT> selectMysrList(PagerDto pager);
+
+	//sr 목록 행 갯수 가져오기
+	public int selectCountRows();
 
 }
