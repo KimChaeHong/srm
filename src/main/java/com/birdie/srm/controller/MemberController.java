@@ -25,6 +25,11 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	/**
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/loginform")
 	public String login(HttpServletRequest request, Model model) {
 	    log.info("로그인");
@@ -47,6 +52,10 @@ public class MemberController {
 		return "member/signupForm";
 	}
 	
+	/**
+	 * @param member
+	 * @return
+	 */
 	@PostMapping("/signup")
 	public String signup(MB001MT member) {
 		log.info("회원가입");

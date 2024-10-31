@@ -33,9 +33,19 @@ public class PrgController {
 	@Autowired
 	private SrProgressService srProgressService;
 	
-	// SR진척 검색창 - 업무구분 
+	//OPERATION 조회하는 메서드
+	/**
+	 * CD_ID를 기준으로 업무 목록을 조회하여 JSON 형식으로 반환하는 메서드
+	 * 
+	 * 이 메서드는 주어진 업무 ID(selectedCdId)로부터 코드 그룹 ID를 생성한 후,
+	 * 해당 코드 그룹 ID에 속하는 업무 목록을 조회하여 JSON 응답으로 반환합니다.
+	 * 
+	 * @param response HTTP 응답 객체로, JSON 데이터를 클라이언트에 전송하는 데 사용
+	 * @param selectedCdId 선택된 코드 ID로, 코드 그룹 ID를 결정하는 데 사용
+	 * @throws IOException 입력/출력 예외가 발생할 경우 처리
+	 */
 	@GetMapping("/getWkTypeList") 
-	public void getWkTypeList(HttpServletResponse response, String selectedCdId) throws IOException{
+	public void operList(HttpServletResponse response, String selectedCdId) throws IOException{
 		String selectedCdGroupId = selectedCdId.substring(0,1) + "OPER";
 		List<CDMT> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
 		
@@ -56,7 +66,16 @@ public class PrgController {
 		pw.close(); 
 	}
 	
-	// 전체 SR 목록 조회(+ 검색, 페이지 기능 추가)
+	//SR진척 목록 조회하는 메서드
+	/**
+	 * SR진척 목록을 검색 조건 및 페이징 정보를 바탕으로 조회하고, 관련 데이터를 모델에 추가하는 메서드
+	 * 
+	 * @param searchDto   사용자가 입력한 검색 조건을 담은 객체로, 관련 시스템, 업무 구분, 진행 상태, 접수 상태, 키워드 등을 포함
+	 * @param pageNo      현재 페이지 번호로, 페이지 이동 시 해당 페이지의 목록을 조회하기 위해 사용
+	 * @param rowsPerPage 한 페이지에 표시할 항목 수로, 페이징 처리를 위한 기본 값은 10입니다.
+	 * @param model       뷰로 데이터를 전달하기 위한 Model 객체로, 검색된 SR 목록과 시스템 정보, 페이징 데이터를 포함하여 뷰로 전달
+	 * @return            "prg/prgList" 뷰 페이지로 이동하여 SR 진행 목록을 출력
+	 */
 	@GetMapping("/list") 
 	public String srPrgList(
 			SearchDto searchDto, 
