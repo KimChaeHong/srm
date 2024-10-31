@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.birdie.srm.dto.CDMTDto;
+import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR002Dto;
+import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.SrProgressService;
 
@@ -37,10 +37,10 @@ public class PrgController {
 	@GetMapping("/getWkTypeList") 
 	public void getWkTypeList(HttpServletResponse response, String selectedCdId) throws IOException{
 		String selectedCdGroupId = selectedCdId.substring(0,1) + "OPER";
-		List<CDMTDto> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
+		List<CDMT> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
 		
 		JSONArray jsonArray = new JSONArray(); //"[ {cdId:xxx, cdNm:yyy}, {...}, {...} ]"
-		for(CDMTDto cdmtDto : listOper) {
+		for(CDMT cdmtDto : listOper) {
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("cdId", cdmtDto.getCdId());
 			jsonObject.put("cdNm", cdmtDto.getCdNm());
@@ -64,7 +64,7 @@ public class PrgController {
 			@RequestParam(defaultValue="10") int rowsPerPage,
 			Model model) {
 		//관련시스템 목록 가져오기
-		List<CDMTDto> listSys = srProgressService.getCDMTByGroupId("SYS");
+		List<CDMT> listSys = srProgressService.getCDMTByGroupId("SYS");
 		model.addAttribute("listSys", listSys);
 		
 		//디폴트 시스템 설정
@@ -74,7 +74,7 @@ public class PrgController {
 		if(!searchDto.getRelSys().equals("")) { 	
 			//업무 목록 가져오기 
 			String selectedCdGroupId = searchDto.getRelSys().substring(0,1) + "OPER";
-			List<CDMTDto> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
+			List<CDMT> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
 			model.addAttribute("listOper", listOper);
 		}
 		
@@ -96,7 +96,7 @@ public class PrgController {
 		searchCont.put("search", searchDto);
 		searchCont.put("pager", pager);
 
-		List<SR002Dto> srList = srProgressService.getSearchedSr(searchCont);
+		List<SR002MT> srList = srProgressService.getSearchedSr(searchCont);
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
 		
