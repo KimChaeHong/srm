@@ -53,7 +53,8 @@
 	
 	            <div class="form-row">
 	                <label for="related-system">관련 시스템</label>
-	                <input type="text" id="related-system" name="relSys" value="${srDetail.relSys}" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <select id="related-system" name="relSys" value="${srDetail.relSys}" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                </select>
 	            </div>
 	
 	            <div class="form-row">
