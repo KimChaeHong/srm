@@ -48,7 +48,8 @@
 	                AND A.WK_TYPE = #{searchDto.wkType}
 	            </if>
 	            <if test="searchDto.keyword != null and searchDto.keyword !=''">			<!-- 제목 -->
-	                AND R.SR_TITLE LIKE '%' || #{searchDto.keyword} || '%'
+	                AND (R.SR_TITLE LIKE '%' || #{searchDto.keyword} || '%' 
+         			OR UPPER(R.SR_TITLE) LIKE UPPER('%' || #{searchDto.keyword} || '%'))
 	            </if>
 	            <if test="searchDto.tkType != null and searchDto.tkType !=''">			<!-- 진행상태 -->
 	                AND NT.TASK_TYPE = #{searchDto.tkType}
@@ -68,7 +69,8 @@
 		JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
 		JOIN TB_SR_002NT NT ON A.APP_SR_ID = NT.APP_SR_ID
 		where 1=1 
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			<!-- <if test="startDate != null and startDate != '' and endDate != null and endDate != ''"> -->
+			<if test="startDate != null and endDate != null">
 				and R.FIRST_INPT_DT between #{startDate} and #{endDate}
 			</if>
 			<if test="relSys != null and relSys != ''">
