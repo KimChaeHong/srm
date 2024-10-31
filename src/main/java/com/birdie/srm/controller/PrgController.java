@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.birdie.srm.dto.CDMTDto;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR002Dto;
+import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.SrProgressService;
 
@@ -89,14 +89,14 @@ public class PrgController {
 		
 		log.info(searchDto.toString());
 		
-		int rows = srProgressService.getRows(searchDto);			// jsp에서 받은 검색 정보를 가지고 그 검색 결과에 해당하는 행을 반환
+		int rows = srProgressService.countRows(searchDto);			// jsp에서 받은 검색 정보를 가지고 그 검색 결과에 해당하는 행을 반환
 		PagerDto pager = new PagerDto(rowsPerPage, 5, rows, pageNo);		// 반환된 행을 페이저 객체에 저장
 		
 		Map<String,Object> searchCont = new HashMap<String,Object>();	
 		searchCont.put("search", searchDto);
 		searchCont.put("pager", pager);
 
-		List<SR002Dto> srList = srProgressService.getSearchedSr(searchCont);
+		List<SR002MT> srList = srProgressService.getSearchedSr(searchCont);
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
 		
