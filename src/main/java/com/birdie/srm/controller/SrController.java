@@ -28,7 +28,6 @@ public class SrController {
 	@RequestMapping("/list") 
 	public String srList(SearchDto search, @RequestParam(defaultValue="1") int pageNo,
 			@RequestParam(defaultValue="10")int rowsPerPage, Model model){
-		search.makeNull();
 		int Rows = srService.getRows(search);
 		log.info("Rows:" +Rows);
 		PagerDto pager = new PagerDto(rowsPerPage, 5, Rows, pageNo);
