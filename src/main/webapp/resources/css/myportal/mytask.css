@@ -113,14 +113,33 @@ h2{
 
 /* ---------------테이블 ---------------*/
 #table-container {
-    padding: 0 17px;
+    height: 560px;
+    margin: 0 17px;
 }
+
 table {
     width: 100%;
     border: 1px solid #EDF2F9;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
+
+.mytask-1 {
+    width: 50px;
+}
+.mytask-5, .mytask-6, .mytask-7,.mytask-8 {
+    width: 70px;
+}
+.mytask-9, .mytask-10 {
+    width: 110px;
+}
+
+
+
+
+
+
+
 
 thead th {
     background-color: #f2f4f6;
