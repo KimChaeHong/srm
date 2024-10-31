@@ -34,6 +34,7 @@ public class SrController {
 	@RequestMapping("/list") 
 	public String sRMngList(SearchDto search, @RequestParam(defaultValue="1") int pageNo,
 			@RequestParam(defaultValue="10")int rowsPerPage, Model model){
+
 		/*search.makeNull();*/ // 빈 문자열로 받아진 검색내용들 null값으로 변경하는 메서드 (SearchDto에 만든 메서드)
 		int Rows = srService.getRows(search); // 페이징처리를 위해 검색된 내용이 몇개인지 DB에서 확인
 		log.info("Rows:" +Rows);
