@@ -6,6 +6,8 @@
     <link href="${pageContext.request.contextPath}/resources/css/sr/srList.css" rel="stylesheet" type="text/css" />
     <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/srList.js"></script>
+	
 </head>
 
         <!-- section -->
@@ -101,7 +103,15 @@
 	                                <td class="col-4">${sr.relSys}</td>
 	                                <td class="col-5">${sr.firstInptId}</td>
 	                                <td class="col-6">오티아이</td>
-	                                <td class="col-7">${sr.srStat}</td>
+	                                <td class="col-7">
+	                                	<c:choose>
+	                                		<c:when test="${sr.srStat == 'REGI'}">등록</c:when>
+	                                		<c:when test="${sr.srStat == 'REQT'}">요청</c:when>
+	                                		<c:when test="${sr.srStat == 'REJC'}">반려</c:when>
+	                                		<c:when test="${sr.srStat == 'RECE'}">접수</c:when>
+	                                		<c:when test="${sr.srStat == 'RERE'}">재검토</c:when>
+	                                	</c:choose>
+	                                </td>
 	                                <td class="col-8"><fmt:formatDate value="${sr.reqDt}" pattern="yyyy-MM-dd"/></td>
 	                                <td class="col-9"><fmt:formatDate value="${sr.dueDt}" pattern="yyyy-MM-dd"/></td>
 	                                <td class="col-10">
@@ -152,89 +162,29 @@
             </div>
         </div>
         <!-- 상세보기 Modal -->
-        <div class="modal fade" id="detail-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="detail-modalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <p class="modal-title" id="exampleModalLabel">요청 상세</p>
-                        <button class="close-btn ms-auto" type="button" data-bs-dismiss="modal">
-                            <i class="bi bi-x-square"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <form>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div>
-                                            <label for="registrant">등록자</label>
-                                            <input type="text" id="registrant" placeholder="이민성" disabled>
-                                        </div>
-                                        <div>
-                                            <label for="registration-date">등록일</label>
-                                            <input type="date" id="registration-date" name="registration-date" placeholder="2024.10.01" disabled>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="completion-date">요청일</label>
-                                            <input type="date" id="completion-date" name="completion-date" placeholder="2024.10.01" disabled>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-row">
-                                            <label for="department">부서</label>
-                                            <input type="text" id="department" name="department"  placeholder="고용노동부" disabled>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="sr-status">요청 상태</label>
-                                            <input type="text" id="sr-status" name="related-system" placeholder="요청"disabled>
-                                        </div>
-                                        <div class="form-row">
-                                            <label for="completion-date">완료(예정)일</label>
-                                            <input type="date" id="completion-date" name="completion-date" placeholder="2024.10.01" disabled>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <div class="form-row">
-                                            <label for="sr-title">SR 제목</label>
-                                        <input type=" text" id="sr-title" name="related-system" placeholder="고용 24 화면 개선" disabled>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <label for="related-system">관련 시스템</label>
-                                            <input type="text" id="related-system" name="related-system" placeholder="고용 보험"disabled>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <label for="sr-content">SR 내용</label>
-                                            <textarea id="sr-content" name="sr-content" disabled>
-		1. 목적:
+		<div class="modal fade" id="detail-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <p class="modal-title" id="exampleModalLabel">요청 상세</p>
+		                <button class="close-btn ms-auto" type="button" data-bs-dismiss="modal">
+		                    <i class="bi bi-x-square"></i>
+		                </button>
+		            </div>
+		            <form id="detail-form" method="post" action="">
+			            <div id="detail-modal-body" class="modal-body">
+			            </div>
+			            <div class="modal-footer">
+			                <button id="delete-btn" type="button" class="btn btn-primary modal-btn">삭제</button>
+			                <button id="save-btn" type="button" class="btn btn-primary modal-btn">저장</button>
+			                <button id="req-btn" type="button" class="btn btn-primary modal-btn">접수요청</button>
+			            </div>
+		            </form>
 		
-		2. 개선 내용:
-		
-		3. 고려 사항:
-                                        </textarea>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <label for="attachment">첨부파일</label>
-                                            <input type="file" id="attachment" name="attachment" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="save-btn" type="button" class="btn btn-primary">등록</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+		        </div>
+		    </div>
+		</div>
             
         <!-- 등록 Modal -->
 		<div class="modal fade" id="reg-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

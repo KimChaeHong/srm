@@ -344,7 +344,7 @@ th {
     font-size: 12px;
 }
 
-#save-btn {
+.modal-btn {
     border: 1px solid #DCDCE1;
     background-color: white;
     color: #4D5969;

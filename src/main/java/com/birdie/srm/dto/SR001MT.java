@@ -7,9 +7,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-public class SR001Dto {
+public class SR001MT {
 	private String srId;
 	private String srTitle;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date reqDt;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

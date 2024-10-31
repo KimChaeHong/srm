@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.birdie.srm.dto.CDMTDto; 
+import com.birdie.srm.dto.CDMTDto;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR002Dto;
 import com.birdie.srm.dto.SearchDto;
@@ -95,7 +95,7 @@ public class PrgController {
 		Map<String,Object> searchCont = new HashMap<String,Object>();	
 		searchCont.put("search", searchDto);
 		searchCont.put("pager", pager);
-		
+
 		List<SR002Dto> srList = srProgressService.getSearchedSr(searchCont);
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);

@@ -10,4 +10,5 @@ import com.birdie.srm.dto.SearchDto;
 @Mapper
 public interface CDMTDao {
 	public List<CDMTDto> selectByGroupId(String groupId);
+	
 }

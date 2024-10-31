@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.CDMTDao;
-import com.birdie.srm.dao.SR002Dao;
+import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.CDMTDto;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR002Dto;
@@ -19,25 +19,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SrProgressService {
 	@Autowired
-	private SR002Dao sr002Dao;
+	private SR002MTDao sr002mt;
 	@Autowired
 	private CDMTDao cmdtDao;
 	
 	// 승인된 SR 전체 목록 조회
 	public List<SR002Dto> getSrAll(PagerDto pager){
-		List<SR002Dto> srList = sr002Dao.getSrAll(pager);	//List타입으로 승인된 SR전체 조회
+		List<SR002Dto> srList = sr002mt.getSrAll(pager);	//List타입으로 승인된 SR전체 조회
 		return srList;
 	}
 	
 	// 검색 (검색정보, 페이지정보)
 	public List<SR002Dto> getSearchedSr(Map<String, Object> searchCont){	// 검색 기능 처리 메소드
-		List<SR002Dto> srList = sr002Dao.getSearchedSr(searchCont);
+		List<SR002Dto> srList = sr002mt.getSearchedSr(searchCont);
 		return srList;
 	}
 	
 	// 검색 조건을 처리한 행 반환
 	public int getRows(SearchDto searchDto) {
-		int rows = sr002Dao.getRows(searchDto);
+		int rows = sr002mt.countRows(searchDto);
 		return rows;
 	}
 	
