@@ -7,8 +7,8 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.birdie.srm.dto.CodeDto"
-					alias="Code"/>
+		<typeAlias type="com.birdie.srm.dto.CDMTDto"
+					alias="CDMT"/>
 		<typeAlias type="com.birdie.srm.dto.SR001Dto"
 				    alias="Sr1"/>
 		<typeAlias type="com.birdie.srm.dto.SR002Dto"

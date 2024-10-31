@@ -12,7 +12,7 @@ public class SR002Dto {
 	private String srId;		// 요청 id 
 	private String deptId;		// 부서 id
 	private String wkType;		// 업무구분
-	
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date trgStDt;		// 목표 시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -37,4 +37,6 @@ public class SR002Dto {
 	private Date dueDt;			// sr001 - 완료예정일
 	
 	private String srStat;		// sr001 - 진행상태
+	
+	private String tkType;		// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
 }

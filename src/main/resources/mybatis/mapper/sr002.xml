@@ -3,47 +3,89 @@
 <mapper namespace="com.birdie.srm.dao.SR002Dao">
 	
 	<!-- 승인된 SR 목록 조회 -->
-	<select id="getSrAll" resultType="Sr2">*
-		select a.app_sr_id, r.rel_sys, r.sr_title, r.req_dt, r.due_dt,
-			a.rcp_stat, r.sr_stat
-		from TB_SR_002MT a join TB_SR_001MT r
-			on a.sr_id = r.sr_id
-		where a.delt_yn = 'N'
-			and r.sr_stat = 'ok'
+	<select id="getSrAll" resultType="Sr2">
+	    SELECT 
+	        A.APP_SR_ID, 
+	        R.REL_SYS, 
+	        R.SR_TITLE, 
+	        R.REQ_DT, 
+	        R.DUE_DT, 
+	        A.RCP_STAT, 
+	        R.SR_STAT
+	    FROM 
+	        TB_SR_002MT A 
+	    JOIN 
+	        TB_SR_001MT R ON A.SR_ID = R.SR_ID
+	    WHERE 
+	        A.DELT_YN = 'N'
+	        AND R.SR_STAT = 'OK'
 	</select>
+
+	
 	
 	<!-- 승인된 SR 리스트 검색 기능 --> 
 	<select id="getSearchedSr" parameterType="Map" resultType="Sr2">	    
 	    SELECT
-	        rnum, a.app_sr_id, r.sr_id, r.sr_title, r.rel_sys, 
-	        r.first_inpt_id, r.sr_stat, r.req_dt, r.due_dt
+	        RNUM, APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, 
+        	FIRST_INPT_ID, RCP_STAT, REQ_DT, DUE_DT, TASK_TYPE
 	    FROM (
 	        SELECT
-	            a.app_sr_id, r.sr_id, r.sr_title, r.rel_sys, 
-	            r.first_inpt_id, r.sr_stat, r.req_dt, r.due_dt,
-	            ROW_NUMBER() OVER (ORDER BY r.first_inpt_dt DESC) AS rnum
-	        FROM TB_SR_002MT a 
-	        JOIN TB_SR_001MT r ON a.sr_id = r.sr_id
-	        WHERE a.delt_yn = 'N'
-	          AND r.sr_stat = 'ok'
-	          <if test="search.startDate != null and search.endDate != null">	<!-- 조회기간 -->
-	              AND r.first_inpt_dt BETWEEN #{search.startDate} AND #{search.endDate}
-	          </if>
-	          <if test="search.relSys != null">			<!-- 관련 시스템 -->
-	              AND r.rel_sys = #{search.relSys}
-	          </if>
-	          <if test="search.progs != null">			<!-- 진행상황 -->
-	              AND r.sr_stat = #{search.progs}
-	          </if>
-	          <if test="search.keyword != null">		<!-- 제목 -->
-	              AND r.sr_title LIKE '%' || #{search.keyword} || '%'
-	          </if>
+	            A.APP_SR_ID, R.SR_ID, R.SR_TITLE, R.REL_SYS, 
+	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT, NT.TASK_TYPE,
+	            ROW_NUMBER() OVER (ORDER BY R.FIRST_INPT_DT DESC) AS RNUM
+	        FROM TB_SR_002MT A 
+	        JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
+	        JOIN TB_SR_002NT NT ON A.APP_SR_ID = NT.APP_SR_ID
+	        WHERE A.DELT_YN = 'N'
+          		<!-- AND R.SR_STAT = 'RECE' -->
+	            <if test="searchDto.startDate != null and searchDto.endDate != null">		<!-- 조회기간 -->
+	                AND R.FIRST_INPT_DT BETWEEN #{searchDto.startDate} AND #{searchDto.endDate}
+	            </if>
+	            <if test="searchDto.relSys != null and searchDto.relSys !=''">			<!-- 관련 시스템 -->
+	                AND R.REL_SYS = #{searchDto.relSys}
+	            </if>
+	            <if test="searchDto.wkType != null and searchDto.wkType !=''">			<!-- 업무구분 -->
+	                AND A.WK_TYPE = #{searchDto.wkType}
+	            </if>
+	            <if test="searchDto.keyword != null and searchDto.keyword !=''">			<!-- 제목 -->
+	                AND R.SR_TITLE LIKE '%' || #{searchDto.keyword} || '%'
+	            </if>
+	            <if test="searchDto.tkType != null and searchDto.tkType !=''">			<!-- 진행상태 -->
+	                AND NT.TASK_TYPE = #{searchDto.tkType}
+	            </if>
+	            <if test="searchDto.rcpStat != null and searchDto.rcpStat !=''">			<!-- 접수상태 -->
+	                AND A.RCP_STAT = #{searchDto.rcpStat}
+	           </if>
+	          
 	    	)
-	    WHERE rnum BETWEEN #{pager.startRowNo} AND #{pager.endRowNo}
+	    WHERE RNUM BETWEEN #{pager.startRowNo} AND #{pager.endRowNo}
 	</select>
 	
-	<!-- 전체 행 개수 -->
-	<select id="countRows" resultType="int">
-		select count(*) from TB_SR_002MT
+	<!-- 검색에 따라 반환되는 행 개수 -->
+	<select id="getRows" parameterType="Search" resultType="int">
+		select count(*)
+		from TB_SR_002MT A
+		JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
+		JOIN TB_SR_002NT NT ON A.APP_SR_ID = NT.APP_SR_ID
+		where 1=1 
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				and R.FIRST_INPT_DT between #{startDate} and #{endDate}
+			</if>
+			<if test="relSys != null and relSys != ''">
+				and R.REL_SYS = #{relSys}
+			</if>
+			<if test="wkType != null and wkType != ''">
+				and A.WK_TYPE = #{wkType}
+			</if>
+			<if test="keyword != null and keyword != ''">
+				and R.SR_TITLE LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="tkType != null and tkType != ''">
+				and NT.TASK_TYPE = #{tkType}
+			</if>
+			<if test="rcpStat != null and rcpStat != ''">
+				and A.RCP_STAT = #{rcpStat}
+			</if>
+			
 	</select>
 </mapper>
