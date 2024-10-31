@@ -52,7 +52,7 @@ public class MemberController {
 		log.info("회원가입");
 		
 		//계정 활성화
-		member.setDeltYn("Y");
+		member.setDeltYn("N");
 		
 		//비밀번호 암호화
 		PasswordEncoder passwordEncoder = 
