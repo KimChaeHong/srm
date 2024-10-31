@@ -16,33 +16,42 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class SrService {
 	@Autowired
-	private SR001MTDao sr001Dao;
+	private SR001MTDao sr001mtDao;
 	
-	public void insertSr(SR001MT sr001Dto) {
+	public void registerSr(SR001MT sr001Dto) {
 		log.info("insertSr");
-		sr001Dao.insertSr(sr001Dto);
+		sr001mtDao.insertSr(sr001Dto);
 	}
 
-	public List<SR001MTDao> getSearchedSr(Map<String, Object> searchCont) {
-		List<SR001MTDao> srList = sr001Dao.getSearchedSr(searchCont);
+	public List<SR001MTDao> SearchSr(Map<String, Object> searchCont) {
+		List<SR001MTDao> srList = sr001mtDao.selectSearchedSr(searchCont);
 		return srList;
 	}
 
-	public int getRows(SearchDto search) {
-		int Rows = sr001Dao.getRows(search);
+	public int countSearchedSr(SearchDto search) {
+		int Rows = sr001mtDao.selectSearchedRows(search);
 		return Rows;
 	}
 
-	public SR001MT getDetail(String srId) {
-		SR001MT srDetail = sr001Dao.getDetail(srId);
+	public SR001MT searchDetail(String srId) {
+		SR001MT srDetail = sr001mtDao.selectDetail(srId);
 		return srDetail;
 	}
 
-	public void srDelete(String srId) {
-		sr001Dao.srDelete(srId);
+	public void deleteSr(String srId) {
+		sr001mtDao.deleteSr(srId);
 	}
 	
 	public void srAppReq(String srId) {
-		sr001Dao.srAppReq(srId);
+		sr001mtDao.updateSrREQT(srId);
 	}
+
+	public void srProcess(SR001MT sr001mt) {
+		sr001mtDao.updateSrProcess(sr001mt);		
+	}
+
+	public void updateSr(SR001MT sr001mt) {
+		sr001mtDao.updateSr(sr001mt);
+	}
+
 }

@@ -24,6 +24,7 @@ public class SR001MT {
 	private String firstInptId;
 	private Date lastInptDt;
 	private String lastInptId;
+	private String revCmt;
 	
 	private int rnum;
 }
