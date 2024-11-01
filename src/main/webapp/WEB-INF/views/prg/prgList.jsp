@@ -4,10 +4,13 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/prgList.css" />
-
+<script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+	
        <!-- section -->
        <div id="section">
-           <!-- 검색창 -->
+           <!-- ------------------------------검색창 ------------------------------------>
            <div id="search-container">
 	           <form action="list" method="get">
 	               <div id="search-box">
@@ -30,29 +33,6 @@
 				                       		<option value="${sys.cdId}" <c:if test="${sys.cdId==searchDto.relSys}">selected</c:if>>${sys.cdNm}</option>
 										</c:forEach>				                       
 	                               </select>
-	                               
-	                               <script>
-	                               		function changeRelSys(relSys){
-	                               			if(relSys.value == "") {
-	                               				$('#wkType').html("<option value=''>전체</option>");
-	                               			} else {
-		                               			$.ajax({
-		                               				method: 'get',
-		                               				url: "getWkTypeList",
-		                               				data: {selectedCdId: relSys.value},
-		                               				success: function(data){
-		                               					//[ {cdId:xxx, cdNm:yyy}, {...}, {...} ]
-		                               					var options = "<option value=''>전체</option>";
-		                               					for (let x of data) {
-		                               					  options += "<option value='" + x.cdId + "'>" + x.cdNm + "</option>";
-		                               					}
-		                               					$('#wkType').html(options);
-		                               				}
-		                               			});
-	                               			}
-	                               		}
-	                               </script>
-	                               
 	                           </li>
 	                           <li class="li-style">
 	                               <div id="search-thing">업무구분</div>	
@@ -102,11 +82,11 @@
                </form>
            </div>
 
-           <!-- SR 관리 -->
+           <!-- 승인된 SR 목록 -->
            <div id="sr-prg-mgmt">
-               <!-- SR목록 -->
+               <!-- ---------------------------------SR처리 목록-------------------------------------- -->
                <div id="sr-list">
-                   <h2 id="sr-list-title">SR요청 목록</h2>
+                   <h2 id="sr-list-title">SR처리 목록</h2>
                    <hr>
                    <div id="table-container" class="overflow-auto">
                        <table id="pg-table">
@@ -125,11 +105,10 @@
                            </thead>
                            <tbody>
                                <c:forEach items="${srList}" var="i" varStatus="status">
-                               		<tr>
+                               		<tr onclick="loadSrDetails('${i.appSrId }')" id="tr-style">
                                			<td class="col-1">${status.index + 1 }</td>
 	                                    <td class="col-2">${i.appSrId }</td>
-	                                    <%-- <td class="col-3">${i.relSys }</td> --%>
-		                                <td class="col-3">
+		                                <td class="col-3">	<!-- 관련시스템 -->
 		                                    <c:choose>
 	                                    		<c:when test="${i.relSys == 'EMPL'}">고용보험</c:when>
 	                                    		<c:when test="${i.relSys == 'HRDV'}">HRD</c:when>
@@ -144,21 +123,21 @@
 	                                    <td class="col-7">
 	                                    	<fmt:formatDate value="${i.dueDt }" pattern="yyyy-MM-dd" />
 	                                    </td>
-	                                    <td class="col-8">
+	                                    <td class="col-8">	<!-- 접수상태 -->
 	                                    	<c:choose>
 	                                    		<c:when test="${i.rcpStat == 'RECE' }">접수</c:when>
 	                                    		<c:when test="${i.rcpStat == 'CANC' }">취소</c:when>
 	                                    		<c:when test="${i.rcpStat == 'HOLD' }">보류</c:when>
 	                                    	</c:choose>
 										</td>
-	                                    <td class="col-9">
+	                                    <td class="col-9">	<!-- 진행상태(작업구분) -->
 	                                    	<c:choose>
-	                                    		<c:when test="${i.tkType == 'ANAL' }">분석</c:when>
-	                                    		<c:when test="${i.tkType == 'DESI' }">설계</c:when>
-	                                    		<c:when test="${i.tkType == 'IMPL' }">구현</c:when>
-	                                    		<c:when test="${i.tkType == 'TEST' }">시험</c:when>
-	                                    		<c:when test="${i.tkType == 'REFL' }">반영요청</c:when>
-	                                    		<c:when test="${i.tkType == 'OPER' }">운영반영</c:when>
+	                                    		<c:when test="${i.taskType == 'ANAL' }">분석</c:when>
+	                                    		<c:when test="${i.taskType == 'DESI' }">설계</c:when>
+	                                    		<c:when test="${i.taskType == 'IMPL' }">구현</c:when>
+	                                    		<c:when test="${i.taskType == 'TEST' }">시험</c:when>
+	                                    		<c:when test="${i.taskType == 'REFL' }">반영요청</c:when>
+	                                    		<c:when test="${i.taskType == 'OPER' }">운영반영</c:when>
 	                                    	</c:choose>
 	                                    </td> 
                                		</tr>
@@ -195,13 +174,13 @@
 						    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
 						    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
 						    
-						    <!--rowPerPage 선택 -->
+						    <!--rowsPerPage 선택 -->
 						    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
-						        <option value="10" ${searchCont.pager.rowsPerPage == '10' ? 'selected' : ''}>10</option>
-						        <option value="20" ${searchCont.pager.rowsPerPage == '20' ? 'selected' : ''}>20</option>
-						        <option value="30" ${searchCont.pager.rowsPerPage == '30' ? 'selected' : ''}>30</option>
-						        <option value="40" ${searchCont.pager.rowsPerPage == '40' ? 'selected' : ''}>40</option>
-						        <option value="50" ${searchCont.pager.rowsPerPage == '50' ? 'selected' : ''}>50</option>
+						        <option value="16" ${searchCont.pager.rowsPerPage == '15' ? 'selected' : ''}>16</option>
+						        <option value="32" ${searchCont.pager.rowsPerPage == '32' ? 'selected' : ''}>32</option>
+						        <option value="48" ${searchCont.pager.rowsPerPage == '48' ? 'selected' : ''}>48</option>
+						        <option value="64" ${searchCont.pager.rowsPerPage == '64' ? 'selected' : ''}>64</option>
+						        <option value="80" ${searchCont.pager.rowsPerPage == '80' ? 'selected' : ''}>80</option>
 						    </select>
 						</form>
 	                </div>
@@ -272,91 +251,97 @@
                    </div>
 
 
-                   <!-- SR 요청 처리 정보 -->
-                    <div id="sr-plan-info">
-                        <div id="title">
-                            SR 요청 처리정보
-                        </div>
-                        <hr>
-                        <div class="tabs-container d-flex align-items-center">
-                            <ul class="nav nav-tabs">
-                                <li class="plan-nav-item">
-                                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
-                                </li>
-                                <li class="plan-nav-item">
-                                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
-                                </li>
-                                <li class="plan-nav-item">
-                                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
-                                </li>
-                            </ul>
 
-                            <button id="plan-btn" type="button" class="btn-save">저장</button>
-                        </div>
-                        <form id="sr-plan-form">
-                            <div class="form-group">
-                                <label for="request-type">요청 구분</label>
-                                <select id="request-type" class="form-select">
-                                    <option selected>선택</option>
-                                    <option value="1">개선</option>
-                                    <option value="2">신규</option>
-                                    <option value="3">오류</option>
-                                    <option value="4">기타</option>
-                                </select>
-                            </div>
+                   <!------------------------------ SR 요청 처리 정보------------------------ -->
+                   <div id="sr-plan-info"> 
 
-                            <div class="form-group">
-                                <label for="team">처리팀</label>
-                                <input type="text" id="team" value="개발 1팀">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="work-type">업무 구분</label>
-                                <select id="work-type" class="form-select">
-                                    <option selected>선택</option>
-                                    <option value="1">111</option>
-                                    <option value="2">222</option>
-                                    <option value="3">333</option>
-                                    <option value="4">444</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="person">담당자</label>
-                                <input type="text" id="person" value="정준범">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="start-date">목표 시작일</label>
-                                <input type="text" id="start-date" value="2024. 10. 26">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="end-date">목표 완료일</label>
-                                <input type="text" id="end-date" value="2024. 10. 26">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="status">접수 상태</label>
-                                <select id="status" class="form-select">
-                                    <option selected>선택</option>
-                                    <option>접수</option>
-                                    <option>취소</option>
-                                    <option>보류</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="total-hours">총계획공수</label>
-                                <input type="text" id="total-hours">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="review">검토 내용</label>
-                                <textarea id="review"></textarea>
-                            </div>
-                        </form>
-                    </div>
+				        <div id="title">
+				            SR 요청 처리정보
+				        </div>
+				        <hr>
+				        <div class="tabs-container d-flex align-items-center">
+				            <ul class="nav nav-tabs">
+				                <li class="nav-item">
+				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR계획정보</a>
+				                </li>
+				                <li class="nav-item">
+				                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR자원정보</a>
+				                </li>
+				                <li class="nav-item">
+				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
+				                </li>
+				            </ul>
+				
+				            <button id="plan-btn" type="button" class="btn-save">저장</button>
+				        </div>
+				        <!-- SR계획정보 -->
+                    	<form id="sr-plan-form" method="post">
+					            <div class="form-group">
+					                <label for="request-type">요청 구분</label>
+					                <select id="request-type" class="form-select" disabled>
+					                    <option selected>선택</option>
+					                    <option value="1">개선</option>
+					                    <option value="2">신규</option>
+					                    <option value="3">오류</option>
+					                    <option value="4">기타</option>
+					                </select>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="team">처리팀</label>
+					                <input type="text" id="team" value="개발 1팀" disabled>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="work-type">업무 구분</label>
+					                <select id="work-type" class="form-select" disabled>
+					                    <option selected>선택</option>
+					                    <option value="1">111</option>
+					                    <option value="2">222</option>
+					                    <option value="3">333</option>
+					                    <option value="4">444</option>
+					                </select>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="person">담당자</label>
+					                <input type="text" id="person" value="정준범" disabled>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="start-date">목표 시작일</label>
+					                <input type="date" id="start-date" value="2024. 10. 26" disabled>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="end-date">목표 완료일</label>
+					                <input type="date" id="end-date" value="2024. 10. 26" disabled>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="status">접수 상태</label>
+					                <select id="status" class="form-select" disabled>
+					                    <option selected>선택</option>
+					                    <option>접수</option>
+					                    <option>취소</option>
+					                    <option>보류</option>
+					                </select>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="total-hours">총계획공수</label>
+					                <input type="text" id="total-hours" disabled>
+					            </div>
+					
+					            <div class="form-group">
+					                <label for="review">검토 내용</label>
+					                <textarea id="review" disabled></textarea>
+					            </div>
+					        </form>
+                    	
+				    </div>
+                   
+                    
                 </div>
             </div>
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,7 +63,7 @@ public class PrgController {
 	public String srPrgList(
 			SearchDto searchDto, 
 			@RequestParam(defaultValue="1") int pageNo,
-			@RequestParam(defaultValue="10") int rowsPerPage,
+			@RequestParam(defaultValue="16") int rowsPerPage,
 			Model model) {
 		//관련시스템 목록 가져오기
 		List<CDMT> listSys = srProgressService.getCDMTByGroupId("SYS");
@@ -97,20 +99,23 @@ public class PrgController {
 		searchCont.put("pager", pager);
 
 		List<SR002MT> srList = srProgressService.getSearchedSr(searchCont);
+		log.info(srList.toString());
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
 		
-		/*int totalRows = srProgressService.getTotalRows();
-		PagerDto pager = new PagerDto(10, 5, totalRows, pageNo);
-		Map<String,Object> searchCont = new HashMap<String,Object>();
-		searchCont.put("search", searchDto);
-		searchCont.put("pager", pager);
-		
-		List<SR002Dto> srList = srProgressService.getSrAll(pager);
-		model.addAttribute("srList", srList);
-		model.addAttribute("searchCont", searchCont);*/
-		
 		return "prg/prgList";
 	}
+	
+	
+	
+	/*// SR계획정보 조회
+	@PostMapping("/srPlan")
+	public void srPlan(
+			String appSrId, 
+			HttpServletResponse response, 
+			HttpServletRequest request) throws Exception{
+		SR002MT srPlan = srProgressService.getSrPlan(appSrId);
+		
+	}*/
 	
 }
