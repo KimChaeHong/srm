@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.CDMTDao;
 import com.birdie.srm.dao.SR001MTDao;
+import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
@@ -19,7 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SrService {
 	@Autowired
 	private SR001MTDao sr001mtDao;
-	
+	@Autowired
+	private SR002MTDao sr002mtDao;	
 	@Autowired
 	private CDMTDao cdmtDao;
 	
@@ -59,7 +61,12 @@ public class SrService {
 
 	// SR 승인/반려/재검토 처리(관리자)
 	public void srProcess(SR001MT sr001mt) {
-		sr001mtDao.updateSrProcess(sr001mt);		
+		// SR_STAT 변경
+		sr001mtDao.updateSrProcess(sr001mt);
+		// SR_STAT이 '접수'일때(승인되었을 때) TB_SR_002 테이블에 insert
+		if(sr001mt.getSrStat() == "RECE") {
+			sr002mtDao.insertAppSr(sr001mt.getSrId());
+		}
 	}
 
 	// SR 수정

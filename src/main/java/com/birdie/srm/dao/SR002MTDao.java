@@ -17,5 +17,7 @@ public interface SR002MTDao {
 	public List<SR002MT> getSearchedSr(Map<String, Object> searchCont);	// 검색
 
 	public int countRows(SearchDto searchDto);		// 검색 결과 행 
+
+	public void insertAppSr(String srId); // TB_SR_002MT에 데이터 insert
 	
 }
