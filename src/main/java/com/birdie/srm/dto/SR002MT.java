@@ -39,5 +39,5 @@ public class SR002MT {
 	private Date dueDt;			// sr001 - 완료예정일
 	
 	private String srStat;		// sr001 - 진행상태
-	private String tkType;		// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
+	private String taskType;		// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
 }

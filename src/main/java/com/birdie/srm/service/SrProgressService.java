@@ -43,8 +43,8 @@ public class SrProgressService {
 	
 	/* 검색 기능 - 코드 테이블 그룹Id 반환 */
 	public List<CDMT> getCDMTByGroupId(String groupId){
-		List<CDMT> listCDMTDto = cmdtDao.selectByGroupId(groupId);
-		return listCDMTDto;
+		List<CDMT> sysList = cmdtDao.selectByGroupId(groupId);
+		return sysList;
 	}
 	
 }
