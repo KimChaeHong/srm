@@ -18,7 +18,7 @@
 				<input type="hidden" name="srId" value="${srDetail.srId}">
 	            <div>
 	                <label for="registrant">등록자</label>
-	                <input type="text" id="registrant" name="firstInptId" value="${srDetail.firstInptId}" disabled>
+	                <input type="text" id="registrant" name="firstInptId" value="${srDetail.memNm}" disabled>
 	            </div>
 	            <div>
 	                <label for="registration-date">등록일</label>
@@ -33,11 +33,18 @@
 	        <div class="col-md-6">
 	            <div class="form-row">
 	                <label for="department">소속기관</label>
-	                <input type="text" id="department" name="department" value="" disabled>
+	                <input type="text" id="department" name="department" value="${srDetail.instNm}" disabled>
 	            </div>
 	            <div class="form-row">
 	                <label for="sr-status">요청 상태</label>
-	                <input type="text" id="sr-status" placeholder="요청" name="srStat" value="${srDetail.srStat}" disabled>
+	                <input type="text" id="sr-status" placeholder="요청" name="srStat" disabled
+			            <c:choose>
+		               		<c:when test="${srDetail.srStat == 'REGI'}">value="등록"</c:when>
+		               		<c:when test="${srDetail.srStat == 'REQT'}">value="요청"</c:when>
+		               		<c:when test="${srDetail.srStat == 'REJC'}">value="반려"</c:when>
+		               		<c:when test="${srDetail.srStat == 'RECE'}">value="접수"</c:when>
+		               		<c:when test="${srDetail.srStat == 'RERE'}">value="재검토"</c:when>
+		               	</c:choose>>
 	            </div>
 	            <div class="form-row">
 	                <label for="dueDt">완료(예정)일</label>
@@ -49,7 +56,7 @@
 	            <div class="form-row">
 	                <label for="related-system">관련 시스템</label>
 	                <select id="sys-select" name="relSys">
-						<option>선택</option>
+						<option value=''>선택</option>
 						<c:forEach items="${sysList}" var="sysList">
 							<option value="${sysList.cdId}" ${sysList.cdId == srDetail.relSys ? 'selected' : ''}>${sysList.cdNm}</option>
 						</c:forEach>
@@ -71,7 +78,7 @@
 	            <input type="file" id="attachment" name="attachment" disabled>
 	        	</div>
 	        </div>
-	        <c:if test="${srDetail.revCmt != null && srDetail.revCmt !=''}">
+	        <c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT' || srDetail.revCmt != null && srDetail.revCmt !=''}">
 				<div>
 					<div class="form-row">
 						<label for="sr-title">검토상태</label>
@@ -92,14 +99,14 @@
 	</div>
 </div>
 <div class="modal-footer">
-<c:if test="${srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE'}">
+<c:if test="${memInfo.role1 == 'GUSR' && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
     <button id="save-btn" type="button" class="btn btn-primary modal-btn">저장</button>
     <button id="req-btn" type="button" class="btn btn-primary modal-btn">접수요청</button>
 </c:if>
-<c:if test="${srDetail.srStat == 'REGI'}">
+<c:if test="${srDetail.firstInptId == memInfo.memNo && srDetail.srStat == 'REGI'}">
     <button id="delete-btn" type="button" class="btn btn-primary modal-btn">삭제</button>
 </c:if>
-<c:if test="${srDetail.srStat == 'REQT'}"> <!-- 관리자일 때 조건 추가해야함 -->
+<c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT'}">
 	<button id="process-btn" type="button" class="btn btn-primary modal-btn">처리</button>
 </c:if>
 </div>

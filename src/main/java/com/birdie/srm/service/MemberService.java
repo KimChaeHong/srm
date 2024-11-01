@@ -60,6 +60,12 @@ public class MemberService {
 
 		return LoginResult.SUCCESS;
 	}
+
+
+	public MB001MT getUserInfo(String memId) {
+		MB001MT meminfo = memberDao.selectJoinedMemInfo(memId);
+		return meminfo;
+	}
 	
 	
 	

@@ -26,5 +26,7 @@ public class MB001MT {
     private String lastInptId;     // 수정입력자
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date  lastInptDt;     // 수정일시
+    
+    private String instNm; //소속기관 이름
 
 }

@@ -27,4 +27,7 @@ public class SR001MT {
 	private String revCmt;
 	
 	private int rnum;
+	private String memNm;
+	private String instId;
+	private String instNm;
 }

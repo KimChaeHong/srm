@@ -30,7 +30,7 @@
 	                            <li class="li-style">
 	                                <div id="search-thing">관련 시스템</div>
 	                                <select id="relsys-search" class="search-box select-style" name="relSys">
-	                                    <option>선택</option>
+	                                    <option value="">선택</option>
 					                	<c:forEach items="${sysList}" var="sysList">
 						                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
 					                	</c:forEach>
@@ -109,8 +109,8 @@
 		                                	${sr.relSys == sysList.cdId ? sysList.cdNm : ''}
 	                                	</c:forEach>
 	                                </td>
-	                                <td class="col-5">${sr.firstInptId}</td>
-	                                <td class="col-6">오티아이</td>
+	                                <td class="col-5">${sr.memNm}</td>
+	                                <td class="col-6">${sr.instNm}</td>
 	                                <td class="col-7">
 	                                	<c:choose>
 	                                		<c:when test="${sr.srStat == 'REGI'}">등록</c:when>
@@ -206,7 +206,7 @@
 			                        <div class="col-md-6">
 			                            <div>
 			                                <label for="registrant">등록자</label>
-			                                <input type="text" id="registrant" name="firstInptId">
+			                                <input type="text" id="registrant" name="firstInptId" value="${memInfo.memNm}">
 			                            </div>
 			                            <div>
 			                                <label for="registration-date">등록일</label>
@@ -220,12 +220,12 @@
 			
 			                        <div class="col-md-6">
 			                            <div class="form-row">
-			                                <label for="department">부서</label>
-			                                <input type="text" id="department" name="department" disabled>
+			                                <label for="department">소속기관</label>
+			                                <input type="text" id="department" name="department" value="${memInfo.instNm}" disabled>
 			                            </div>
 			                            <div class="form-row">
 			                                <label for="sr-status">요청 상태</label>
-			                                <input type="text" id="sr-status" placeholder="요청" name="srStat">
+			                                <input type="text" id="sr-status" name="srStat" value="등록" disabled>
 			                            </div>
 			                            <div class="form-row">
 			                                <label for="dueDt">완료(예정)일</label>
@@ -237,7 +237,7 @@
 			                            <div class="form-row">
 			                                <label for="related-system">관련 시스템</label>
 			                                <select id="relsys-select" name="relSys">
-			                                    <option>선택</option>
+			                                    <option value="">선택</option>
 							                	<c:forEach items="${sysList}" var="sysList">
 								                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
 							                	</c:forEach>
