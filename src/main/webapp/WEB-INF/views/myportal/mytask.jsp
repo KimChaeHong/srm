@@ -13,8 +13,7 @@
 
 <!-- JavaScript 파일 로드 -->
 <script src="${pageContext.request.contextPath}/resources/js/pagination.js"></script>
-
-
+<script src="${pageContext.request.contextPath}/resources/js/myTask.js"></script>
 
 <!-- section -->
 <div id="section">
@@ -45,7 +44,15 @@
 				</li>
 			</ul>
 		</div>
-		<div id="table-container" class="overflow-auto">
+
+<!-- 페이지 버튼 -->
+<div id="pagination">
+    <button onclick="loadTasksByStatus(currentStat, currentPage - 1)" id="prev-page" disabled>이전</button>
+    <span id="page-number">1</span>
+    <button onclick="loadTasksByStatus(currentStat, currentPage + 1)" id="next-page">다음</button>
+</div>	
+		
+<div id="table-container" class="overflow-auto">
 			<table id="task-table">
 				<thead>
 					<tr>
@@ -62,32 +69,27 @@
 						<th class="mytask-11">상세보기</th>
 					</tr>
 				</thead>
-
 				<c:forEach items="${mySrList}" var="sr001mt">
-					<tbody>
+					<tbody id = "mytask">
 						<tr>
 							<td>${sr001mt.rnum}</td>
 							<td>${sr001mt.srId}</td>
 							<td>${sr001mt.srTitle}</td>
-							<td>
-								<c:choose>
-							        <c:when test="${sr001mt.relSys == 'EMPL'}">고용보험</c:when>
-							        <c:when test="${sr001mt.relSys == 'HRDV'}">HRD</c:when>
-							        <c:when test="${sr001mt.relSys == 'WORK'}">워크넷</c:when>
-							    </c:choose>
-							</td>
+							<td><c:choose>
+									<c:when test="${sr001mt.relSys == 'EMPL'}">고용보험</c:when>
+									<c:when test="${sr001mt.relSys == 'HRDV'}">HRD</c:when>
+									<c:when test="${sr001mt.relSys == 'WORK'}">워크넷</c:when>
+								</c:choose></td>
 							<td>등록자</td>
 							<td>소속</td>
 							<td>부서</td>
-							<td>
-							    <c:choose>
-							        <c:when test="${sr001mt.srStat == 'REGI'}">등록</c:when>
-							        <c:when test="${sr001mt.srStat == 'REQT'}">요청</c:when>
-							        <c:when test="${sr001mt.srStat == 'REJC'}">반려</c:when>
-							        <c:when test="${sr001mt.srStat == 'RECE'}">접수</c:when>
-							        <c:when test="${sr001mt.srStat == 'RERE'}">재검토</c:when>
-							    </c:choose>
-							</td>
+							<td><c:choose>
+									<c:when test="${sr001mt.srStat == 'REGI'}">등록</c:when>
+									<c:when test="${sr001mt.srStat == 'REQT'}">요청</c:when>
+									<c:when test="${sr001mt.srStat == 'REJC'}">반려</c:when>
+									<c:when test="${sr001mt.srStat == 'RECE'}">접수</c:when>
+									<c:when test="${sr001mt.srStat == 'RERE'}">재검토</c:when>
+								</c:choose></td>
 
 							<td><fmt:formatDate value="${sr001mt.reqDt}"
 									pattern="yy/MM/dd" /></td>
@@ -104,39 +106,39 @@
 		<div id="pagination">
 			<!-- 이전 그룹 -->
 			<c:if test="${pager.groupNo>1}">
-				<a href="mytask?pageNo=${pager.startPageNo-1}" class="btn page-btn shadow-sm">
-					<i class="bi bi-chevron-left"></i> 
+				<a href="mytask?pageNo=${pager.startPageNo-1}"
+					class="btn page-btn shadow-sm"> <i class="bi bi-chevron-left"></i>
 				</a>
 			</c:if>
-			
+
 			<!-- 페이지 이동 -->
-			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
-			    <c:if test="${pager.pageNo == i}">
-			        <a class="btn page-btn shadow-sm active" 
-			           href="mytask?pageNo=${i}&rowsPerPage=${pager.rowsPerPage}">${i}</a>
-			    </c:if>
-			    <c:if test="${pager.pageNo != i}">
-			        <a class="btn page-btn shadow-sm"
-			           href="mytask?pageNo=${i}&rowsPerPage=${pager.rowsPerPage}">${i}</a>
-			    </c:if>
+			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
+				step="1" var="i">
+				<c:if test="${pager.pageNo == i}">
+					<a class="btn page-btn shadow-sm active"
+						href="mytask?pageNo=${i}&rowsPerPage=${pager.rowsPerPage}">${i}</a>
+				</c:if>
+				<c:if test="${pager.pageNo != i}">
+					<a class="btn page-btn shadow-sm"
+						href="mytask?pageNo=${i}&rowsPerPage=${pager.rowsPerPage}">${i}</a>
+				</c:if>
 			</c:forEach>
 			<!-- 다음 그룹 -->
 			<c:if test="${pager.groupNo <= pager.totalGroupNo}">
-			    <a href="mytask?pageNo=${pager.endPageNo + 1}" class="btn page-btn shadow-sm">
-			        <i class="bi bi-chevron-right"></i>
-			    </a>
+				<a href="mytask?pageNo=${pager.endPageNo + 1}"
+					class="btn page-btn shadow-sm"> <i class="bi bi-chevron-right"></i>
+				</a>
 			</c:if>
 
 			<!-- 행 수 선택 -->
-		    <select class="row-select form-select" id="rowsPerPageSelect">
-		        <option value="10" ${pager.rowsPerPage == 10 ? 'selected' : ''}>10</option>
-		        <option value="20" ${pager.rowsPerPage == 20 ? 'selected' : ''}>20</option>
-		        <option value="30" ${pager.rowsPerPage == 30 ? 'selected' : ''}>30</option>
-		        <option value="40" ${pager.rowsPerPage == 40 ? 'selected' : ''}>40</option>
-		        <option value="50" ${pager.rowsPerPage == 50 ? 'selected' : ''}>50</option>
-		    </select>  
-		    <!-- 현재 페이지를 JavaScript에 전달하기 위한 숨겨진 필드 -->
-    		<input type="hidden" id="currentPage" value="${pager.pageNo}" />	    
+			<select class="row-select form-select" id="rowsPerPageSelect">
+				<option value="16" ${pager.rowsPerPage == 16 ? 'selected' : ''}>16</option>
+				<option value="32" ${pager.rowsPerPage == 32 ? 'selected' : ''}>32</option>
+				<option value="48" ${pager.rowsPerPage == 48 ? 'selected' : ''}>48</option>
+				<option value="64" ${pager.rowsPerPage == 64 ? 'selected' : ''}>64</option>
+			</select>
+			<!-- 현재 페이지를 JavaScript에 전달하기 위한 숨겨진 필드 -->
+			<input type="hidden" id="currentPage" value="${pager.pageNo}" />
 		</div>
 	</div>
 </div>
@@ -222,12 +224,6 @@
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
 
 </div>
 </body>
