@@ -27,7 +27,7 @@ function loadSrDetails(appSrId) {
         data: { appSrId: appSrId },
         success: function(response) {
             console.log("Ajax 통신 성공");
-            $('#sr-plan-form').html(response); // response로 받은 jsp를 srPlan에 넣음
+            $('#sr-plan-form').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
         },
         error: function() {
             console.log('Ajax 통신 실패');

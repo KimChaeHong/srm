@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,10 +29,10 @@
         <div class="tabs-container d-flex align-items-center">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR계획정보</a>
+                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR자원정보</a>
+                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
@@ -39,56 +41,63 @@
 
             <button id="plan-btn" type="button" class="btn-save">저장</button>
         </div>
+        
+        <!-- ------------------------SR계획정보 폼-------------------------- -->
         <form id="sr-plan-form">
             <div class="form-group">
                 <label for="request-type">요청 구분</label>
-                <select id="request-type" class="form-select">
-                    <option selected>선택</option>
-                    <option value="1">개선</option>
-                    <option value="2">신규</option>
-                    <option value="3">오류</option>
-                    <option value="4">기타</option>
-                </select>
+                <select id="request-type" class="form-select" name="srType">
+		            <option value="IMPR" ${srPlan.srType == 'IMPR' ? 'selected' : ''}>개선</option>
+		            <option value="NEW" ${srPlan.srType == 'NEW' ? 'selected' : ''}>신규</option>
+		            <option value="ERRO" ${srPlan.srType == 'ERRO' ? 'selected' : ''}>오류</option>
+		            <option value="OTHR" ${srPlan.srType == 'OTHR' ? 'selected' : ''}>기타</option>
+		        </select>
             </div>
 
             <div class="form-group">
                 <label for="team">처리팀</label>
-                <input type="text" id="team" value="개발 1팀">
+                <input type="text" id="team" name="deptId" 
+           			value="${srPlan.deptId == 'DEV1' ? '개발 1팀' : srPlan.deptId == 'DEV2' ? '개발 2팀' : ''}" >
             </div>
 
             <div class="form-group">
                 <label for="work-type">업무 구분</label>
-                <select id="work-type" class="form-select">
-                    <option selected>선택</option>
-                    <option value="1">111</option>
-                    <option value="2">222</option>
-                    <option value="3">333</option>
-                    <option value="4">444</option>
-                </select>
+                <select id="work-type" class="form-select" name="wkType">
+			        <option value="UNEM" ${srPlan.wkType == 'UNEM' ? 'selected' : ''}>실업급여</option>
+			        <option value="EMST" ${srPlan.wkType == 'EMST' ? 'selected' : ''}>고용안정</option>
+			        <option value="WRKP" ${srPlan.wkType == 'WRKP' ? 'selected' : ''}>사업장</option>
+			        <option value="COLL" ${srPlan.wkType == 'COLL' ? 'selected' : ''}>징수</option>
+			        <option value="HOME" ${srPlan.wkType == 'HOME' ? 'selected' : ''}>홈페이지</option>
+			        <option value="UNWR" ${srPlan.wkType == 'UNWR' ? 'selected' : ''}>실업자/근로자</option>
+			        <option value="EMPL" ${srPlan.wkType == 'EMPL' ? 'selected' : ''}>사업주</option>
+			        <option value="INTE" ${srPlan.wkType == 'INTE' ? 'selected' : ''}>연계</option>
+			        <option value="EXNT" ${srPlan.wkType == 'EXNT' ? 'selected' : ''}>외부망</option>
+			        <option value="MOBI" ${srPlan.wkType == 'MOBI' ? 'selected' : ''}>모바일</option>
+			        <option value="CARE" ${srPlan.wkType == 'CARE' ? 'selected' : ''}>직업진로/사이버</option>
+			    </select>
             </div>
 
             <div class="form-group">
                 <label for="person">담당자</label>
-                <input type="text" id="person" value="정준범">
+                <input type="text" id="person" name="mgr" value="${srPlan.mgr }">
             </div>
 
             <div class="form-group">
                 <label for="start-date">목표 시작일</label>
-                <input type="text" id="start-date" value="2024. 10. 26">
+                <input type="text" id="start-date" name="trgStDt" value="${srPlan.trgStDt}">
             </div>
 
             <div class="form-group">
                 <label for="end-date">목표 완료일</label>
-                <input type="text" id="end-date" value="2024. 10. 26">
+                <input type="text" id="end-date" name="trgEndDt" value="${srPlan.trgEndDt }">
             </div>
 
             <div class="form-group">
                 <label for="status">접수 상태</label>
-                <select id="status" class="form-select">
-                    <option selected>선택</option>
-                    <option>접수</option>
-                    <option>취소</option>
-                    <option>보류</option>
+                <select id="status" class="form-select" name="rcpStat">
+                    <option value="RECE" ${srPlan.rcpStat == 'RECE' ? 'selected' : ''}>접수</option>
+                    <option value="CANC" ${srPlan.rcpStat == 'CANC' ? 'selected' : ''}>취소</option>
+                    <option value="HOLD" ${srPlan.rcpStat == 'HOLD' ? 'selected' : ''}>보류</option>
                 </select>
             </div>
 
@@ -99,7 +108,7 @@
 
             <div class="form-group">
                 <label for="review">검토 내용</label>
-                <textarea id="review"></textarea>
+                <textarea id="review" name="rvwCont">${srPlan.rvwCont }</textarea>
             </div>
         </form>
     </div>

@@ -11,13 +11,15 @@ import com.birdie.srm.dto.SearchDto;
 
 @Mapper
 public interface SR002MTDao {
-	
-	public List<SR002MT> getSrAll(PagerDto pager);			// SR 목록 전체 조회
-
-	public List<SR002MT> getSearchedSr(Map<String, Object> searchCont);	// 검색
-
-	public int countRows(SearchDto searchDto);		// 검색 결과 행 
-
-	public void insertAppSr(String srId); // TB_SR_002MT에 데이터 insert
+	// SR 목록 전체 조회
+	public List<SR002MT> getSrAll(PagerDto pager);			
+	//페이징 처리된 검색조건에 맞는 List<SR002MT> 조회
+	public List<SR002MT> getSearchedSr(Map<String, Object> searchCont);	
+	// 검색 결과 행 개수 조회
+	public int countRows(SearchDto searchDto);
+	// TB_SR_002MT에 데이터 insert
+	public void insertAppSr(String srId);
+	// appSrId와 일치하는 TB_SR_002MT 데이터 조회
+	public SR002MT selectPlan(String appSrId);
 	
 }
