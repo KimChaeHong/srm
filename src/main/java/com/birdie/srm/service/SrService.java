@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.CDMTDao;
+import com.birdie.srm.dao.IS001MTDao;
 import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.CDMT;
+import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SearchDto;
 
@@ -24,6 +26,8 @@ public class SrService {
 	private SR002MTDao sr002mtDao;	
 	@Autowired
 	private CDMTDao cdmtDao;
+	@Autowired
+	private IS001MTDao is001mtDao;
 	
 	// SR 등록
 	public void registerSr(SR001MT sr001Dto) {
@@ -62,13 +66,16 @@ public class SrService {
 	// SR 승인/반려/재검토 처리(관리자)
 	public void srProcess(SR001MT sr001mt) {
 		// SR_STAT 변경
+		log.info("SR_STAT처리");
 		sr001mtDao.updateSrProcess(sr001mt);
-		// SR_STAT이 '접수'일때(승인되었을 때) TB_SR_002 테이블에 insert
-		if(sr001mt.getSrStat() == "RECE") {
-			sr002mtDao.insertAppSr(sr001mt.getSrId());
-		}
 	}
 
+	// SR_STAT이 '접수'일때(승인되었을 때) TB_SR_002 테이블에 insert
+	public void insertAppSr(SR001MT sr001mt) {
+		log.info("TB_SR_002MT에 INSERT");
+		sr002mtDao.insertAppSr(sr001mt);
+	}
+	
 	// SR 수정
 	public void updateSr(SR001MT sr001mt) {
 		sr001mtDao.updateSr(sr001mt);
@@ -78,6 +85,12 @@ public class SrService {
 	public List<CDMT> searchRelSys(String groupId) {
 		List<CDMT> sysList = cdmtDao.selectByGroupId(groupId);
 		return sysList;
+	}
+	
+	//기관 목록 가져오기
+	public List<IS001MT> searchInst() {
+		List<IS001MT> instList = is001mtDao.selectInstAll();
+		return instList;
 	}
 
 }

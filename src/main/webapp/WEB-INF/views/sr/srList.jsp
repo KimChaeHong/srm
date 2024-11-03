@@ -65,6 +65,9 @@
 	                                <div id="search-thing">등록자 소속</div>
 	                                <select id="inst-search" class="search-box" name="instId">
 	                                	<option value="">선택</option>
+	                                	<c:forEach items="${instList}" var="instList">
+						                	<option value="${instList.instId}" ${searchCont.search.instId == instList.instId ? 'selected' : ''}>${instList.instNm}</option>
+					                	</c:forEach>
 	                                </select>
 	                            </li>
 	                            <div class="btn-box">
