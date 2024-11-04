@@ -177,7 +177,7 @@ tbody td {
 }
 
 #pagination {
-    width: 98%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
