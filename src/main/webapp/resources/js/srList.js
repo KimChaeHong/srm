@@ -39,3 +39,37 @@ $(document).ready(function(){
 		$('#detail-form').submit(); // form 제출
 	})
 });
+
+//등록 시 첨부파일
+
+let selectedFiles = [];
+
+// 파일 선택 시 배열에 파일을 추가
+$("#attachment").on("change", function(event) {
+    const files = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+        selectedFiles.push(files[i]);
+    }
+});
+
+function submitForm() {
+	const formData = new FormData(document.getElementById('register-form'));
+
+    selectedFiles.forEach(file => {
+        formData.append("files", file);
+    });
+
+    $.ajax({
+        url: "srm/sr/registerSr",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            alert("파일 업로드 성공");
+        },
+        error: function(xhr, status, error) {
+            console.error("업로드 실패:", error);
+        }
+    });
+}
