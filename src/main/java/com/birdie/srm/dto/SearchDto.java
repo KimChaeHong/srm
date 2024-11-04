@@ -14,8 +14,8 @@ public class SearchDto {
 	private Date endDate;					// 종료일
 	private String relSys;		// 관련 시스템
 	private String srStat;		// SR 진행상태(등록, 요청, 반려, 접수, 재검토)
-	private String instId;
-	private String dDept;
+	private String instId;		// 기관
+	private String dDept;		// 부서
 	private String keyword;		// 키워드
 	private String wkType;		// 업무구분
 	private String tkType;		// 작업구분 진행상태(분석, 설계, 구현, 시험, 반영요청, 운영반영)

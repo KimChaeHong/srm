@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.birdie.srm.dto.PagerDto;
+import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 
@@ -18,6 +19,6 @@ public interface SR002MTDao {
 
 	public int countRows(SearchDto searchDto);		// 검색 결과 행 
 
-	public void insertAppSr(String srId); // TB_SR_002MT에 데이터 insert
+	public void insertAppSr(SR001MT sr001mt); // TB_SR_002MT에 데이터 insert
 	
 }

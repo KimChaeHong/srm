@@ -96,11 +96,7 @@
 			SR_ID, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
 		)	
 		values (
-			SR_ID = #{srId}
-			FIRST_INPT_ID = #{lastInptId},
-			FIRST_INPT_DT = sysdate,
-			LAST_INPT_ID = #{lastInptId},
-			LAST_INPT_DT = sysdate
+			#{srId}, #{lastInptId}, sysdate, #{lastInptId}, sysdate
 		)
 	</insert>
 </mapper>
