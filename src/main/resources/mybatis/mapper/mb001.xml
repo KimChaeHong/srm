@@ -27,7 +27,7 @@
 	<!-- 회원 가입 -->
 	<insert id="signUp" parameterType="MB001MT">
    	    <selectKey keyProperty="memNo" resultType="string" order="BEFORE">
-	        SELECT #{instId} || LPAD(SEQ_001MT.NEXTVAL, 4, '0') AS memNo 
+	        SELECT #{instId} || LPAD(MEM_NO_SEQ.NEXTVAL, 4, '0') AS memNo 
 	        FROM dual
 	    </selectKey>
 		INSERT INTO TB_MB_001MT (
