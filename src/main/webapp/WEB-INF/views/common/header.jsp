@@ -41,7 +41,8 @@
 			            <span class="badge" id="user-role">일반 사용자</span>
 			            <i class="bi bi-person-circle icon"></i>
 			            <div class="user-name"><sec:authentication property="principal.userDto.memNm"/></div>
-			            <i class="bi bi-box-arrow-right logout"></i>
+			            
+			            <a href="${pageContext.request.contextPath}/member/logout"><i class="bi bi-box-arrow-right logout"></i></a>
 			        </div>
 			    </div>     
 		    </sec:authorize>
