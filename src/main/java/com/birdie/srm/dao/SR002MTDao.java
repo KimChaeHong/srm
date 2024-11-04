@@ -19,7 +19,7 @@ public interface SR002MTDao {
 	// 검색 결과 행 개수 조회
 	public int countRows(SearchDto searchDto);
 	// TB_SR_002MT에 데이터 insert
-	public void insertAppSr(String srId);
+	public void insertAppSr(SR001MT sr001mt);
 	// appSrId와 일치하는 TB_SR_002MT 데이터 조회
 	public SR002MT selectPlan(String appSrId);
 }
