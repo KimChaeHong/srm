@@ -32,8 +32,8 @@
 		<typeAlias type="com.birdie.srm.dto.SR004NT"
 				    alias="SR004NT"/>
 		<!-- 기관 -->
-		<typeAlias type="com.birdie.srm.dto.SR001MT"
-				    alias="SR001MT"/>		    
+		<typeAlias type="com.birdie.srm.dto.IS001MT"
+				    alias="IS001MT"/>		    
 		<!-- 회원가입 -->
 		<typeAlias type="com.birdie.srm.dto.MB001MT"
 				    alias="MB001MT"/>

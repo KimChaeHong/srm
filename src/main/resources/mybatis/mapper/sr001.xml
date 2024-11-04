@@ -40,6 +40,9 @@
 	            <if test="search.keyword != null and search.keyword != ''">
 	                and SR_TITLE like '%' || #{search.keyword} || '%'
 	            </if>
+	            <if test="search.instId != null and search.instId != ''">
+				and INST_ID = #{search.instId}
+			</if>
 	        )
 	    )
 	    where rnum between #{pager.startRowNo} and #{pager.endRowNo}
@@ -47,7 +50,12 @@
 	
 	<select id="selectSearchedRows" parameterType="Search" resultType="int">
 		select count(*)
-		from TB_SR_001MT
+		from TB_SR_001MT sr001mt
+        join (
+            select MEM_NO, MEM_NM, mbmt.INST_ID, ismt.INST_NM
+            from TB_MB_001MT mbmt
+            join TB_IS_001MT ismt on mbmt.INST_ID = ismt.INST_ID
+        ) mb001mt on sr001mt.FIRST_INPT_ID = mb001mt.MEM_NO
 		where
 			DELT_YN = 'N'
 			<if test="startDate != null and endDate != null">

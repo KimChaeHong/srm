@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dto.CDMT;
+import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
@@ -36,9 +37,9 @@ public class SrController {
 	@Autowired
 	private MemberService memberService;
 
-	//SR관리 목록 (Pending Approval SR List)
+	//SR관리 목록
 	@RequestMapping("/list") 
-	public String sRMngList(SearchDto search, @RequestParam(defaultValue="1") int pageNo, Authentication authentication,
+	public String srMngList(SearchDto search, @RequestParam(defaultValue="1") int pageNo, Authentication authentication,
 			@RequestParam(defaultValue="10")int rowsPerPage, Model model){
 		//로그인 된 회원의 MEM_ID를 통해 회원의 모든 정보 가져오기 (로그인 되어 있을 때에만 들어올 수 있도록 설정한 후에는 if 지울예정)
 		if(authentication != null) {
@@ -59,7 +60,9 @@ public class SrController {
 		
 		List<SR001MTDao> srList = srService.SearchSr(searchCont);
 		List<CDMT> sysList = srService.searchRelSys("SYS");
+		List<IS001MT> instList = srService.searchInst();
 		model.addAttribute("sysList", sysList);
+		model.addAttribute("instList", instList);
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
 		return "sr/srList";
@@ -81,7 +84,7 @@ public class SrController {
 	
 	//SR 상세보기
 	@PostMapping("/srDetail")
-	public void srDetail(String srId, HttpServletResponse response, HttpServletRequest request, Authentication authentication) throws Exception{
+	public void getSrDetail(String srId, HttpServletResponse response, HttpServletRequest request, Authentication authentication) throws Exception{
 		//로그인 된 회원의 MEM_ID를 통해 회원의 모든 정보 가져오기 (로그인 되어 있을 때에만 들어올 수 있도록 설정한 후에는 if 지울예정)
 		if(authentication != null) {
 			MB001MT memInfo = memberService.getUserInfo(authentication.getName());			
@@ -108,14 +111,14 @@ public class SrController {
 	
 	// SR 삭제
 	@PostMapping("/srDelete")
-	public String srDelete(SR001MT sr001Dto) {
+	public String deleteSr(SR001MT sr001Dto) {
 		srService.deleteSr(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}
 
 	// SR 접수요청
 	@PostMapping("/srAppReq")
-	public String srAppReq(SR001MT sr001Dto) {
+	public String appReqSr(SR001MT sr001Dto) {
 		log.info("접수요청");
 		srService.srAppReq(sr001Dto.getSrId());
 		return "redirect:/sr/list";
@@ -130,6 +133,11 @@ public class SrController {
 			sr001Dto.setLastInptId(memInfo.getMemNo());
 		}
 		srService.srProcess(sr001Dto);
+		log.info(sr001Dto.getSrStat());
+		log.info(sr001Dto.getSrId());
+		if(sr001Dto.getSrStat().equals("RECE")) {
+			srService.insertAppSr(sr001Dto);			
+		}
 		return "redirect:/sr/list";
 	}
 	
