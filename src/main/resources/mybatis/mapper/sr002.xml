@@ -99,4 +99,22 @@
 			#{srId}, #{lastInptId}, sysdate, #{lastInptId}, sysdate
 		)
 	</insert>
+	
+	<!-- SR계획정보 조회 -->
+	<select id="selectPlan" parameterType="String" resultType="SR002MT">
+		SELECT 
+			A.SR_TYPE,           <!-- 요청 구분 -->
+	        A.WK_TYPE,           <!-- 업무 구분 -->
+	        A.TRG_ST_DT,         <!-- 목표 시작일 -->
+	        A.TRG_END_DT,        <!-- 목표 완료일 -->
+	        A.RCP_STAT,          <!-- 접수 상태 -->
+	        A.RVW_CONT,          <!-- 검토 내용 -->
+	        M.DEPT_ID, 			 <!-- 처리팀 부서  -->
+	        M.MEM_NM   			 <!-- 담당자 이름 -->
+		FROM TB_SR_002MT A
+		JOIN TB_MB_001MT M
+			ON A.FIRST_INPT_ID = M.MEM_NO
+		WHERE A.APP_SR_ID = #{appSrId}
+	</select>
+	
 </mapper>

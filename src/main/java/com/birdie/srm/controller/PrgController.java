@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -106,16 +107,22 @@ public class PrgController {
 		return "prg/prgList";
 	}
 	
-	
-	
-	/*// SR계획정보 조회
+	// SR계획정보 조회
 	@PostMapping("/srPlan")
 	public void srPlan(
 			String appSrId, 
 			HttpServletResponse response, 
 			HttpServletRequest request) throws Exception{
 		SR002MT srPlan = srProgressService.getSrPlan(appSrId);
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/srPlan.jsp";
+		request.setAttribute("srPlan", srPlan);
 		
-	}*/
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
+        log.info("appSrId : "+ appSrId);
+	}
 	
 }

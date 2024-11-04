@@ -47,4 +47,10 @@ public class SrProgressService {
 		return sysList;
 	}
 	
+	/*SR계획정보 - appSrId와 일치하는 데이터 모든 값 가져오기*/
+	public SR002MT getSrPlan(String appSrId) {
+		SR002MT srPlan = sr002mt.selectPlan(appSrId);
+		return srPlan;
+	}
+	
 }

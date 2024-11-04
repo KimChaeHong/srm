@@ -14,12 +14,12 @@ public class SR002MT {
 	private String wkType;		// 업무구분
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date trgStDt;		// 목표 시작일
+	private Date trgStDt;		// 목표시작일
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date trgEndDt;		// 목표 완료일
+	private Date trgEndDt;		// 목표완료일
 	
-	private String rvwCont;
-	private String srType;
+	private String rvwCont;		// 검토내용
+	private String srType;		// 요청 구분(개선, 신규, 오류, 기타)
 	private String mgr;			// 담당자
 	private String rcpStat;		// 접수상태(접수, 취소, 보류)
 	
@@ -39,5 +39,6 @@ public class SR002MT {
 	private Date dueDt;			// sr001 - 완료예정일
 	
 	private String srStat;		// sr001 - 진행상태
-	private String taskType;		// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
+	private String taskType;	// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
+	private String memNm;		// 회원(담당자) 이름
 }

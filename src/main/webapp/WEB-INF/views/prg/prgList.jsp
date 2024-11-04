@@ -262,10 +262,10 @@
 				        <div class="tabs-container d-flex align-items-center">
 				            <ul class="nav nav-tabs">
 				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR계획정보</a>
+				                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
 				                </li>
 				                <li class="nav-item">
-				                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR자원정보</a>
+				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
 				                </li>
 				                <li class="nav-item">
 				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
@@ -274,6 +274,7 @@
 				
 				            <button id="plan-btn" type="button" class="btn-save">저장</button>
 				        </div>
+				        
 				        <!-- SR계획정보 -->
                     	<form id="sr-plan-form" method="post">
 					            <div class="form-group">
