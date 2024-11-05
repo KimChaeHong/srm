@@ -328,12 +328,17 @@ th {
     gap: 4px;
 }
 
-.modal #attachment,
 .modal #sr-title,
 .modal #related-system {
     padding-left: 10px;
     width: 520px;
     margin: 12px 0px 12px 0px;
+}
+
+.modal #attachment{
+	width: 520px;
+    margin: 12px 0px 12px 0px;
+	padding: 4px 12px 4px 12px;	
 }
 
 .modal .form-select {
@@ -343,6 +348,32 @@ th {
     border: 1px solid #D9D9D9;
     margin: 12px 0px 12px 0px;
     font-size: 12px;
+}
+
+.modal .file-list {
+    width: 520px;
+    min-height: 30px;
+    border-radius: 2px;
+    border: 1px solid #D9D9D9;
+    margin: 12px 0px 12px 0px;
+}
+
+.modal .file-item {
+	width: fit-content;
+    border-radius: 2px;
+    border: 1px solid #D9D9D9;
+    margin: 5px;
+    padding: 5px;
+    display: block;
+    font-size: 12px;
+}
+
+.delete-attach{
+	display: inline-block;
+}
+
+.delete-attach:hover{
+	cursor: pointer;
 }
 
 .modal-btn {

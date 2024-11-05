@@ -91,6 +91,7 @@
 			
 	</select>
 	
+	<!-- 접수요청된 SR이 승인처리 될 때 TB_SR_002MT에 INSERT -->
 	<insert id="insertAppSr" parameterType="SR001MT">
 		insert into TB_SR_002MT (
 			SR_ID, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT, DELT_YN
@@ -137,7 +138,7 @@
 	    WHERE APP_SR_ID = #{appSrId}
 	</update>
 
-  
+  	<!-- 선택한 APP_SR의 상세정보 가져오기 -->
 	<select id="selectDetailInfo" parameterType="String" resultType="SR002MT">
 		SELECT
 		    APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, SYS_NM,SR_CONT,

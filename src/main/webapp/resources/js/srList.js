@@ -40,36 +40,21 @@ $(document).ready(function(){
 	})
 });
 
-//등록 시 첨부파일
-
-let selectedFiles = [];
-
-// 파일 선택 시 배열에 파일을 추가
-$("#attachment").on("change", function(event) {
-    const files = event.target.files;
-    for (let i = 0; i < files.length; i++) {
-        selectedFiles.push(files[i]);
-    }
+// delete-attach(첨부파일 우측 X버튼) 클릭시 DB에서 첨부파일 삭제 및 첨부파일 목록에서 div도 삭제
+$(document).on('click', '.delete-attach', function() {
+	const attachId = $(this).data('attachid');
+	
+	$.ajax({
+		url:'/srm/sr/deleteAttach',
+		type:'GET',
+		data:{attachId : attachId},
+		dataType:'text',
+		success:function(){
+			console.log('첨부파일 삭제 ajax 성공')
+			$(`#${attachId}`).remove();
+		},
+		error: function(){
+			console.log('첨부파일 삭제 ajax 실패')			
+		}
+	});
 });
-
-function submitForm() {
-	const formData = new FormData(document.getElementById('register-form'));
-
-    selectedFiles.forEach(file => {
-        formData.append("files", file);
-    });
-
-    $.ajax({
-        url: "srm/sr/registerSr",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            alert("파일 업로드 성공");
-        },
-        error: function(xhr, status, error) {
-            console.error("업로드 실패:", error);
-        }
-    });
-}

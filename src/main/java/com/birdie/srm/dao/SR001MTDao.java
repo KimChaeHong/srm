@@ -47,5 +47,8 @@ public interface SR001MTDao {
 
 	// 특정 상태의 SR 목록 가져오기
 	public List<SR001MT> selectMysrListByStatus(@Param("pager") PagerDto pager, @Param("srStat") String srStat);
+	
+	//방금 등록한 SR의 SR_ID를 가져오기
+	public String selectSrId(String memNo);
     
 }
