@@ -80,6 +80,9 @@
 		                            <label for="attachment">첨부파일</label>
 		                            <input type="file" id="attachment" name="attachment">
 	                        	</div>
+	                        	<div id="file-list">
+	                        	
+	                        	</div>
 	                        </div>
 	                    
 	                    </div>
