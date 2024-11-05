@@ -101,20 +101,40 @@
 	</insert>
 	
 	<!-- SR계획정보 조회 -->
-	<select id="selectPlan" parameterType="String" resultType="SR002MT">
-		SELECT 
-			A.SR_TYPE,           <!-- 요청 구분 -->
+	<select id="selectSrPlan" parameterType="String" resultType="SR002MT">
+	    SELECT 
+	    	A.APP_SR_ID,
+	        A.SR_TYPE,           <!-- 요청 구분 -->
 	        A.WK_TYPE,           <!-- 업무 구분 -->
 	        A.TRG_ST_DT,         <!-- 목표 시작일 -->
 	        A.TRG_END_DT,        <!-- 목표 완료일 -->
 	        A.RCP_STAT,          <!-- 접수 상태 -->
 	        A.RVW_CONT,          <!-- 검토 내용 -->
-	        M.DEPT_ID, 			 <!-- 처리팀 부서  -->
-	        M.MEM_NM   			 <!-- 담당자 이름 -->
-		FROM TB_SR_002MT A
-		JOIN TB_MB_001MT M
-			ON A.FIRST_INPT_ID = M.MEM_NO
-		WHERE A.APP_SR_ID = #{appSrId}
+	        M.DEPT_ID,           <!-- 처리팀 부서 -->
+	        M.MEM_NM AS MGR      <!-- 담당자 이름- MGR 필드로 매핑 -->
+	    FROM TB_SR_002MT A
+	    JOIN TB_MB_001MT M
+	        ON A.MGR = M.MEM_NO   <!-- MGR(사번)으로 MEM_NO이랑 조인 -->
+	    WHERE A.APP_SR_ID = #{appSrId}
 	</select>
+	
+	<!-- SR계획정보 수정 -->
+	<update id="updateSrPlan" parameterType="SR002MT">
+		UPDATE TB_SR_002MT
+		SET
+			APP_SR_ID = #{appSrId},
+			SR_TYPE = #{srType},
+			WK_TYPE = #{wkType},
+			TRG_ST_DT = #{trgStDt},
+	        TRG_END_DT = #{trgEndDt},
+	        RCP_STAT = #{rcpStat},
+	        RVW_CONT = #{rvwCont},
+	        FIRST_INPT_ID = #{firstInptId},
+	        FIRST_INPT_DT = SYSDATE,
+	        LAST_INPT_ID = #{lastInptId},
+	        LAST_INPT_DT = SYSDATE
+	    WHERE APP_SR_ID = #{appSrId}
+	</update>
+	
 	
 </mapper>

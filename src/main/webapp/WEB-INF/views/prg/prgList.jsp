@@ -19,10 +19,10 @@
 	                           <li class="li-style first-li">
 	                               <div id="search-thing">조회기간</div>
 	                               <div class="date-style">
-	                                   <input type="date" class="date-form prg-search" name="startDate"
-	                                   		value="${searchCont.searchDto.startDate }"> -
-	                                   <input type="date" class="date-form prg-search" name="endDate"
-	                                   		value="${searchCont.searchDto.endDate }">
+	                                   <input type="date" class="prg-search" name="startDate"
+	                                   		value="<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>"> -
+	                                   <input type="date" class="prg-search" name="endDate"
+	                                   		value="<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>">
 	                               </div>
 	                           </li>
 	                           <li class="li-style">
@@ -49,7 +49,7 @@
 	                       <ul class="ul-style">
 	                           <li class="li-style first-li" >
 	                               <div id="search-thing">제목</div>
-	                               <input type="text" class="prg prg-search" name="keyword" value="">
+	                               <input type="text" class="prg prg-search" name="keyword" value="${searchCont.searchDto.keyword }">
 	                           </li>
 	                           <li class="li-style">
 	                               <div id="search-thing">진행상태</div>		<!-- 분석, 설계, 구현, 시험, 반영요청, 운영반영 -->
@@ -104,40 +104,40 @@
                                </tr>
                            </thead>
                            <tbody>
-                               <c:forEach items="${srList}" var="i" varStatus="status">
-                               		<tr onclick="loadSrDetails('${i.appSrId }')" id="tr-style">
-                               			<td class="col-1">${status.index + 1 }</td>
-	                                    <td class="col-2">${i.appSrId }</td>
+                               <c:forEach items="${srList}" var="sr002MT">
+                               		<tr onclick="loadSrDetails('${sr002MT.appSrId }')" id="tr-style">
+                               			<td class="col-1">${sr002MT.rnum }</td>
+	                                    <td class="col-2">${sr002MT.appSrId }</td>
 		                                <td class="col-3">	<!-- 관련시스템 -->
 		                                    <c:choose>
-	                                    		<c:when test="${i.relSys == 'EMPL'}">고용보험</c:when>
-	                                    		<c:when test="${i.relSys == 'HRDV'}">HRD</c:when>
-	                                    		<c:when test="${i.relSys == 'WORK'}">워크넷</c:when>
+	                                    		<c:when test="${sr002MT.relSys == 'EMPL'}">고용보험</c:when>
+	                                    		<c:when test="${sr002MT.relSys == 'HRDV'}">HRD</c:when>
+	                                    		<c:when test="${sr002MT.relSys == 'WORK'}">워크넷</c:when>
 	                                    	</c:choose>
 	                                    </td>
-	                                    <td class="col-4">${i.srTitle }</td>
-	                                    <td class="col-5">아직 로그인x</td>
+	                                    <td class="col-4">${sr002MT.srTitle }</td>
+	                                    <td class="col-5">${sr002MT.memNm }</td>
 	                                    <td class="col-6">
-	                                    	<fmt:formatDate value="${i.reqDt }" pattern="yyyy-MM-dd"/>
+	                                    	<fmt:formatDate value="${sr002MT.reqDt }" pattern="yyyy-MM-dd"/>
 	                                    </td>
 	                                    <td class="col-7">
-	                                    	<fmt:formatDate value="${i.dueDt }" pattern="yyyy-MM-dd" />
+	                                    	<fmt:formatDate value="${sr002MT.dueDt }" pattern="yyyy-MM-dd" />
 	                                    </td>
 	                                    <td class="col-8">	<!-- 접수상태 -->
 	                                    	<c:choose>
-	                                    		<c:when test="${i.rcpStat == 'RECE' }">접수</c:when>
-	                                    		<c:when test="${i.rcpStat == 'CANC' }">취소</c:when>
-	                                    		<c:when test="${i.rcpStat == 'HOLD' }">보류</c:when>
+	                                    		<c:when test="${sr002MT.rcpStat == 'RECE' }">접수</c:when>
+	                                    		<c:when test="${sr002MT.rcpStat == 'CANC' }">취소</c:when>
+	                                    		<c:when test="${sr002MT.rcpStat == 'HOLD' }">보류</c:when>
 	                                    	</c:choose>
 										</td>
 	                                    <td class="col-9">	<!-- 진행상태(작업구분) -->
 	                                    	<c:choose>
-	                                    		<c:when test="${i.taskType == 'ANAL' }">분석</c:when>
-	                                    		<c:when test="${i.taskType == 'DESI' }">설계</c:when>
-	                                    		<c:when test="${i.taskType == 'IMPL' }">구현</c:when>
-	                                    		<c:when test="${i.taskType == 'TEST' }">시험</c:when>
-	                                    		<c:when test="${i.taskType == 'REFL' }">반영요청</c:when>
-	                                    		<c:when test="${i.taskType == 'OPER' }">운영반영</c:when>
+	                                    		<c:when test="${sr002MT.taskType == 'ANAL' }">분석</c:when>
+	                                    		<c:when test="${sr002MT.taskType == 'DESI' }">설계</c:when>
+	                                    		<c:when test="${sr002MT.taskType == 'IMPL' }">구현</c:when>
+	                                    		<c:when test="${sr002MT.taskType == 'TEST' }">시험</c:when>
+	                                    		<c:when test="${sr002MT.taskType == 'REFL' }">반영요청</c:when>
+	                                    		<c:when test="${sr002MT.taskType == 'OPER' }">운영반영</c:when>
 	                                    	</c:choose>
 	                                    </td> 
                                		</tr>
@@ -154,11 +154,11 @@
 	                    <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
 	                    	<c:if test="${searchCont.pager.pageNo == i}">
 								<a class="btn page-btn shadow-sm active"
-								href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
+								href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
 							</c:if>
 							<c:if test="${searchCont.pager.pageNo != i}">
 								<a class="btn page-btn shadow-sm"
-								href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=${searchCont.searchDto.startDate}&endDate=${searchCont.searchDto.endDate}&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
+								href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.searchDto.relSys}&tkType=${searchCont.searchDto.tkType}&keyword=${searchCont.searchDto.keyword}&wkType=${searchCont.searchDto.wkType}&rcpStat=${searchCont.searchDto.rcpStat}">${i}</a>
 							</c:if>
 	                    </c:forEach>
 	                    <a class="btn page-btn shadow-sm">
@@ -176,7 +176,7 @@
 						    
 						    <!--rowsPerPage 선택 -->
 						    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
-						        <option value="16" ${searchCont.pager.rowsPerPage == '15' ? 'selected' : ''}>16</option>
+						        <option value="16" ${searchCont.pager.rowsPerPage == '16' ? 'selected' : ''}>16</option>
 						        <option value="32" ${searchCont.pager.rowsPerPage == '32' ? 'selected' : ''}>32</option>
 						        <option value="48" ${searchCont.pager.rowsPerPage == '48' ? 'selected' : ''}>48</option>
 						        <option value="64" ${searchCont.pager.rowsPerPage == '64' ? 'selected' : ''}>64</option>
@@ -262,20 +262,20 @@
 				        <div class="tabs-container d-flex align-items-center">
 				            <ul class="nav nav-tabs">
 				                <li class="nav-item">
-				                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
+				                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR계획정보</a>
 				                </li>
 				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
+				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
 				                </li>
 				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
+				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR진척율</a>
 				                </li>
 				            </ul>
 				
 				            <button id="plan-btn" type="button" class="btn-save">저장</button>
 				        </div>
 				        
-				        <!-- SR계획정보 -->
+				        <!-- SR계획정보(진척 페이지를 열었을 때 기본적으로 보이는 계획정보) -->
                     	<form id="sr-plan-form" method="post">
 					            <div class="form-group">
 					                <label for="request-type">요청 구분</label>
@@ -339,14 +339,152 @@
 					                <textarea id="review" disabled></textarea>
 					            </div>
 					        </form>
-                    	
+				    </div>
+				    
+				    <div id="srHr">
+				        <div id="title">
+				            SR 요청 처리정보
+				        </div>
+				        <hr>
+				        <div class="hr-tabs-container d-flex align-items-center">
+				            <ul class="nav nav-tabs">
+				                <li class="nav-item">
+				                  <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR계획정보</a>
+				                </li>
+				                <li class="nav-item">
+				                  <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR자원정보</a>
+				                </li>
+				                <li class="nav-item">
+				                  <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
+				                </li>
+				              </ul>
+				              <div class="btn-container d-flex ms-auto ">
+				                  <button id="add-btn" class="btn srpg-btn">추가</button>
+				                  <button id="del-btn" class="btn srpg-btn">선택삭제</button>
+				                  <button id="save-btn" class="btn srpg-btn">저장</button>
+				              </div>
+				        </div>
+				        <div id="hr-table-container">
+				            <table id="hr-table">
+				                <thead>
+				                    <tr>
+				                        <th class="hr-col-1"></th>
+				                        <th class="hr-col-2">
+				                            <input class="form-check-input" type="checkbox" value="">
+				                        </th>
+				                        <th class="hr-hr-col-3">담당자명</th>
+				                        <th class="hr-col-4">역할</th>
+				                        <th class="hr-col-5">계획공수(M/D)</th>
+				                        <th class="hr-col-6">실적공수(M/D)</th>
+				                        <th class="hr-col-7">일자별실적조회</th>
+				                    </tr>
+				                </thead>
+				                <tbody>
+				                    <tr>
+				                        <td class="hr-col-1">1</td>
+				                        <td class="hr-col-2">
+				                            <input class="form-check-input" type="checkbox" value="">
+				                        </td>
+				                        <td class="hr-col-3">김채홍</td>
+				                        <td class="hr-col-4">팀장</td>
+				                        <td class="hr-col-5">5.0</td>
+				                        <td class="hr-col-6">3.0</td>
+				                        <td class="hr-col-7">
+				                            <i class="bi bi-journal"></i>
+				                        </td>
+				                    </tr>
+				                    
+				                </tbody>
+				            </table>
+				        </div>
 				    </div>
                    
+                   <div id="srPg">
+					    <div id="title">
+					        SR 요청 처리정보
+					    </div>
+					    <hr>
+					    <div class="pg-tabs-container d-flex align-items-center">
+					        <ul class="nav nav-tabs">
+					            <li class="nav-item">
+					              <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
+					            </li>
+					            <li class="nav-item">
+					              <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
+					            </li>
+					            <li class="nav-item">
+					              <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
+					            </li>
+					          </ul>
+					          <button id="save-btn" class="btn ms-auto">저장</button>
+					    </div>
+					    <div id="pg-table-container">
+					        <table id="pg-table">
+					            <thead>
+					                <tr>
+					                    <th class="pg-col-1"></th>
+					                    <th class="pg-col-2">작업구분</th>
+					                    <th class="pg-col-3">시작일</th>
+					                    <th class="pg-col-4">완료일</th>
+					                    <th class="pg-col-5">진척율%(누적)</th>
+					                </tr>
+					            </thead>
+					            <tbody>
+					                <tr>
+					                    <td class="pg-col-1">1</td>
+					                    <td class="pg-col-2">분석</td>
+					                    <td class="pg-col-3">2024.10.01</td>
+					                    <td class="pg-col-4">2024.10.04</td>
+					                    <td class="pg-col-5">10</td>
+					                </tr>
+					                <tr>
+					                    <td class="pg-col-1">2</td>
+					                    <td class="pg-col-2">설계</td>
+					                    <td class="pg-col-3">2024.10.04</td>
+					                    <td class="pg-col-4">2024.10.10</td>
+					                    <td class="pg-col-5">30</td>
+					                </tr>
+					                <tr>
+					                    <td class="pg-col-1">3</td>
+					                    <td class="pg-col-2">구현</td>
+					                    <td class="pg-col-3">2024.10.10</td>
+					                    <td class="pg-col-4">2024.10.16</td>
+					                    <td class="pg-col-5">60</td>
+					                </tr>
+					                <tr>
+					                    <td class="pg-col-1">4</td>
+					                    <td class="pg-col-2">시험</td>
+					                    <td class="pg-col-3">2024.10.16</td>
+					                    <td class="pg-col-4">2024.10.18</td>
+					                    <td class="pg-col-5">80</td>
+					                </tr>
+					                <tr>
+					                    <td class="pg-col-1">5</td>
+					                    <td class="pg-col-2">반영요청</td>
+					                    <td class="pg-col-3">2024.10.18</td>
+					                    <td class="pg-col-4">2024.10.19</td>
+					                    <td class="pg-col-5">90</td>
+					                </tr>
+					                <tr>
+					                    <td class="pg-col-1">6</td>
+					                    <td class="pg-col-2">운영반영</td>
+					                    <td class="pg-col-3">2024.10.19</td>
+					                    <td class="pg-col-4">2024.10.21</td>
+					                    <td class="pg-col-5">100</td>
+					                </tr>
+					            </tbody>
+					        </table>
+					    </div>
+					
+					</div>
+					
+					
                     
                 </div>
             </div>
 
         </div>
     </div>
+
 </body>
 </html>

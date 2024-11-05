@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.birdie.srm.dto.CDMT;
+import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
+import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.SrProgressService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +38,8 @@ public class PrgController {
 
 	@Autowired
 	private SrProgressService srProgressService;
+	@Autowired
+	private MemberService memberService;
 	
 	// SR진척 검색창 - 업무구분 
 	@GetMapping("/getWkTypeList") 
@@ -122,7 +127,38 @@ public class PrgController {
 		response.setContentType("text/html; charset=UTF-8");
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
         dispatcher.include(request, response);
-        log.info("appSrId : "+ appSrId);
+        log.info("appSrId : " + appSrId);
 	}
-	
+	// SR계획정보 저장
+	@PostMapping("/updateSrPlan")
+	public void updateSrPlan(
+	        SR002MT sr002mt, 
+	        Authentication authentication, 
+	        HttpServletResponse response) throws Exception {
+	    log.info("컨트롤러 1 - SR계획정보 업데이트");
+
+	    // 로그인 했을 경우 담당자 사번 설정
+	    if (authentication != null) {
+	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+	        sr002mt.setMgr(memInfo.getMemNo());
+	    }
+	    srProgressService.updateSrPlan(sr002mt);
+	    log.info("컨트롤러 2 - SR계획정보 업데이트 완료");
+
+	    response.setContentType("text/plain; charset=UTF-8");
+	    response.getWriter().write("SR 계획 정보가 성공적으로 업데이트되었습니다!");
+	}
+
+
+	/*@PostMapping("/updateSrPlan")
+	public String registerSrPlan(SR002MT sr002mt, Authentication authentication) {
+		log.info("컨트롤러 1 - SR계획정보 업데이트");
+		if (authentication != null) {
+			MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+			sr002mt.setMgr(memInfo.getMemNo());	// 담당자 사번 설정
+		}
+		srProgressService.updateSrPlan(sr002mt);
+		log.info("컨트롤러 2 - SR계획정보 업데이트");
+		return "redirect:/prg/list";
+	}*/
 }

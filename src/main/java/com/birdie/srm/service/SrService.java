@@ -73,7 +73,7 @@ public class SrService {
 	// SR_STAT이 '접수'일때(승인되었을 때) TB_SR_002 테이블에 insert
 	public void insertAppSr(SR001MT sr001mt) {
 		log.info("TB_SR_002MT에 INSERT");
-		sr002mtDao.insertAppSr(sr001mt);
+		sr002mtDao.insertSr(sr001mt);
 	}
 	
 	// SR 수정

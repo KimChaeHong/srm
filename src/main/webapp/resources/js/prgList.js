@@ -27,10 +27,31 @@ function loadSrDetails(appSrId) {
         data: { appSrId: appSrId },
         success: function(response) {
             console.log("Ajax 통신 성공");
-            $('#sr-plan-form').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
+            $('#sr-plan-info').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
         },
         error: function() {
             console.log('Ajax 통신 실패');
         }
     });
 }
+
+/*SR계획정보 저장 버튼*/
+$('#plan-btn').on('click', function(){
+	// 폼 데이터 가져오기
+    const formData = $('#sr-plan-form').serialize();
+    
+    $.ajax({
+    	url: 'updateSrPlan',
+    	type: 'post',
+    	data: formData,
+    	success: function(response){
+    		alert(response);
+    	},
+    	error: function() {
+            alert('업데이트 중 오류가 발생했습니다.');
+        }
+    });
+});
+
+
+
