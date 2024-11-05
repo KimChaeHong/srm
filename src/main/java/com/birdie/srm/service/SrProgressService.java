@@ -52,10 +52,16 @@ public class SrProgressService {
 		SR002MT srPlan = sr002mtDao.selectSrPlan(appSrId);
 		return srPlan;
 	}
+
 	/*SR계획정보 저장*/
 	public void updateSrPlan(SR002MT sr002mt) {
 		log.info("서비스 - SR계획정보 업데이트");
 		sr002mtDao.updateSrPlan(sr002mt);
+
+
+	public SR002MT getDetail(String appSrId) {
+		SR002MT appSrDetail = sr002mt.selectDetailInfo(appSrId);
+		return appSrDetail;
 	}
 	
 }

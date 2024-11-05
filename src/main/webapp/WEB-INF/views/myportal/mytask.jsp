@@ -11,8 +11,12 @@
 	href="${pageContext.request.contextPath}/resources/css/sr/srForm.css"
 	rel="stylesheet" type="text/css" />
 
+<!-- jQuery 라이브러리 추가 (CDN) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- JavaScript 파일 로드 -->
-<script src="${pageContext.request.contextPath}/resources/js/pagination.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/pagination.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/myTask.js"></script>
 
 <!-- section -->
@@ -25,34 +29,26 @@
 		<div class="tabs-container">
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link tb-tab active"
-					data-bs-toggle="tab" href="#">요청<span class="row-cnt">(0)</span></a>
-				</li>
+					data-bs-toggle="tab" data-srstat="ALL">전체<span class="row-cnt">(0)</span></a></li>
 				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" href="#">등록<span class="row-cnt">(0)</span></a>
-				</li>
+					data-bs-toggle="tab" data-srstat="REQT">요청<span class="row-cnt">(0)</span></a></li>
 				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" href="#">반려/재검토<span class="row-cnt">(0)</span></a>
-				</li>
+					data-bs-toggle="tab" data-srstat="REGI">등록<span class="row-cnt">(0)</span></a></li>
 				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" href="#">접수<span class="row-cnt">(0)</span></a>
-				</li>
+					data-bs-toggle="tab" data-srstat="REJC">반려/재검토<span
+						class="row-cnt">(0)</span></a></li>
 				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" href="#">개발중<span class="row-cnt">(0)</span></a>
-				</li>
+					data-bs-toggle="tab" data-srstat="RECE">접수<span class="row-cnt">(0)</span></a></li>
 				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" href="#">개발완료<span class="row-cnt">(0)</span></a>
-				</li>
+					data-bs-toggle="tab" data-srstat="DEVING">개발중<span
+						class="row-cnt">(0)</span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="DEVDONE">개발완료<span
+						class="row-cnt">(0)</span></a></li>
 			</ul>
 		</div>
 
-<!-- 페이지 버튼 -->
-<div id="pagination">
-    <button onclick="loadTasksByStatus(currentStat, currentPage - 1)" id="prev-page" disabled>이전</button>
-    <span id="page-number">1</span>
-    <button onclick="loadTasksByStatus(currentStat, currentPage + 1)" id="next-page">다음</button>
-</div>	
-		
-<div id="table-container" class="overflow-auto">
+		<div id="table-container" class="overflow-auto">
 			<table id="task-table">
 				<thead>
 					<tr>
@@ -69,8 +65,9 @@
 						<th class="mytask-11">상세보기</th>
 					</tr>
 				</thead>
-				<c:forEach items="${mySrList}" var="sr001mt">
-					<tbody id = "mytask">
+				<tbody id="mytask">
+					<!-- AJAX로 불러온 데이터가 여기에 추가됩니다 -->
+					<c:forEach items="${mySrList}" var="sr001mt">
 						<tr>
 							<td>${sr001mt.rnum}</td>
 							<td>${sr001mt.srId}</td>
@@ -79,6 +76,7 @@
 									<c:when test="${sr001mt.relSys == 'EMPL'}">고용보험</c:when>
 									<c:when test="${sr001mt.relSys == 'HRDV'}">HRD</c:when>
 									<c:when test="${sr001mt.relSys == 'WORK'}">워크넷</c:when>
+									<c:otherwise>기타</c:otherwise>
 								</c:choose></td>
 							<td>등록자</td>
 							<td>소속</td>
@@ -89,20 +87,23 @@
 									<c:when test="${sr001mt.srStat == 'REJC'}">반려</c:when>
 									<c:when test="${sr001mt.srStat == 'RECE'}">접수</c:when>
 									<c:when test="${sr001mt.srStat == 'RERE'}">재검토</c:when>
+									<c:otherwise>기타</c:otherwise>
 								</c:choose></td>
-
 							<td><fmt:formatDate value="${sr001mt.reqDt}"
 									pattern="yy/MM/dd" /></td>
 							<td><fmt:formatDate value="${sr001mt.dueDt}"
 									pattern="yy/MM/dd" /></td>
-							<td><button class="detail-btn" data-bs-toggle="modal"
-									data-bs-target="#detail-modal">요청 상세</button></td>
+							<td>
+								<button class="detail-btn" data-bs-toggle="modal"
+									data-bs-target="#detail-modal">요청 상세</button>
+							</td>
 						</tr>
-					</tbody>
-				</c:forEach>
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 
+		<!-- 페이지 버튼 -->
 		<div id="pagination">
 			<!-- 이전 그룹 -->
 			<c:if test="${pager.groupNo>1}">
@@ -139,92 +140,93 @@
 			</select>
 			<!-- 현재 페이지를 JavaScript에 전달하기 위한 숨겨진 필드 -->
 			<input type="hidden" id="currentPage" value="${pager.pageNo}" />
-		</div>
+		</div> 
 	</div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="detail-modal" data-bs-backdrop="static"
-	data-bs-keyboard="false" tabindex="-1"
-	aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<p class="modal-title" id="exampleModalLabel">개발계획입력</p>
-				<button id="close-btn" type="button" data-bs-dismiss="modal">
-					<i class="bi bi-x-square"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-md-6">
-							<div>
-								<label for="registrant">등록자</label> <input type="text"
-									id="registrant" name="registrant">
-							</div>
-							<div>
-								<label for="registration-date">등록일</label> <input type="date"
-									id="registration-date" name="registration-date">
-							</div>
-							<div class="form-row">
-								<label for="completion-date">요청일</label> <input type="date"
-									id="completion-date" name="completion-date">
-							</div>
-						</div>
+		<!-- Modal -->
+		<div class="modal fade" id="detail-modal" data-bs-backdrop="static"
+			data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<p class="modal-title" id="exampleModalLabel">개발계획입력</p>
+						<button id="close-btn" type="button" data-bs-dismiss="modal">
+							<i class="bi bi-x-square"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-6">
+									<div>
+										<label for="registrant">등록자</label> <input type="text"
+											id="registrant" name="registrant">
+									</div>
+									<div>
+										<label for="registration-date">등록일</label> <input type="date"
+											id="registration-date" name="registration-date">
+									</div>
+									<div class="form-row">
+										<label for="completion-date">요청일</label> <input type="date"
+											id="completion-date" name="completion-date">
+									</div>
+								</div>
 
-						<div class="col-md-6">
-							<div class="form-row">
-								<label for="department">부서</label> <input type="text"
-									id="department" name="department">
-							</div>
-							<div class="form-row">
-								<label for="sr-status">요청 상태</label> <input type="text"
-									id="sr-status" placeholder="요청" name="related-system" disabled>
-							</div>
-							<div class="form-row">
-								<label for="completion-date">완료(예정)일</label> <input type="date"
-									id="completion-date" name="completion-date">
-							</div>
-						</div>
+								<div class="col-md-6">
+									<div class="form-row">
+										<label for="department">부서</label> <input type="text"
+											id="department" name="department">
+									</div>
+									<div class="form-row">
+										<label for="sr-status">요청 상태</label> <input type="text"
+											id="sr-status" placeholder="요청" name="related-system"
+											disabled>
+									</div>
+									<div class="form-row">
+										<label for="completion-date">완료(예정)일</label> <input
+											type="date" id="completion-date" name="completion-date">
+									</div>
+								</div>
 
-						<div>
-							<div class="form-row">
-								<label for="sr-title"">SR 제목</label> <input type=" text"
-									id="sr-title" name="related-system">
-							</div>
+								<div>
+									<div class="form-row">
+										<label for="sr-title"">SR 제목</label> <input type=" text"
+											id="sr-title" name="related-system">
+									</div>
 
-							<div class="form-row">
-								<label for="related-system">관련 시스템</label> <input type="text"
-									id="related-system" name="related-system">
-							</div>
+									<div class="form-row">
+										<label for="related-system">관련 시스템</label> <input type="text"
+											id="related-system" name="related-system">
+									</div>
 
-							<div class="form-row">
-								<label for="sr-content">SR 내용</label>
-								<textarea id="sr-content" name="sr-content">
+									<div class="form-row">
+										<label for="sr-content">SR 내용</label>
+										<textarea id="sr-content" name="sr-content">
         1. 목적:
 
         2. 개선 내용:
         
         3. 고려 사항:
                                 </textarea>
-							</div>
+									</div>
 
-							<div class="form-row">
-								<label for="attachment">첨부파일</label> <input type="file"
-									id="attachment" name="attachment">
+									<div class="form-row">
+										<label for="attachment">첨부파일</label> <input type="file"
+											id="attachment" name="attachment">
+									</div>
+								</div>
+
 							</div>
 						</div>
-
+					</div>
+					<div class="modal-footer">
+						<button id="save-btn" type="button" class="btn btn-primary">저장</button>
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button id="save-btn" type="button" class="btn btn-primary">저장</button>
-			</div>
 		</div>
-	</div>
-</div>
 
-</div>
-</body>
-</html>
+	</div>
+	</body>
+	</html>

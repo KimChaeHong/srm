@@ -54,7 +54,7 @@
 	
 	        <div>
 	            <div class="form-row">
-	                <label for="related-system">관련 시스템</label>
+	                <label for="sys-select">관련 시스템</label>
 	                <select id="sys-select" name="relSys">
 						<option value=''>선택</option>
 						<c:forEach items="${sysList}" var="sysList">
@@ -81,7 +81,7 @@
 	        <c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT' || srDetail.revCmt != null && srDetail.revCmt !=''}">
 				<div>
 					<div class="form-row">
-						<label for="sr-title">검토상태</label>
+						<label for="rev-stat">검토상태</label>
 						<select class="form-select" id="rev-stat" name="srStat" ${srDetail.srStat != 'REQT' ? 'disabled' : ''}>
 							<option>상태</option>
 							<option value="RECE" ${srDetail.srStat == 'RECE' ? 'selected' : ''}>개발 승인</option>
@@ -90,7 +90,7 @@
 						</select>
 					</div>
 					<div class="form-row">
-						<label for="sr-title">검토의견</label>
+						<label for="rev-coment">검토의견</label>
 						<textarea id="rev-coment" class="sr-content" name="revCmt" ${srDetail.srStat != 'REQT' ? 'disabled' : ''}>${srDetail.revCmt}</textarea>
 					</div>
 				</div>
@@ -99,7 +99,7 @@
 	</div>
 </div>
 <div class="modal-footer">
-<c:if test="${memInfo.role1 == 'GUSR' && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
+<c:if test="${(memInfo.role1 == 'GUSR' && srDetail.firstInptId == memInfo.memNo) && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
     <button id="save-btn" type="button" class="btn btn-primary modal-btn">저장</button>
     <button id="req-btn" type="button" class="btn btn-primary modal-btn">접수요청</button>
 </c:if>

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
+import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.MemberService;
@@ -129,7 +130,8 @@ public class PrgController {
         dispatcher.include(request, response);
         log.info("appSrId : " + appSrId);
 	}
-	// SR계획정보 저장
+  
+  // SR계획정보 저장
 	@PostMapping("/updateSrPlan")
 	public void updateSrPlan(
 	        SR002MT sr002mt, 
@@ -149,16 +151,21 @@ public class PrgController {
 	    response.getWriter().write("SR 계획 정보가 성공적으로 업데이트되었습니다!");
 	}
 
+	//SR 상세보기
+	@PostMapping("/srDetail")
+	public void getSrDetail(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception{
+		// srId가 일치하는 데이터 가져오기
+		SR002MT appSrDetail = srProgressService.getDetail(appSrId);
 
-	/*@PostMapping("/updateSrPlan")
-	public String registerSrPlan(SR002MT sr002mt, Authentication authentication) {
-		log.info("컨트롤러 1 - SR계획정보 업데이트");
-		if (authentication != null) {
-			MB001MT memInfo = memberService.getUserInfo(authentication.getName());
-			sr002mt.setMgr(memInfo.getMemNo());	// 담당자 사번 설정
-		}
-		srProgressService.updateSrPlan(sr002mt);
-		log.info("컨트롤러 2 - SR계획정보 업데이트");
-		return "redirect:/prg/list";
-	}*/
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/srDetail.jsp";
+		//요청에  값 설정
+		request.setAttribute("appSrDetail", appSrDetail);
+		
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
+	}
+	
 }

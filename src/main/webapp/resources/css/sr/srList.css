@@ -119,6 +119,7 @@ body {
 }
 
 #search-btn {
+	margin-left: 320px;
 }
 /* -------------------------------------------- */
 
@@ -314,7 +315,7 @@ th {
 .modal .sr-content {
     border-radius: 2px;
     width: 520px;
-    height: 223px;
+    height: 150px;
     border: 1px solid #DCDCE1;
     font-size: 12px;
     margin: 12px 0px 12px 0px;

@@ -93,10 +93,10 @@
 	
 	<insert id="insertAppSr" parameterType="SR001MT">
 		insert into TB_SR_002MT (
-			SR_ID, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
+			SR_ID, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT, DELT_YN
 		)	
 		values (
-			#{srId}, #{lastInptId}, sysdate, #{lastInptId}, sysdate
+			#{srId}, #{lastInptId}, sysdate, #{lastInptId}, sysdate, 'N'
 		)
 	</insert>
 	
@@ -118,6 +118,7 @@
 	    WHERE A.APP_SR_ID = #{appSrId}
 	</select>
 	
+
 	<!-- SR계획정보 수정 -->
 	<update id="updateSrPlan" parameterType="SR002MT">
 		UPDATE TB_SR_002MT
@@ -135,6 +136,23 @@
 	        LAST_INPT_DT = SYSDATE
 	    WHERE APP_SR_ID = #{appSrId}
 	</update>
-	
+
+  
+	<select id="selectDetailInfo" parameterType="String" resultType="SR002MT">
+		SELECT
+		    APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, SYS_NM,SR_CONT,
+		    FIRST_INPT_ID, MEM_NM, INST_NM, REQ_DT, DUE_DT
+		FROM (
+		    SELECT
+		        APP_SR_ID, SR_ID, sr001mt.SR_TITLE, sr001mt.REL_SYS, CD_NM SYS_NM,SR_CONT,
+		        sr001mt.FIRST_INPT_ID, MEM_NM, INST_NM ,sr002mt.RCP_STAT, sr001mt.REQ_DT, sr001mt.DUE_DT
+		    FROM TB_SR_002MT sr002mt 
+		    JOIN TB_SR_001MT sr001mt USING (SR_ID)
+		    JOIN TB_CD_MT cdmt ON sr001mt.REL_SYS = cdmt.CD_ID
+		    JOIN TB_MB_001MT mb001mt ON sr001mt.FIRST_INPT_ID = mb001mt.MEM_NO
+		    JOIN TB_IS_001MT is001mt ON mb001mt.INST_ID = is001mt.INST_ID
+		)
+	    WHERE APP_SR_ID = #{appSrId}
+	</select>
 	
 </mapper>
