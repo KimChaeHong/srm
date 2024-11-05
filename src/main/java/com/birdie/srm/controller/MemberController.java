@@ -1,6 +1,7 @@
 package com.birdie.srm.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -40,7 +41,14 @@ public class MemberController {
 
 	    return "member/loginForm";
 	}
-
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("login");
+		log.info("로그아웃");
+		return "redirect:/member/loginform";
+	}
+	
 	@GetMapping("/signupform") 
 	public String signupForm(){
 		log.info("회원가입 폼");

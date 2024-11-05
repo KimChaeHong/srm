@@ -35,14 +35,17 @@ public interface SR001MTDao {
 
 	// srId와 일치하는 데이터 승인,반려,재검토 처리(관리자)
 	public void updateSrProcess(SR001MT sr001mt);
-  
-    // 나의 할 일 목록 가져오기
-	public List<SR001MT> selectMysrList(PagerDto pager);
 
-	// SR 목록 행 갯수 가져오기
+	// 전체 SR 목록 행 갯수 가져오기
 	public int selectCountRows();
 
-	// 특정 상태에 따른 목록 조회
-    public List<SR001MT> selectMySrListByStatus( String srStat,int startRowNo, int rowsPerPage);
+	// 나의 할 일 전체 목록 가져오기
+	public List<SR001MT> selectMysrList(PagerDto pager);
+	
+    // 특정 상태의 SR 목록 행 갯수 가져오기
+	public int selectCountRowsByStatus(@Param("srStat") String srStat);
 
+	// 특정 상태의 SR 목록 가져오기
+	public List<SR001MT> selectMysrListByStatus(@Param("pager") PagerDto pager, @Param("srStat") String srStat);
+    
 }
