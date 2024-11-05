@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.birdie.srm.dao.SR001MTDao">
+	
+	<!-- TB_SR_001MT에 INSERT(SR 등록) -->
 	<insert id="insertSr" parameterType="SR001MT">
 		insert into TB_SR_001MT (
 			SR_TITLE, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
@@ -10,6 +12,7 @@
 		)
 	</insert>
 	
+	<!-- 검색내용과 일치하는 SR목록 가져오기 -->
 	<select id="selectSearchedSr" parameterType="Map" resultType="SR001MT">	    
 	    select
 	        rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT, MEM_NM, INST_ID, INST_NM
@@ -48,6 +51,7 @@
 	    where rnum between #{pager.startRowNo} and #{pager.endRowNo}
 	</select>
 	
+	<!-- 검색내용과 일치하는 SR목록의 개수 가져오기 -->
 	<select id="selectSearchedRows" parameterType="Search" resultType="int">
 		select count(*)
 		from TB_SR_001MT sr001mt
@@ -75,6 +79,7 @@
 			</if>
 	</select>
 	
+	<!-- SR_ID 와 일치하는 sr의 상세정보 가져오기 -->
 	<select id="selectDetail" parameterType="String" resultType="SR001MT">
 		select
 			SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, REV_CMT, MEM_NO, MEM_NM, INST_ID, INST_NM
@@ -87,6 +92,7 @@
 		where SR_ID = #{srId}
 	</select>
 	
+	<!-- SR_ID와 일치하는 SR 삭제 -->
 	<update id="deleteSr" parameterType="String">
 		update TB_SR_001MT
 		set DELT_YN = 'Y',
@@ -94,6 +100,7 @@
 		where SR_ID = #{srId}
 	</update>
 	
+	<!-- SR_STAT 요청으로 업데이트 -->
 	<update id="updateSrREQT" parameterType="String">
 		update TB_SR_001MT
 		set SR_STAT = 'REQT',
@@ -102,6 +109,7 @@
 		where SR_ID = #{srId}
 	</update>
 	
+	<!-- SR 내용 수정 -->
 	<update id="updateSr" parameterType="SR001MT">
 		update TB_SR_001MT
 		set LAST_INPT_DT = sysdate,
@@ -111,7 +119,8 @@
 			SR_CONT = #{srCont}
 		where SR_ID = #{srId}
 	</update>
-
+	
+	<!-- SR_STAT (접수,반려,재검토)상태로 업데이트 -->
 	<update id="updateSrProcess" parameterType="SR001MT">
 		update TB_SR_001MT
 		set SR_STAT = #{srStat},
@@ -119,6 +128,18 @@
 			LAST_INPT_DT = sysdate
 		where SR_ID = #{srId}
 	</update>
+	
+	<!-- 방금 등록한 SR_ID 가져오기 -->
+	<select id="selectSrId" parameterType="String" resultType="String">
+	    select SR_ID
+	    from (
+	        select SR_ID
+	        from TB_SR_001MT
+	        where FIRST_INPT_ID = #{memNo}
+	        order by FIRST_INPT_DT desc
+	    )
+	    where rownum = 1
+	</select>
 
 
 </mapper>

@@ -1,8 +1,10 @@
 package com.birdie.srm.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -30,4 +32,6 @@ public class SR001MT {
 	private String memNm;
 	private String instId;
 	private String instNm;
+	
+	private List<MultipartFile> attachment;
 }

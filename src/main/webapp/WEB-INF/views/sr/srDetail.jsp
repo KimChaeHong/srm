@@ -48,14 +48,14 @@
 	            </div>
 	            <div class="form-row">
 	                <label for="dueDt">완료(예정)일</label>
-	                <input type="date" id="dueDt" name="dueDt" value="<fmt:formatDate value="${srDetail.dueDt}" pattern="yyyy-MM-dd"/>" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <input type="date" id="dueDt" name="dueDt" value="<fmt:formatDate value="${srDetail.dueDt}" pattern="yyyy-MM-dd"/>" ${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
 	            </div>
 	        </div>
 	
 	        <div>
 	            <div class="form-row">
 	                <label for="sys-select">관련 시스템</label>
-	                <select id="sys-select" name="relSys">
+	                <select id="sys-select" name="relSys" ${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
 						<option value=''>선택</option>
 						<c:forEach items="${sysList}" var="sysList">
 							<option value="${sysList.cdId}" ${sysList.cdId == srDetail.relSys ? 'selected' : ''}>${sysList.cdNm}</option>
@@ -65,18 +65,31 @@
 
 	            <div class="form-row">
 	                <label for="sr-title">SR 제목</label>
-	                <input type="text" id="sr-title" name="srTitle" value="${srDetail.srTitle}" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <input type="text" id="sr-title" name="srTitle" value="${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
 	            </div>	
 	
 	            <div class="form-row">
 	                <label for="sr-content">SR 내용</label>
-	                <textarea id="sr-content" class="sr-content" name="srCont" ${srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>${srDetail.srCont}</textarea>
+	                <textarea id="sr-content" class="sr-content" name="srCont" ${srDetail.firstInptId != memInfo.memNo && srDetail.firstInptId == memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>${srDetail.srCont}</textarea>
 	            </div>
 	
 	            <div class="form-row">
-	            <label for="attachment">첨부파일</label>
-	            <input type="file" id="attachment" name="attachment" disabled>
+		            <label for="attachment">첨부파일</label>
+		            <input type="file" id="attachment" class="form-control" multiple="multiple" name="attachment" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
 	        	</div>
+	            <div class="form-row">
+		            <label for="file-list">파일 목록</label>
+		        	<div class="file-list">
+		        		<c:forEach items="${attachList}" var="attach">
+					        <div class="file-item" id="${attach.attachId}">
+					        	<a href="/srm/sr/attachDownload?attachId=${attach.attachId}" download>${attach.attachOName}</a>
+					        	<div class="delete-attach" data-attachid="${attach.attachId}">
+						        	<i class="bi bi-x"></i>
+					        	</div>
+					        </div>
+		        		</c:forEach>
+				    </div>
+		        </div>
 	        </div>
 	        <c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT' || srDetail.revCmt != null && srDetail.revCmt !=''}">
 				<div>

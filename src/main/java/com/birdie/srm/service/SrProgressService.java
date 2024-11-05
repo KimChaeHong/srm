@@ -59,7 +59,7 @@ public class SrProgressService {
 		sr002mtDao.updateSrPlan(sr002mt);
 	}
 
-
+	// APP_SR 상세정보 가져오기
 	public SR002MT getDetail(String appSrId) {
 		SR002MT appSrDetail = sr002mtDao.selectDetailInfo(appSrId);
 		return appSrDetail;

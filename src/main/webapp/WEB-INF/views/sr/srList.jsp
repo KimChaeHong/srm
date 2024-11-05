@@ -187,7 +187,7 @@
 		                    <i class="bi bi-x-square"></i>
 		                </button>
 		            </div>
-		            <form id="detail-form" method="post" action="">
+		            <form id="detail-form"  enctype="multipart/form-data" method="post" action="">
 
 		            </form>
 		

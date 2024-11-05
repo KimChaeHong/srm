@@ -10,9 +10,11 @@ import com.birdie.srm.dao.CDMTDao;
 import com.birdie.srm.dao.IS001MTDao;
 import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dao.SR002MTDao;
+import com.birdie.srm.dao.SR004NTDao;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.SR001MT;
+import com.birdie.srm.dto.SR004NT;
 import com.birdie.srm.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ public class SrService {
 	private CDMTDao cdmtDao;
 	@Autowired
 	private IS001MTDao is001mtDao;
+	@Autowired
+	private SR004NTDao sr004ntDao;
 	
 	// SR 등록
 	public void registerSr(SR001MT sr001Dto) {
@@ -91,6 +95,41 @@ public class SrService {
 	public List<IS001MT> searchInst() {
 		List<IS001MT> instList = is001mtDao.selectInstAll();
 		return instList;
+	}
+	
+	//첨부파일 순서 번호 가져오기
+	public int getAttachOrder(String srId) {
+		int order = sr004ntDao.selectAttachOrder(srId);
+		return order;
+	}
+	
+	//첨부파일 등록하기
+	public void registerAttachment(SR004NT sr004nt) {
+		sr004ntDao.insertAttachment(sr004nt);
+	}
+	
+	//로그인 된 회원이 등록한 마지막 SR의 srId 가져오기
+	public String getSrId(String memNo) {
+		String srId = sr001mtDao.selectSrId(memNo);
+		return srId;
+	}
+
+	//srId와 일치하는 SR에 담긴 모든 첨부파일 가져오기
+	public List<SR004NT> getAttachList(String srId) {
+		List<SR004NT> attachList = sr004ntDao.selectAttachList(srId);
+		return attachList;
+	}
+
+	//attachId와 일치하는 첨부파일 가져오기
+	public SR004NT getAttach(String attachId) {
+		SR004NT attach = sr004ntDao.selectAttach(attachId);
+		return attach;
+	}
+
+	//attachId 와 일치하는 첨부파일 삭제
+	public int deleteAttach(String attachId) {
+		int num = sr004ntDao.deleteAttach(attachId);
+		return num;
 	}
 
 }

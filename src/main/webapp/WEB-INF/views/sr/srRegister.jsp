@@ -1,13 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String today = sdf.format(new Date());
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>SR등록 모달</title>
-
 </head>
 <body>
 
@@ -32,7 +35,7 @@
 	                            </div>
 	                            <div>
 	                                <label for="registration-date">등록일</label>
-	                                <input type="date" id="registration-date" name="firstInptDt" disabled>
+	                                <input type="date" id="registration-date" name="firstInptDt" value="<%= today %>" disabled>
 	                            </div>
 	                            <div class="form-row">
 	                                <label for="completion-date">요청일</label>
@@ -78,10 +81,7 @@
 	
 	                            <div class="form-row">
 		                            <label for="attachment">첨부파일</label>
-		                            <input type="file" id="attachment" name="attachment">
-	                        	</div>
-	                        	<div id="file-list">
-	                        	
+		                            <input id="attachment" class="form-control" type="file" multiple="multiple" name="attachment">
 	                        	</div>
 	                        </div>
 	                    

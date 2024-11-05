@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.SR004NTDao">
+
+	<!-- 입력하는 srId에 현재 존재하는 첨부파일중 가장 마지막으로 등록된 첨부파일의 순서가 몇번째인지 가져오기 -->
+	<select id="selectAttachOrder" parameterType="String" resultType="int">
+		select nvl(max(ATTACH_ORDER),0)
+		from TB_SR_004NT
+		where SR_ID = #{srId}
+	</select>
+
+	<!-- 첨부파일 INSERT -->
+	<insert id="insertAttachment" parameterType="SR004NT">
+		insert into TB_SR_004NT(
+			SR_ID, ATTACH_ONAME, ATTACH_TYPE, ATTACH_DATA, ATTACH_ORDER
+		)
+		values(
+			#{srId}, #{attachOName}, #{attachType}, #{attachData}, #{attachOrder}
+		)
+	</insert>
+	
+	<!-- 첨부파일 목록 가져오기 -->
+	<select id="selectAttachList" parameterType="String" resultType="SR004NT">
+		select ATTACH_ID, SR_ID, ATTACH_ONAME, ATTACH_ORDER, ATTACH_TYPE, ATTACH_DATA
+		from TB_SR_004NT
+		where SR_ID = #{srId}
+		order by ATTACH_ORDER asc
+	</select>
+	
+	<!-- attachId와 일치하는 첨부파일 하나 가져오기 -->
+	<select id="selectAttach" parameterType="String" resultType="SR004NT">
+		select ATTACH_ID, SR_ID, ATTACH_ONAME, ATTACH_ORDER, ATTACH_TYPE, ATTACH_DATA
+		from TB_SR_004NT
+		where ATTACH_ID = #{attachId}
+	</select>
+	
+	<!-- attachId와 일치하는 첨부파일 삭제 -->
+	<delete id="deleteAttach" parameterType="String">
+		delete from TB_SR_004NT
+		where ATTACH_ID = #{attachId}
+	</delete>
+</mapper>
