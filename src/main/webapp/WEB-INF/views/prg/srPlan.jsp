@@ -4,25 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srPlan.css" /> --%>
 
-
-<div id="title">SR 요청 처리정보</div>
-<hr>
-<div class="tabs-container d-flex align-items-center">
-	<ul class="nav nav-tabs">
-		<li class="nav-item"><a class="nav-link pg-tab active"
-			data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR계획정보</a>
-		</li>
-		<li class="nav-item"><a class="nav-link pg-tab"
-			data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
-		</li>
-		<li class="nav-item"><a class="nav-link pg-tab"
-			data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR진척율</a>
-		</li>
-	</ul>
-
-	<button id="plan-btn" type="button" class="btn-save">저장</button>
-</div>
 
 <!-- ------------------------SR계획정보 폼-------------------------- -->
 <form id="sr-plan-form" action="updateSrPlan" method="post">
@@ -97,4 +80,6 @@
 		<label for="review">검토 내용</label>
 		<textarea id="review" name="rvwCont">${srPlan.rvwCont }</textarea>
 	</div>
+	
+	<button id="plan-btn" type="button" class="btn-save">저장</button>
 </form>
