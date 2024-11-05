@@ -7,4 +7,18 @@
 		where INST_ID != 'OTI3' and DELT_YN = 'N'
 	</select>
 
+	<!-- 특정 inst_id를 제외한 기관 목록 조회 -->
+	<select id="selectInstitutionsByRole" resultType="IS001MT">
+		SELECT 
+			inst_id, 
+			inst_nm, 
+			delt_yn, 
+			first_inpt_dt, 
+			first_inpt_id,
+			last_inpt_dt, 
+			last_inpt_id
+		FROM TB_IS_001MT
+		WHERE inst_id NOT IN ('OTI3', 'BD')
+		AND delt_yn = 'N'
+	</select>
 </mapper>
