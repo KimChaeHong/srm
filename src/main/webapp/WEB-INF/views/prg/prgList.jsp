@@ -7,7 +7,7 @@
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
-	
+
        <!-- section -->
        <div id="section">
            <!-- ------------------------------검색창 ------------------------------------>
@@ -245,230 +245,90 @@
 
 
                    <!------------------------------ SR 요청 처리 정보------------------------ -->
-                   <div id="sr-plan-info"> 
+					<div id='tab-box'>
+						<div id="sr-plan-info"> 
+					        <div id="title">
+					            SR 요청 처리정보
+					        </div>
+					        <hr>
+					        <div class="tabs-container d-flex align-items-center">
+					            <ul class="nav nav-tabs">
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR계획정보</a>
+					                </li>
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
+					                </li>
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR진척율</a>
+					                </li>
+					            </ul>
+					
+					        </div>
 
-				        <div id="title">
-				            SR 요청 처리정보
-				        </div>
-				        <hr>
-				        <div class="tabs-container d-flex align-items-center">
-				            <ul class="nav nav-tabs">
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR계획정보</a>
-				                </li>
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
-				                </li>
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" href="#" data-appsrid="${srPlan.appSrId}">SR진척율</a>
-				                </li>
-				            </ul>
-				
-				            <button id="plan-btn" type="button" class="btn-save">저장</button>
-				        </div>
-				        
-				        <!-- SR계획정보(진척 페이지를 열었을 때 기본적으로 보이는 계획정보) -->
-                    	<form id="sr-plan-form" method="post">
-					            <div class="form-group">
-					                <label for="request-type">요청 구분</label>
-					                <select id="request-type" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                    <option value="1">개선</option>
-					                    <option value="2">신규</option>
-					                    <option value="3">오류</option>
-					                    <option value="4">기타</option>
-					                </select>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="team">처리팀</label>
-					                <input type="text" id="team" value="개발 1팀" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="work-type">업무 구분</label>
-					                <select id="work-type" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                    <option value="1">111</option>
-					                    <option value="2">222</option>
-					                    <option value="3">333</option>
-					                    <option value="4">444</option>
-					                </select>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="person">담당자</label>
-					                <input type="text" id="person" value="정준범" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="start-date">목표 시작일</label>
-					                <input type="date" id="start-date" value="2024. 10. 26" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="end-date">목표 완료일</label>
-					                <input type="date" id="end-date" value="2024. 10. 26" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="status">접수 상태</label>
-					                <select id="status" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                    <option>접수</option>
-					                    <option>취소</option>
-					                    <option>보류</option>
-					                </select>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="total-hours">총계획공수</label>
-					                <input type="text" id="total-hours" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="review">검토 내용</label>
-					                <textarea id="review" disabled></textarea>
-					            </div>
-					        </form>
-				    </div>
-				    
-				    <div id="srHr">
-				        <div id="title">
-				            SR 요청 처리정보
-				        </div>
-				        <hr>
-				        <div class="hr-tabs-container d-flex align-items-center">
-				            <ul class="nav nav-tabs">
-				                <li class="nav-item">
-				                  <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR계획정보</a>
-				                </li>
-				                <li class="nav-item">
-				                  <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR자원정보</a>
-				                </li>
-				                <li class="nav-item">
-				                  <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
-				                </li>
-				              </ul>
-				              <div class="btn-container d-flex ms-auto ">
-				                  <button id="add-btn" class="btn srpg-btn">추가</button>
-				                  <button id="del-btn" class="btn srpg-btn">선택삭제</button>
-				                  <button id="save-btn" class="btn srpg-btn">저장</button>
-				              </div>
-				        </div>
-				        <div id="hr-table-container">
-				            <table id="hr-table">
-				                <thead>
-				                    <tr>
-				                        <th class="hr-col-1"></th>
-				                        <th class="hr-col-2">
-				                            <input class="form-check-input" type="checkbox" value="">
-				                        </th>
-				                        <th class="hr-hr-col-3">담당자명</th>
-				                        <th class="hr-col-4">역할</th>
-				                        <th class="hr-col-5">계획공수(M/D)</th>
-				                        <th class="hr-col-6">실적공수(M/D)</th>
-				                        <th class="hr-col-7">일자별실적조회</th>
-				                    </tr>
-				                </thead>
-				                <tbody>
-				                    <tr>
-				                        <td class="hr-col-1">1</td>
-				                        <td class="hr-col-2">
-				                            <input class="form-check-input" type="checkbox" value="">
-				                        </td>
-				                        <td class="hr-col-3">김채홍</td>
-				                        <td class="hr-col-4">팀장</td>
-				                        <td class="hr-col-5">5.0</td>
-				                        <td class="hr-col-6">3.0</td>
-				                        <td class="hr-col-7">
-				                            <i class="bi bi-journal"></i>
-				                        </td>
-				                    </tr>
-				                    
-				                </tbody>
-				            </table>
-				        </div>
-				    </div>
-                   
-                   <div id="srPg">
-					    <div id="title">
-					        SR 요청 처리정보
-					    </div>
-					    <hr>
-					    <div class="pg-tabs-container d-flex align-items-center">
-					        <ul class="nav nav-tabs">
-					            <li class="nav-item">
-					              <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
-					            </li>
-					            <li class="nav-item">
-					              <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
-					            </li>
-					            <li class="nav-item">
-					              <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
-					            </li>
-					          </ul>
-					          <button id="save-btn" class="btn ms-auto">저장</button>
-					    </div>
-					    <div id="pg-table-container">
-					        <table id="pg-table">
-					            <thead>
-					                <tr>
-					                    <th class="pg-col-1"></th>
-					                    <th class="pg-col-2">작업구분</th>
-					                    <th class="pg-col-3">시작일</th>
-					                    <th class="pg-col-4">완료일</th>
-					                    <th class="pg-col-5">진척율%(누적)</th>
-					                </tr>
-					            </thead>
-					            <tbody>
-					                <tr>
-					                    <td class="pg-col-1">1</td>
-					                    <td class="pg-col-2">분석</td>
-					                    <td class="pg-col-3">2024.10.01</td>
-					                    <td class="pg-col-4">2024.10.04</td>
-					                    <td class="pg-col-5">10</td>
-					                </tr>
-					                <tr>
-					                    <td class="pg-col-1">2</td>
-					                    <td class="pg-col-2">설계</td>
-					                    <td class="pg-col-3">2024.10.04</td>
-					                    <td class="pg-col-4">2024.10.10</td>
-					                    <td class="pg-col-5">30</td>
-					                </tr>
-					                <tr>
-					                    <td class="pg-col-1">3</td>
-					                    <td class="pg-col-2">구현</td>
-					                    <td class="pg-col-3">2024.10.10</td>
-					                    <td class="pg-col-4">2024.10.16</td>
-					                    <td class="pg-col-5">60</td>
-					                </tr>
-					                <tr>
-					                    <td class="pg-col-1">4</td>
-					                    <td class="pg-col-2">시험</td>
-					                    <td class="pg-col-3">2024.10.16</td>
-					                    <td class="pg-col-4">2024.10.18</td>
-					                    <td class="pg-col-5">80</td>
-					                </tr>
-					                <tr>
-					                    <td class="pg-col-1">5</td>
-					                    <td class="pg-col-2">반영요청</td>
-					                    <td class="pg-col-3">2024.10.18</td>
-					                    <td class="pg-col-4">2024.10.19</td>
-					                    <td class="pg-col-5">90</td>
-					                </tr>
-					                <tr>
-					                    <td class="pg-col-1">6</td>
-					                    <td class="pg-col-2">운영반영</td>
-					                    <td class="pg-col-3">2024.10.19</td>
-					                    <td class="pg-col-4">2024.10.21</td>
-					                    <td class="pg-col-5">100</td>
-					                </tr>
-					            </tbody>
-					        </table>
-					    </div>
-					
+					        <!-- ---------------SR계획정보(SR진척 페이지를 열었을 때 기본적으로 보이는 계획정보(기본적으로 비활성화 상태)) ----------------------->
+	                    	<div id="sr-container">
+		                    	<form id="sr-plan-form">
+						            <div class="form-group">
+						                <label for="request-type">요청 구분</label>
+						                <select id="request-type" class="form-select" disabled>
+						                    <option selected>선택</option>
+						                </select>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="team">처리팀</label>
+						                <input type="text" id="team" disabled>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="work-type">업무 구분</label>
+						                <select id="work-type" class="form-select" disabled>
+						                    <option selected>선택</option>
+						                </select>
+						            </div>
+	
+						
+						            <div class="form-group">
+						                <label for="person">담당자</label>
+						                <input type="text" id="person" disabled>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="start-date">목표 시작일</label>
+						                <input type="date" id="start-date" disabled>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="end-date">목표 완료일</label>
+						                <input type="date" id="end-date" disabled>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="status">접수 상태</label>
+						                <select id="status" class="form-select" disabled>
+						                    <option selected>선택</option>
+						                </select>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="total-hours">총계획공수</label>
+						                <input type="text" id="total-hours" disabled>
+						            </div>
+						
+						            <div class="form-group">
+						                <label for="review">검토 내용</label>
+						                <textarea id="review" disabled></textarea>
+						            </div>
+						            
+						        </form>
+					        </div>
+					        
+			    		</div>
 					</div>
+					
+				    
+				    
 					
 					
                     
@@ -477,6 +337,7 @@
 
         </div>
     </div>
+
 
 </body>
 </html>

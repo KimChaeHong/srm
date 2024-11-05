@@ -1,6 +1,7 @@
 #srpg {
+	background-color: #FFFFFF;
     width: 440px;
-    height: 280px;
+    height: 283px;
     border-radius: 10px;
     box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.25);
 }
@@ -109,4 +110,7 @@ hr {
     background-color: #FFFFFF;
     padding: 3px !important;
     margin-left: 3px;
+}
+.btn-container {
+    margin: 110px 0 0 267px;
 }

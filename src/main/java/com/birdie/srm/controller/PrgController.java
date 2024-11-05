@@ -168,4 +168,20 @@ public class PrgController {
         dispatcher.include(request, response);
 	}
 	
+	// SR계획정보 탭
+	@GetMapping("/srPlan")
+	public String loadSrPlan() {
+		return "prg/srPlan";
+	}
+	// SR자원관리 탭
+	@GetMapping("/srHr")
+	public String loadSrHr() {
+		return "prg/srHr";
+	}
+	// SR진척율 탭
+	@GetMapping("/srRatio")
+    public String loadSrRatio() {
+        return "prg/srRatio";
+    }
+	
 }

@@ -1,39 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insert title here</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <link href="${pageContext.request.contextPath}/resources/css/reset.css" rel="stylesheet" type="text/css" />
-    <link href="${pageContext.request.contextPath}/resources/css/prg/pg.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/resources/css/prg/srRatio.css" rel="stylesheet" type="text/css" />
     
-</head>
-
-<body>
-    <div id="srpg">
-        <div id="title">
-            SR 요청 처리정보
-        </div>
-        <hr>
-        <div class="pg-tabs-container d-flex align-items-center">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                  <a class="nav-link pg-tab active" data-bs-toggle="tab" href="#">SR계획정보</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR자원정보</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link pg-tab" data-bs-toggle="tab" href="#">SR진척율</a>
-                </li>
-              </ul>
-              <button id="save-btn" class="btn ms-auto">저장</button>
-        </div>
         <div id="pg-table-container">
             <table id="pg-table">
                 <thead>
@@ -91,8 +59,4 @@
                 </tbody>
             </table>
         </div>
-
-    </div>
-</body>
-
-</html>
+        <button id="save-btn">저장</button>

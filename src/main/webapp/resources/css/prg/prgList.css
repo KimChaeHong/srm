@@ -352,7 +352,9 @@ hr{
     color: #2C7BE5;
 }
 
-/* --------------------------------- */
+.pg-tab:hover{
+	cursor: pointer;
+}
 
 label{
     font-size: 8px;
@@ -390,7 +392,7 @@ input{
     border: 0.5px solid #D9D9D9;
     border-radius: 3px;
     width: 325px;
-    height: 85px;
+    height: 65px;
     margin: 4px 0px 4px 0px;
     resize: none;
 }
@@ -403,7 +405,7 @@ input{
     margin: 0px 20px;
     border: 1px solid #EDF2F9;
     padding: 0 3px 0 3px;
-    height: 190px;
+    height: 202px;
 
 }
 
@@ -417,6 +419,9 @@ input{
     color: #4D5969;
     background-color: #FFFFFF;
     padding: 3px;
-    margin-right: 10px;
+    margin: 0 0 5px 333px;
 
+}
+.selected-sr {
+    background-color: #e0f7fa; /* 원하는 색상으로 변경 */
 }
