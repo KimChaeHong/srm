@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.birdie.srm.dto.CDMT;
+import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
+import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.SrProgressService;
@@ -123,6 +126,23 @@ public class PrgController {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
         dispatcher.include(request, response);
         log.info("appSrId : "+ appSrId);
+	}
+	
+	//SR 상세보기
+	@PostMapping("/srDetail")
+	public void getSrDetail(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception{
+		// srId가 일치하는 데이터 가져오기
+		SR002MT appSrDetail = srProgressService.getDetail(appSrId);
+
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/srDetail.jsp";
+		//요청에  값 설정
+		request.setAttribute("appSrDetail", appSrDetail);
+		
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
 	}
 	
 }

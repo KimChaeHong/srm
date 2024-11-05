@@ -52,5 +52,10 @@ public class SrProgressService {
 		SR002MT srPlan = sr002mt.selectPlan(appSrId);
 		return srPlan;
 	}
+
+	public SR002MT getDetail(String appSrId) {
+		SR002MT appSrDetail = sr002mt.selectDetailInfo(appSrId);
+		return appSrDetail;
+	}
 	
 }

@@ -22,4 +22,6 @@ public interface SR002MTDao {
 	public void insertAppSr(SR001MT sr001mt);
 	// appSrId와 일치하는 TB_SR_002MT 데이터 조회
 	public SR002MT selectPlan(String appSrId);
+	// appSrId와 일치하는 TB_SR_002MT 상세정보 데이터 조회
+	public SR002MT selectDetailInfo(String appSrId);
 }

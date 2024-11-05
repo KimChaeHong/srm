@@ -198,54 +198,46 @@
                        <form id="sr-detail-form">
                            <div class="detail-form-group">
                                <label for="srNumber">SR번호</label>
-                               <input type="text" id="srNumber" class="detail-input" name="srNumber" value="SR_0005"
-                                   readonly>
+                               <input type="text" id="srNumber" class="detail-input" name="srNumber" readonly>
 
                                <label for="systemCategory">시스템 구분</label>
-                               <input type="text" id="systemCategory" class="detail-input" name="systemCategory"
-                                   value="pepero 시스템" readonly>
+                               <input type="text" id="systemCategory" class="detail-input" name="systemCategory" readonly>
                            </div>
 
                            <div class="detail-form-group">
                                <label for="srTitle">SR제목</label>
-                               <input type="text" id="srTitle" name="srTitle" value="타임아웃 기능에 오류 수정" readonly>
+                               <input type="text" id="srTitle" name="srTitle" readonly>
                            </div>
 
                            <div class="detail-form-group">
                                <label for="requestTeam">요청팀</label>
-                               <input type="text" id="requestTeam" class="detail-input" name="requestTeam"
-                                   value="개발 1팀" readonly>
+                               <input type="text" id="requestTeam" class="detail-input" name="requestTeam" readonly>
 
                                <label for="requester">요청자</label>
-                               <input type="text" id="requester" class="detail-input" name="requester" value="이민성"
-                                   readonly>
+                               <input type="text" id="requester" class="detail-input" name="requester" readonly>
                            </div>
 
                            <div class="detail-form-group">
                                <label for="requestDate">요청일</label>
-                               <input type="text" id="requestDate" class="detail-input" name="requestDate"
-                                   value="2024.10.10" readonly>
+                               <input type="text" id="requestDate" class="detail-input" name="requestDate" readonly>
 
                                <label for="completionDate">완료 요청일</label>
-                               <input type="text" id="completionDate" class="detail-input" name="completionDate"
-                                   value="2024.10.25" readonly>
+                               <input type="text" id="completionDate" class="detail-input" name="completionDate" readonly>
                            </div>
 
                            <div class="detail-form-group">
                                <label for="srRequestNumber">SR요청번호</label>
-                               <input type="text" id="srRequestNumber" name="srRequestNumber" value="EI_SR_0005"
-                                   readonly>
+                               <input type="text" id="srRequestNumber" name="srRequestNumber" readonly>
                            </div>
 
                            <div class="detail-form-group">
                                <label for="srContent">SR 내용</label>
-                               <textarea id="srContent" name="srContent" rows="4" readonly>
-                           </textarea>
+                               <textarea id="srContent" name="srContent" rows="4" readonly></textarea>
                            </div>
 
                            <div class="detail-form-group">
                                <label for="attachment">첨부파일</label>
-                               <input type="text" id="attachment" name="attachment" value="example.xls" readonly>
+                               <input type="text" id="attachment" name="attachment" readonly>
                            </div>
                        </form>
                    </div>

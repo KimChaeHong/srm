@@ -33,4 +33,19 @@ function loadSrDetails(appSrId) {
             console.log('Ajax 통신 실패');
         }
     });
+    
+    //목록 클릭 시 해당하는 상세정보를 우측 상세정보 div에 띄우기
+	$.ajax({
+		url:'/srm/prg/srDetail',
+		type: 'POST',
+		data: {appSrId: appSrId},
+		success: function(response){
+			console.log('Ajax 통신 성공');
+			$('#sr-detail').html(response); //response로 받은 jsp를 sr-detail에 넣기
+		},
+		error: function() {
+			console.log('Ajax 통신 실패');
+		}
+		
+	});
 }

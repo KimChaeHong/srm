@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dto.CDMT;
@@ -22,6 +23,7 @@ import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
+import com.birdie.srm.dto.SR004NT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.SrService;
@@ -82,6 +84,20 @@ public class SrController {
 		return "redirect:/sr/list";
 	}
 	
+	public void uploadAttatch(List<MultipartFile> attachment,String srId) throws Exception{
+		int order = 1;
+		for(MultipartFile file : attachment) {
+			SR004NT sr004nt = new SR004NT();
+			sr004nt.setSrId(srId);
+			sr004nt.setAttachOName(file.getOriginalFilename());
+			sr004nt.setAttachType(file.getContentType());
+			sr004nt.setAttachData(file.getBytes());
+			sr004nt.setAttachOrder(order);
+			
+			order++;
+		}
+	}
+
 	//SR 상세보기
 	@PostMapping("/srDetail")
 	public void getSrDetail(String srId, HttpServletResponse response, HttpServletRequest request, Authentication authentication) throws Exception{
@@ -108,6 +124,7 @@ public class SrController {
 		log.info("srId : "+ srId);
 		
 	}
+	
 	
 	// SR 삭제
 	@PostMapping("/srDelete")

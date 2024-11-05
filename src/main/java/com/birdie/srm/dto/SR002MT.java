@@ -31,7 +31,10 @@ public class SR002MT {
 
 	
 	private String relSys;		// sr001 - 관련 시스템
+	private String sysNm;		// cd - 관련 시스템 이름
 	private String srTitle;		// sr001 - sr제목
+	private String srCont;		// sr001 - sr내용
+	private String instNm;		// is001 - 기관이름
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date reqDt;			// sr001 - 완료요청일

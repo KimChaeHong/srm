@@ -1,8 +1,10 @@
 package com.birdie.srm.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -28,5 +30,7 @@ public class MB001MT {
     private Date  lastInptDt;     // 수정일시
     
     private String instNm; //소속기관 이름
+    
+    private List<MultipartFile> attachment;	//첨부파일
 
 }
