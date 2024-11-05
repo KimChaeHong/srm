@@ -6,5 +6,12 @@
 		from TB_CD_MT
 		where CD_GROUP_ID = #{groupId}
 	</select>
-
+	
+	 <!-- cd_group_id를 기준으로 부서 목록 조회 -->
+    <select id="selectDepartmentByCdGroupId" parameterType="String" resultType="CDMT">
+        SELECT *
+        FROM TB_CD_MT
+        WHERE cd_group_id = #{cdGroupId}
+        AND delt_yn = 'N'
+    </select>
 </mapper>

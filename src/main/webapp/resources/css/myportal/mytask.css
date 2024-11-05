@@ -127,19 +127,19 @@ table {
 .mytask-1 {
     width: 50px;
 }
+.mytask-2, .mytask-3  {
+	width: 250px
+}
+.mytask-4 {
+	width: 105px
+}
+
 .mytask-5, .mytask-6, .mytask-7,.mytask-8 {
     width: 70px;
 }
 .mytask-9, .mytask-10 {
     width: 110px;
 }
-
-
-
-
-
-
-
 
 thead th {
     background-color: #f2f4f6;
@@ -206,4 +206,9 @@ tbody td {
 .row-select{
     width: 100px !important;
     margin-left: 50px;
+}
+
+/* 모달 */
+.modal-header{
+	justify-content: space-between;
 }

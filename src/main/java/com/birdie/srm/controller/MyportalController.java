@@ -1,10 +1,12 @@
 package com.birdie.srm.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -115,6 +117,12 @@ public class MyportalController {
 	    return "myportal/pagination"; // pagination.jsp로 반환
 	}
 	
+	// 상태별 SR 행 갯수 반환 (AJAX 요청)
+    @GetMapping("/countStatus")
+    public ResponseEntity<Map<String, Integer>> getStatusCounts() {
+        Map<String, Integer> statusCounts = myPortalService.getStatusCounts();
+        return ResponseEntity.ok(statusCounts);
+    }
 	
 
 }

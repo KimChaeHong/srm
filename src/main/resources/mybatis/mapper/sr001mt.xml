@@ -6,6 +6,7 @@
 	<select id="selectCountRows" resultType="int">
 		select count(*) from
 		TB_SR_001MT
+		WHERE DELT_YN = 'N'
 	</select>
 
 	<!-- 나의 할 일 목록 가져오기 -->
@@ -18,6 +19,7 @@
 		        FROM (
 		            SELECT SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
 		            FROM TB_SR_001MT
+		            WHERE DELT_YN = 'N' 
 		            ORDER BY SR_ID DESC
 		        )
 		        WHERE rownum <= #{endRowNo}
@@ -32,6 +34,7 @@
 		select count(*)
 		from TB_SR_001MT
 		where SR_STAT = #{srStat}
+		 AND DELT_YN = 'N'
 	</select>
 
 	<!-- 상태별 SR 목록 가져오기 -->
