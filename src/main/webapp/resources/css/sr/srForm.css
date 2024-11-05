@@ -16,7 +16,7 @@
     display: flex;
     justify-content: center;
     /* 수평 가운데 정렬 */
-    align-items: center;
+    align-items: center; 	
     /* 수직 가운데 정렬 (필요할 경우) */
 }
 
@@ -39,10 +39,12 @@ input {
     margin: 12px 0px 12px 0px;
     font-size: 12px;
     /* input 안의 글씨 크기 */
-    padding: 0 0 0 10px;
+    padding: 0 10px 0 10px;
     line-height: 20px;
     /* 수직정렬을 위한 line-height */
 }
+
+
 
 label {
     width: 95px;

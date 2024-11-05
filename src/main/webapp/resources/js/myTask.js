@@ -1,10 +1,14 @@
 $(document).ready(function() {
+    // 초기 로딩 시 행 갯수 업데이트
+    updateRowCounts();
+	
     // 탭 클릭 이벤트 핸들러 설정
     $(".nav-tabs .nav-link").on("click", function(e) {
         e.preventDefault();
         $(".nav-tabs .nav-link").removeClass("active");
         $(this).addClass("active");
         let srStat = $(this).data("srstat");
+        
         loadPage(1, srStat); // 첫 페이지 로드
     });
 
@@ -39,7 +43,7 @@ $(document).ready(function() {
             }
         });
         
-     // pagination 데이터 로드
+        // pagination 데이터 로드
         $.ajax({
             url: "/srm/myportal/pagination",
             method: "GET",
@@ -51,7 +55,26 @@ $(document).ready(function() {
                 console.error("AJAX 요청 실패:", error);
             }
         });
-        
-     
     }
+    
+    // 행 갯수 업데이트 함수
+    function updateRowCounts() {
+        $.ajax({
+            url: "/srm/myportal/countStatus",
+            method: "GET",
+            success: function(data) {
+                $(".nav-link.tb-tab").each(function() {
+                    const status = $(this).data("srstat");
+                    const count = data[status] || 0;
+                    $(this).find(".row-cnt").text(`(${count})`);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("행 갯수 업데이트 실패:", error);
+            }
+        });
+    }
+    
+    
+    
 });
