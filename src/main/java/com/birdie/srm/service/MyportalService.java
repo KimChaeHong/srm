@@ -21,14 +21,22 @@ public class MyportalService {
 		return totalRows;
 	}
 
-	//"나의 할 일" 목록 불러오기
+	// 처음 페이지 로드 시 전체 SR 목록 가져오기
 	public List<SR001MT> getMySrList(PagerDto pager) {
 		List<SR001MT> mySrList = sr001mt.selectMysrList(pager);
 		return mySrList;
 	}
+	
+	// 특정 상태별 게시물 갯수
+	public int getTotalRowsByStatus(String srStat) {
+	    return sr001mt.selectCountRowsByStatus(srStat); // 상태별 갯수 쿼리 호출
+	}
 
-	// 특정 상태에 따른 "나의 할 일" 목록 조회 (페이징 포함)
-    public List<SR001MT> getMySrListByStatus(String srStat, PagerDto pager) {
-        return sr001mt.selectMySrListByStatus(srStat, pager.getStartRowNo(), pager.getRowsPerPage());
-    }
+	// 특정 상태의 SR 목록 가져오기
+	public List<SR001MT> getMySrListByStatus(PagerDto pager, String srStat) {
+	    return sr001mt.selectMysrListByStatus(pager, srStat); // 상태별 목록 쿼리 호출
+	}
+
+
+
 }
