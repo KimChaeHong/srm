@@ -67,32 +67,7 @@
                             <i class="bi bi-journal"></i>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="hr-col-1">2</td>
-                        <td class="hr-col-2">
-                            <input class="form-check-input" type="checkbox" value="">
-                        </td>
-                        <td class="hr-col-3">정준범</td>
-                        <td class="hr-col-4">팀원</td>
-                        <td class="hr-col-5">5.0</td>
-                        <td class="hr-col-6">3.0</td>
-                        <td class="hr-col-7">
-                            <i class="bi bi-journal"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="hr-col-1">3</td>
-                        <td class="hr-col-2">
-                            <input class="form-check-input" type="checkbox" value="">
-                        </td>
-                        <td class="hr-col-3">이민성</td>
-                        <td class="hr-col-4">팀원</td>
-                        <td class="hr-col-5">5.0</td>
-                        <td class="hr-col-6">3.0</td>
-                        <td class="hr-col-7">
-                            <i class="bi bi-journal"></i>
-                        </td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>
