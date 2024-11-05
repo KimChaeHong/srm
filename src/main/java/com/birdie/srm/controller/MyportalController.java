@@ -113,6 +113,7 @@ public class MyportalController {
 	    model.addAttribute("pager", pager);
 
 	    return "myportal/pagination"; // pagination.jsp로 반환
+	}
 	
 	
 
