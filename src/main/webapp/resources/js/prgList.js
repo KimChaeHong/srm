@@ -19,11 +19,27 @@ function changeRelSys(relSys){
 	}
 }
 
+/*SR처리 목록 조회 시 커서가 맨 위에 자동선택되어 있게 하기
+$(document).ready(function(){
+	// 처음 로드 시 한 번만 실행되게끔 플래그 변수 하나 만들어둠 
+    let isFirstLoad = true;
+    if (isFirstLoad) {
+	// 가장 상단에 있는 sr의 appSrId를 자동으로 가져와서 loadDetails함수 호출함
+	const firstSr = $("tr#tr-style").first();
+		if(firstSr.length){
+			const appSrId = firstSr.data("appsrid"); 		// 첫 번째 sr의 appSrId가져옴
+			loadSrDetails(appSrId);				//처음 로드할 때 loadSrDetails 호출하면서 첫  SR선택시킴
+			firstSr.addClass('selected-sr');
+		}
+		isFirstLoad = false; // 한 번 실행 후 false로 변경(안그러면 첫 번째 sr을 반복해서 계속 불러옴)
+    }
+})*/
+
 /*SR요청 처리정보 - SR계획정보*/
 function loadSrDetails(appSrId) {
 	// 클릭한 SR 색 지정해서 구분시킴
 	$('tr').removeClass('selected-sr');
-    $(event.currentTarget).addClass('selected-sr');
+	$(`tr[data-appsrid='${appSrId}']`).addClass('selected-sr');
 
     $.ajax({
         url: '/srm/prg/srPlan',
@@ -32,7 +48,6 @@ function loadSrDetails(appSrId) {
         success: function(response) {
             console.log("Ajax 통신 성공");
             $('#sr-container').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
-            /*$('#sr-plan-form :input').prop('disabled', false);*/
          // SR 클릭 시 무조건 계획정보 탭으로 활성화
             $('.nav-link.pg-tab').removeClass('active'); 	  // 모든 탭 active 클래스 제거
             $('.nav-link.pg-tab').first().addClass('active'); // SR계획정보 탭에 active 클래스 추가
@@ -83,7 +98,6 @@ function getContextPath() {
 
 $(document).ready(function() {
     const contextPath = getContextPath(); 	// contextPath를 동적으로 가져오기
-    /*disableForm();*/
     
     // 각 탭에 클릭 이벤트 설정
     $('.pg-tab').on('click', function(event){
@@ -105,7 +119,6 @@ $(document).ready(function() {
             method: "GET",
             success: function(html) {
                 $('#sr-container').html(html);
-                /*$('#sr-plan-form :input').prop('disabled', false);*/
             },
             error: function() {
                 console.error("JSP 삽입 실패");
@@ -114,10 +127,5 @@ $(document).ready(function() {
     });
     
 });
-
-/*//기본 폼을 비활성화 상태로 설정하는 함수
-function disableForm() {
-    $('#sr-plan-form :input').prop('disabled', true);
-}*/
 
 

@@ -118,12 +118,16 @@ public class PrgController {
 	public void srPlan(
 			String appSrId, 
 			HttpServletResponse response, 
-			HttpServletRequest request) throws Exception{
+			HttpServletRequest request, Authentication authentication) throws Exception{
 		SR002MT srPlan = srProgressService.getSrPlan(appSrId);
 		//response에 담을 jsp 경로 설정
 		String jspUrl = "/WEB-INF/views/prg/srPlan.jsp";
 		request.setAttribute("srPlan", srPlan);
 		
+		if (authentication != null) {
+	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+	        request.setAttribute("memInfo", memInfo);
+	    }
 		// response 타입설정 및 요청에 request와 response 설정
 		response.setContentType("text/html; charset=UTF-8");
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
@@ -131,7 +135,7 @@ public class PrgController {
         log.info("appSrId : " + appSrId);
 	}
   
-  // SR계획정보 저장
+	// SR계획정보 저장
 	@PostMapping("/updateSrPlan")
 	public void updateSrPlan(
 	        SR002MT sr002mt, 

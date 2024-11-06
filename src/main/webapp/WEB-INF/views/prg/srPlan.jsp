@@ -81,5 +81,8 @@
 		<textarea id="review" name="rvwCont">${srPlan.rvwCont }</textarea>
 	</div>
 	
-	<button id="plan-btn" type="button" class="btn-save">저장</button>
+	<c:if test="${memInfo != null && memInfo.role1 == 'DEVE'}">
+	    <button id="plan-btn" type="button" class="btn-save">저장</button>
+	</c:if>
+	<p>Role: ${memInfo.role1}</p>
 </form>

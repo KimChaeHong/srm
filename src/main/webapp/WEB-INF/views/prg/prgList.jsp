@@ -105,7 +105,7 @@
                            </thead>
                            <tbody>
                                <c:forEach items="${srList}" var="sr002MT">
-                               		<tr onclick="loadSrDetails('${sr002MT.appSrId }')" id="tr-style">
+                               		<tr onclick="loadSrDetails('${sr002MT.appSrId }')" id="tr-style" data-appsrid="${sr002MT.appSrId}">
                                			<td class="col-1">${sr002MT.rnum }</td>
 	                                    <td class="col-2">${sr002MT.appSrId }</td>
 		                                <td class="col-3">	<!-- 관련시스템 -->
