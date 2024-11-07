@@ -35,7 +35,6 @@ public class SR001MT {
 	private String instId;
 	private String deptId; 
 	
-	
 	private int rnum;
 	private String memNm;
 	private String instNm;

@@ -44,7 +44,7 @@
 						</c:set>
 			            <i class="bi bi-person-circle icon"></i>
 			            <div class="user-name"><sec:authentication property="principal.member.memNm"/></div>
-			            
+			          
 			            <a href="${pageContext.request.contextPath}/member/logout"><i class="bi bi-box-arrow-right logout"></i></a>
 			        </div>
 			    </div>     

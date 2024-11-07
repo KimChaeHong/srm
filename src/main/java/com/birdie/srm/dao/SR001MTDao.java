@@ -50,5 +50,17 @@ public interface SR001MTDao {
 	
 	//방금 등록한 SR의 SR_ID를 가져오기
 	public String selectSrId(String memNo);
-    
+
+	// 사용자에 따른 SR 행 갯수 가져오기
+ 	public int selectCountRowsByUser(@Param("memNo") String memberInfo);
+
+ 	// 사용자에 따른 나의 할 일 전체 목록 가져오기
+	public  List<SR001MT> selectMysrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
+
+	public int selectCountRowsByStatusAndUser(@Param("srStat") String srStat, @Param("memNo") String memNo);
+
+	public List<SR001MT> selectMysrListByStatusAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+
+	
+	
 }
