@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -38,9 +39,11 @@
 			<sec:authorize access="isAuthenticated()"><!-- 로그인 했다는 뜻 -->
 			    <div id="info-container">
 			        <div class="user-profile">
-			            <span class="badge" id="user-role">일반 사용자</span>
+			        	<c:set var="userRole">
+						    <sec:authentication property="principal.member.role1"/>
+						</c:set>
 			            <i class="bi bi-person-circle icon"></i>
-			            <div class="user-name"><sec:authentication property="principal.userDto.memNm"/></div>
+			            <div class="user-name"><sec:authentication property="principal.member.memNm"/></div>
 			            
 			            <a href="${pageContext.request.contextPath}/member/logout"><i class="bi bi-box-arrow-right logout"></i></a>
 			        </div>

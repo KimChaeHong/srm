@@ -70,8 +70,8 @@
 		class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<property name="hierarchy"> <!-- setter주입으로 string 매개값 한줄에 두가지 역할을 비교 -->
 			<value>
-				ROLE_ADMIN > ROLE_DEV
-				ROLE_DEV > ROLE_USER
+				admi > deve
+                deve > guser
 			</value>
 		</property>
 	</bean>
