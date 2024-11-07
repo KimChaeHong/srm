@@ -154,12 +154,29 @@
 	<!-- SR계획정보 - 담당자 조회 -->
 	<select id="selectMgr" resultType="MB001MT">
 		SELECT 
-			MEM_ID,
+			MEM_ID,	
 			MEM_NM,
 			ROLE_1,
 			DEPT_ID
 		FROM TB_MB_001MT
 		WHERE ROLE_1 = 'DEVE'
 			<!-- AND ROLE_2 == '개발팀장일 때' -->
+	</select>
+	
+	<!-- SR계획정보 - 담당자 검색 조회 -->
+	<select id="selectSearchMgr" resultType="MB001MT">
+		SELECT 
+			MEM_ID,	
+			MEM_NM,
+			ROLE_1,
+			DEPT_ID
+		FROM TB_MB_001MT
+		WHERE ROLE_1 = 'DEVE'
+		<if test="deptId != null and deptId != ''">
+			and DEPT_ID = #{deptId}
+		</if>
+		<if test="memNm != null and memNm != ''">
+			and MEM_NM LIKE CONCAT('%', #{memNm}, '%')
+		</if>
 	</select>
 </mapper>

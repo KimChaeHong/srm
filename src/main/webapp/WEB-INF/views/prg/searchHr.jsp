@@ -34,26 +34,25 @@
 				</button>
 			</div>
 			<div class="modal-body p-3">
-				<div id="modal-search-box" class="d-flex justify-content-between align-items-center">
+				
+				<form id="modal-search-box" action="searchMgr" method="GET" 
+						class="d-flex justify-content-between align-items-center">
 					
-					<form id="search-form" action="/srm/prg/searchMgr" method="GET">
-						<div id="modal-dept-select" class="d-flex justify-content-center align-items-center">
-							<label for="modal-hr-select" class="me-3 modal-label">부서</label> <select
-								id="modal-hr-select" class="modal-hr-select form-select">
-								<option>선택</option>
-								<option value="서비스 개발 1팀">서비스 개발 1팀</option>
-								<option value="서비스 개발 2팀">서비스 개발 2팀</option>
-							</select>
-						</div>
-						<div id="modal-name-search"
-							class="d-flex justify-content-center align-items-center">
-							<label for="modal-hr-input" class="me-3 modal-label">담당자명</label>
-							<input type="text" id="modal-hr-input"
-								class="modal-hr-input form-control">
-						</div>
-						<button class="btn btn-sm modal-search-btn">검색</button>
-					</form>
-				</div>
+					<div id="modal-dept-select" class="d-flex justify-content-center align-items-center">
+						<label for="modal-hr-select" class="me-3 modal-label">부서</label> 
+						<select id="modal-hr-select" class="modal-hr-select form-select" name="deptId">
+							<option value="DEV1">개발 1팀</option>
+							<option value="DEV2">개발 2팀</option>
+						</select>
+					</div>
+					<div id="modal-name-search"
+						class="d-flex justify-content-center align-items-center">
+						<label for="modal-hr-input" class="me-3 modal-label">담당자명</label>
+						<input type="text" id="modal-hr-input" class="modal-hr-input form-control" name="memNm">
+					</div>
+					<button class="btn btn-sm modal-search-btn" type="submit">검색</button>
+				</form>
+				
 				<span class="modal-title ms-2">조회 결과</span>
 				<table id="modal-task-table" class="modal-table table">
 					<thead class="modal-thead">

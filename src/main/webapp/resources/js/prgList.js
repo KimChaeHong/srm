@@ -129,7 +129,7 @@ $(document).ready(function() {
     });
 });
 
-/*SR계획정보 - 담당자 찾기*/
+/*SR계획정보 - 담당자 찾기 클릭 시 담당자 전체 조회*/
 $('#add-person-btn').on('click', function(){
 	appSrId = $(this).data('appsrid')
 	$.ajax({
@@ -143,7 +143,23 @@ $('#add-person-btn').on('click', function(){
 		error: function() {
 			console.log('Ajax 통신 실패');
 		}
-		
+	})
+})
+/*SR계획정보 - 담당자 필터링 검색*/
+$('.modal-search-btn').on('click', function(){
+	e.preventDefault();  // form 기본 제출 막기
+
+    const formData = $(this).serialize();
+	$.ajax({
+		url: '/srm/prg/searchMgr', 
+        type: 'GET',
+        data: formData,
+        success: function(response) {
+        	$('#modal-results-tbody').html(response);
+        },
+		error: function() {
+			console.log('Ajax 통신 실패');
+		}
 	})
 })
 

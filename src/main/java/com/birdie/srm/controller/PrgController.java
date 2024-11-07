@@ -195,7 +195,7 @@ public class PrgController {
         return "prg/searchHr"; 
     }*/
 	
-	// 담당자 조회
+	// SR계획정보 - 담당자 조회
 	@GetMapping("/getMgr")
 	public void getMgr(HttpServletResponse response, 
 			HttpServletRequest request) throws Exception{
@@ -213,5 +213,27 @@ public class PrgController {
         log.info("컨트롤러 실행됨");
         log.info(mgrs.toString());
 	}
-	
+	/*// SR계획정보 - 담당자 검색 
+	@GetMapping("/searchMgr")
+	public String searchMgr(MB001MT mb001mt, Model model) {
+		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
+		model.addAttribute("mgrs", mgrs);
+		return "prg/searchHr :: modal-result-tbody";
+	}*/
+	// SR계획정보 - 담당자 검색 
+	@GetMapping("/searchMgr")
+	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
+	    request.setAttribute("mgrs", mgrs);
+	    
+	    String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
+	    response.setContentType("text/html; charset=UTF-8");
+
+	    // RequestDispatcher로 JSP 페이지의 특정 부분만 렌더링하여 응답으로 전달
+	    RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+	    dispatcher.include(request, response);
+
+	    log.info("컨트롤러에서 검색 실행됨");
+	    log.info(mb001mt.toString());
+	}
 }
