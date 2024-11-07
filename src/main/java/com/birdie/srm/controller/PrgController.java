@@ -188,4 +188,30 @@ public class PrgController {
         return "prg/srRatio";
     }
 	
+	/*@GetMapping("/getMgr")
+    public String getMgr(Model model) {
+        List<MB001MT> mgrs = srProgressService.getMgr();
+        model.addAttribute("mgrs", mgrs);
+        return "prg/searchHr"; 
+    }*/
+	
+	// 담당자 조회
+	@GetMapping("/getMgr")
+	public void getMgr(HttpServletResponse response, 
+			HttpServletRequest request) throws Exception{
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
+		//요청에  값 설정
+		request.setAttribute("mgrs", mgrs);
+		
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
+        log.info("컨트롤러 실행됨");
+        log.info(mgrs.toString());
+	}
+	
 }

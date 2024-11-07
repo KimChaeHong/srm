@@ -127,6 +127,7 @@
 	        TRG_END_DT = #{trgEndDt},
 	        RCP_STAT = #{rcpStat},
 	        RVW_CONT = #{rvwCont},
+	        DEPT_ID = #{deptId},
 	        LAST_INPT_ID = #{lastInptId},
 	        LAST_INPT_DT = SYSDATE
 	    WHERE APP_SR_ID = #{appSrId}
@@ -150,4 +151,15 @@
 	    WHERE APP_SR_ID = #{appSrId}
 	</select>
 	
+	<!-- SR계획정보 - 담당자 조회 -->
+	<select id="selectMgr" resultType="MB001MT">
+		SELECT 
+			MEM_ID,
+			MEM_NM,
+			ROLE_1,
+			DEPT_ID
+		FROM TB_MB_001MT
+		WHERE ROLE_1 = 'DEVE'
+			<!-- AND ROLE_2 == '개발팀장일 때' -->
+	</select>
 </mapper>

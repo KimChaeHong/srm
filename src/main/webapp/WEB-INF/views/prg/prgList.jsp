@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/prgList.css" />
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+
 
        <!-- section -->
        <div id="section">
@@ -254,8 +256,8 @@
 					        <div class="tabs-container d-flex align-items-center">
 					            <ul class="nav nav-tabs">
 					                <li class="nav-item">
-					                    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR계획정보</a>
-					                </li>
+									    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}" >SR계획정보</a>
+									</li>
 					                <li class="nav-item">
 					                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
 					                </li>
@@ -338,6 +340,6 @@
         </div>
     </div>
 
-
+<script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
 </body>
 </html>

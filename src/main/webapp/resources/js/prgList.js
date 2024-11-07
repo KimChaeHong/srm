@@ -48,7 +48,8 @@ function loadSrDetails(appSrId) {
         success: function(response) {
             console.log("Ajax 통신 성공");
             $('#sr-container').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
-         // SR 클릭 시 무조건 계획정보 탭으로 활성화
+            
+            // SR 클릭 시 무조건 계획정보 탭으로 활성화
             $('.nav-link.pg-tab').removeClass('active'); 	  // 모든 탭 active 클래스 제거
             $('.nav-link.pg-tab').first().addClass('active'); // SR계획정보 탭에 active 클래스 추가
         },
@@ -103,6 +104,7 @@ $(document).ready(function() {
     $('.pg-tab').on('click', function(event){
         event.preventDefault();
 
+        const appSrId = $(this).data('appsrid');
         // 각 탭에 따라 호출할 컨트롤러 URL 설정
         let url;
         if ($(this).text().trim() === "SR계획정보") {
@@ -125,7 +127,23 @@ $(document).ready(function() {
             }
         });
     });
-    
 });
 
+/*SR계획정보 - 담당자 찾기*/
+$('#add-person-btn').on('click', function(){
+	appSrId = $(this).data('appsrid')
+	$.ajax({
+		url: '/srm/prg/getMgr', 
+        type: 'GET',
+        data: { appSrId: appSrId },
+        success: function(response) {
+        	$('#modal-div').html(response);
+        	$('#mgr-modal').modal('show');
+        },
+		error: function() {
+			console.log('Ajax 통신 실패');
+		}
+		
+	})
+})
 
