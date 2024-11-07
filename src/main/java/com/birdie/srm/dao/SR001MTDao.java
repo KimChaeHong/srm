@@ -25,16 +25,16 @@ public interface SR001MTDao {
 	public SR001MT selectDetail(String srId);
 
 	// srId와 일치하는 데이터의 DEL_YN 을 Y로 update
-	public void deleteSr(String srId);
+	public int deleteSr(String srId);
 
 	// srId와 일치하는 데이터의 SR_STAT 을 REQT 로 update
-	public void updateSrREQT(String srId);
+	public int updateSrREQT(String srId);
 
 	// srId와 일치하는 데이터의 모든 내용을 수정한 내용으로 update
-	public void updateSr(SR001MT sr001mt);
+	public int updateSr(SR001MT sr001mt);
 
 	// srId와 일치하는 데이터 승인,반려,재검토 처리(관리자)
-	public void updateSrProcess(SR001MT sr001mt);
+	public int updateSrProcess(SR001MT sr001mt);
 
 	// 전체 SR 목록 행 갯수 가져오기
 	public int selectCountRows();
