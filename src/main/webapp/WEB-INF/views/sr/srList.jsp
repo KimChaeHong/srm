@@ -80,7 +80,7 @@
             <div id="sr-list">
                 <div class="d-flex align-items-center">
                 	<p id="sr-list-title">SR요청 목록</p>
-                	<c:if test="${memInfo.role1 == 'GUSR'}">
+                	<c:if test="${memInfo.role1 == 'ROLE_GUSR'}">
 	                	<button id="reg-btn" class="search-btn ms-auto" data-bs-toggle="modal" data-bs-target="#reg-modal">SR 등록</button>
                 	</c:if>
                 </div>

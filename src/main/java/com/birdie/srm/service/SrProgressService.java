@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.CDMTDao;
 import com.birdie.srm.dao.SR002MTDao;
+import com.birdie.srm.dao.SR002NTDao;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR002MT;
+import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SearchDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,8 @@ public class SrProgressService {
 	private SR002MTDao sr002mtDao;
 	@Autowired
 	private CDMTDao cmdtDao;
+	@Autowired
+	private SR002NTDao sr002ntDao;
 	
 	// 승인된 SR 전체 목록 조회
 	public List<SR002MT> getSrAll(PagerDto pager){
@@ -75,6 +79,12 @@ public class SrProgressService {
 	public List<MB001MT> getSearchMgr(MB001MT mb001mt) {
 		List<MB001MT> searchMgrList = sr002mtDao.selectSearchMgr(mb001mt);
 		return searchMgrList;
+	}
+	
+	// appSrId와 일치하는 진척율 가져오기
+	public List<SR002NT> getPrgRagioList(String appSrId) {
+		List<SR002NT> prgRatioList = sr002ntDao.selectPrgRatio(appSrId);
+		return prgRatioList;
 	}
 	
 }

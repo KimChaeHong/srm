@@ -9,4 +9,13 @@
 			#{taskType}, #{appSrId}, 'N', #{firstInptId}, sysdate, #{firstInptId}, sysdate
 		)
 	</insert>
+	
+	<select id="selectPrgRatio" parameterType="String" resultType="SR002NT">
+		select
+			rownum rnum, TASK_TYPE, APP_SR_ID, ST_DT, END_DT, PRG, sr002nt.DELT_YN, sr002nt.FIRST_INPT_ID, sr002nt.FIRST_INPT_DT, sr002nt.LAST_INPT_ID,  sr002nt.LAST_INPT_DT, CD_NM taskTName
+		from TB_SR_002NT sr002nt
+		where APP_SR_ID = #{appSrId}
+		join TB_CD_MT cdmt on sr002nt.TASK_TYPE = cdmt.CD_ID
+		order by decode(TASK_TYPE, 'ANAL', 1, 'DESI', 2, 'IMPL', 3, 'TEST', 4, 'REFL', 5, 'OPER', 6)
+	</select>
 </mapper>

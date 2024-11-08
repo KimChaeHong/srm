@@ -94,7 +94,7 @@
 				    </div>
 		        </div>
 	        </div>
-	        <c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT' || srDetail.revCmt != null && srDetail.revCmt !=''}">
+	        <c:if test="${memInfo.role1 == 'ROLE_ADMI' && srDetail.srStat == 'REQT' || srDetail.revCmt != null && srDetail.revCmt !=''}">
 				<div>
 					<div class="form-row">
 						<label for="rev-stat">검토상태</label>
@@ -115,14 +115,14 @@
 	</div>
 </div>
 <div class="modal-footer">
-<c:if test="${(memInfo.role1 == 'GUSR' && srDetail.firstInptId == memInfo.memNo) && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
+<c:if test="${(memInfo.role1 == 'ROLE_GUSR' && srDetail.firstInptId == memInfo.memNo) && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
     <button id="save-btn" type="button" class="btn btn-primary modal-btn" data-srid="${srDetail.srId}">저장</button>
     <button id="req-btn" type="button" class="btn btn-primary modal-btn" data-srid="${srDetail.srId}">접수요청</button>
 </c:if>
 <c:if test="${srDetail.firstInptId == memInfo.memNo && srDetail.srStat == 'REGI'}">
     <button id="delete-btn" type="button" class="btn btn-primary modal-btn">삭제</button>
 </c:if>
-<c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT'}">
+<c:if test="${memInfo.role1 == 'ROLE_ADMI' && srDetail.srStat == 'REQT'}">
 	<button id="process-btn" type="button" class="btn btn-primary modal-btn" data-srid="${srDetail.srId}">저장</button>
 </c:if>
 </div>

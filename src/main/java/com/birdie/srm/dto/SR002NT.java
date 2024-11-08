@@ -17,4 +17,7 @@ public class SR002NT {
 	private String firstInptId;	// 최초등록자
 	private Date lastInptDt;	// 마지막 수정일
 	private String lastInptId;	// 마지막 수정자
+	
+	private int rnum;			// 순서
+	private String taskTName;	//업무구분 이름
 }
