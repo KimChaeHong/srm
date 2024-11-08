@@ -13,4 +13,6 @@ public interface SR002NTDao {
 	// 진척율 Insert
 	public void insertPrg(SR002NT sr002nt);
 
+	public List<SR002NT> selectPrgRatio(String appSrId);
+
 }
