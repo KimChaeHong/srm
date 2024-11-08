@@ -270,60 +270,7 @@
 
 					        <!-- ---------------SR계획정보(SR진척 페이지를 열었을 때 기본적으로 보이는 계획정보(기본적으로 비활성화 상태)) ----------------------->
 	                    	<div id="sr-container">
-		                    	<form id="sr-plan-form">
-						            <div class="form-group">
-						                <label for="request-type">요청 구분</label>
-						                <select id="request-type" class="form-select" disabled>
-						                    <option selected>선택</option>
-						                </select>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="team">처리팀</label>
-						                <input type="text" id="team" disabled>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="work-type">업무 구분</label>
-						                <select id="work-type" class="form-select" disabled>
-						                    <option selected>선택</option>
-						                </select>
-						            </div>
-	
-						
-						            <div class="form-group">
-						                <label for="person">담당자</label>
-						                <input type="text" id="person" disabled>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="start-date">목표 시작일</label>
-						                <input type="date" id="start-date" disabled>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="end-date">목표 완료일</label>
-						                <input type="date" id="end-date" disabled>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="status">접수 상태</label>
-						                <select id="status" class="form-select" disabled>
-						                    <option selected>선택</option>
-						                </select>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="total-hours">총계획공수</label>
-						                <input type="text" id="total-hours" disabled>
-						            </div>
-						
-						            <div class="form-group">
-						                <label for="review">검토 내용</label>
-						                <textarea id="review" disabled></textarea>
-						            </div>
-						            
-						        </form>
+		                    	 
 					        </div>
 					        
 			    		</div>

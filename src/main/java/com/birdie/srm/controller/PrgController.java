@@ -149,11 +149,11 @@ public class PrgController {
 	        HttpServletResponse response) throws Exception {
 	    log.info("컨트롤러 1 - SR계획정보 업데이트");
 
-	    // 로그인 했을 경우 담당자 사번 설정
+	    /*// 로그인 했을 경우 담당자 사번 설정
 	    if (authentication != null) {
 	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
 	        sr002mt.setMgr(memInfo.getMemNo());
-	    }
+	    }*/
 	    srProgressService.updateSrPlan(sr002mt);
 	    log.info("컨트롤러 2 - SR계획정보 업데이트 완료");
 

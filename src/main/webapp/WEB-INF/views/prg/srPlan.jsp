@@ -7,11 +7,10 @@
 <%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srPlan.css" /> --%>
 
 
-
 <!-- ------------------------SR계획정보 폼-------------------------- -->
 <form id="sr-plan-form" action="updateSrPlan" method="post">
 	<input type="hidden" name="appSrId" value="${srPlan.appSrId}">
-	<input type="hidden" id="memNo" name="memNo" value="">
+	<input type="hidden" id="memNo" name="mgr" value="${srPlan.mgr }">
 	
 	<div class="form-group">
 		<label for="request-type">요청 구분</label> <select id="request-type"
@@ -73,7 +72,7 @@
 	<div class="form-group">
 		<label for="status">접수 상태</label> <select id="status"
 			class="form-select" name="rcpStat">
-			<option value="RECE" ${srPlan.rcpStat == 'RECE' ? 'selected' : ''}>접수</option>
+			<option value="DECE" ${srPlan.rcpStat == 'DECE' ? 'selected' : ''}>접수</option>
 			<option value="CANC" ${srPlan.rcpStat == 'CANC' ? 'selected' : ''}>취소</option>
 			<option value="HOLD" ${srPlan.rcpStat == 'HOLD' ? 'selected' : ''}>보류</option>
 		</select>
