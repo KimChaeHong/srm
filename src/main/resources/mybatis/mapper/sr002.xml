@@ -116,7 +116,6 @@
 	        ON A.MGR = M.MEM_NO   <!-- 승인된SR MGR(사번)으로 MEM_NO이랑 조인 -->
 	    WHERE A.APP_SR_ID = #{appSrId}
 	</select>
-	
 
 	<!-- SR계획정보 수정 -->
 	<update id="updateSrPlan" parameterType="SR002MT">
@@ -181,4 +180,12 @@
 			and MEM_NM LIKE '%' || #{memNm} || '%'
 		</if>
 	</select>
+
+	<!-- 해당하는 srId를 가진 승인된 SR의 appSrId 가져오기 -->
+	<select id="selectAppSrId" parameterType="String" resultType="String">
+		select APP_SR_ID
+		from TB_SR_002MT
+		where SR_ID = #{srId}
+	</select>
+
 </mapper>

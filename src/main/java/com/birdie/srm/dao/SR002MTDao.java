@@ -9,6 +9,7 @@ import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
+import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SearchDto;
 
 @Mapper
@@ -40,5 +41,8 @@ public interface SR002MTDao {
 
 	// SR계획정보 - 담당자 검색 조회
 	public List<MB001MT> selectSearchMgr(MB001MT mb001mt);
-
+	
+	// srId가 일치하는 appSrId 가져오기
+	public String selectAppSrId(String srId);
+	
 }
