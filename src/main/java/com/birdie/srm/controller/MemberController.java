@@ -61,14 +61,14 @@ public class MemberController {
 
 		log.info(member.toString());
 		JoinResult joinResult = memberService.join(member);
-		return "redirect:/member/loginform";
+		return "redirect:/";
 	}
 
 	// 역할에 따른 기관 목록 조회
 	@GetMapping("/institutions")
 	public ResponseEntity<List<IS001MT>> getInstitutions() {
 		log.info("역할에 따른 기관 목록 조회 - role ");
-		List<IS001MT> institutions = memberService.getInstitutionsByRole("GUSR");
+		List<IS001MT> institutions = memberService.getInstitutionsByRole("ROLE_GUSR");
 		return ResponseEntity.ok(institutions);
 	}
 
