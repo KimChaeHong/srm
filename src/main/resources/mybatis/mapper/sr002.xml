@@ -156,4 +156,11 @@
 	    WHERE APP_SR_ID = #{appSrId}
 	</select>
 	
+	<!-- 해당하는 srId를 가진 승인된 SR의 appSrId 가져오기 -->
+	<select id="selectAppSrId" parameterType="String" resultType="String">
+		select APP_SR_ID
+		from TB_SR_002MT
+		where SR_ID = #{srId}
+	</select>
+
 </mapper>

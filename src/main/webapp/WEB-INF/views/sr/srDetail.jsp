@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,7 +56,7 @@
 	        <div>
 	            <div class="form-row">
 	                <label for="sys-select">관련 시스템</label>
-	                <select id="sys-select" name="relSys" ${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <select id="sys-select" name="relSys" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
 						<option value=''>선택</option>
 						<c:forEach items="${sysList}" var="sysList">
 							<option value="${sysList.cdId}" ${sysList.cdId == srDetail.relSys ? 'selected' : ''}>${sysList.cdNm}</option>
@@ -70,7 +71,7 @@
 	
 	            <div class="form-row">
 	                <label for="sr-content">SR 내용</label>
-	                <textarea id="sr-content" class="sr-content" name="srCont" ${srDetail.firstInptId != memInfo.memNo && srDetail.firstInptId == memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>${srDetail.srCont}</textarea>
+	                <textarea id="sr-content" class="sr-content" name="srCont" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>${srDetail.srCont}</textarea>
 	            </div>
 	
 	            <div class="form-row">
@@ -83,9 +84,11 @@
 		        		<c:forEach items="${attachList}" var="attach">
 					        <div class="file-item" id="${attach.attachId}">
 					        	<a href="/srm/sr/attachDownload?attachId=${attach.attachId}" download>${attach.attachOName}</a>
-					        	<div class="delete-attach" data-attachid="${attach.attachId}">
-						        	<i class="bi bi-x"></i>
-					        	</div>
+					        	<c:if test="${srDetail.firstInptId == memInfo.memNo && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
+						        	<div class="delete-attach" data-attachid="${attach.attachId}" data-oname="${attach.attachOName}">
+							        	<i class="bi bi-x text-danger"></i>
+						        	</div>
+					        	</c:if>
 					        </div>
 		        		</c:forEach>
 				    </div>
@@ -113,14 +116,14 @@
 </div>
 <div class="modal-footer">
 <c:if test="${(memInfo.role1 == 'GUSR' && srDetail.firstInptId == memInfo.memNo) && (srDetail.srStat == 'REGI' || srDetail.srStat == 'RERE')}">
-    <button id="save-btn" type="button" class="btn btn-primary modal-btn">저장</button>
-    <button id="req-btn" type="button" class="btn btn-primary modal-btn">접수요청</button>
+    <button id="save-btn" type="button" class="btn btn-primary modal-btn" data-srid="${srDetail.srId}">저장</button>
+    <button id="req-btn" type="button" class="btn btn-primary modal-btn" data-srid="${srDetail.srId}">접수요청</button>
 </c:if>
 <c:if test="${srDetail.firstInptId == memInfo.memNo && srDetail.srStat == 'REGI'}">
     <button id="delete-btn" type="button" class="btn btn-primary modal-btn">삭제</button>
 </c:if>
 <c:if test="${memInfo.role1 == 'ADMI' && srDetail.srStat == 'REQT'}">
-	<button id="process-btn" type="button" class="btn btn-primary modal-btn">처리</button>
+	<button id="process-btn" type="button" class="btn btn-primary modal-btn" data-srid="${srDetail.srId}">저장</button>
 </c:if>
 </div>
 </body>
