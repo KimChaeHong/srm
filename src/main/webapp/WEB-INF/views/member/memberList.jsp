@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/member/memList.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/memList.css" />
 
 <!-- section -->
 <div id="section">
@@ -78,7 +77,7 @@
 						<th class="col-9">회원상세</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="allmember">
 					<c:forEach items="${memberList}" var="mb001mt">
 						<tr>
 							<td class="col-1">${mb001mt.memNm}</td>
@@ -106,25 +105,24 @@
 					class="bi bi-chevron-left"></i>
 				</a>
 			</c:if>
-
+			
 			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 				step="1" var="i">
-				<a
-					class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}"
+				<a href="${pageContext.request.contextPath}/member/list?pageNo=${i}" class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}"
 					data-page="${i}">${i}</a>
 			</c:forEach>
-
+			
 			<c:if test="${pager.groupNo < pager.totalGroupNo}">
 				<a class="btn page-btn shadow-sm" data-page="${pager.endPageNo + 1}">
 					<i class="bi bi-chevron-right"></i>
 				</a>
 			</c:if>
-
+			
 			<select class="row-select form-select" id="rowsPerPageSelect">
-				<option value="16" ${pager.rowsPerPage == 16 ? 'selected' : ''}>16</option>
-				<option value="32" ${pager.rowsPerPage == 32 ? 'selected' : ''}>32</option>
-				<option value="48" ${pager.rowsPerPage == 48 ? 'selected' : ''}>48</option>
-				<option value="64" ${pager.rowsPerPage == 64 ? 'selected' : ''}>64</option>
+				<option value="10" ${pager.rowsPerPage == 10 ? 'selected' : ''}>10</option>
+				<option value="20" ${pager.rowsPerPage == 20 ? 'selected' : ''}>20</option>
+				<option value="30" ${pager.rowsPerPage == 30 ? 'selected' : ''}>30</option>
+				<option value="40" ${pager.rowsPerPage == 40 ? 'selected' : ''}>40</option>
 			</select> <input type="hidden" id="currentPage" value="${pager.pageNo}" />
 		</div>
 

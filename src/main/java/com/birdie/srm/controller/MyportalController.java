@@ -139,7 +139,7 @@ public class MyportalController {
 
 	    model.addAttribute("pager", pager);
 
-	    return "myportal/pagination";
+	    return "common/pagination";
 	}
 	
 	// 상태별 SR 행 갯수 반환 (AJAX 요청)
