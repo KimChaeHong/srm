@@ -13,6 +13,7 @@ import com.birdie.srm.dao.MB001MTDao;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.MB001MT;
+import com.birdie.srm.dto.PagerDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,9 @@ public class MemberService {
 	@Autowired
     private IS001MTDao is001mtDao;
 	
+	@Resource
+	private MB001MTDao memberDao;
+	
 	public enum JoinResult {
 		SUCCESS, FAIL_DUPLICATED_MID
 
@@ -34,9 +38,6 @@ public class MemberService {
 		SUCCESS, FAIL_MID, FAIL_MPASSSWORD, FAIL_ENABLED, FAIL_APPROVE
 
 	}
-
-	@Resource
-	private MB001MTDao memberDao;
 
 	//회원가입
 	public JoinResult join(MB001MT member) {
@@ -87,6 +88,17 @@ public class MemberService {
     // GUSR 역할에 따른 기관 정보 가져오기
 	public List<IS001MT> getInstitutionsByRole(String role) {
 		return is001mtDao.selectInstitutionsByRole(role);
+	}
+
+	//전체 사용자 목록 가져오기
+	public List<MB001MT> getMemberList(PagerDto pager) {
+		return memberDao.selectMemberList(pager);
+	}
+
+	//전체 사용자 행 갯수
+	public int getTotalMemRows() {
+		int totalMemRows = memberDao.selectCountMemRows();
+		return totalMemRows;
 	}
 
 	

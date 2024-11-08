@@ -86,7 +86,6 @@
 	</select>
 
 	<!-- 로그인한 사용자의 할 일 목록 가져오기 -->
-
 	<select id="selectMysrListByUser" parameterType="map"
 		resultType="SR001MT">
     <![CDATA[

@@ -151,6 +151,5 @@ public class MyportalController {
 	    Map<String, Integer> statusCounts = myPortalService.getStatusCounts(memberInfo);
 	    return ResponseEntity.ok(statusCounts);
 	}
-	
 
 }
