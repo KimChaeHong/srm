@@ -71,7 +71,7 @@ public class SrProgressService {
 		List<MB001MT> mgrList = sr002mtDao.selectMgr();
 		return mgrList;
 	}
-
+	// 담당자 검색 
 	public List<MB001MT> getSearchMgr(MB001MT mb001mt) {
 		List<MB001MT> searchMgrList = sr002mtDao.selectSearchMgr(mb001mt);
 		return searchMgrList;

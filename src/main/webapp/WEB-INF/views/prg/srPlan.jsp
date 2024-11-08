@@ -11,6 +11,8 @@
 <!-- ------------------------SR계획정보 폼-------------------------- -->
 <form id="sr-plan-form" action="updateSrPlan" method="post">
 	<input type="hidden" name="appSrId" value="${srPlan.appSrId}">
+	<input type="hidden" id="memNo" name="memNo" value="">
+	
 	<div class="form-group">
 		<label for="request-type">요청 구분</label> <select id="request-type"
 			class="form-select" name="srType">
@@ -87,15 +89,10 @@
 		<textarea id="review" name="rvwCont">${srPlan.rvwCont }</textarea>
 	</div>
 	
-	<c:if test="${memInfo != null && memInfo.role1 == 'DEVE'}">
+	<c:if test="${memInfo != null && memInfo.role1 == 'ROLE_DEVE'}">
 	    <button id="plan-btn" type="button" class="btn-save">저장</button>
 	</c:if>
 	<%-- <p>Role: ${memInfo.role1}</p> --%>
-
-	<!-- Modal -->
-	<div id="modal-div" >
-		
-	</div>
 
 
 </form>

@@ -583,3 +583,6 @@ input#person {
     text-align: center; /* 내용물 가운데 정렬 */
     vertical-align: middle; /* 내용물 수직 정렬 */
 }
+#scroll {
+	height: 300px;
+}

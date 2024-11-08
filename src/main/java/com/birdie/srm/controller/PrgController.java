@@ -76,6 +76,9 @@ public class PrgController {
 		List<CDMT> listSys = srProgressService.getCDMTByGroupId("SYS");
 		model.addAttribute("listSys", listSys);
 		
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		model.addAttribute("mgrs", mgrs);
+		
 		//디폴트 시스템 설정
 		if(searchDto.getRelSys() == null) {
 			searchDto.setRelSys("");
@@ -123,6 +126,9 @@ public class PrgController {
 		//response에 담을 jsp 경로 설정
 		String jspUrl = "/WEB-INF/views/prg/srPlan.jsp";
 		request.setAttribute("srPlan", srPlan);
+		
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		request.setAttribute("mgrs", mgrs);
 		
 		if (authentication != null) {
 	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
@@ -187,15 +193,8 @@ public class PrgController {
     public String loadSrRatio() {
         return "prg/srRatio";
     }
-	
-	/*@GetMapping("/getMgr")
-    public String getMgr(Model model) {
-        List<MB001MT> mgrs = srProgressService.getMgr();
-        model.addAttribute("mgrs", mgrs);
-        return "prg/searchHr"; 
-    }*/
-	
-	// SR계획정보 - 담당자 조회
+
+	/*// SR계획정보 - 담당자 조회
 	@GetMapping("/getMgr")
 	public void getMgr(HttpServletResponse response, 
 			HttpServletRequest request) throws Exception{
@@ -212,14 +211,8 @@ public class PrgController {
         dispatcher.include(request, response);
         log.info("컨트롤러 실행됨");
         log.info(mgrs.toString());
-	}
-	/*// SR계획정보 - 담당자 검색 
-	@GetMapping("/searchMgr")
-	public String searchMgr(MB001MT mb001mt, Model model) {
-		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
-		model.addAttribute("mgrs", mgrs);
-		return "prg/searchHr :: modal-result-tbody";
 	}*/
+	
 	// SR계획정보 - 담당자 검색 
 	@GetMapping("/searchMgr")
 	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -234,6 +227,6 @@ public class PrgController {
 	    dispatcher.include(request, response);
 
 	    log.info("컨트롤러에서 검색 실행됨");
-	    log.info(mb001mt.toString());
+	    log.info(mgrs.toString());
 	}
 }

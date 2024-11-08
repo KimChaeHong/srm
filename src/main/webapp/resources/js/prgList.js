@@ -33,7 +33,7 @@ $(document).ready(function(){
 		}
 		isFirstLoad = false; // 한 번 실행 후 false로 변경(안그러면 첫 번째 sr을 반복해서 계속 불러옴)
     }
-})*/
+})
 
 /*SR요청 처리정보 - SR계획정보*/
 function loadSrDetails(appSrId) {
@@ -51,7 +51,7 @@ function loadSrDetails(appSrId) {
             
             // SR 클릭 시 무조건 계획정보 탭으로 활성화
             $('.nav-link.pg-tab').removeClass('active'); 	  // 모든 탭 active 클래스 제거
-            $('.nav-link.pg-tab').first().addClass('active'); // SR계획정보 탭에 active 클래스 추가
+            $('.nav-link.pg-tab').first().addClass('active'); 
         },
         error: function() {
             console.log('Ajax 통신 실패');
@@ -91,11 +91,6 @@ $('#plan-btn').on('click', function(){
         }
     });
 });
-/* 현재 애플리케이션의 루트 경로를 가져옴*/
-function getContextPath() {
-    const path = window.location.pathname.split('/');
-    return path.length > 1 ? `/${path[1]}` : '';
-}
 
 $(document).ready(function() {
     const contextPath = getContextPath(); 	// contextPath를 동적으로 가져오기
@@ -128,9 +123,49 @@ $(document).ready(function() {
         });
     });
 });
+/*SR계획정보 - 담당자 필터링 검색*/
+$('.modal-search-btn').on('click', function(e){
+	e.preventDefault();  // form 기본 제출 막기
+
+    const formData = $('#modal-search-box').serialize();
+	$.ajax({
+		url: '/srm/prg/searchMgr', 
+        type: 'GET',
+        data: formData,
+        success: function(response) {
+        	$('#modal-results-tbody').html(response);
+        },
+		error: function() {
+			console.log('Ajax 통신 실패');
+		}
+	})
+})
+// 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함
+$('.modal-last-btn').on('click', function() {
+    const selectedPerson = $('input[name="selectedMgr"]:checked');  // 선택한 라디오 버튼
+    const selectedMemNo = selectedPerson.val();  // 선택한 담당자 사번
+    const selectedDept = selectedPerson.closest('tr').find('.col-2').text().trim();  // 부서명
+    const selectedName = selectedPerson.closest('tr').find('.col-4').text().trim();  // 담당자명
+
+    // 담당자의 부서, 이름, 사번을 srPlan.jsp의 계획정보 폼에 설정
+    $('#team').val(selectedDept === '개발 1팀' ? 'DEV1' : 'DEV2');
+    $('#person').val(selectedName);
+    $('#memNo').val(selectedMemNo);
+
+    // 모달 닫기
+    $('#mgr-modal').modal('hide');
+});
+
+
+
+/* 현재 애플리케이션의 루트 경로를 가져옴*/
+function getContextPath() {
+    const path = window.location.pathname.split('/');
+    return path.length > 1 ? `/${path[1]}` : '';
+}
 
 /*SR계획정보 - 담당자 찾기 클릭 시 담당자 전체 조회*/
-$('#add-person-btn').on('click', function(){
+/*$('#add-person-btn').on('click', function(){
 	appSrId = $(this).data('appsrid')
 	$.ajax({
 		url: '/srm/prg/getMgr', 
@@ -144,22 +179,6 @@ $('#add-person-btn').on('click', function(){
 			console.log('Ajax 통신 실패');
 		}
 	})
-})
-/*SR계획정보 - 담당자 필터링 검색*/
-$('.modal-search-btn').on('click', function(){
-	e.preventDefault();  // form 기본 제출 막기
+})*/
 
-    const formData = $(this).serialize();
-	$.ajax({
-		url: '/srm/prg/searchMgr', 
-        type: 'GET',
-        data: formData,
-        success: function(response) {
-        	$('#modal-results-tbody').html(response);
-        },
-		error: function() {
-			console.log('Ajax 통신 실패');
-		}
-	})
-})
 

@@ -24,17 +24,18 @@
 	<!-- 승인된 SR 리스트 검색 기능 --> 
 	<select id="getSearchedSr" parameterType="Map" resultType="SR002MT">	    
 	    SELECT
-	        RNUM, APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, 
+	        RNUM, APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, MEM_NM,
         	FIRST_INPT_ID, RCP_STAT, REQ_DT, DUE_DT
 	    FROM (
 	        SELECT
-	            A.APP_SR_ID, R.SR_ID, R.SR_TITLE, R.REL_SYS, 
-	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT,
+	            A.APP_SR_ID, R.SR_ID, R.SR_TITLE, R.REL_SYS, M.MEM_NM,
+	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT, 
 	            ROW_NUMBER() OVER (ORDER BY R.FIRST_INPT_DT DESC) AS RNUM
 	        FROM TB_SR_002MT A 
 	        JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
+	        JOIN TB_MB_001MT M ON R.FIRST_INPT_ID = M.MEM_NO
 	        WHERE A.DELT_YN = 'N'
-          		<!-- AND R.SR_STAT = 'RECE' -->
+          		<!-- AND R.SR_STAT = 'DECE' -->
 	            <if test="searchDto.startDate != null and searchDto.endDate != null">		<!-- 조회기간 -->
 	                AND R.FIRST_INPT_DT BETWEEN #{searchDto.startDate} AND #{searchDto.endDate}
 	            </if>
@@ -128,6 +129,7 @@
 	        RCP_STAT = #{rcpStat},
 	        RVW_CONT = #{rvwCont},
 	        DEPT_ID = #{deptId},
+	        MGR = #{mgr},
 	        LAST_INPT_ID = #{lastInptId},
 	        LAST_INPT_DT = SYSDATE
 	    WHERE APP_SR_ID = #{appSrId}
@@ -154,29 +156,29 @@
 	<!-- SR계획정보 - 담당자 조회 -->
 	<select id="selectMgr" resultType="MB001MT">
 		SELECT 
-			MEM_ID,	
+			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
 			DEPT_ID
 		FROM TB_MB_001MT
-		WHERE ROLE_1 = 'DEVE'
+		WHERE ROLE_1 = 'ROLE_DEVE'
 			<!-- AND ROLE_2 == '개발팀장일 때' -->
 	</select>
 	
 	<!-- SR계획정보 - 담당자 검색 조회 -->
 	<select id="selectSearchMgr" resultType="MB001MT">
 		SELECT 
-			MEM_ID,	
+			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
 			DEPT_ID
 		FROM TB_MB_001MT
-		WHERE ROLE_1 = 'DEVE'
+		WHERE ROLE_1 = 'ROLE_DEVE'
 		<if test="deptId != null and deptId != ''">
 			and DEPT_ID = #{deptId}
 		</if>
 		<if test="memNm != null and memNm != ''">
-			and MEM_NM LIKE CONCAT('%', #{memNm}, '%')
+			and MEM_NM LIKE '%' || #{memNm} || '%'
 		</if>
 	</select>
 </mapper>
