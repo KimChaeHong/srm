@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.birdie.srm.dao.CDMTDao;
 import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.CDMT;
+import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
@@ -63,6 +64,17 @@ public class SrProgressService {
 	public SR002MT getDetail(String appSrId) {
 		SR002MT appSrDetail = sr002mtDao.selectDetailInfo(appSrId);
 		return appSrDetail;
+	}
+
+	// 담당자 조회
+	public List<MB001MT> getMgr() {
+		List<MB001MT> mgrList = sr002mtDao.selectMgr();
+		return mgrList;
+	}
+	// 담당자 검색 
+	public List<MB001MT> getSearchMgr(MB001MT mb001mt) {
+		List<MB001MT> searchMgrList = sr002mtDao.selectSearchMgr(mb001mt);
+		return searchMgrList;
 	}
 	
 }

@@ -7,9 +7,12 @@
 <%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srPlan.css" /> --%>
 
 
+
 <!-- ------------------------SR계획정보 폼-------------------------- -->
 <form id="sr-plan-form" action="updateSrPlan" method="post">
 	<input type="hidden" name="appSrId" value="${srPlan.appSrId}">
+	<input type="hidden" id="memNo" name="memNo" value="">
+	
 	<div class="form-group">
 		<label for="request-type">요청 구분</label> <select id="request-type"
 			class="form-select" name="srType">
@@ -21,10 +24,11 @@
 	</div>
 
 	<div class="form-group">
-		<label for="team">처리팀</label> <input type="text" id="team"
-			name="deptId"
-			value="${srPlan.deptId == 'DEV1' ? '개발 1팀' : srPlan.deptId == 'DEV2' ? '개발 2팀' : ''}"
-			disabled>
+		<label for="team">처리팀</label> 
+		<select id="team" name="deptId" class="form-select">
+			<option value="DEV1" ${srPlan.deptId == 'DEV1' ? 'selected' : ''}>개발 1팀</option>
+			<option value="DEV2" ${srPlan.deptId == 'DEV2' ? 'selected' : ''}>개발 2팀</option>
+		</select>
 	</div>
 
 	<div class="form-group">
@@ -44,9 +48,13 @@
 		</select>
 	</div>
 
-	<div class="form-group">
-		<label for="person">담당자</label> <input type="text" id="person"
-			name="mgr" value="${srPlan.mgr }" disabled>
+	<div id="person-group" class="form-group">
+	    <label for="person" id="dam">담당자</label>
+	    <div class="input-button-group">
+	        <input type="text" id="person" name="mgr" value="${srPlan.mgr}" disabled>
+	        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mgr-modal" 
+	        	data-appsrid="${srPlan.appSrId }" id="add-person-btn">추가</button>
+	    </div>
 	</div>
 
 	<div class="form-group">
@@ -81,5 +89,10 @@
 		<textarea id="review" name="rvwCont">${srPlan.rvwCont }</textarea>
 	</div>
 	
-	<button id="plan-btn" type="button" class="btn-save">저장</button>
+	<c:if test="${memInfo != null && memInfo.role1 == 'ROLE_DEVE'}">
+	    <button id="plan-btn" type="button" class="btn-save">저장</button>
+	</c:if>
+	<%-- <p>Role: ${memInfo.role1}</p> --%>
+
+
 </form>

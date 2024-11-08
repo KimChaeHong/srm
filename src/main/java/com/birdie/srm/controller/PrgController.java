@@ -76,6 +76,9 @@ public class PrgController {
 		List<CDMT> listSys = srProgressService.getCDMTByGroupId("SYS");
 		model.addAttribute("listSys", listSys);
 		
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		model.addAttribute("mgrs", mgrs);
+		
 		//디폴트 시스템 설정
 		if(searchDto.getRelSys() == null) {
 			searchDto.setRelSys("");
@@ -118,12 +121,19 @@ public class PrgController {
 	public void srPlan(
 			String appSrId, 
 			HttpServletResponse response, 
-			HttpServletRequest request) throws Exception{
+			HttpServletRequest request, Authentication authentication) throws Exception{
 		SR002MT srPlan = srProgressService.getSrPlan(appSrId);
 		//response에 담을 jsp 경로 설정
 		String jspUrl = "/WEB-INF/views/prg/srPlan.jsp";
 		request.setAttribute("srPlan", srPlan);
 		
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		request.setAttribute("mgrs", mgrs);
+		
+		if (authentication != null) {
+	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+	        request.setAttribute("memInfo", memInfo);
+	    }
 		// response 타입설정 및 요청에 request와 response 설정
 		response.setContentType("text/html; charset=UTF-8");
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
@@ -131,7 +141,7 @@ public class PrgController {
         log.info("appSrId : " + appSrId);
 	}
   
-  // SR계획정보 저장
+	// SR계획정보 저장
 	@PostMapping("/updateSrPlan")
 	public void updateSrPlan(
 	        SR002MT sr002mt, 
@@ -183,5 +193,40 @@ public class PrgController {
     public String loadSrRatio() {
         return "prg/srRatio";
     }
+
+	/*// SR계획정보 - 담당자 조회
+	@GetMapping("/getMgr")
+	public void getMgr(HttpServletResponse response, 
+			HttpServletRequest request) throws Exception{
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
+		//요청에  값 설정
+		request.setAttribute("mgrs", mgrs);
+		
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
+        log.info("컨트롤러 실행됨");
+        log.info(mgrs.toString());
+	}*/
 	
+	// SR계획정보 - 담당자 검색 
+	@GetMapping("/searchMgr")
+	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
+	    request.setAttribute("mgrs", mgrs);
+	    
+	    String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
+	    response.setContentType("text/html; charset=UTF-8");
+
+	    // RequestDispatcher로 JSP 페이지의 특정 부분만 렌더링하여 응답으로 전달
+	    RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+	    dispatcher.include(request, response);
+
+	    log.info("컨트롤러에서 검색 실행됨");
+	    log.info(mgrs.toString());
+	}
 }

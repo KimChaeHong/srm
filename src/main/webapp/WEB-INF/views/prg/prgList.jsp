@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/prgList.css" />
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+
 
        <!-- section -->
        <div id="section">
@@ -68,7 +70,7 @@
 	                               <div id="search-thing">접수상태</div>		<!-- 접수, 취소, 보류 -->
 	                               <select class="select-style prg-search" name="rcpStat">
 	                               	   <option value="" <c:if test="${searchDto.rcpStat==''}">selected</c:if>>전체</option>
-	                                   <option value="RECE" <c:if test="${searchDto.rcpStat=='RECE'}">selected</c:if>>접수</option>
+	                                   <option value="DECE" <c:if test="${searchDto.rcpStat=='DECE'}">selected</c:if>>접수</option>
 	                                   <option value="CANC" <c:if test="${searchDto.rcpStat=='CANC'}">selected</c:if>>취소</option>
 	                                   <option value="HOLD" <c:if test="${searchDto.rcpStat=='HOLD'}">selected</c:if>>보류</option>
 	                               </select>
@@ -105,7 +107,7 @@
                            </thead>
                            <tbody>
                                <c:forEach items="${srList}" var="sr002MT">
-                               		<tr onclick="loadSrDetails('${sr002MT.appSrId }')" id="tr-style">
+                               		<tr onclick="loadSrDetails('${sr002MT.appSrId }')" id="tr-style" data-appsrid="${sr002MT.appSrId}">
                                			<td class="col-1">${sr002MT.rnum }</td>
 	                                    <td class="col-2">${sr002MT.appSrId }</td>
 		                                <td class="col-3">	<!-- 관련시스템 -->
@@ -125,7 +127,7 @@
 	                                    </td>
 	                                    <td class="col-8">	<!-- 접수상태 -->
 	                                    	<c:choose>
-	                                    		<c:when test="${sr002MT.rcpStat == 'RECE' }">접수</c:when>
+	                                    		<c:when test="${sr002MT.rcpStat == 'DECE' }">접수</c:when>
 	                                    		<c:when test="${sr002MT.rcpStat == 'CANC' }">취소</c:when>
 	                                    		<c:when test="${sr002MT.rcpStat == 'HOLD' }">보류</c:when>
 	                                    	</c:choose>
@@ -254,8 +256,8 @@
 					        <div class="tabs-container d-flex align-items-center">
 					            <ul class="nav nav-tabs">
 					                <li class="nav-item">
-					                    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR계획정보</a>
-					                </li>
+									    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}" >SR계획정보</a>
+									</li>
 					                <li class="nav-item">
 					                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
 					                </li>
@@ -327,17 +329,94 @@
 			    		</div>
 					</div>
 					
-				    
-				    
-					
-					
-                    
-                </div>
+					<!-- Modal -->
+					<div class="modal modal-lg fade" id="mgr-modal" tabindex="-1"
+						aria-hidden="true" aria-labelledby="staticBackdropLabel"
+						data-bs-backdrop="s	tatic" data-bs-keyboard="false">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header ps-3">
+									<span class="modal-title">담당자 검색</span>
+									<button id="modal-close-btn" type="button"
+										data-bs-dismiss="modal">
+										<i class="bi modal-bi-x-square"></i>
+									</button>
+								</div>
+								<div class="modal-body p-3">
+		
+									<form id="modal-search-box" method="GET"
+										class="d-flex justify-content-between align-items-center">
+		
+										<div id="modal-dept-select"
+											class="d-flex justify-content-center align-items-center">
+											<label for="modal-hr-select" class="me-3 modal-label">부서</label>
+											<select id="modal-hr-select"
+												class="modal-hr-select form-select" name="deptId">
+												<option value="">전체</option>
+												<option value="DEV1">개발 1팀</option>
+												<option value="DEV2">개발 2팀</option>
+											</select>
+										</div>
+										<div id="modal-name-search"
+											class="d-flex justify-content-center align-items-center">
+											<label for="modal-hr-input" class="me-3 modal-label">담당자명</label>
+											<input type="text" id="modal-hr-input"
+												class="modal-hr-input form-control" name="memNm">
+										</div>
+										<button class="btn btn-sm modal-search-btn">검색</button>
+									</form>
+		
+									<span class="modal-title ms-2">조회 결과</span>
+									<div id="scroll" class="overflow-auto">
+										<table id="modal-task-table" class="modal-table table overflow-auto">
+											<thead class="modal-thead">
+												<tr class="modal-tr">
+													<th class="modal-col-1">선택</th>
+													<th class="modal-col-2">부서</th>
+													<th class="modal-col-3">역할</th>
+													<th class="modal-col-4">직원명</th>
+												</tr>
+											</thead>
+											<tbody class="modal-tbody" id="modal-results-tbody">
+												<c:forEach items="${mgrs }" var="mgr">
+													<tr>
+														<td class="col-1">
+															<input class="form-check-input" type="radio" 
+																value="${mgr.memNm }" name="selectedMgr">
+														</td>
+														<td class="col-2">
+															<c:choose>
+																<c:when test="${mgr.deptId == 'DEV1'}">개발 1팀</c:when>
+																<c:when test="${mgr.deptId == 'DEV2'}">개발 2팀</c:when>
+															</c:choose></td>
+														<td class="col-3"><c:choose>
+																<c:when test="${mgr.role1 == 'ROLE_DEVE'}">개발자</c:when>
+															</c:choose></td>
+														<td class="col-4">${mgr.memNm }</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn modal-last-btn">등록</button>
+									<button type="button" class="btn modal-last-btn"
+										data-bs-dismiss="modal">닫기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+		
+		
+		
+		
+				</div>
             </div>
 
         </div>
     </div>
 
-
+<script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
 </body>
 </html>
