@@ -24,11 +24,11 @@ public class SrProgressService {
 	@Autowired
 	private CDMTDao cmdtDao;
 	
-	// 승인된 SR 전체 목록 조회
+/*	// 승인된 SR 전체 목록 조회
 	public List<SR002MT> getSrAll(PagerDto pager){
 		List<SR002MT> srList = sr002mtDao.getSrAll(pager);	//List타입으로 승인된 SR전체 조회
 		return srList;
-	}
+	}*/
 	
 	// 검색 (검색정보, 페이지정보)
 	public List<SR002MT> getSearchedSr(Map<String, Object> searchCont){	// 검색 기능 처리 메소드
@@ -71,10 +71,12 @@ public class SrProgressService {
 		List<MB001MT> mgrList = sr002mtDao.selectMgr();
 		return mgrList;
 	}
+	
 	// 담당자 검색 
 	public List<MB001MT> getSearchMgr(MB001MT mb001mt) {
 		List<MB001MT> searchMgrList = sr002mtDao.selectSearchMgr(mb001mt);
 		return searchMgrList;
 	}
+
 	
 }

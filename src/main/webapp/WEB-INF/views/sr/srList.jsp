@@ -134,10 +134,10 @@
                     </table>
                 </div>
                 <div id="pagination">
-                	<c:if test="${searchCont.pager.groupNo>1}">
-	                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.startPageNo - 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&searchKey=${searchCont.search.searchKey}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
-	                        <i class="bi bi-chevron-left"></i>
-	                    </a>
+                	<c:if test="${searchCont.pager.groupNo > 1}">
+					    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.startPageNo - 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.searchDto.relSys}&srStat=${searchCont.searchDto.srStat}&searchKey=${searchCont.searchDto.searchKey}&keyword=${searchCont.searchDto.keyword}&instId=${searchCont.searchDto.instId}">
+					        <i class="bi bi-chevron-left"></i>
+					    </a>
 					</c:if>
                     <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
                     	<c:if test="${searchCont.pager.pageNo == i}">
@@ -150,10 +150,11 @@
 						</c:if>
                     </c:forEach>
                     <c:if test="${searchCont.pager.groupNo < searchCont.pager.totalGroupNo}">
-	                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.endPageNo + 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&searchKey=${searchCont.search.searchKey}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
-	                        <i class="bi bi-chevron-right"></i>
-	                    </a>
+					    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.endPageNo + 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.searchDto.relSys}&srStat=${searchCont.searchDto.srStat}&searchKey=${searchCont.searchDto.searchKey}&keyword=${searchCont.searchDto.keyword}&instId=${searchCont.searchDto.instId}">
+					        <i class="bi bi-chevron-right"></i>
+					    </a>
 					</c:if>
+
 	                <form id="row-select" action="list" method="get">
 					    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
 					    <input type="hidden" name="startDate" value="${searchCont.search.startDate}">

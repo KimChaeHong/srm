@@ -140,7 +140,7 @@ $('.modal-search-btn').on('click', function(e){
 		}
 	})
 })
-// 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함
+/* 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함 */
 $('.modal-last-btn').on('click', function() {
     const selectedPerson = $('input[name="selectedMgr"]:checked');  // 선택한 라디오 버튼
     const selectedMemNo = selectedPerson.val();  // 선택한 담당자 사번
@@ -156,6 +156,27 @@ $('.modal-last-btn').on('click', function() {
     $('#mgr-modal').modal('hide');
 });
 
+/*내가 담당한 SR만 보기*/
+function filterMySRs() {
+    const onlyMySr = $("#my-sr-filter").is(":checked");
+    const form = $("#search-container form");
+    
+    // 폼 데이터를 직렬화하여 현재 폼의 모든 검색 조건을 유지
+    const formData = form.serialize() + "&onlyMySr=" + onlyMySr;
+
+    $.ajax({
+        url: "list",
+        type: "GET",
+        data: formData,
+        success: function(html) {
+            $("#sr-list").html(html);
+        },
+        error: function() {
+			console.log('Ajax 통신 실패');
+		}
+    });
+}
+
 
 
 /* 현재 애플리케이션의 루트 경로를 가져옴*/
@@ -164,21 +185,6 @@ function getContextPath() {
     return path.length > 1 ? `/${path[1]}` : '';
 }
 
-/*SR계획정보 - 담당자 찾기 클릭 시 담당자 전체 조회*/
-/*$('#add-person-btn').on('click', function(){
-	appSrId = $(this).data('appsrid')
-	$.ajax({
-		url: '/srm/prg/getMgr', 
-        type: 'GET',
-        data: { appSrId: appSrId },
-        success: function(response) {
-        	$('#modal-div').html(response);
-        	$('#mgr-modal').modal('show');
-        },
-		error: function() {
-			console.log('Ajax 통신 실패');
-		}
-	})
-})*/
+
 
 

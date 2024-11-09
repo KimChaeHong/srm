@@ -2,6 +2,8 @@ package com.birdie.srm.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,33 +72,47 @@ public class PrgController {
 	public String srPrgList(
 			SearchDto searchDto, 
 			@RequestParam(defaultValue="1") int pageNo,
-			@RequestParam(defaultValue="16") int rowsPerPage,
-			Model model) {
-		//관련시스템 목록 가져오기
+			@RequestParam(defaultValue="10") int rowsPerPage,
+			Model model, Authentication authentication,
+			@RequestParam(defaultValue="false") boolean onlyMySr){
+		// 관련시스템 목록 가져오기
 		List<CDMT> listSys = srProgressService.getCDMTByGroupId("SYS");
 		model.addAttribute("listSys", listSys);
-		
+		// SR에 등록할 담당자 정보 가져오기
 		List<MB001MT> mgrs = srProgressService.getMgr();
 		model.addAttribute("mgrs", mgrs);
 		
-		//디폴트 시스템 설정
+		// 로그인 사용자 정보
+	    if (onlyMySr) {
+	        String memId = memberService.getUserInfo(authentication.getName()).getMemId();
+	        searchDto.setMemId(memId);
+	    }
+		// 기본 날짜 입력 처리
+		if (searchDto.getStartDate() == null) {
+			searchDto.setStartDate(new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), 0, 1).build().getTime());
+		}
+		if (searchDto.getEndDate() == null) {
+			searchDto.setEndDate(new Date());
+		}
+		
+		// 디폴트 시스템 설정
 		if(searchDto.getRelSys() == null) {
 			searchDto.setRelSys("");
 		} 
 		if(!searchDto.getRelSys().equals("")) { 	
-			//업무 목록 가져오기 
+			// 업무 목록 가져오기 
 			String selectedCdGroupId = searchDto.getRelSys().substring(0,1) + "OPER";
 			List<CDMT> listOper = srProgressService.getCDMTByGroupId(selectedCdGroupId);
 			model.addAttribute("listOper", listOper);
 		}
 		
-		//디폴트 업무구분 설정
+		// 디폴트 업무구분 설정
 		if(searchDto.getWkType() == null) searchDto.setWkType("");
-		//디폴트 진행상태 설정
+		// 디폴트 진행상태 설정
 		if (searchDto.getTkType() == null) searchDto.setTkType("");
-		//디폴트 접수상태 설정
+		// 디폴트 접수상태 설정
 		if (searchDto.getRcpStat() == null) searchDto.setRcpStat("");
-		//디폴트 키워드(제목) 설정
+		// 디폴트 키워드(제목) 설정
 		if (searchDto.getKeyword() == null) searchDto.setKeyword("");
 		
 		log.info(searchDto.toString());
@@ -193,30 +209,12 @@ public class PrgController {
     public String loadSrRatio() {
         return "prg/srRatio";
     }
-
-	/*// SR계획정보 - 담당자 조회
-	@GetMapping("/getMgr")
-	public void getMgr(HttpServletResponse response, 
-			HttpServletRequest request) throws Exception{
-		List<MB001MT> mgrs = srProgressService.getMgr();
-		
-		//response에 담을 jsp 경로 설정
-		String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
-		//요청에  값 설정
-		request.setAttribute("mgrs", mgrs);
-		
-		// response 타입설정 및 요청에 request와 response 설정
-		response.setContentType("text/html; charset=UTF-8");
-		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
-        dispatcher.include(request, response);
-        log.info("컨트롤러 실행됨");
-        log.info(mgrs.toString());
-	}*/
 	
 	// SR계획정보 - 담당자 검색 
 	@GetMapping("/searchMgr")
 	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
+
+		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
 	    request.setAttribute("mgrs", mgrs);
 	    
 	    String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
@@ -229,4 +227,7 @@ public class PrgController {
 	    log.info("컨트롤러에서 검색 실행됨");
 	    log.info(mgrs.toString());
 	}
+	
+	
+	
 }

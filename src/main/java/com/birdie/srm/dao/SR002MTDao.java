@@ -44,5 +44,6 @@ public interface SR002MTDao {
 	
 	// srId가 일치하는 appSrId 가져오기
 	public String selectAppSrId(String srId);
+
 	
 }
