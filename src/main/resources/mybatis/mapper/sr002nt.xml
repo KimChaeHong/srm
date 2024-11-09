@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.birdie.srm.dao.SR002NTDao">
+	<!-- 승인된SR이 생성될 때 진척율 6개 생성 -->
 	<insert id="insertPrg" parameterType="SR002NT">
-		insert into TB_SR_002NT(
-			TASK_TYPE, APP_SR_ID, DELT_YN, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
-		)
-		values(
-			#{taskType}, #{appSrId}, 'N', #{firstInptId}, sysdate, #{firstInptId}, sysdate
-		)
+			insert into TB_SR_002NT(
+				TASK_TYPE, APP_SR_ID, DELT_YN, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
+			)
+			values(
+				#{taskType}, #{appSrId}, 'N', #{firstInptId}, sysdate, #{firstInptId}, sysdate
+			)
 	</insert>
 	
+	<!-- appSRID값이 일치하는 모든 진척율 가져오기 -->
 	<select id="selectPrgRatio" parameterType="String" resultType="SR002NT">
 		select
 			rownum rnum, TASK_TYPE, APP_SR_ID, ST_DT, END_DT, PRG, sr002nt.DELT_YN, sr002nt.FIRST_INPT_ID, sr002nt.FIRST_INPT_DT, sr002nt.LAST_INPT_ID,  sr002nt.LAST_INPT_DT, CD_NM taskTName
 		from TB_SR_002NT sr002nt
-		where APP_SR_ID = #{appSrId}
 		join TB_CD_MT cdmt on sr002nt.TASK_TYPE = cdmt.CD_ID
+		where APP_SR_ID = #{appSrId}
 		order by decode(TASK_TYPE, 'ANAL', 1, 'DESI', 2, 'IMPL', 3, 'TEST', 4, 'REFL', 5, 'OPER', 6)
 	</select>
+	
+	<!-- 진척율 모두 업데이트 -->
+	<update id="updatePrgRatio" parameterType="SR002NT">
+	        update TB_SR_002NT
+	        set 
+	            ST_DT = #{stDt},
+	            END_DT = #{endDt},
+	            PRG = #{prg},
+	            LAST_INPT_DT = sysdate
+	        where 
+	            APP_SR_ID = #{appSrId}
+	            and TASK_TYPE = #{taskType}
+	</update>
+	
 </mapper>

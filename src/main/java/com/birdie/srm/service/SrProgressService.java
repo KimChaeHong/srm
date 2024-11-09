@@ -82,9 +82,18 @@ public class SrProgressService {
 	}
 	
 	// appSrId와 일치하는 진척율 가져오기
-	public List<SR002NT> getPrgRagioList(String appSrId) {
+	public List<SR002NT> getPrgRatioList(String appSrId) {
 		List<SR002NT> prgRatioList = sr002ntDao.selectPrgRatio(appSrId);
 		return prgRatioList;
+	}
+	
+	//진척율 6개 업데이트
+	public int updatePrgRatio(List<SR002NT> sr002ntList) {
+		int cntUpdate = 0;
+		for(SR002NT sr002nt : sr002ntList) {
+			cntUpdate += sr002ntDao.updatePrgRatio(sr002nt);			
+		}
+		return cntUpdate;
 	}
 	
 }
