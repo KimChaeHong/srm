@@ -47,7 +47,7 @@ function loadSrDetails(appSrId) {
         data: { appSrId: appSrId },
         success: function(response) {
             console.log("Ajax 통신 성공");
-            $('#sr-container').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
+            $('#sr-plan-info').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
             
             // SR 클릭 시 무조건 계획정보 탭으로 활성화
             $('.nav-link.pg-tab').removeClass('active'); 	  // 모든 탭 active 클래스 제거
@@ -92,37 +92,6 @@ $('#plan-btn').on('click', function(){
     });
 });
 
-$(document).ready(function() {
-    const contextPath = getContextPath(); 	// contextPath를 동적으로 가져오기
-    
-    // 각 탭에 클릭 이벤트 설정
-    $('.pg-tab').on('click', function(event){
-        event.preventDefault();
-
-        const appSrId = $(this).data('appsrid');
-        // 각 탭에 따라 호출할 컨트롤러 URL 설정
-        let url;
-        if ($(this).text().trim() === "SR계획정보") {
-            url = contextPath + "/prg/srPlan";
-        } else if ($(this).text().trim() === "SR자원정보") {
-            url = contextPath + "/prg/srHr";
-        } else if ($(this).text().trim() === "SR진척율") {
-            url = contextPath + "/prg/srRatio";
-        }
-
-        // ajax로 컨트롤러 URL을 호출하여 JSP 파일을 로드
-        $.ajax({
-            url: url,
-            method: "GET",
-            success: function(html) {
-                $('#sr-container').html(html);
-            },
-            error: function() {
-                console.error("JSP 삽입 실패");
-            }
-        });
-    });
-});
 /*SR계획정보 - 담당자 필터링 검색*/
 $('.modal-search-btn').on('click', function(e){
 	e.preventDefault();  // form 기본 제출 막기
@@ -164,21 +133,96 @@ function getContextPath() {
     return path.length > 1 ? `/${path[1]}` : '';
 }
 
-/*SR계획정보 - 담당자 찾기 클릭 시 담당자 전체 조회*/
-/*$('#add-person-btn').on('click', function(){
-	appSrId = $(this).data('appsrid')
+//appSrId와 일치하는 진척율을 처리정보에 띄우는 함수
+function loadPrgRatio(appSrId) {	
+	
 	$.ajax({
-		url: '/srm/prg/getMgr', 
-        type: 'GET',
-        data: { appSrId: appSrId },
-        success: function(response) {
-        	$('#modal-div').html(response);
-        	$('#mgr-modal').modal('show');
-        },
+		url:'/srm/prg/srRatio',
+		type: 'POST',
+		data: {appSrId: appSrId},
+		success: function(response){
+			console.log('진척율 Ajax 통신 성공');
+			$('#sr-container').html(response); //response로 받은 jsp를 sr-container에 넣기
+		},
 		error: function() {
 			console.log('Ajax 통신 실패');
 		}
-	})
-})*/
+		
+	});	
+}
 
+
+$(document).on('click','#sr-ratio-tab', function(){
+	appSrId = $(this).data('appsrid');
+	loadPrgRatio(appSrId);
+});
+
+$(document).ready(function(){
+	// Toast 알림 설정
+	let Toast = Swal.mixin({
+		toast: true,
+		position: 'center',
+		showConfirmButton: false,
+		timer: 2000,
+		timerProgressBar: true,
+		showClass: {
+			popup: '' // 나타날 때 애니메이션 없음
+		},
+		hideClass: {
+			popup: '' // 사라질 때 애니메이션 없음
+		},
+		didOpen: (toast) => {
+			toast.addEventListener('mouseenter', Swal.stopTimer);
+			toast.addEventListener('mouseleave', Swal.resumeTimer);
+		}
+	});
+	
+	$(document).off('click', '#ratio-save-btn').on('click', '#ratio-save-btn', function() {
+		var formData = $('#prg-ratio-form').serializeArray();
+		var jsonData = [];
+		var appSrId = $(this).data('appsrid');
+		
+		var groupData = {};
+		formData.forEach(function(field) {
+			var name = field.name;
+			var value = field.value;
+			
+			// 배열 형식으로 묶기
+			if (name.includes('[')) {
+				var key = name.split('[')[0];
+				var index = parseInt(name.match(/\[(\d+)\]/)[1], 10);
+				
+				if (!groupData[index]) {
+					groupData[index] = { appSrId: appSrId }; // 공통 데이터 추가
+				}
+				groupData[index][key] = value;
+			}
+		});
+		
+		// 객체를 배열로 변환
+		for (var key in groupData) {
+			jsonData.push(groupData[key]);
+		}
+		
+		$.ajax({
+			url: '/srm/prg/updatePrgRatio',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(jsonData),
+			success: function(response) {
+				console.log('진척율 Update Ajax 통신 성공');
+				loadPrgRatio(appSrId);
+				Toast.fire({
+					icon: 'success',
+					title: '진척율이 저장되었습니다.'
+				});
+			},
+			error: function() {
+				console.log('Ajax 통신 실패');
+			}
+		});
+		
+	});
+	
+});
 
