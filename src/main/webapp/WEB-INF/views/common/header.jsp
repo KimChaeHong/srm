@@ -16,18 +16,17 @@
 	src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js"
 	defer></script>
 
-<<<<<<< HEAD
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-=======
-    <!-- SweetAlert2 -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
->>>>>>> branch 'master' of https://github.com/KimChaeHong/srm.git
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 <!-- Bootstrap Icons -->
 <link rel="stylesheet"
