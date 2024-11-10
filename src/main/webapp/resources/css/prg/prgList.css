@@ -139,7 +139,7 @@ tr {
 
 #tr-style:hover {
 	cursor: pointer;
-	background-color: #B0E0E6;
+	background-color: #ececec;
 }
 tr td, tr th {
     vertical-align: middle; /* 세로 가운데 정렬 */
@@ -207,6 +207,43 @@ th {
 
 .status-hold {
     background-color: #F7E1CF; /* 보류  */
+}
+/* --------작업상태에 따라 색상 지정-------- */
+.btn-task {
+	height: 21px;
+    border: none;
+    border-radius: 10px;
+    /* width: 70px; */
+    font-size: 11px;
+    color: black;
+    text-align: center;
+    padding: 4px;
+    display: inline-block;
+}
+
+/* TASK_TYPE별 색상 */
+.task-anal {
+    background-color: #E6F7FF; /* 분석 */
+}
+
+.task-desi {
+    background-color: #FFF1C1; /* 설계 */
+}
+
+.task-impl {
+    background-color: #D9F7BE; /* 구현 */
+}
+
+.task-test {
+    background-color: #FFE7BA; /* 시험 */
+}
+
+.task-refl {
+    background-color: #FFD6E7; /* 반영요청 */
+}
+
+.task-oper {
+    background-color: #D3ADF7; /* 운영반영 */
 }
 
 
@@ -524,7 +561,7 @@ input{
 
 }
 .selected-sr {
-    background-color: #e0f7fa; /* 원하는 색상으로 변경 */
+    background-color: #f2f2f2; /* 원하는 색상으로 변경 */
 }
 
 input#person {

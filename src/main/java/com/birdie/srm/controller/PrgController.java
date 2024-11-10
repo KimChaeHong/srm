@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
+import com.birdie.srm.dto.SR001NT;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SearchDto;
@@ -195,25 +196,22 @@ public class PrgController {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
 		dispatcher.include(request, response);
 	}
+	
+	// 자원
+	@PostMapping("/srHr")
+	public void loadSrHr(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception {
+		// appSrId가 일치하는 자원 가져오기
+		List<SR001NT> hrList = srProgressService.getHrList(appSrId);
+		// response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/srHr.jsp";
+		request.setAttribute("hrList", hrList);
 
-	// SR계획정보 탭
-	@GetMapping("/srPlan")
-	public String loadSrPlan() {
-		return "prg/srPlan";
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+		dispatcher.include(request, response);
 	}
-
-	// SR자원관리 탭
-	@GetMapping("/srHr")
-	public String loadSrHr() {
-		return "prg/srHr";
-	}
-
-	// SR진척율 탭
-	@GetMapping("/srRatio")
-	public String loadSrRatio() {
-		return "prg/srRatio";
-	}
-
+	
+	// 진척율
 	@PostMapping("/srRatio")
 	public void loadSrRatio(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		// appSrId가 일치하는 진척율 가져오기
@@ -229,22 +227,6 @@ public class PrgController {
 		dispatcher.include(request, response);
 	}
 
-	/*
-	 * // SR계획정보 - 담당자 조회
-	 * 
-	 * @GetMapping("/getMgr") public void getMgr(HttpServletResponse response,
-	 * HttpServletRequest request) throws Exception{ List<MB001MT> mgrs =
-	 * srProgressService.getMgr();
-	 * 
-	 * //response에 담을 jsp 경로 설정 String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
-	 * //요청에 값 설정 request.setAttribute("mgrs", mgrs);
-	 * 
-	 * // response 타입설정 및 요청에 request와 response 설정
-	 * response.setContentType("text/html; charset=UTF-8"); RequestDispatcher
-	 * dispatcher = request.getRequestDispatcher(jspUrl);
-	 * dispatcher.include(request, response); log.info("컨트롤러 실행됨");
-	 * log.info(mgrs.toString()); }
-	 */
 
 	// SR계획정보 - 담당자 검색
 	@GetMapping("/searchMgr")
