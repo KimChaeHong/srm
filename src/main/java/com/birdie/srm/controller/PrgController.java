@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,19 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
-import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
+import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.SrProgressService;
@@ -209,7 +213,40 @@ public class PrgController {
     public String loadSrRatio() {
         return "prg/srRatio";
     }
-	
+	@PostMapping("/srRatio")
+	public void loadSrRatio(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception{
+		// appSrId가 일치하는 진척율 가져오기
+		List<SR002NT> prgRatioList = srProgressService.getPrgRatioList(appSrId);
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/srRatio.jsp";
+		//요청에  값 설정
+		request.setAttribute("prgRatioList", prgRatioList);
+		
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
+	}
+
+	/*// SR계획정보 - 담당자 조회
+	@GetMapping("/getMgr")
+	public void getMgr(HttpServletResponse response, 
+			HttpServletRequest request) throws Exception{
+		List<MB001MT> mgrs = srProgressService.getMgr();
+		
+		//response에 담을 jsp 경로 설정
+		String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
+		//요청에  값 설정
+		request.setAttribute("mgrs", mgrs);
+		
+		// response 타입설정 및 요청에 request와 response 설정
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl); 
+        dispatcher.include(request, response);
+        log.info("컨트롤러 실행됨");
+        log.info(mgrs.toString());
+	}*/
+
 	// SR계획정보 - 담당자 검색 
 	@GetMapping("/searchMgr")
 	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -227,7 +264,12 @@ public class PrgController {
 	    log.info("컨트롤러에서 검색 실행됨");
 	    log.info(mgrs.toString());
 	}
-	
-	
-	
+
+	//진척율 6개 업데이트
+	@ResponseBody
+	@PostMapping("/updatePrgRatio")
+	public int updatePrgRatio(@RequestBody List<SR002NT> prgRatioList) {
+	    int cntUpdate = srProgressService.updatePrgRatio(prgRatioList);
+	    return cntUpdate;
+
 }

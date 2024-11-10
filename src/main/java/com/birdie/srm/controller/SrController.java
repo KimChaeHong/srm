@@ -217,22 +217,22 @@ public class SrController {
 		return cntPrc;
 	}
 	
-	//SR002NT(진척율) 테이블에 6개 고정데이터 넣는 메서드
+	// SR002NT(진척율) 테이블에 6개 고정데이터 넣는 메서드
 	public void insertPrg(SR002NT sr002nt) {
-		String[] taskTypeList = {"ANAL", "DESI", "IMPL", "TEST", "REFL", "OPER"};
-		for(String taskType : taskTypeList) {
-			sr002nt.setTaskType(taskType);
-			srService.insertPrg(sr002nt);
-		}
+	    String[] taskTypeList = {"ANAL", "DESI", "IMPL", "TEST", "REFL", "OPER"};
+	    for (String taskType : taskTypeList) {
+	        sr002nt.setTaskType(taskType);
+	        srService.insertPrg(sr002nt);
+	    }
 	}
 	// SR 수정(업데이트)
 	@ResponseBody
 	@PostMapping("/srUpdate")
 	public int srUpdate(SR001MT sr001mt, Authentication authentication) throws Exception{
-		MB001MT memInfo = memberService.getUserInfo(authentication.getName());			
+		MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+		sr001mt.setLastInptId(memInfo.getMemNo());
 		log.info("수정(저장)");
 		int cntUpdate = srService.updateSr(sr001mt);
-
 		//첨부파일 등록을 위한 값 세팅
 		if(!sr001mt.getAttachment().isEmpty()) {
 			String srId =sr001mt.getSrId();

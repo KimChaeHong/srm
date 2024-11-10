@@ -687,3 +687,48 @@ input#person {
 #scroll {
 	height: 300px;
 }
+
+.form-input{
+	width: 50px !important;
+	margin: 0;
+}
+
+.form-date{
+	width: 90px !important;
+	margin: 0;
+}
+
+#pg-table-container tr {
+    height: 25px !important;
+    border-bottom: 1px solid #EDF2F9;
+}
+
+#pg-table-container td {
+    font-size: 10px;
+    padding: 5px 0px;
+    text-align: center;
+    line-height: 1;
+    font-weight: 510;
+}
+
+#pg-table-container th {
+    height: 30px;
+    background-color: #EDF2F9;
+    padding: 9px 0px;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* 버튼 스타일 */
+#ratio-save-btn {
+    width: 45px;
+    height: 20px;
+    border: 1px solid #DCDCE1;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px rgb(0, 0, 0, 0.25);
+    font-size: 9px;
+    color: #4D5969;
+    background-color: #FFFFFF;
+    padding: 3px !important;
+    margin: 0 0 5px 375px;
+}
