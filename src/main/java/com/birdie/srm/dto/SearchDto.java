@@ -23,6 +23,8 @@ public class SearchDto {
 	private String searchKey;	// 제목, SR번호 선택값
 	private String name;		// 사람 이름
 	private String content;		// SR내용
+	private String memId;		// 아이디
+	private boolean onlyMySr;
 }
 
 

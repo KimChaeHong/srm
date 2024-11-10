@@ -109,7 +109,7 @@ $('.modal-search-btn').on('click', function(e){
 		}
 	})
 })
-// 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함
+/* 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함 */
 $('.modal-last-btn').on('click', function() {
     const selectedPerson = $('input[name="selectedMgr"]:checked');  // 선택한 라디오 버튼
     const selectedMemNo = selectedPerson.val();  // 선택한 담당자 사번
@@ -124,6 +124,27 @@ $('.modal-last-btn').on('click', function() {
     // 모달 닫기
     $('#mgr-modal').modal('hide');
 });
+
+/*내가 담당한 SR만 보기*/
+function filterMySRs() {
+    const onlyMySr = $("#my-sr-filter").is(":checked");
+    const form = $("#search-container form");
+    
+    // 폼 데이터를 직렬화하여 현재 폼의 모든 검색 조건을 유지
+    const formData = form.serialize() + "&onlyMySr=" + onlyMySr;
+
+    $.ajax({
+        url: "list",
+        type: "GET",
+        data: formData,
+        success: function(html) {
+            $("#sr-list").html(html);
+        },
+        error: function() {
+			console.log('Ajax 통신 실패');
+		}
+    });
+}
 
 
 
@@ -151,11 +172,11 @@ function loadPrgRatio(appSrId) {
 	});	
 }
 
-
 $(document).on('click','#sr-ratio-tab', function(){
 	appSrId = $(this).data('appsrid');
 	loadPrgRatio(appSrId);
 });
+
 
 $(document).ready(function(){
 	// Toast 알림 설정

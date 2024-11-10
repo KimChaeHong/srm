@@ -34,7 +34,11 @@
 	        FROM TB_SR_002MT A 
 	        JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
 	        JOIN TB_MB_001MT M ON R.FIRST_INPT_ID = M.MEM_NO
+	        <!-- JOIN TB_SR_001NT H ON M.MEM_ID = H.MEM_ID -->
 	        WHERE A.DELT_YN = 'N'
+	        	<!-- <if test="searchDto.onlyMySr == true">
+	        		AND H.MEM_ID = #{searchDto.memId}
+	        	</if> -->
           		<!-- AND R.SR_STAT = 'DECE' -->
 	            <if test="searchDto.startDate != null and searchDto.endDate != null">		<!-- 조회기간 -->
 	                AND R.FIRST_INPT_DT BETWEEN #{searchDto.startDate} AND #{searchDto.endDate}
@@ -45,9 +49,20 @@
 	            <if test="searchDto.wkType != null and searchDto.wkType !=''">			<!-- 업무구분 -->
 	                AND A.WK_TYPE = #{searchDto.wkType}
 	            </if>
-	            <if test="searchDto.keyword != null and searchDto.keyword !=''">			<!-- 제목 -->
-	                AND (R.SR_TITLE LIKE '%' || #{searchDto.keyword} || '%' 
-         			OR UPPER(R.SR_TITLE) LIKE UPPER('%' || #{searchDto.keyword} || '%'))
+	            <if test="searchDto.keyword != null and searchDto.keyword !=''">			<!--SR제목, SR번호, 이름, 내용 -->
+		            <if test="searchDto.searchKey == 'title'">
+		                AND (R.SR_TITLE LIKE '%' || #{searchDto.keyword} || '%' 
+	         			OR UPPER(R.SR_TITLE) LIKE UPPER('%' || #{searchDto.keyword} || '%'))
+	         		</if>
+	         		<if test="searchDto.searchKey == 'srid'">
+		                and A.APP_SR_ID like '%' || #{searchDto.keyword} || '%'
+	            	</if>
+	            	<if test="searchDto.searchKey == 'name'">
+		                and M.MEM_NM like '%' || #{searchDto.keyword} || '%'
+	            	</if>
+	            	<if test="searchDto.searchKey == 'content'">
+		                and A.RVW_CONT like '%' || #{searchDto.keyword} || '%'
+	            	</if>
 	            </if>
 	            <if test="searchDto.tkType != null and searchDto.tkType !=''">			<!-- 진행상태 -->
 	                AND NT.TASK_TYPE = #{searchDto.tkType}
@@ -187,5 +202,7 @@
 		from TB_SR_002MT
 		where SR_ID = #{srId}
 	</select>
+	
+	
 
 </mapper>
