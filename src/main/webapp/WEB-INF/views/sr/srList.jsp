@@ -7,7 +7,6 @@
     <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/srList.js"></script>
-	
 </head>
 
         <!-- section -->
@@ -28,7 +27,7 @@
 	                                </div>
 	                            </li>
 	                            <li class="li-style">
-	                                <div id="search-thing">관련 시스템</div>
+	                                <div id="search-thing">시스템</div>
 	                                <select id="relsys-search" class="search-box select-style" name="relSys">
 	                                    <option value="">선택</option>
 					                	<c:forEach items="${sysList}" var="sysList">
@@ -51,18 +50,17 @@
 	                    </div>
 	                    <div class="searchBox2">
 	                        <ul class="ul-style">
-	                            <li class="li-style first-li">
-	                                <div id="search-thing">제목</div>
+	                            <li class="li-style first-li-2">
+	                                <select id="search-key" name="searchKey">
+	                                	<option value="title" ${searchCont.search.searchKey == 'title'? 'selected' : ''}>SR제목</option>
+	                                	<option value="srid" ${searchCont.search.searchKey == 'srid'? 'selected' : ''}>SR번호</option>
+	                                	<option value="name" ${searchCont.search.searchKey == 'name'? 'selected' : ''}>이름</option>
+	                                	<option value="content" ${searchCont.search.searchKey == 'content'? 'selected' : ''}>내용</option>
+	                                </select>
 	                                <input id="title-search" type="text" name="keyword" value="${searchCont.search.keyword}">
 	                            </li>
-<!-- 	                            <li class="li-style">
-	                                <div id="search-thing">개발부서</div>
-	                                <select id="dept-search" class="search-box select-style" disabled>
-	                                    <option>선택</option>
-	                                </select>
-	                            </li> -->
 	                            <li class="li-style">
-	                                <div id="search-thing">등록자 소속</div>
+	                                <div id="search-thing">소속</div>
 	                                <select id="inst-search" class="search-box" name="instId">
 	                                	<option value="">선택</option>
 	                                	<c:forEach items="${instList}" var="instList">
@@ -82,7 +80,9 @@
             <div id="sr-list">
                 <div class="d-flex align-items-center">
                 	<p id="sr-list-title">SR요청 목록</p>
-                	<button id="reg-btn" class="search-btn ms-auto" data-bs-toggle="modal" data-bs-target="#reg-modal">SR 등록</button>
+                	<c:if test="${memInfo.role1 == 'ROLE_GUSR'}">
+	                	<button id="reg-btn" class="search-btn ms-auto" data-bs-toggle="modal" data-bs-target="#reg-modal">SR 등록</button>
+                	</c:if>
                 </div>
                 <hr id="sr-list-hr">
                 <div id="table-container" class="overflow-auto">
@@ -92,7 +92,7 @@
                                 <th class="col-1"></th>
                                 <th class="col-2">SR 번호</th>
                                 <th class="col-3">SR 제목</th>
-                                <th class="col-4">관련 시스템</th>
+                                <th class="col-4">시스템</th>
                                 <th class="col-5">등록자</th>
                                 <th class="col-6">소속</th>
                                 <th class="col-7">상태</th>
@@ -134,26 +134,27 @@
                     </table>
                 </div>
                 <div id="pagination">
-                	<c:if test="${searchCont.pager.groupNo>1}">
-	                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.startPageNo - 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
-	                        <i class="bi bi-chevron-left"></i>
-	                    </a>
+                	<c:if test="${searchCont.pager.groupNo > 1}">
+					    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.startPageNo - 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.searchDto.relSys}&srStat=${searchCont.searchDto.srStat}&searchKey=${searchCont.searchDto.searchKey}&keyword=${searchCont.searchDto.keyword}&instId=${searchCont.searchDto.instId}">
+					        <i class="bi bi-chevron-left"></i>
+					    </a>
 					</c:if>
                     <c:forEach begin="${searchCont.pager.startPageNo}" end="${searchCont.pager.endPageNo}" step="1" var="i">
                     	<c:if test="${searchCont.pager.pageNo == i}">
 							<a class="btn page-btn shadow-sm active" <fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>
-							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&searchKey=${searchCont.search.searchKey}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
 						</c:if>
 						<c:if test="${searchCont.pager.pageNo != i}">
 							<a class="btn page-btn shadow-sm"
-							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
+							href="list?pageNo=${i}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&searchKey=${searchCont.search.searchKey}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">${i}</a>
 						</c:if>
                     </c:forEach>
                     <c:if test="${searchCont.pager.groupNo < searchCont.pager.totalGroupNo}">
-	                    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.endPageNo + 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.search.relSys}&srStat=${searchCont.search.srStat}&keyword=${searchCont.search.keyword}&instId=${searchCont.search.instId}">
-	                        <i class="bi bi-chevron-right"></i>
-	                    </a>
+					    <a class="btn page-btn shadow-sm" href="list?pageNo=${searchCont.pager.endPageNo + 1}&rowsPerPage=${searchCont.pager.rowsPerPage}&startDate=<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>&endDate=<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>&relSys=${searchCont.searchDto.relSys}&srStat=${searchCont.searchDto.srStat}&searchKey=${searchCont.searchDto.searchKey}&keyword=${searchCont.searchDto.keyword}&instId=${searchCont.searchDto.instId}">
+					        <i class="bi bi-chevron-right"></i>
+					    </a>
 					</c:if>
+
 	                <form id="row-select" action="list" method="get">
 					    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
 					    <input type="hidden" name="startDate" value="${searchCont.search.startDate}">

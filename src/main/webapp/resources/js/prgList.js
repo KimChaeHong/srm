@@ -19,11 +19,27 @@ function changeRelSys(relSys){
 	}
 }
 
+/*SR처리 목록 조회 시 커서가 맨 위에 자동선택되어 있게 하기
+$(document).ready(function(){
+	// 처음 로드 시 한 번만 실행되게끔 플래그 변수 하나 만들어둠 
+    let isFirstLoad = true;
+    if (isFirstLoad) {
+	// 가장 상단에 있는 sr의 appSrId를 자동으로 가져와서 loadDetails함수 호출함
+	const firstSr = $("tr#tr-style").first();
+		if(firstSr.length){
+			const appSrId = firstSr.data("appsrid"); 		// 첫 번째 sr의 appSrId가져옴
+			loadSrDetails(appSrId);				//처음 로드할 때 loadSrDetails 호출하면서 첫  SR선택시킴
+			firstSr.addClass('selected-sr');
+		}
+		isFirstLoad = false; // 한 번 실행 후 false로 변경(안그러면 첫 번째 sr을 반복해서 계속 불러옴)
+    }
+})
+
 /*SR요청 처리정보 - SR계획정보*/
 function loadSrDetails(appSrId) {
 	// 클릭한 SR 색 지정해서 구분시킴
 	$('tr').removeClass('selected-sr');
-    $(event.currentTarget).addClass('selected-sr');
+	$(`tr[data-appsrid='${appSrId}']`).addClass('selected-sr');
 
     $.ajax({
         url: '/srm/prg/srPlan',
@@ -31,11 +47,11 @@ function loadSrDetails(appSrId) {
         data: { appSrId: appSrId },
         success: function(response) {
             console.log("Ajax 통신 성공");
-            $('#sr-container').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
-            /*$('#sr-plan-form :input').prop('disabled', false);*/
-         // SR 클릭 시 무조건 계획정보 탭으로 활성화
+            $('#sr-plan-info').html(response); // response로 받은 jsp를 sr-plan-form에 넣음
+            
+            // SR 클릭 시 무조건 계획정보 탭으로 활성화
             $('.nav-link.pg-tab').removeClass('active'); 	  // 모든 탭 active 클래스 제거
-            $('.nav-link.pg-tab').first().addClass('active'); // SR계획정보 탭에 active 클래스 추가
+            $('.nav-link.pg-tab').first().addClass('active'); 
         },
         error: function() {
             console.log('Ajax 통신 실패');
@@ -75,49 +91,159 @@ $('#plan-btn').on('click', function(){
         }
     });
 });
+
+/*SR계획정보 - 담당자 필터링 검색*/
+$('.modal-search-btn').on('click', function(e){
+	e.preventDefault();  // form 기본 제출 막기
+
+    const formData = $('#modal-search-box').serialize();
+	$.ajax({
+		url: '/srm/prg/searchMgr', 
+        type: 'GET',
+        data: formData,
+        success: function(response) {
+        	$('#modal-results-tbody').html(response);
+        },
+		error: function() {
+			console.log('Ajax 통신 실패');
+		}
+	})
+})
+/* 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함 */
+$('.modal-last-btn').on('click', function() {
+    const selectedPerson = $('input[name="selectedMgr"]:checked');  // 선택한 라디오 버튼
+    const selectedMemNo = selectedPerson.val();  // 선택한 담당자 사번
+    const selectedDept = selectedPerson.closest('tr').find('.col-2').text().trim();  // 부서명
+    const selectedName = selectedPerson.closest('tr').find('.col-4').text().trim();  // 담당자명
+
+    // 담당자의 부서, 이름, 사번을 srPlan.jsp의 계획정보 폼에 설정
+    $('#team').val(selectedDept === '개발 1팀' ? 'DEV1' : 'DEV2');
+    $('#person').val(selectedName);
+    $('#memNo').val(selectedMemNo);
+
+    // 모달 닫기
+    $('#mgr-modal').modal('hide');
+});
+
+/*내가 담당한 SR만 보기*/
+function filterMySRs() {
+    const onlyMySr = $("#my-sr-filter").is(":checked");
+    const form = $("#search-container form");
+    
+    // 폼 데이터를 직렬화하여 현재 폼의 모든 검색 조건을 유지
+    const formData = form.serialize() + "&onlyMySr=" + onlyMySr;
+
+    $.ajax({
+        url: "list",
+        type: "GET",
+        data: formData,
+        success: function(html) {
+            $("#sr-list").html(html);
+        },
+        error: function() {
+			console.log('Ajax 통신 실패');
+		}
+    });
+}
+
+
+
 /* 현재 애플리케이션의 루트 경로를 가져옴*/
 function getContextPath() {
     const path = window.location.pathname.split('/');
     return path.length > 1 ? `/${path[1]}` : '';
 }
 
-$(document).ready(function() {
-    const contextPath = getContextPath(); 	// contextPath를 동적으로 가져오기
-    /*disableForm();*/
-    
-    // 각 탭에 클릭 이벤트 설정
-    $('.pg-tab').on('click', function(event){
-        event.preventDefault();
+//appSrId와 일치하는 진척율을 처리정보에 띄우는 함수
+function loadPrgRatio(appSrId) {	
+	
+	$.ajax({
+		url:'/srm/prg/srRatio',
+		type: 'POST',
+		data: {appSrId: appSrId},
+		success: function(response){
+			console.log('진척율 Ajax 통신 성공');
+			$('#sr-container').html(response); //response로 받은 jsp를 sr-container에 넣기
+		},
+		error: function() {
+			console.log('Ajax 통신 실패');
+		}
+		
+	});	
+}
 
-        // 각 탭에 따라 호출할 컨트롤러 URL 설정
-        let url;
-        if ($(this).text().trim() === "SR계획정보") {
-            url = contextPath + "/prg/srPlan";
-        } else if ($(this).text().trim() === "SR자원정보") {
-            url = contextPath + "/prg/srHr";
-        } else if ($(this).text().trim() === "SR진척율") {
-            url = contextPath + "/prg/srRatio";
-        }
-
-        // ajax로 컨트롤러 URL을 호출하여 JSP 파일을 로드
-        $.ajax({
-            url: url,
-            method: "GET",
-            success: function(html) {
-                $('#sr-container').html(html);
-                /*$('#sr-plan-form :input').prop('disabled', false);*/
-            },
-            error: function() {
-                console.error("JSP 삽입 실패");
-            }
-        });
-    });
-    
+$(document).on('click','#sr-ratio-tab', function(){
+	appSrId = $(this).data('appsrid');
+	loadPrgRatio(appSrId);
 });
 
-/*//기본 폼을 비활성화 상태로 설정하는 함수
-function disableForm() {
-    $('#sr-plan-form :input').prop('disabled', true);
-}*/
 
+$(document).ready(function(){
+	// Toast 알림 설정
+	let Toast = Swal.mixin({
+		toast: true,
+		position: 'center',
+		showConfirmButton: false,
+		timer: 2000,
+		timerProgressBar: true,
+		showClass: {
+			popup: '' // 나타날 때 애니메이션 없음
+		},
+		hideClass: {
+			popup: '' // 사라질 때 애니메이션 없음
+		},
+		didOpen: (toast) => {
+			toast.addEventListener('mouseenter', Swal.stopTimer);
+			toast.addEventListener('mouseleave', Swal.resumeTimer);
+		}
+	});
+	
+	$(document).off('click', '#ratio-save-btn').on('click', '#ratio-save-btn', function() {
+		var formData = $('#prg-ratio-form').serializeArray();
+		var jsonData = [];
+		var appSrId = $(this).data('appsrid');
+		
+		var groupData = {};
+		formData.forEach(function(field) {
+			var name = field.name;
+			var value = field.value;
+			
+			// 배열 형식으로 묶기
+			if (name.includes('[')) {
+				var key = name.split('[')[0];
+				var index = parseInt(name.match(/\[(\d+)\]/)[1], 10);
+				
+				if (!groupData[index]) {
+					groupData[index] = { appSrId: appSrId }; // 공통 데이터 추가
+				}
+				groupData[index][key] = value;
+			}
+		});
+		
+		// 객체를 배열로 변환
+		for (var key in groupData) {
+			jsonData.push(groupData[key]);
+		}
+		
+		$.ajax({
+			url: '/srm/prg/updatePrgRatio',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(jsonData),
+			success: function(response) {
+				console.log('진척율 Update Ajax 통신 성공');
+				loadPrgRatio(appSrId);
+				Toast.fire({
+					icon: 'success',
+					title: '진척율이 저장되었습니다.'
+				});
+			},
+			error: function() {
+				console.log('Ajax 통신 실패');
+			}
+		});
+		
+	});
+	
+});
 

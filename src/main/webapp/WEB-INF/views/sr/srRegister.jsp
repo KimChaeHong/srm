@@ -6,6 +6,7 @@
 <% SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     String today = sdf.format(new Date());
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,7 @@
 	                            </div>
 	                            <div class="form-row">
 	                                <label for="completion-date">요청일</label>
-	                                <input type="date" id="completion-date" name="reqDt" disabled>
+	                                <input type="date" id="completion-date" name="reqDt" value="<%= today %>" disabled>
 	                            </div>
 	                        </div>
 	
@@ -54,14 +55,14 @@
 	                            </div>
 	                            <div class="form-row">
 	                                <label for="dueDt">완료(예정)일</label>
-	                                <input type="date" id="dueDt" name="dueDt">
+	                                <input type="date" id="dueDt" name="dueDt" required>
 	                            </div>
 	                        </div>
 	
 	                        <div>
 	                            <div class="form-row">
 	                                <label for="relsys-select">관련 시스템</label>
-	                                <select id="relsys-select" name="relSys">
+	                                <select id="relsys-select" name="relSys" required>
 	                                    <option value="">선택</option>
 					                	<c:forEach items="${sysList}" var="sysList">
 						                	<option value="${sysList.cdId}" ${searchCont.search.relSys == sysList.cdId ? 'selected' : ''}>${sysList.cdNm}</option>
@@ -71,12 +72,12 @@
 
 	                            <div class="form-row">
 	                                <label for="sr-title">SR 제목</label>
-	                                <input type="text" id="sr-title" name="srTitle">
+	                                <input type="text" id="sr-title" name="srTitle" required>
 	                            </div>
 	
 	                            <div class="form-row">
 	                                <label for="sr-content">SR 내용</label>
-	                                <textarea id="sr-content" class="sr-content" name="srCont"></textarea>
+	                                <textarea id="sr-content" class="sr-content" name="srCont" required></textarea>
 	                            </div>
 	
 	                            <div class="form-row">

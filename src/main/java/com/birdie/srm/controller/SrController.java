@@ -1,6 +1,8 @@
 package com.birdie.srm.controller;
 
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
+import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SR004NT;
 import com.birdie.srm.dto.SearchDto;
 import com.birdie.srm.service.MemberService;
@@ -50,6 +53,13 @@ public class SrController {
 		if(authentication != null) {
 			MB001MT memInfo = memberService.getUserInfo(authentication.getName());			
 			model.addAttribute("memInfo", memInfo);
+		}
+		// 기본 날짜 입력 처리
+		if (search.getStartDate() == null) {
+		    search.setStartDate(new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), 0, 1).build().getTime());
+		}
+		if (search.getEndDate() == null) {
+		    search.setEndDate(new Date());
 		}
 		// 페이징처리를 위해 검색된 내용이 몇개인지 DB에서 확인
 		int rows = srService.countSearchedSr(search);
@@ -94,12 +104,15 @@ public class SrController {
 	//첨부파일 등록
 	public void uploadAttatch(List<MultipartFile> attachment,String srId) throws Exception{
 		int order = srService.getAttachOrder(srId);
-		
+			
 		for(MultipartFile file : attachment) {
 			order++;
 			SR004NT sr004nt = new SR004NT();
 			sr004nt.setSrId(srId);
 			sr004nt.setAttachOName(file.getOriginalFilename());
+			if(file.getContentType().equals("application/octet-stream")) {
+				break;
+			}
 			sr004nt.setAttachType(file.getContentType());
 			sr004nt.setAttachData(file.getBytes());
 			sr004nt.setAttachOrder(order);
@@ -166,48 +179,66 @@ public class SrController {
 	// SR 삭제
 	@PostMapping("/srDelete")
 	public String deleteSr(SR001MT sr001Dto) {
-		srService.deleteSr(sr001Dto.getSrId());
+		int cntDel = srService.deleteSr(sr001Dto.getSrId());
 		return "redirect:/sr/list";
 	}
 
 	// SR 접수요청
+	@ResponseBody
 	@PostMapping("/srAppReq")
-	public String appReqSr(SR001MT sr001Dto) {
+	public int appReqSr(SR001MT sr001Dto) {
 		log.info("접수요청");
-		srService.srAppReq(sr001Dto.getSrId());
-		return "redirect:/sr/list";
+		int response = srService.srAppReq(sr001Dto.getSrId());
+		return response;
 	}
 
 	// SR 처리(관리자)
+	@ResponseBody
 	@PostMapping("/srProcess")
-	public String srProcess(SR001MT sr001Dto, Authentication authentication) {
+	public int srProcess(SR001MT sr001Dto, Authentication authentication) {
 		log.info("처리(관리자)");
-		if(authentication != null) {
-			MB001MT memInfo = memberService.getUserInfo(authentication.getName());
-			sr001Dto.setLastInptId(memInfo.getMemNo());
-		}
-		srService.srProcess(sr001Dto);
-		log.info(sr001Dto.getSrStat());
-		log.info(sr001Dto.getSrId());
+		// 로그인한 회원의 정보 가져오기
+		MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+		sr001Dto.setLastInptId(memInfo.getMemNo());
+		
+		int cntPrc = srService.srProcess(sr001Dto);
+		
+		//승인처리 일 때 승인된SR 테이블에 데이터생성 및 진척율 생성
 		if(sr001Dto.getSrStat().equals("RECE")) {
-			srService.insertAppSr(sr001Dto);			
+			srService.insertAppSr(sr001Dto);
+			SR002NT sr002nt = new SR002NT();
+			String appSrId = srService.getAppSrId(sr001Dto.getSrId());
+			log.info(appSrId);
+			sr002nt.setAppSrId(appSrId);
+			sr002nt.setFirstInptId(memInfo.getMemNo());
+			insertPrg(sr002nt);
+			
 		}
-		return "redirect:/sr/list";
+		return cntPrc;
 	}
 	
+	// SR002NT(진척율) 테이블에 6개 고정데이터 넣는 메서드
+	public void insertPrg(SR002NT sr002nt) {
+	    String[] taskTypeList = {"ANAL", "DESI", "IMPL", "TEST", "REFL", "OPER"};
+	    for (String taskType : taskTypeList) {
+	        sr002nt.setTaskType(taskType);
+	        srService.insertPrg(sr002nt);
+	    }
+	}
 	// SR 수정(업데이트)
+	@ResponseBody
 	@PostMapping("/srUpdate")
-	public String srUpdate(SR001MT sr001mt, Authentication authentication) throws Exception{
-		MB001MT memInfo = memberService.getUserInfo(authentication.getName());			
+	public int srUpdate(SR001MT sr001mt, Authentication authentication) throws Exception{
+		MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+		sr001mt.setLastInptId(memInfo.getMemNo());
 		log.info("수정(저장)");
-		srService.updateSr(sr001mt);
-
+		int cntUpdate = srService.updateSr(sr001mt);
 		//첨부파일 등록을 위한 값 세팅
 		if(!sr001mt.getAttachment().isEmpty()) {
-			String srId =srService.getSrId(memInfo.getMemNo());
+			String srId =sr001mt.getSrId();
 			uploadAttatch(sr001mt.getAttachment(), srId);
 		}
-		return "redirect:/sr/list";
+		return cntUpdate;
 	}
 	
 	//첨부파일 삭제

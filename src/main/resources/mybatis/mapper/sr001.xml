@@ -15,14 +15,14 @@
 	<!-- 검색내용과 일치하는 SR목록 가져오기 -->
 	<select id="selectSearchedSr" parameterType="Map" resultType="SR001MT">	    
 	    select
-	        rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT, MEM_NM, INST_ID, INST_NM
+	        rnum, SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT, MEM_NM, INST_ID, INST_NM, SR_CONT
 	    from (
 	        select
-	            SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT, MEM_NM, INST_ID, INST_NM,
+	            SR_ID, SR_TITLE, REL_SYS, FIRST_INPT_ID, SR_STAT, REQ_DT, DUE_DT, MEM_NM, INST_ID, INST_NM, SR_CONT,
 	            row_number() over(order by FIRST_INPT_DT desc) as rnum
 	        from (
 	            select
-	                SR_ID, SR_TITLE, REL_SYS, sr001mt.FIRST_INPT_ID, sr001mt.FIRST_INPT_DT, SR_STAT, REQ_DT, DUE_DT, 
+	                SR_ID, SR_TITLE, REL_SYS, sr001mt.FIRST_INPT_ID, sr001mt.FIRST_INPT_DT, SR_STAT, REQ_DT, DUE_DT, SR_CONT,
 	                mb001mt.MEM_NM, mb001mt.INST_ID, mb001mt.INST_NM
 	            from TB_SR_001MT sr001mt
 	            join (
@@ -41,7 +41,18 @@
 	                and SR_STAT = #{search.srStat}
 	            </if>
 	            <if test="search.keyword != null and search.keyword != ''">
-	                and SR_TITLE like '%' || #{search.keyword} || '%'
+	            	<if test="search.searchKey == 'title'">
+		                and SR_TITLE like '%' || #{search.keyword} || '%'
+	            	</if>
+	            	<if test="search.searchKey == 'srid'">
+		                and SR_ID like '%' || #{search.keyword} || '%'
+	            	</if>
+	            	<if test="search.searchKey == 'name'">
+		                and MEM_NM like '%' || #{search.keyword} || '%'
+	            	</if>
+	            	<if test="search.searchKey == 'content'">
+		                and SR_CONT like '%' || #{search.keyword} || '%'
+	            	</if>
 	            </if>
 	            <if test="search.instId != null and search.instId != ''">
 				and INST_ID = #{search.instId}
@@ -72,7 +83,18 @@
 				and SR_STAT = #{srStat}
 			</if>
 			<if test="keyword != null and keyword != ''">
-				and SR_TITLE like '%' || #{keyword}|| '%'
+            	<if test="searchKey == 'title'">
+	                and SR_TITLE like '%' || #{keyword} || '%'
+            	</if>
+            	<if test="searchKey == 'srid'">
+	                and SR_ID like '%' || #{keyword} || '%'
+            	</if>
+            	<if test="searchKey == 'name'">
+	                and MEM_NM like '%' || #{keyword} || '%'
+            	</if>
+            	<if test="searchKey == 'content'">
+	                and SR_CONT like '%' || #{keyword} || '%'
+            	</if>
 			</if>
 			<if test="instId != null and instId != ''">
 				and INST_ID = #{instId}
@@ -113,6 +135,7 @@
 	<update id="updateSr" parameterType="SR001MT">
 		update TB_SR_001MT
 		set LAST_INPT_DT = sysdate,
+			LAST_INT_ID = #{lastInptId},
 			DUE_DT = #{dueDt},
 			SR_TITLE = #{srTitle},
 			REL_SYS = #{relSys},

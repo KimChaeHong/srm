@@ -10,10 +10,12 @@ import com.birdie.srm.dao.CDMTDao;
 import com.birdie.srm.dao.IS001MTDao;
 import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dao.SR002MTDao;
+import com.birdie.srm.dao.SR002NTDao;
 import com.birdie.srm.dao.SR004NTDao;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.SR001MT;
+import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SR004NT;
 import com.birdie.srm.dto.SearchDto;
 
@@ -32,6 +34,8 @@ public class SrService {
 	private IS001MTDao is001mtDao;
 	@Autowired
 	private SR004NTDao sr004ntDao;
+	@Autowired
+	private SR002NTDao sr002ntDao;
 	
 	// SR 등록
 	public void registerSr(SR001MT sr001Dto) {
@@ -58,20 +62,23 @@ public class SrService {
 	}
 
 	//srId와 일치하는 데이터 삭제
-	public void deleteSr(String srId) {
-		sr001mtDao.deleteSr(srId);
+	public int deleteSr(String srId) {
+		int cntDel = sr001mtDao.deleteSr(srId);
+		return cntDel;
 	}
 	
 	// srId와 일치하는 데이터 접수요청
-	public void srAppReq(String srId) {
-		sr001mtDao.updateSrREQT(srId);
+	public int srAppReq(String srId) {
+		int num = sr001mtDao.updateSrREQT(srId);
+		return num;
 	}
 
 	// SR 승인/반려/재검토 처리(관리자)
-	public void srProcess(SR001MT sr001mt) {
+	public int srProcess(SR001MT sr001mt) {
 		// SR_STAT 변경
 		log.info("SR_STAT처리");
-		sr001mtDao.updateSrProcess(sr001mt);
+		int cntPrc = sr001mtDao.updateSrProcess(sr001mt);
+		return cntPrc;
 	}
 
 	// SR_STAT이 '접수'일때(승인되었을 때) TB_SR_002 테이블에 insert
@@ -80,9 +87,13 @@ public class SrService {
 		sr002mtDao.insertAppSr(sr001mt);
 	}
 	
+	// 접수처리된 TB_SR_002 데이터에 연결된 SR_002NT 데이터 insert
+	
+	
 	// SR 수정
-	public void updateSr(SR001MT sr001mt) {
-		sr001mtDao.updateSr(sr001mt);
+	public int updateSr(SR001MT sr001mt) {
+		int cntUpdate = sr001mtDao.updateSr(sr001mt);
+		return cntUpdate;
 	}
 
 	// 관련시스템 목록 가져오기
@@ -130,6 +141,15 @@ public class SrService {
 	public int deleteAttach(String attachId) {
 		int num = sr004ntDao.deleteAttach(attachId);
 		return num;
+	}
+
+	public String getAppSrId(String srId) {
+		String appSrId = sr002mtDao.selectAppSrId(srId);
+		return appSrId;
+	}
+
+	public void insertPrg(SR002NT sr002nt) {
+		sr002ntDao.insertPrg(sr002nt);
 	}
 
 }
