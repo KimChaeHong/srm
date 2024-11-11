@@ -141,6 +141,15 @@
 		</div>
 	</div>
 </div>
+<div id="calendar-container" class="d-flex">
+	<div id="calendar-box">
+	
+	</div>
+	<div id="task-processbar">
+	
+	</div>
+	<div></div>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="detail-modal" data-bs-backdrop="static"
 	data-bs-keyboard="false" tabindex="-1"
