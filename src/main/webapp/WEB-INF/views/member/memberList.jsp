@@ -86,7 +86,7 @@
 							<td class="col-4">${mb001mt.deptId}</td>
 							<td class="col-5">${mb001mt.role1}</td>
 							<td class="col-6">${mb001mt.role2}</td>
-							<td class="col-7">${mb001mt.firstInptDt}</td>
+							<td class="col-7"><fmt:formatDate value="${mb001mt.firstInptDt}" pattern="yy/MM/dd" /></td>
 							<td class="col-8">${mb001mt.appYn}</td>
 							<td class="col-9">
 								<button class="detail-btn" data-bs-toggle="modal"
