@@ -167,11 +167,16 @@
 	        A.RCP_STAT,          <!-- 접수 상태 -->
 	        A.RVW_CONT,          <!-- 검토 내용 -->
 	        M.DEPT_ID,           <!-- 처리팀  -->
-	        M.MEM_NM AS MGR      <!-- 담당자 이름- MGR 필드로 매핑 -->
+	        M.MEM_NM AS MGR,     <!-- 담당자 이름- MGR 필드로 매핑 -->
+	        SUM(HR.PLN_MD) as TOTAL_PLN_MD		 <!-- 총 계획 공수 -->
 	    FROM TB_SR_002MT A
 	    LEFT JOIN TB_MB_001MT M
 	        ON A.MGR = M.MEM_NO   <!-- 승인된SR MGR(사번)으로 MEM_NO이랑 조인 -->
+	    LEFT JOIN TB_SR_001NT HR
+	    	ON A.APP_SR_ID = HR.APP_SR_ID
 	    WHERE A.APP_SR_ID = #{appSrId}
+	    GROUP BY A.APP_SR_ID, A.SR_TYPE, A.WK_TYPE, A.TRG_ST_DT, A.TRG_END_DT, 
+             A.RCP_STAT, A.RVW_CONT, M.DEPT_ID, M.MEM_NM	
 	</select>
 
 	<!-- SR계획정보 수정 -->

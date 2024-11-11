@@ -132,7 +132,24 @@ function loadSrHr(appSrId) {
         data: { appSrId: appSrId },
         success: function(response) {
             console.log('자원정보 Ajax 통신 성공');
+            console.log(appSrId);
             $('#sr-container').html(response); // response로 받은 JSP를 sr-container에 넣기
+            
+            $('.hr-modal-search-btn').off('click').on('click', function(e){
+                e.preventDefault(); // form 기본 제출 막기
+                const formData = $('#hr-modal-search-box').serialize();
+                $.ajax({
+                    url: '/srm/prg/searchHr',
+                    type: 'GET',
+                    data: formData,
+                    success: function(response) {
+                        $('#hr-modal-results-tbody').html(response);
+                    },
+                    error: function() {
+                        console.log('Ajax 통신 실패');
+                    }
+                });
+            });
         },
         error: function() {
             console.log('자원정보 Ajax 통신 실패');

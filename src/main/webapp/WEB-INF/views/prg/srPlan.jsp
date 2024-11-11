@@ -81,8 +81,8 @@
 	</div>
 
 	<div class="form-group">
-		<label for="total-hours">총계획공수</label> <input type="text"
-			id="total-hours" disabled>
+		<label for="total-hours">총계획공수</label> 
+		<input type="text" id="total-hours" value="${srPlan.totalPlnMd }" disabled>
 	</div>
 
 	<div class="form-group">

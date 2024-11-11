@@ -7,7 +7,7 @@
 <c:forEach items="${mgrs }" var="mgr">
 	<tr>
 		<td class="col-1">
-			<input class="form-check-input" type="checkbox"  value="${mgr.memId }" name="selectedMgr">
+			<input class="form-check-input" type="radio"  value="${mgr.memNo }" name="selectedMgr">
 		</td>
 		<td class="col-2">
 			<c:choose>

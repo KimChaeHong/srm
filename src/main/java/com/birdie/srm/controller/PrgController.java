@@ -202,6 +202,7 @@ public class PrgController {
 		List<SR001NT> hrList = srProgressService.getHrList(appSrId);
 		// response에 담을 jsp 경로 설정
 		String jspUrl = "/WEB-INF/views/prg/srHr.jsp";
+		request.setAttribute("appSrId", appSrId);
 		request.setAttribute("hrList", hrList);
 
 		response.setContentType("text/html; charset=UTF-8");
@@ -213,6 +214,7 @@ public class PrgController {
 	public void updateHr(@RequestBody Map<String, Object> data, 
 			HttpServletResponse response) throws Exception  {
 		String appSrId = (String) data.get("appSrId");
+		
 		// memId와 plnMd를 포함한 Map
 		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
 		
@@ -223,13 +225,13 @@ public class PrgController {
 	        srHr.setAppSrId(appSrId);
 	        srHr.setMemId((String) memInfo.get("memId"));
 	        srHr.setPlnMd((Integer) memInfo.get("plnMd"));
+
 	        hr.add(srHr);
 		}
 		srProgressService.saveHrList(appSrId, hr);
-		
+		log.info(appSrId);
 		response.setContentType("text/plain; charset=UTF-8");
 	    response.getWriter().write("자원 정보가 성공적으로 저장되었습니다!");
-	    log.info("-------------------------------------" + appSrId);
 	}
 	
 	// 진척율 jsp호출
@@ -252,6 +254,22 @@ public class PrgController {
 	// SR계획정보 - 담당자 검색
 	@GetMapping("/searchMgr")
 	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
+		request.setAttribute("mgrs", mgrs);
+
+		String jspUrl = "/WEB-INF/views/prg/searchMgr.jsp";
+		response.setContentType("text/html; charset=UTF-8");
+
+		// RequestDispatcher로 JSP 페이지의 특정 부분만 렌더링하여 응답으로 전달
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+		dispatcher.include(request, response);
+
+		log.info(mgrs.toString());
+	}
+	// SR자원정보 - 자원 검색
+	@GetMapping("/searchHr")
+	public void searchHr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
 		request.setAttribute("mgrs", mgrs);

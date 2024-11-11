@@ -44,6 +44,6 @@ public class SR002MT {
 	private String srStat;		// sr001 - 진행상태
 	private String taskType;	// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
 	private String memNm;		// 회원(담당자) 이름
-	
+	private int totalPlnMd; 	// 총계획공수
 	private String rnum;
 }
