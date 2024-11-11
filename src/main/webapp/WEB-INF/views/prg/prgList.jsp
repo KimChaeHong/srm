@@ -158,13 +158,25 @@
 										</td>
 	                                    <td class="col-9">	<!-- 진행상태(작업구분) -->
 	                                    	<c:choose>
-	                                    		<c:when test="${sr002MT.taskType == 'ANAL' }">분석</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'DESI' }">설계</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'IMPL' }">구현</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'TEST' }">시험</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'REFL' }">반영요청</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'OPER' }">운영반영</c:when>
-	                                    	</c:choose>
+										        <c:when test="${sr002MT.taskType == 'ANAL'}">
+										            <span class="btn-task task-anal">분석</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'DESI'}">
+										            <span class="btn-task task-desi">설계</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'IMPL'}">
+										            <span class="btn-task task-impl">구현</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'TEST'}">
+										            <span class="btn-task task-test">시험</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'REFL'}">
+										            <span class="btn-task task-refl">반영요청</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'OPER'}">
+										            <span class="btn-task task-oper">운영반영</span>
+										        </c:when>
+										    </c:choose>
 	                                    </td> 
                                		</tr>
                                </c:forEach>
@@ -204,6 +216,7 @@
 						    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">
 						    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
 						    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
+						    <input type="hidden" name="onlyMySr" id="onlyMySr" value="false">
 						    
 						    <!--rowsPerPage 선택 -->
 						    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
@@ -280,48 +293,29 @@
 
 
 
-                   <!------------------------------ SR 요청 처리 정보------------------------ -->
-					<div id="sr-plan-info"> 
-				        <div id="title">
-				            SR 요청 처리정보
-				        </div>
-				        <hr>
-				        <div class="tabs-container d-flex align-items-center">
-				            <ul class="nav nav-tabs">
-				                <li class="nav-item">
-								    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}" >SR계획정보</a>
-								</li>
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
-				                </li>
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR진척율</a>
-				                </li>
-				            </ul>
-				
-				        </div>
-
-				        <!-- ---------------SR계획정보(SR진척 페이지를 열었을 때 기본적으로 보이는 계획정보(기본적으로 비활성화 상태)) ----------------------->
-                    	<div id="sr-container">
-	                    	<form id="sr-plan-form">
-					            <div class="form-group">
-					                <label for="request-type">요청 구분</label>
-					                <select id="request-type" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                </select>
-					            </div>
+                    <!------------------------------ SR 요청 처리 정보------------------------ -->
+					<div id='tab-box'>
+						<div id="sr-plan-info"> 
+					        <div id="title">
+					            SR 요청 처리정보
+					        </div>
+					        <hr>
+					        <div class="tabs-container d-flex align-items-center">
+					            <ul class="nav nav-tabs">
+					                <li class="nav-item">
+									    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}" >SR계획정보</a>
+									</li>
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab" data-bs-toggle="tab" id="sr-resource-tab"
+					                    	data-appsrid="${srPlan.appSrId}">SR자원정보</a>
+					                </li>
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab" data-bs-toggle="tab" id="sr-ratio-tab"
+					                    	data-appsrid="${srPlan.appSrId}">SR진척율</a>
+					                </li>
+					            </ul>
 					
-					            <div class="form-group">
-					                <label for="team">처리팀</label>
-					                <input type="text" id="team" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="work-type">업무 구분</label>
-					                <select id="work-type" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                </select>
-					            </div>
+					        </div>
 
 					        <!-- ---------------SR계획정보(SR진척 페이지를 열었을 때 기본적으로 보이는 계획정보(기본적으로 비활성화 상태)) ----------------------->
 	                    	<div id="sr-container">
@@ -331,42 +325,8 @@
 			    		</div>
 					</div>
 					
-					            <div class="form-group">
-					                <label for="person">담당자</label>
-					                <input type="text" id="person" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="start-date">목표 시작일</label>
-					                <input type="date" id="start-date" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="end-date">목표 완료일</label>
-					                <input type="date" id="end-date" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="status">접수 상태</label>
-					                <select id="status" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                </select>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="total-hours">총계획공수</label>
-					                <input type="text" id="total-hours" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="review">검토 내용</label>
-					                <textarea id="review" disabled></textarea>
-					            </div>
-					            
-					        </form>
-				        </div>
+					           
 				        
-		    		</div>
 					
 					<!-- Modal -->
 					<div class="modal modal-lg fade" id="mgr-modal" tabindex="-1"

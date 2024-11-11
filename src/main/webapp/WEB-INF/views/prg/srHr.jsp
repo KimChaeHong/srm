@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srHr.css" />
 
@@ -20,20 +21,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="hr-col-1">1</td>
-                    <td class="hr-col-2">
-                        <input class="form-check-input" type="checkbox" value="">
-                    </td>
-                    <td class="hr-col-3">김채홍</td>
-                    <td class="hr-col-4">팀장</td>
-                    <td class="hr-col-5">5.0</td>
-                    <td class="hr-col-6">3.0</td>
-                    <td class="hr-col-7">
-                        <i class="bi bi-journal"></i>
-                    </td>
-                </tr>
-                
+            	<c:forEach items="${hrList }" var="hr">
+            		<tr>
+	                    <td class="hr-col-1" >${hr.rnum }</td>
+	                    <td class="hr-col-2">
+	                        <input class="form-check-input" type="checkbox" value="">
+	                    </td>
+	                    <td class="hr-col-3">${hr.memNm }</td>
+	                    <td class="hr-col-4">
+	                    	<c:choose>
+	                    		<c:when test="${hr.role2 == 'LEAD'}">개발팀장</c:when>
+	                    		<c:when test="${hr.role2 == 'MEMB'}">개발팀원</c:when>
+	                    	</c:choose>
+	                    </td>
+	                    <%-- <td class="hr-col-5">
+	                    	<input type="number" name="plnMd" value="${hr.plnMd }" 
+	                    		class="pln" min="0">
+	                    </td> --%>
+	                    <td class="hr-col-6"></td>
+	                    <td class="hr-col-7">
+	                        <i class="bi bi-journal"></i>
+	                    </td>
+	                </tr>
+            	</c:forEach>
             </tbody>
         </table>
         

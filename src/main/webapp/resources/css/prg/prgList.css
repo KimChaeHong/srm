@@ -139,7 +139,7 @@ tr {
 
 #tr-style:hover {
 	cursor: pointer;
-	background-color: #B0E0E6;
+	background-color: #ececec;
 }
 tr td, tr th {
     vertical-align: middle; /* 세로 가운데 정렬 */
@@ -208,6 +208,7 @@ th {
 .status-hold {
     background-color: #F7E1CF; /* 보류  */
 }
+
 
 
 /* Pagination */
@@ -524,7 +525,7 @@ input{
 
 }
 .selected-sr {
-    background-color: #e0f7fa; /* 원하는 색상으로 변경 */
+    background-color: #f2f2f2; /* 원하는 색상으로 변경 */
 }
 
 input#person {
