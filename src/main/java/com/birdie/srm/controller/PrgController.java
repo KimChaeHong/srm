@@ -126,7 +126,7 @@ public class PrgController {
 
 		int rows = srProgressService.countRows(searchDto); // jsp에서 받은 검색 정보를 가지고 그 검색 결과에 해당하는 행을 반환
 		PagerDto pager = new PagerDto(rowsPerPage, 5, rows, pageNo); // 반환된 행을 페이저 객체에 저장
-
+		log.info("rows--------------" + rows);
 		Map<String, Object> searchCont = new HashMap<String, Object>();
 		searchCont.put("searchDto", searchDto);
 		searchCont.put("pager", pager);

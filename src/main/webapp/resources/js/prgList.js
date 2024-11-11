@@ -227,7 +227,7 @@ $('.modal-last-btn').on('click', function() {
 });
 
 /*내가 담당한 SR만 보기*/
-/*function filterMySRs() {
+function filterMySRs() {
     const onlyMySr = $("#my-sr-filter").is(":checked");
     const form = $("#search-container form");
     
@@ -245,7 +245,7 @@ $('.modal-last-btn').on('click', function() {
 			console.log('Ajax 통신 실패');
 		}
     });
-}*/
+}
 
 
 
