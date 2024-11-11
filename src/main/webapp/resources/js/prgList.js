@@ -234,17 +234,8 @@ function filterMySRs() {
     // 폼 데이터를 직렬화하여 현재 폼의 모든 검색 조건을 유지
     const formData = form.serialize() + "&onlyMySr=" + onlyMySr;
 
-    $.ajax({
-        url: "list",
-        type: "GET",
-        data: formData,
-        success: function(html) {
-            $("#sr-list").html(html);
-        },
-        error: function() {
-			console.log('Ajax 통신 실패');
-		}
-    });
+    location.href = "list?" + formData;
+    
 }
 
 

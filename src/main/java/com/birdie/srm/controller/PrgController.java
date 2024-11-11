@@ -135,7 +135,7 @@ public class PrgController {
 		log.info(srList.toString());
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
-
+		model.addAttribute("onlyMySr", onlyMySr);
 		return "prg/prgList";
 	}
 

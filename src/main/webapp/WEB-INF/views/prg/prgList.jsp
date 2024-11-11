@@ -98,7 +98,11 @@
 					   <h2 id="sr-list-title">SR처리 목록</h2>
 					   <div id="filter-container">
 				           <span id="my-sr">내가 담당한 SR만 보기</span>
-				           <input type="checkbox" id="my-sr-filter" onclick="filterMySRs()" />
+				           <input type="checkbox" id="my-sr-filter" onclick="filterMySRs()" 
+					           <c:choose>
+					               <c:when test="${onlyMySr}">checked="checked"</c:when>
+					               <c:otherwise></c:otherwise>
+					           </c:choose> />
 					   </div>
 				   </div>
                    <hr>
@@ -216,7 +220,7 @@
 						    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">
 						    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
 						    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
-						    <input type="hidden" name="onlyMySr" id="onlyMySr" value="false">
+						    
 						    
 						    <!--rowsPerPage 선택 -->
 						    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
