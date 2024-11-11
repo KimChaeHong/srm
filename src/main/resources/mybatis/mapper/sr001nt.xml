@@ -12,5 +12,25 @@
 		where APP_SR_ID = #{appSrId}
 	</select>
 	
+	<!-- 자원테이블에서 appSrId와 memId 존재 여부 확인 -->
+	<select id="exists" resultType="int" parameterType="SR001NT">
+	    SELECT COUNT(1)
+	    FROM TB_SR_001NT
+	    WHERE APP_SR_ID = #{appSrId} AND MEM_ID = #{memId}
+	</select>
+	
+	<!-- 자원  업데이트 -->
+	<update id="updateHr" parameterType="SR001NT">
+	    UPDATE TB_SR_001NT
+	    SET PLN_MD = #{plnMd}
+	    WHERE APP_SR_ID = #{appSrId} AND MEM_ID = #{memId}
+	</update>
+	
+	<!-- 자원 추가 -->
+	<insert id="insertHr" parameterType="SR001NT">
+	    INSERT INTO TB_SR_001NT (APP_SR_ID, MEM_ID, PLN_MD)
+	    VALUES (#{appSrId}, #{memId}, #{plnMd})
+	</insert>
+	
 	
 </mapper>

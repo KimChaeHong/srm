@@ -21,7 +21,7 @@
 	        AND R.SR_STAT = 'OK'
 	</select> -->
 
-	<!-- 승인된 SR 리스트 검색 기능 --> 
+	<!-- 승인된 SR 리스트(+ 검색) --> 
 	<select id="getSearchedSr" parameterType="Map" resultType="SR002MT">	    
 	    SELECT
 	        RNUM, APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, MEM_NM,
@@ -43,12 +43,15 @@
 					GROUP BY APP_SR_ID
 				)
 			) T ON A.APP_SR_ID = T.APP_SR_ID
-			LEFT JOIN TB_SR_001NT H ON A.APP_SR_ID = H.APP_SR_ID
-	        <!-- JOIN TB_SR_001NT H ON M.MEM_ID = H.MEM_ID -->
+			LEFT JOIN (
+	            SELECT distinct 
+	            <if test="searchDto.memId != null and searchDto.memId != ''">               <!-- 내가 담당한 SR만 보기 -->
+	                MEM_ID,
+	            </if>
+	            APP_SR_ID  FROM TB_SR_001NT
+	        ) H ON A.APP_SR_ID = H.APP_SR_ID
 	        WHERE A.DELT_YN = 'N'
-	        	<!-- <if test="searchDto.onlyMySr == true">
-	        		AND H.MEM_ID = #{searchDto.memId}
-	        	</if> -->
+
           		<!-- AND R.SR_STAT = 'DECE' -->
 	            <if test="searchDto.startDate != null and searchDto.endDate != null">		<!-- 조회기간 -->
 	                AND R.FIRST_INPT_DT BETWEEN #{searchDto.startDate} AND #{searchDto.endDate}
@@ -86,36 +89,62 @@
 	          
 	    	)
 	    WHERE RNUM BETWEEN #{pager.startRowNo} AND #{pager.endRowNo}
+	    ORDER BY RNUM ASC
 	</select>
 	
 	<!-- 검색에 따라 반환되는 행 개수 -->
 	<select id="countRows" parameterType="Search" resultType="int">
-		select count(*)
-		from TB_SR_002MT A
-		JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
-		JOIN TB_SR_002NT NT ON A.APP_SR_ID = NT.APP_SR_ID
-		where 1=1 
-			<!-- <if test="startDate != null and startDate != '' and endDate != null and endDate != ''"> -->
-			<if test="startDate != null and endDate != null">
-				and R.FIRST_INPT_DT between #{startDate} and #{endDate}
-			</if>
-			<if test="relSys != null and relSys != ''">
-				and R.REL_SYS = #{relSys}
-			</if>
-			<if test="wkType != null and wkType != ''">
-				and A.WK_TYPE = #{wkType}
-			</if>
-			<if test="keyword != null and keyword != ''">
-				and R.SR_TITLE LIKE '%' || #{keyword} || '%'
-			</if>
-			<if test="tkType != null and tkType != ''">
-				and NT.TASK_TYPE = #{tkType}
-			</if>
-			<if test="rcpStat != null and rcpStat != ''">
-				and A.RCP_STAT = #{rcpStat}
-			</if>
-			
+	    SELECT COUNT(*)
+	    FROM TB_SR_002MT A
+	    JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
+	    LEFT JOIN TB_MB_001MT M ON R.FIRST_INPT_ID = M.MEM_NO
+	    LEFT JOIN TB_SR_001NT H ON A.APP_SR_ID = H.APP_SR_ID
+	    LEFT JOIN (
+	        SELECT APP_SR_ID, TASK_TYPE
+	        FROM TB_SR_002NT
+	        WHERE (APP_SR_ID, PRG) IN (
+	            SELECT APP_SR_ID, MAX(PRG)
+	            FROM TB_SR_002NT
+	            GROUP BY APP_SR_ID
+	        )
+	    ) T ON A.APP_SR_ID = T.APP_SR_ID
+	    WHERE A.DELT_YN = 'N'
+	    
+	    <if test="startDate != null and endDate != null">
+	        AND R.FIRST_INPT_DT BETWEEN #{startDate} AND #{endDate}
+	    </if>
+	    <if test="relSys != null and relSys != ''">
+	        AND R.REL_SYS = #{relSys}
+	    </if>
+	    <if test="wkType != null and wkType != ''">
+	        AND A.WK_TYPE = #{wkType}
+	    </if>
+	    <if test="keyword != null and keyword !=''">
+	        <if test="searchKey == 'title'">
+	            AND (R.SR_TITLE LIKE '%' || #{keyword} || '%' 
+	            OR UPPER(R.SR_TITLE) LIKE UPPER('%' || #{keyword} || '%'))
+	        </if>
+	        <if test="searchKey == 'srid'">
+	            AND A.APP_SR_ID LIKE '%' || #{keyword} || '%'
+	        </if>
+	        <if test="searchKey == 'name'">
+	            AND M.MEM_NM LIKE '%' || #{keyword} || '%'
+	        </if>
+	        <if test="searchKey == 'content'">
+	            AND A.RVW_CONT LIKE '%' || #{keyword} || '%'
+	        </if>
+	    </if>
+	    <if test="tkType != null and tkType != ''">
+	        AND T.TASK_TYPE = #{tkType}
+	    </if>
+	    <if test="rcpStat != null and rcpStat != ''">
+	        AND A.RCP_STAT = #{rcpStat}
+	    </if>
+	    <if test="memId != null and memId != ''">
+	        AND H.MEM_ID = #{memId}
+	    </if>
 	</select>
+	
 	
 	<!-- 접수요청된 SR이 승인처리 될 때 TB_SR_002MT에 INSERT -->
 	<insert id="insertAppSr" parameterType="SR001MT">
@@ -183,6 +212,7 @@
 	<!-- SR계획정보 - 담당자 조회 -->
 	<select id="selectMgr" resultType="MB001MT">
 		SELECT 
+			MEM_ID,
 			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
@@ -195,6 +225,7 @@
 	<!-- SR계획정보 - 담당자 검색 조회 -->
 	<select id="selectSearchMgr" resultType="MB001MT">
 		SELECT 
+			MEM_ID,
 			MEM_NO,	
 			MEM_NM,
 			ROLE_1,

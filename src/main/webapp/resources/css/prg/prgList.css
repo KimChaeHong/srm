@@ -559,7 +559,7 @@ input#person {
 }
 
 /* -------------------------------------------------모달----------------------------------- */
-#modal-search-box {
+#modal-search-box, #hr-modal-search-box {
     height: 60px;
     background-color: #F9FAFD;
     margin-bottom: 20px;
@@ -576,11 +576,11 @@ input#person {
     font-weight: 900;
 }
 
-#modal-dept-select {
+#modal-dept-select, #hr-modal-dept-select {
     width: 250px;
 }
 
-#modal-name-search {
+#modal-name-search, #hr-modal-name-search{
     width: 250px;
 }
 
@@ -600,13 +600,16 @@ input#person {
     width: 100%;
     border: 1px solid #EDF2F9;
     border-collapse: collapse;
-    margin-top: 10px;
     margin-bottom: 20px;
 }
 
 .modal-thead th {
+	position: sticky; /* 제목 행 고정 */
+	z-index: 1;
+	top: 0;
     background-color: #EDF2F9;
-    padding: 10px 0px;
+    padding: 8px 0; /* 수직 여백을 균일하게 설정 */
+    margin: 0;
     text-align: center;
     font-size: 12px;
 }
@@ -639,8 +642,15 @@ input#person {
     font-size: 12px;
     color: #4D5969;
 }
-
-#modal-close-btn {
+.hr-modal-add-btn, .hr-modal-close-btn, .hr-modal-search-btn{
+	width: 60px;
+    height: 30px;
+    border: 1px solid #DCDCE1 !important;
+    box-shadow: 0px 1px 3px rgb(0, 0, 0, 0.25);
+    font-size: 12px;
+    color: #4D5969;
+}
+#modal-close-btn, #hr-modal-close-btn {
     width: 30px !important;
     height: 30px !important;
     padding: 4px;
@@ -732,4 +742,9 @@ input#person {
     background-color: #FFFFFF;
     padding: 3px !important;
     margin: 0 0 5px 375px;
+}
+
+#hr-scroll {
+    max-height: 300px; /* 스크롤 높이 설정 */
+    overflow-y: auto;  /* 수직 스크롤 생성 */
 }

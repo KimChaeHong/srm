@@ -2,6 +2,7 @@ package com.birdie.srm.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -82,11 +83,17 @@ public class PrgController {
 		List<MB001MT> mgrs = srProgressService.getMgr();
 		model.addAttribute("mgrs", mgrs);
 
-		// 로그인 사용자 정보
-		if (onlyMySr) {
-			String memId = memberService.getUserInfo(authentication.getName()).getMemId();
-			searchDto.setMemId(memId);
-		}
+		// 로그인 사용자 정보 설정
+	    if (authentication != null) {
+	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+	        model.addAttribute("memInfo", memInfo);
+
+	        // 내가 담당한 SR만 보기 - 로그인한 회원 id설정
+	        if (onlyMySr) {
+	            searchDto.setMemId(memInfo.getMemId());
+	        }
+	    }
+		
 		// 기본 날짜 입력 처리
 		if (searchDto.getStartDate() == null) {
 			searchDto.setStartDate(
@@ -164,15 +171,8 @@ public class PrgController {
 	@PostMapping("/updateSrPlan")
 	public void updateSrPlan(SR002MT sr002mt, Authentication authentication, HttpServletResponse response)
 			throws Exception {
-		log.info("컨트롤러 1 - SR계획정보 업데이트");
 
-		/*
-		 * // 로그인 했을 경우 담당자 사번 설정 if (authentication != null) { MB001MT memInfo =
-		 * memberService.getUserInfo(authentication.getName());
-		 * sr002mt.setMgr(memInfo.getMemNo()); }
-		 */
 		srProgressService.updateSrPlan(sr002mt);
-		log.info("컨트롤러 2 - SR계획정보 업데이트 완료");
 
 		response.setContentType("text/plain; charset=UTF-8");
 		response.getWriter().write("SR 계획 정보가 성공적으로 업데이트되었습니다!");
@@ -195,7 +195,7 @@ public class PrgController {
 		dispatcher.include(request, response);
 	}
 	
-	// 자원
+	// 자원 jsp호출
 	@PostMapping("/srHr")
 	public void loadSrHr(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		// appSrId가 일치하는 자원 가져오기
@@ -208,8 +208,31 @@ public class PrgController {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
 		dispatcher.include(request, response);
 	}
+	// 자원 저장
+	@PostMapping("/updateHr")
+	public void updateHr(@RequestBody Map<String, Object> data, 
+			HttpServletResponse response) throws Exception  {
+		String appSrId = (String) data.get("appSrId");
+		// memId와 plnMd를 포함한 Map
+		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
+		
+		// SR001NT타입으로 각 정보들(appSrId, memId, plnMd) dto에 추가
+		List<SR001NT> hr = new ArrayList<>();
+		for (Map<String, Object> memInfo : memInfoList) {
+	        SR001NT srHr = new SR001NT();
+	        srHr.setAppSrId(appSrId);
+	        srHr.setMemId((String) memInfo.get("memId"));
+	        srHr.setPlnMd((Integer) memInfo.get("plnMd"));
+	        hr.add(srHr);
+		}
+		srProgressService.saveHrList(appSrId, hr);
+		
+		response.setContentType("text/plain; charset=UTF-8");
+	    response.getWriter().write("자원 정보가 성공적으로 저장되었습니다!");
+	    log.info("-------------------------------------" + appSrId);
+	}
 	
-	// 진척율
+	// 진척율 jsp호출
 	@PostMapping("/srRatio")
 	public void loadSrRatio(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		// appSrId가 일치하는 진척율 가져오기
@@ -250,6 +273,7 @@ public class PrgController {
 	public int updatePrgRatio(@RequestBody List<SR002NT> prgRatioList) {
 		int cntUpdate = srProgressService.updatePrgRatio(prgRatioList);
 		return cntUpdate;
-
 	}
+	
+	
 }

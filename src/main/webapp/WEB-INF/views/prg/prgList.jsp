@@ -8,6 +8,7 @@
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srHr.css" />
 
 
        <!-- section -->
@@ -97,12 +98,13 @@
                    <div id="sr-header-container">
 					   <h2 id="sr-list-title">SR처리 목록</h2>
 					   <div id="filter-container">
-				           <span id="my-sr">내가 담당한 SR만 보기</span>
-				           <input type="checkbox" id="my-sr-filter" onclick="filterMySRs()" 
-					           <c:choose>
-					               <c:when test="${onlyMySr}">checked="checked"</c:when>
-					               <c:otherwise></c:otherwise>
-					           </c:choose> />
+						   <c:if test="${memInfo != null && memInfo.role1 == 'ROLE_DEVE'}">
+							    <span id="my-sr">내가 담당한 SR만 보기</span>
+							    <input type="checkbox" id="my-sr-filter" onclick="filterMySRs()" 
+							           <c:if test="${onlyMySr}">checked="checked"</c:if> />
+							</c:if>
+
+				           
 					   </div>
 				   </div>
                    <hr>
@@ -332,10 +334,10 @@
 					           
 				        
 					
-					<!-- Modal -->
+					<!-- -----------------계획정보 Modal ----------------------------->
 					<div class="modal modal-lg fade" id="mgr-modal" tabindex="-1"
 						aria-hidden="true" aria-labelledby="staticBackdropLabel"
-						data-bs-backdrop="s	tatic" data-bs-keyboard="false">
+						data-bs-backdrop="static" data-bs-keyboard="false">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header ps-3">
@@ -346,7 +348,6 @@
 									</button>
 								</div>
 								<div class="modal-body p-3">
-		
 									<form id="modal-search-box" method="GET"
 										class="d-flex justify-content-between align-items-center">
 		
@@ -409,7 +410,86 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- --------------자원 모달---------------- -->
+					<div class="modal modal-lg fade" id="hr-modal" tabindex="-1"
+						aria-hidden="true" aria-labelledby="hrModalLabel"
+						data-bs-backdrop="static" data-bs-keyboard="false">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header ps-3">
+									<span class="modal-title">담당자 검색</span>
+									<button id="hr-modal-close-btn" type="button"
+										data-bs-dismiss="modal">
+										<i class="bi modal-bi-x-square"></i>
+									</button>
+								</div>
+								<div class="modal-body p-3">
+									<form id="hr-modal-search-box" method="GET"
+										class="d-flex justify-content-between align-items-center">
+										<div id="hr-modal-dept-select"
+											class="d-flex justify-content-center align-items-center">
+											<label for="hr-modal-hr-select" class="me-3 modal-label">부서</label>
+											<select id="hr-modal-hr-select"
+												class="modal-hr-select form-select" name="deptId">
+												<option value="">전체</option>
+												<option value="DEV1">개발 1팀</option>
+												<option value="DEV2">개발 2팀</option>
+											</select>
+										</div>
+										<div id="hr-modal-name-search"
+											class="d-flex justify-content-center align-items-center">
+											<label for="hr-modal-hr-input" class="me-3 modal-label">담당자명</label>
+											<input type="text" id="hr-modal-hr-input"
+												class="modal-hr-input form-control" name="memNm">
+										</div>
+										<button class="btn btn-sm hr-modal-search-btn">검색</button>
+									</form>
 		
+									<span class="modal-title ms-2">조회 결과</span>
+									<div id="hr-scroll" class="overflow-auto">
+									    <table id="hr-modal-task-table" class="modal-table table">
+									        <thead class="modal-thead">
+									            <tr class="modal-tr">
+									                <th class="modal-col-1">선택</th>
+									                <th class="modal-col-2">부서</th>
+									                <th class="modal-col-3">역할</th>
+									                <th class="modal-col-4">직원명</th>
+									            </tr>
+									        </thead>
+									        <tbody class="modal-tbody" id="hr-modal-results-tbody">
+									            <c:forEach items="${mgrs }" var="mgr">
+									                <tr>
+									                    <td class="col-1">
+									                        <input class="form-check-input" type="checkbox" value="${mgr.memId}" name="selectedMgr">
+									                    </td>
+									                    <td class="col-2">
+									                        <c:choose>
+									                            <c:when test="${mgr.deptId == 'DEV1'}">개발 1팀</c:when>
+									                            <c:when test="${mgr.deptId == 'DEV2'}">개발 2팀</c:when>
+									                        </c:choose>
+									                    </td>
+									                    <td class="col-3">
+									                        <c:choose>
+									                            <c:when test="${mgr.role1 == 'ROLE_DEVE'}">개발자</c:when>
+									                        </c:choose>
+									                    </td>
+									                    <td class="col-4">${mgr.memNm}</td>
+									                </tr>
+									            </c:forEach>
+									        </tbody>
+									    </table>
+									</div>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn hr-modal-add-btn">등록</button>
+									<button type="button" class="btn hr-modal-close-btn"
+										data-bs-dismiss="modal">닫기</button>
+								</div>
+							</div>
+						</div>
+					</div>
 		
 		
 		
