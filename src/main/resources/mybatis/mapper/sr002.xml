@@ -25,15 +25,25 @@
 	<select id="getSearchedSr" parameterType="Map" resultType="SR002MT">	    
 	    SELECT
 	        RNUM, APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, MEM_NM,
-        	FIRST_INPT_ID, RCP_STAT, REQ_DT, DUE_DT
+        	FIRST_INPT_ID, RCP_STAT, REQ_DT, DUE_DT, TASK_TYPE
 	    FROM (
 	        SELECT
 	            A.APP_SR_ID, R.SR_ID, R.SR_TITLE, R.REL_SYS, M.MEM_NM,
-	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT, 
+	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT, T.TASK_TYPE,
 	            ROW_NUMBER() OVER (ORDER BY R.FIRST_INPT_DT DESC) AS RNUM
 	        FROM TB_SR_002MT A 
 	        JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
 	        JOIN TB_MB_001MT M ON R.FIRST_INPT_ID = M.MEM_NO
+			LEFT JOIN (
+				SELECT APP_SR_ID, TASK_TYPE
+				FROM TB_SR_002NT
+				WHERE (APP_SR_ID, PRG) IN (
+					SELECT APP_SR_ID, MAX(PRG)
+					FROM TB_SR_002NT
+					GROUP BY APP_SR_ID
+				)
+			) T ON A.APP_SR_ID = T.APP_SR_ID
+			LEFT JOIN TB_SR_001NT H ON A.APP_SR_ID = H.APP_SR_ID
 	        <!-- JOIN TB_SR_001NT H ON M.MEM_ID = H.MEM_ID -->
 	        WHERE A.DELT_YN = 'N'
 	        	<!-- <if test="searchDto.onlyMySr == true">
@@ -65,10 +75,13 @@
 	            	</if>
 	            </if>
 	            <if test="searchDto.tkType != null and searchDto.tkType !=''">			<!-- 진행상태 -->
-	                AND NT.TASK_TYPE = #{searchDto.tkType}
-	            </if>
+				    AND T.TASK_TYPE = #{searchDto.tkType}
+				</if>
 	            <if test="searchDto.rcpStat != null and searchDto.rcpStat !=''">			<!-- 접수상태 -->
 	                AND A.RCP_STAT = #{searchDto.rcpStat}
+	           </if>
+	           <if test="searchDto.memId != null and searchDto.memId != ''">               <!-- 내가 담당한 SR만 보기 -->
+	                AND H.MEM_ID = #{searchDto.memId}
 	           </if>
 	          
 	    	)

@@ -20,7 +20,7 @@ public class SR002MT {
 	
 	private String rvwCont;		// 검토내용
 	private String srType;		// 요청 구분(개선, 신규, 오류, 기타)
-	private String mgr;			// 담당자
+	private String mgr;			// 담당자(사번)
 	private String rcpStat;		// 접수상태(접수, 취소, 보류)
 	
 	private String deltYn;		// 삭제여부
