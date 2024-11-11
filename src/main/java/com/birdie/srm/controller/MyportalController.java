@@ -128,7 +128,6 @@ public class MyportalController {
 	    } else {
 	        session.setAttribute("rowsPerPage", rowsPerPage);
 	    }
-	    
 
 	    // 전체 목록 또는 특정 상태의 목록을 가져오기 위한 조건 처리
 	    int totalRows = "ALL".equals(srStat) ? 
@@ -139,7 +138,7 @@ public class MyportalController {
 
 	    model.addAttribute("pager", pager);
 
-	    return "common/pagination";
+	    return "myportal/pagination";
 	}
 	
 	// 상태별 SR 행 갯수 반환 (AJAX 요청)

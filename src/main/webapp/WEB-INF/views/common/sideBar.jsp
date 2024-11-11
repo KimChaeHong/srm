@@ -59,8 +59,6 @@
 				id="chart" class="bi bi-clipboard-data-fill"></i> SR 진척 조회 <i
 				id="chevron" class="bi bi-chevron-right"></i>
 			</a>
-
-
 			<div id="chart" class="side-nav-item">
 				<a class="side-nav-link disabled sidebar-content"
 					aria-disabled="true">회원관리</a>
@@ -70,7 +68,7 @@
 				class="bi bi-person-lines-fill"></i> 회원 목록 <i id="chevron"
 				class="bi bi-chevron-right"></i>
 			</a>
-			<a class="side-nav-link" id="sr-request" href=""> 
+			<a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/member/memberRequestList"> 
 				<i id="chart" class="bi bi-person-fill-add"></i>
 				가입 요청 목록 <i id="chevron"
 				class="bi bi-chevron-right"></i>

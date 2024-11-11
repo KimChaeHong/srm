@@ -48,7 +48,7 @@ $(document).ready(function() {
         
         // pagination 데이터 로드
         $.ajax({
-            url: "/srm/common/pagination",
+            url: "/srm/myportal/pagination",
             method: "GET",
             data: { pageNo: pageNo, srStat: srStat, rowsPerPage: rowsPerPage },
             success: function(data) {
