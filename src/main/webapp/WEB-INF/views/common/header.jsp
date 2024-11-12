@@ -60,15 +60,14 @@
 			<!-- 로그인 했다는 뜻 -->
 			<div id="info-container">
 				<div class="user-profile">
-									
+					<span class="badge" id="user-role"><sec:authentication property="principal.member.role1Nm" /></span>				
 					<i class="bi bi-person-circle icon"></i>
-					
 					<div class="user-name">
 						<sec:authentication property="principal.member.memNm" />
 					</div>
-
-					<a href="${pageContext.request.contextPath}/member/logout"><i
-						class="bi bi-box-arrow-right logout"></i></a>
+					<a href="${pageContext.request.contextPath}/member/logout">
+						<i class="bi bi-box-arrow-right logout"></i>
+					</a>
 				</div>
 			</div>
 		</sec:authorize>

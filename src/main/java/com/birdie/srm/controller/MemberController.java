@@ -151,7 +151,7 @@ public class MemberController {
 		
 		return "member/memDetail";
 	}
-	
+
 	@PostMapping("/updateMember")
 	public String updateMember(
 			MB001MT member,
@@ -163,5 +163,6 @@ public class MemberController {
 		memberService.updateMember(member); // member 객체로 업데이트 처리
 		return "redirect:/member/memberRequestList";
 	}
+
 	
 }

@@ -28,8 +28,13 @@
 						value="${member.memNo}" required>
 				</div>
 				<div class="input-div">
-					<label>소속</label> <input type="text" name="instId"
-						value="${member.instNm}" required>
+					<label>소속</label>
+
+					<!-- 사용자가 볼 수 있는 기관 이름 (instNm) -->
+					<input type="text" value="${member.instNm}" readonly>
+
+					<!-- 실제로 제출되는 기관 ID (instId) -->
+					<input type="hidden" name="instId" value="${member.instId}">
 				</div>
 				<div class="input-div">
 					<label>부서</label> <input type="text" name="deptId"
@@ -43,12 +48,14 @@
 					<label>팀 역할</label>
 
 					<div>
-						<input class="check-radio" type="checkbox" name="role2" value="MEMB"
-							${member.role2 == 'MEMB' ? 'checked' : ''}> 팀원
+						<input class="check-radio" type="checkbox" name="role2"
+							value="MEMB" ${member.role2 == 'MEMB' ? 'checked' : ''}>
+						팀원
 					</div>
 					<div>
-						<input class="check-radio" type="checkbox" name="role2" value="LEAD"
-							${member.role2 == 'LEAD' ? 'checked' : ''}> 팀장
+						<input class="check-radio" type="checkbox" name="role2"
+							value="LEAD" ${member.role2 == 'LEAD' ? 'checked' : ''}>
+						팀장
 					</div>
 
 				</div>
@@ -72,11 +79,12 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="submit-btn" type="button" id="ok" onclick="submitForm()">저장</button>
+		<button class="submit-btn" type="button" id="ok"
+			onclick="submitForm()">저장</button>
 	</div>
 </div>
 <script>
-    function submitForm() {
-        document.getElementById("memberForm").submit();
-    }
+	function submitForm() {
+		document.getElementById("memberForm").submit();
+	}
 </script>
