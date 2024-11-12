@@ -37,11 +37,16 @@
 					<input type="hidden" name="instId" value="${member.instId}">
 				</div>
 				<div class="input-div">
-					<label>부서</label> <input type="text" name="deptId"
+					<label>부서</label> <input type="hidden" name="deptId"
+						value="${member.deptId}" required>
+						<input type="text"
 						value="${member.deptNm}" required>
+						
 				</div>
 				<div class="input-div">
-					<label>사용자 역할</label> <input type="text" name="role1"
+					<label>사용자 역할</label> <input type="hidden" name="role1"
+						value="${member.role1}" required>
+						<input type="text"
 						value="${member.role1Nm}" required>
 				</div>
 				<div class="input-div">
