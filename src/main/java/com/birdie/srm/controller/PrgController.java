@@ -214,7 +214,6 @@ public class PrgController {
 	public void updateHr(@RequestBody Map<String, Object> data, 
 			HttpServletResponse response) throws Exception  {
 		String appSrId = (String) data.get("appSrId");
-		
 		// memId와 plnMd를 포함한 Map
 		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
 		
@@ -233,9 +232,25 @@ public class PrgController {
 		response.setContentType("text/plain; charset=UTF-8");
 	    response.getWriter().write("자원 정보가 성공적으로 저장되었습니다!");
 	}
-/*	// 자원 삭제
+	// 자원 삭제
 	@PostMapping("/deleteHr")
-	public void deleteHr(@RequestBody Map<String, Object> )*/
+	public void deleteHr(@RequestBody Map<String, Object> data, 
+			HttpServletResponse response) throws Exception {
+		String appSrId = (String) data.get("appSrId");
+		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
+		
+		List<SR001NT> hr = new ArrayList<>();
+		for (Map<String, Object> memInfo : memInfoList) {
+			SR001NT srHr = new SR001NT();
+			srHr.setAppSrId(appSrId);
+			srHr.setMemId((String) memInfo.get("memId"));
+			hr.add(srHr);
+		}
+		srProgressService.deleteHr(hr);
+		
+		response.setContentType("text/plain; charset=UTF-8");
+	    response.getWriter().write("선택된 자원이 삭제되었습니다!");
+	}
 	
 	// 진척율 jsp호출
 	@PostMapping("/srRatio")

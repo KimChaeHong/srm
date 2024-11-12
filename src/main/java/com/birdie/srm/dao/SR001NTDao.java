@@ -21,4 +21,7 @@ public interface SR001NTDao {
 	// 자원 존재 여부
 	public int exists(SR001NT hr);
 
+	// 자원 삭제 
+	public int deleteHr(SR001NT hr);
+
 }

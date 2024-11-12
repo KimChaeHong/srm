@@ -174,15 +174,18 @@ th {
 }
 
 .relSys-empl {
-    background-color: #CDE1FF; /* 고용보험 */
+	color: #215cac;
+    background-color: #d9e7fa; /* 고용보험 */
 }
 
 .relSys-hrdv {
-    background-color: #FFF1B8; /* HRD  */
+    color: #c48e00; 
+    background-color: #fff7d1; /* HRD  */
 }
 
 .relSys-work {
-    background-color: #D3F3F1; /* 워크넷 */
+    color: #2d8c8b; 
+    background-color: #e0f8f7; /* 워크넷 */
 }
 
 /* --------접수상태에 따라 색상 지정-------- */
@@ -198,15 +201,18 @@ th {
 
 /* 상태별 색상 */
 .status-dece {
-    background-color: #CFF7D3; /* 접수 */
+    color: #00894f;
+    background-color: #d9f8eb; /* 접수 */
 }
 
 .status-canc {
-    background-color: #F7CFCF; /* 취소  */
+	color: #b82c46;
+    background-color: #fbdbe1; /* 취소  */
 }
 
 .status-hold {
-    background-color: #F7E1CF; /* 보류  */
+	color: #ac5a2b;
+    background-color: #fde6d8; /* 보류  */
 }
 
 
@@ -458,10 +464,6 @@ hr{
 	cursor: pointer;
 }
 
-label{
-    font-size: 8px;
-    width: 40px;
-}
 
 .form-group{
     display: flex;              /* 가로 정렬 */
@@ -624,7 +626,7 @@ input#person {
     text-align: center;
 }
 
-.modal-search-btn {
+.modal-search-btn, .hr-modal-search-btn {
     width: 60px;
     height: 30px;
     border: 1px solid #DCDCE1 !important;
@@ -642,7 +644,7 @@ input#person {
     font-size: 12px;
     color: #4D5969;
 }
-.hr-modal-add-btn, .hr-modal-close-btn, .hr-modal-search-btn{
+.hr-modal-add-btn, .hr-modal-close-btn{
 	width: 60px;
     height: 30px;
     border: 1px solid #DCDCE1 !important;
@@ -671,15 +673,15 @@ input#person {
 }
 
 .modal-col-2 {
-    width: 300px;
+    width: 250px;
 }
 
 .modal-col-3 {
-    width: 240px;
+    width: 248px;
 }
 
 .modal-col-4 {
-    width: 200px;
+    width: 248px;
 }
 
 .form-check-input {
@@ -748,3 +750,5 @@ input#person {
     max-height: 300px; /* 스크롤 높이 설정 */
     overflow-y: auto;  /* 수직 스크롤 생성 */
 }
+
+

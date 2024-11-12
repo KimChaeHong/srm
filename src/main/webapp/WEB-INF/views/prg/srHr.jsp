@@ -13,7 +13,7 @@
                 <tr>
                     <th class="hr-col-1"></th>
                     <th class="hr-col-2"></th>
-                    <th class="hr-hr-col-3">담당자명</th>
+                    <th class="hr-col-3">담당자명</th>
                     <th class="hr-col-4">역할</th>
                     <th class="hr-col-5">계획공수(M/D)</th>
                     <th class="hr-col-6">실적공수(M/D)</th>

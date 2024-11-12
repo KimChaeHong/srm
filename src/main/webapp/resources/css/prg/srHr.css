@@ -92,7 +92,7 @@ hr {
 }
 
 #hr-table tr {
-    height: 25px;
+    height: 25px !important; 
     border-bottom: 1px solid #EDF2F9;
 }
 

@@ -215,8 +215,8 @@
 	                    
 		                <form id="row-select" action="list" method="get">
 						    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
-						    <input type="hidden" name="startDate" value="${searchCont.searchDto.startDate}">
-						    <input type="hidden" name="endDate" value="${searchCont.searchDto.endDate}">
+						    <input type="hidden" name="startDate" value="<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>">
+							<input type="hidden" name="endDate" value="<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>">
 						    <input type="hidden" name="relSys" value="${searchCont.searchDto.relSys}">		
 						    <input type="hidden" name="wkType" value="${searchCont.searchDto.wkType}">
 						    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">

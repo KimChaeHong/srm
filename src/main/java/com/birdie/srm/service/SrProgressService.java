@@ -118,6 +118,12 @@ public class SrProgressService {
             }
         }
     }
+    // 자원 삭제
+	public void deleteHr(List<SR001NT> hrList) {
+		for (SR001NT hr : hrList) {
+			sr001ntDao.deleteHr(hr);
+		}
+	}
 
 	
 }

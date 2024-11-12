@@ -41,7 +41,6 @@ $(document).off('click', '.hr-modal-add-btn').on('click', '.hr-modal-add-btn', f
         `);
     });
 
-    // 모달 닫기
     $('#hr-modal').modal('hide');
 });
 
@@ -51,7 +50,6 @@ $(document).ready(function() {
         e.preventDefault();
 
         const appSrId = $('#appSrId').val(); // 자원정보탭의 appSrId 값
-        console.log("appSrId--------------", appSrId);
         let arr = [];
 
         // 체크된 자원의 memId와 plnMd 값을 배열에 추가
@@ -65,6 +63,10 @@ $(document).ready(function() {
             });
         });
 
+        if (arr.length === 0) {
+            alert("저장할 자원을 선택해 주세요.");
+            return;
+        }
         const data = {
             appSrId: appSrId,
             memInfo: arr
@@ -84,26 +86,23 @@ $(document).ready(function() {
             }
         });
     });
-    
+    // 삭제 
     $('#del-btn').on('click', function () {
         let arr = [];
         $('#hr-table .form-check-input:checked').each(function () {
             const memId = $(this).val();
-            arr.push(memId);
-            // UI에서 행 삭제
-            $(this).closest('tr').remove();
+            arr.push({ memId: memId });			// 각 memId를 객체로 추가
+            
+            $(this).closest('tr').remove();			// UI에서 행 삭제
         });
 
-        // appSrId 가져오기
         const appSrId = $('#appSrId').val();
 
-        // 서버로 전송할 데이터 구성
         const data = {
             appSrId: appSrId,
-            memIds: arr
+            memInfo: arr
         };
 
-        // 서버로 AJAX 요청 보내기
         $.ajax({
             url: '/srm/prg/deleteHr',
             type: 'POST',
