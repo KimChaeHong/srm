@@ -15,10 +15,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- JavaScript 파일 로드 -->
-<script src="${pageContext.request.contextPath}/resources/js/myTask.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/librarys.js" defer></script>
-
+<%-- <script src="${pageContext.request.contextPath}/resources/js/myTask.js"></script>
+ --%><script src="${pageContext.request.contextPath}/resources/js/appTask.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/librarys.js" defer></script>
 
 <!-- FullCalendar CSS -->
 <link
@@ -96,10 +95,24 @@
 				<table id="task-table">
 					<thead>
 						<tr>
+						
+						<sec:authorize access="hasRole('ROLE_DEVE')">
 							<th class="mytask-1">No.</th>
-							<th class="mytask-2">요청 번호</th>
-							<th class="mytask-3">제목</th>
+							<th class="mytask-2">SR 번호</th>
+							<th class="mytask-3">관련 시스템</th>
+							<th class="mytask-4">업무 구분</th>
+							<th class="mytask-5">제목</th>
+							<th class="mytask-6">요청자</th>
+							<th class="mytask-7">완료 요청일</th>
+							<th class="mytask-8">완료 예정일</th>
+							<th class="mytask-9">접수상태</th>
+						</sec:authorize>
+						
+						<sec:authorize access="hasAnyRole('ROLE_GUSR', 'ROLE_ADMI')">
+							<th class="mytask-1">No.</th>
+							<th class="mytask-2">SR 번호</th>
 							<th class="mytask-4">관련 시스템</th>
+							<th class="mytask-3">제목</th>
 							<th class="mytask-5">등록자</th>
 							<th class="mytask-6">소속</th>
 							<th class="mytask-7">개발부서</th>
@@ -107,6 +120,8 @@
 							<th class="mytask-9">요청일</th>
 							<th class="mytask-10">완료(예정)일</th>
 							<th class="mytask-11">상세보기</th>
+						</sec:authorize>
+	
 						</tr>
 					</thead>
 					<tbody id="mytask">
