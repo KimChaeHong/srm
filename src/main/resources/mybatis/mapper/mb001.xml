@@ -5,77 +5,206 @@
 	<select id="selectByMemId" parameterType="String"
 		resultType="MB001MT">
 		select
-	        MEM_ID,
-	        INST_ID,
-	        DEPT_ID,
-	        MEM_NO,
-	        MEM_NM,
-	        MEM_PW,
-	        ROLE_1,
-	        ROLE_2,
-	        MEM_EMAIL,
-	        DELT_YN,
-	        APP_YN,
-	        FIRST_INPT_DT,
-	        FIRST_INPT_ID,
-	        LAST_INPT_DT,
-	        LAST_INPT_ID
-		from TB_MB_001MT
-		where mem_id = #{mem_id}
+		MB.MEM_ID,
+		MB.INST_ID,
+		INST.INST_NM as INST_NM,
+		MB.DEPT_ID,
+		CD_DEPT.CD_NM as DEPT_NM,
+		MB.MEM_NO,
+		MB.MEM_NM,
+		MB.MEM_PW,
+		MB.ROLE_1,
+		CD_ROLE1.CD_NM as ROLE1_NM,
+		MB.ROLE_2,
+		CD_ROLE2.CD_NM as
+		ROLE2_NM,
+		MB.MEM_EMAIL,
+		MB.DELT_YN,
+		MB.APP_YN,
+		MB.FIRST_INPT_DT,
+		MB.FIRST_INPT_ID,
+		MB.LAST_INPT_DT,
+		MB.LAST_INPT_ID
+		from TB_MB_001MT MB
+		left join TB_IS_001MT INST on MB.INST_ID = INST.INST_ID
+		left join
+		TB_CD_MT CD_DEPT on MB.DEPT_ID = CD_DEPT.CD_ID
+		left join TB_CD_MT
+		CD_ROLE1 on MB.ROLE_1 = CD_ROLE1.CD_ID
+		left join TB_CD_MT CD_ROLE2 on
+		MB.ROLE_2 = CD_ROLE2.CD_ID
+		where MB.MEM_ID = #{mem_id}
 	</select>
 
 	<!-- 회원 가입 -->
 	<insert id="signUp" parameterType="MB001MT">
-   	    <selectKey keyProperty="memNo" resultType="string" order="BEFORE">
-	        SELECT #{instId} || LPAD(MEM_NO_SEQ.NEXTVAL, 4, '0') AS memNo 
-	        FROM dual
-	    </selectKey>
+		<selectKey keyProperty="memNo" resultType="string"
+			order="BEFORE">
+			SELECT #{instId} || LPAD(MEM_NO_SEQ.NEXTVAL, 4, '0') AS memNo
+			FROM dual
+		</selectKey>
 		INSERT INTO TB_MB_001MT (
-	        MEM_ID,
-	        INST_ID,
-	        DEPT_ID,
-	        MEM_NO,
-	        MEM_NM,
-	        MEM_PW,
-	        ROLE_1,
-	        ROLE_2,
-	        MEM_EMAIL,
-	        DELT_YN,
-	        APP_YN,
-	        FIRST_INPT_DT,
-	        FIRST_INPT_ID,
-	        LAST_INPT_DT,
-	        LAST_INPT_ID
-    	) VALUES (
-	        #{memId},
-	        #{instId},
-	        #{deptId},
-	        #{memNo},
-	        #{memNm},
-	        #{memPw},
-	        #{role1},
-	        #{role2},
-	        #{memEmail},
-	        'N',                          <!-- DELT_YN 기본값으로 'N' 설정 -->
-	        'N',                          <!-- APP_YN 기본값으로 'N' 설정 -->
-	        SYSDATE,                      <!-- 현재 날짜와 시간 입력 -->
-	        #{memNo},
-	        SYSDATE,                      <!-- 현재 날짜와 시간 입력 -->
-	        #{memNo}
-    	)
+		MEM_ID,
+		INST_ID,
+		DEPT_ID,
+		MEM_NO,
+		MEM_NM,
+		MEM_PW,
+		ROLE_1,
+		ROLE_2,
+		MEM_EMAIL,
+		DELT_YN,
+		APP_YN,
+		FIRST_INPT_DT,
+		FIRST_INPT_ID,
+		LAST_INPT_DT,
+		LAST_INPT_ID
+		) VALUES (
+		#{memId},
+		#{instId},
+		#{deptId},
+		#{memNo},
+		#{memNm},
+		#{memPw},
+		#{role1},
+		#{role2},
+		#{memEmail},
+		'N',                          <!-- DELT_YN 
+			기본값으로 'N' 설정 -->
+		'N',                          <!-- APP_YN 기본값으로 'N' 설정 -->
+		SYSDATE,                      <!-- 현재 날짜와 시간 입력 -->
+		#{memNo},
+		SYSDATE,                      <!-- 현재 날짜와 시간 입력 -->
+		#{memNo}
+		)
 	</insert>
-	
+
 	<!-- 회원 정보 가져오기 -->
-	<select id="selectJoinedMemInfo" parameterType="String" resultType="MB001MT">
+	<select id="selectJoinedMemInfo" parameterType="String"
+		resultType="MB001MT">
 		select
-	        MEM_ID, INST_ID, DEPT_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2, MEM_EMAIL, DELT_YN, APP_YN,
-	        FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID, INST_NM
-		from (select MEM_ID, INST_ID, DEPT_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2, MEM_EMAIL, mb.DELT_YN, APP_YN,
-                mb.FIRST_INPT_DT, mb.FIRST_INPT_ID, mb.LAST_INPT_DT, mb.LAST_INPT_ID, INST_NM
-                from TB_MB_001MT mb
-                join TB_IS_001MT using (INST_ID)
-        )
+		MEM_ID, INST_ID, DEPT_ID, MEM_NO, MEM_NM, MEM_PW,
+		ROLE_1, ROLE_2, MEM_EMAIL,
+		DELT_YN, APP_YN,
+		FIRST_INPT_DT,
+		FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID, INST_NM
+		from (select
+		MEM_ID,
+		INST_ID, DEPT_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2,
+		MEM_EMAIL,
+		mb.DELT_YN, APP_YN,
+		mb.FIRST_INPT_DT, mb.FIRST_INPT_ID,
+		mb.LAST_INPT_DT, mb.LAST_INPT_ID, INST_NM
+		from TB_MB_001MT mb
+		join
+		TB_IS_001MT using (INST_ID)
+		)
 		where mem_id = #{mem_id}
 	</select>
+
+	<!-- 전체 회원 목록 가져오기 -->
+	<select id="selectMemberList" parameterType="Pager"
+		resultType="MB001MT">
+    <![CDATA[
+    select 
+        rnum, 
+        MB.MEM_ID, 
+        INST.INST_NM as INST_NM,          
+        MB.MEM_NO, 
+        MB.MEM_NM, 
+        MB.MEM_PW, 
+        CD_ROLE1.CD_NM as ROLE1_NM,        
+        CD_ROLE2.CD_NM as ROLE2_NM,        
+        MB.DELT_YN,
+        MB.FIRST_INPT_DT, 
+        MB.FIRST_INPT_ID, 
+        MB.LAST_INPT_DT, 
+        MB.LAST_INPT_ID, 
+        MB.APP_YN, 
+        MB.MEM_EMAIL, 
+        CD_DEPT.CD_NM as DEPT_NM          
+    from (
+        select rownum as rnum, MEM_ID, INST_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2, DELT_YN,
+               FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID, APP_YN, MEM_EMAIL, DEPT_ID
+        from (
+            select MEM_ID, INST_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2, DELT_YN,
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID, APP_YN, MEM_EMAIL, DEPT_ID
+            from TB_MB_001MT
+            order by FIRST_INPT_DT desc
+        )
+        where rownum <= #{endRowNo}
+    ) MB
+    left join TB_IS_001MT INST on MB.INST_ID = INST.INST_ID        
+    left join TB_CD_MT CD_DEPT on MB.DEPT_ID = CD_DEPT.CD_ID        
+    left join TB_CD_MT CD_ROLE1 on MB.ROLE_1 = CD_ROLE1.CD_ID       
+    left join TB_CD_MT CD_ROLE2 on MB.ROLE_2 = CD_ROLE2.CD_ID       
+    where rnum >= #{startRowNo}
+    ]]>
+	</select>
+
+	<!-- 회원 목록 행 갯수 -->
+	<select id="selectCountMemRows" resultType="int">
+		select count(*) from
+		TB_MB_001MT
+	</select>
+
+	<!-- 가입 신청 회원 목록 -->
+	<select id="selectMemberRequestList" parameterType="Pager"
+		resultType="MB001MT">
+    <![CDATA[
+    select 
+        rnum, 
+        MB.MEM_ID, 
+        INST.INST_NM as INST_NM,        -- INST_NM을 가져오기 위해 TB_IS_001MT와 조인
+        MB.MEM_NO, 
+        MB.MEM_NM, 
+        MB.MEM_PW, 
+        CD_ROLE1.CD_NM as ROLE1_NM,     -- ROLE_1을 코드 이름으로 변환
+        CD_ROLE2.CD_NM as ROLE2_NM,     -- ROLE_2를 코드 이름으로 변환
+        MB.DELT_YN,
+        MB.FIRST_INPT_DT, 
+        MB.FIRST_INPT_ID, 
+        MB.LAST_INPT_DT, 
+        MB.LAST_INPT_ID, 
+        MB.APP_YN, 
+        MB.MEM_EMAIL, 
+        CD_DEPT.CD_NM as DEPT_NM        
+    from (
+        select rownum as rnum, MEM_ID, INST_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2, DELT_YN,
+               FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID, APP_YN, MEM_EMAIL, DEPT_ID
+        from (
+            select MEM_ID, INST_ID, MEM_NO, MEM_NM, MEM_PW, ROLE_1, ROLE_2, DELT_YN,
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID, APP_YN, MEM_EMAIL, DEPT_ID
+            from TB_MB_001MT
+            where APP_YN = 'N'                        
+            order by FIRST_INPT_DT desc
+        )
+        where rownum <= #{endRowNo}
+    ) MB
+    left join TB_IS_001MT INST on MB.INST_ID = INST.INST_ID       
+    left join TB_CD_MT CD_DEPT on MB.DEPT_ID = CD_DEPT.CD_ID       
+    left join TB_CD_MT CD_ROLE1 on MB.ROLE_1 = CD_ROLE1.CD_ID     
+    left join TB_CD_MT CD_ROLE2 on MB.ROLE_2 = CD_ROLE2.CD_ID     
+    where rnum >= #{startRowNo}
+    ]]>
+	</select>
+
+
+	<!-- 회원 정보 수정하기 -->
+	<update id="updateMember" parameterType="MB001MT">
+		UPDATE TB_MB_001MT
+		SET
+		MEM_NM = #{memNm},
+		INST_ID = #{instId},
+		DEPT_ID = #{deptId},
+		ROLE_1 =
+		#{role1},
+		ROLE_2 = #{role2},
+		APP_YN = #{appYn},
+		LAST_INPT_ID =
+		#{lastInptId},
+		LAST_INPT_DT = SYSDATE
+		WHERE MEM_ID = #{memId}
+	</update>
 
 </mapper>

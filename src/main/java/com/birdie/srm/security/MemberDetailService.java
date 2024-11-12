@@ -27,6 +27,7 @@ public class MemberDetailService implements UserDetailsService{
 			throws UsernameNotFoundException {
 		
 		MB001MT member = memberDao.selectByMemId(username);
+		log.info("********************" + member.toString());
 		
 		if(member == null) {
 			throw new UsernameNotFoundException("Bad credentials");

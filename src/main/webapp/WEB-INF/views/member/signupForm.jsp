@@ -70,12 +70,12 @@
 				</div>
 				<div id="left-side">
 					<div class="select-div">
-						<label>역할</label> <select name="role1" id="role1"
+						<label>사용자</label> <select name="role1" id="role1"
 							class="form-select">
 							<option>선택</option>
-							<option value="GUSR">일반사용자</option>
-							<option value="DEVE">개발자</option>
-							<option value="ADMI">관리자</option>
+							<option value="ROLE_GUSR">일반사용자</option>
+							<option value="ROLE_DEVE">개발자</option>
+							<option value="ROLE_ADMI">관리자</option>
 						</select>
 					</div>
 

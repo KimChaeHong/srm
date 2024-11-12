@@ -25,6 +25,11 @@ a {
     align-items: center; /* 수직 가운데 정렬 */
 }
 
+.side-nav-link.active {
+    color: #007bff !important; /* 원하는 색상 */
+    font-weight: bold !important;
+}
+
 /* SR 관리 링크 스타일 */
 .sidebar-content{
     height: 30px;

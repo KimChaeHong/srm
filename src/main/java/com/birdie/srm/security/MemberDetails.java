@@ -25,7 +25,7 @@ public class MemberDetails extends User{
 		
 	}
 
-	public MB001MT getUserDto() {
+	public MB001MT getMember() {
 		return member;
 	}
 }
