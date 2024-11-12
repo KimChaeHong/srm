@@ -365,9 +365,3 @@ th {
     border: none;
     background-color: white;
 }
-
-#calendar-container {
-	width: 1270px;
-    height: 400px;
-    margin-left: 44px;
-}

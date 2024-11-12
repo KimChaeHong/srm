@@ -1,5 +1,6 @@
 package com.birdie.srm.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.SR001MTDao;
+import com.birdie.srm.dao.SR002MTDao;
+import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
+import com.birdie.srm.dto.SR002MT;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class MyportalService {
 	
 	@Autowired
 	private SR001MTDao sr001mtDao;
+	@Autowired
+	private SR002MTDao sr002mtDao;
 	
 	//전체 게시물 갯수
 	public int getTotalRows() {
@@ -52,6 +61,41 @@ public class MyportalService {
         return counts;
     }
 
+	public List<SR002MT> getEvents(MB001MT mb001mt) {
+		List<SR002MT> eventList = new ArrayList<>();
+		switch(mb001mt.getRole1()) {
+			case "ROLE_GUSR" :
+				eventList = sr002mtDao.selectGusrEvent(mb001mt);
+				break;
+			case "ROLE_DEVE" :
+				eventList = sr002mtDao.selectDeveEvent(mb001mt);
+				break;
+			case "ROLE_ADMI" :
+				eventList = sr002mtDao.selectAdmiEvent(mb001mt);
+				break;
+			default:
+				log.info("역할이 안맞음");
+		}
+		return eventList;
+	}
+
+	public List<SR002MT> getProcessBarData(MB001MT mb001mt) {
+		List<SR002MT> processBarDataList = new ArrayList<>();
+		switch(mb001mt.getRole1()) {
+		case "ROLE_GUSR" :
+			processBarDataList = sr002mtDao.selectGusrProcess(mb001mt);
+			break;
+		case "ROLE_DEVE" :
+			processBarDataList = sr002mtDao.selectDeveProcess(mb001mt);
+			break;
+		case "ROLE_ADMI" :
+			processBarDataList = sr002mtDao.selectAdmiProcess(mb001mt);
+			break;
+		default:
+			log.info("유저정보 잘못 넘어옴");
+		}
+		return processBarDataList;
+	}
 
 
 }
