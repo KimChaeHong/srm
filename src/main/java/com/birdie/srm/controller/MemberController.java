@@ -2,14 +2,13 @@ package com.birdie.srm.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.IS001MT;
 import com.birdie.srm.dto.MB001MT;
+import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.MemberService.JoinResult;
 
@@ -32,29 +32,12 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	// 로그인
-	@GetMapping("/loginform")
-	public String login(HttpServletRequest request, Model model) {
-		log.info("로그인");
-
-		// 세션에서 인증 예외 정보를 확인
-		Exception exception = (Exception) request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-		if (exception != null && "Bad credentials".equals(exception.getMessage())) {
-			// Model에 오류 메시지 추가
-			model.addAttribute("loginError", "아이디 또는 비밀번호가 틀립니다.");
-			// 세션에서 예외 정보 제거
-			request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-		}
-
-		return "member/loginForm";
-	}
-
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("login");
 		log.info("로그아웃");
-		return "redirect:/member/loginform";
+		return "redirect:/";
 	}
 
 	// 회원 가입 하는 곳
@@ -78,14 +61,14 @@ public class MemberController {
 
 		log.info(member.toString());
 		JoinResult joinResult = memberService.join(member);
-		return "redirect:/member/loginform";
+		return "redirect:/";
 	}
 
 	// 역할에 따른 기관 목록 조회
 	@GetMapping("/institutions")
 	public ResponseEntity<List<IS001MT>> getInstitutions() {
 		log.info("역할에 따른 기관 목록 조회 - role ");
-		List<IS001MT> institutions = memberService.getInstitutionsByRole("GUSR");
+		List<IS001MT> institutions = memberService.getInstitutionsByRole("ROLE_GUSR");
 		return ResponseEntity.ok(institutions);
 	}
 
@@ -97,16 +80,89 @@ public class MemberController {
 		return ResponseEntity.ok(departments);
 	}
 
+	// 전체 사용자 목록 보기
 	@GetMapping("/list")
-	public String memberList() {
+	public String memberList(
+			Model model, 
+			@RequestParam(defaultValue = "1") int pageNo,
+			@RequestParam(required = false) Integer rowsPerPage, 
+			HttpSession session) {
 		log.info("회원 목록");
+
+		// 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
+		if (rowsPerPage == null) {
+			rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
+			if (rowsPerPage == null) {
+				rowsPerPage = 10; // 기본값 설정
+			}
+		} else {
+			session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
+		}
+
+		// 사용자 목록 총 행 수 가져오기
+		int totalRows = memberService.getTotalMemRows();
+		PagerDto pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+
+		List<MB001MT> memberList = memberService.getMemberList(pager);
+		model.addAttribute("memberList", memberList);
+
 		return "member/memberList";
 	}
 
-	@GetMapping("/mgmt")
-	public String apprequestlist() {
+	// 가입 요청한 회원 목록 조회
+	@GetMapping("/memberRequestList")
+	public String memberRequestList(
+			Model model,
+			@RequestParam(defaultValue = "1") int pageNo,
+			@RequestParam(required = false) Integer rowsPerPage, 
+			HttpSession session) {
+		
 		log.info("가입 요청 목록");
-		return "member/memberMgmt";
+		// 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
+		if (rowsPerPage == null) {
+			rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
+			if (rowsPerPage == null) {
+				rowsPerPage = 10; // 기본값 설정
+			}
+		} else {
+			session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
+		}
+
+		// 사용자 목록 총 행 수 가져오기
+		int totalRows = memberService.getTotalMemRows();
+		PagerDto pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+		session.setAttribute("pager", pager);
+
+		List<MB001MT> memberRequestList = memberService.getMemberRequestList(pager);
+		model.addAttribute("memberRequestList", memberRequestList);
+
+		return "member/memberRequestList";
 	}
 
+	//회원 정보 조회
+	@GetMapping("/memDetail")
+	public String memberDetail(@RequestParam("memId") String memId, Model model) {
+
+		log.info("사용자 상세 정보 조회 - memId: " + memId);
+        MB001MT member = memberService.getMemberById(memId);
+        log.info(member.toString());
+		model.addAttribute("member", member);
+		
+		return "member/memDetail";
+	}
+
+	@PostMapping("/updateMember")
+	public String updateMember(
+			MB001MT member,
+			Authentication authentication
+			) {
+	    // 인증된 사용자 ID를 가져옵니다.
+		String currentMemberId = authentication.getName(); 
+		member.setLastInptId(currentMemberId);// lastInptId를 현재 사용자 ID로 설정
+		memberService.updateMember(member); // member 객체로 업데이트 처리
+		return "redirect:/member/memberRequestList";
+	}
+
+	
 }

@@ -18,8 +18,8 @@ public class MB001MT {
     private String memNm;          // 사용자 이름
     private String memPw;          // 사용자 비밀번호
     private String memEmail;		// 사용자 이메일
-    private String role1;          // 역할1
-    private String role2;          // 역할2
+    private String role1;          // 역할1 사용자
+    private String role2;          // 역할2 직급
     private String deltYn;         // 삭제 여부
     private String appYn;			// 승인 여부
     private String firstInptId;    // 최초등록자
@@ -30,6 +30,10 @@ public class MB001MT {
     private Date  lastInptDt;     // 수정일시
     
     private String instNm; //소속기관 이름
+    private String deptNm;    // 부서 이름
+    private String role1Nm;   // 역할1 이름
+    private String role2Nm;   // 역할2 이름
+
     
     private List<MultipartFile> attachment;	//첨부파일
 

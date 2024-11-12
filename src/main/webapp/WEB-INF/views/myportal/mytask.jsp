@@ -15,9 +15,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- JavaScript 파일 로드 -->
-<script src="${pageContext.request.contextPath}/resources/js/pagination.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/myTask.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/librarys.js" defer></script>
+
 
 <!-- FullCalendar CSS -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
@@ -26,6 +26,35 @@
 
 <!-- Vue -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<!-- section -->
+<div id="section">
+	<!-- SR목록 -->
+	<div id="sr-list">
+		<div class="task-line">
+			<h2 id="h2-style">나의 할 일</h2>
+		</div>
+		<div class="tabs-container">
+			<ul class="nav nav-tabs">
+				<li class="nav-item"><a class="nav-link tb-tab active"
+					data-bs-toggle="tab" data-srstat="ALL">전체<span class="row-cnt"></span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="REGI">등록<span class="row-cnt"></span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="REQT">요청<span class="row-cnt"></span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="REJC">반려/재검토<span
+						class="row-cnt"></span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="RECE">접수<span class="row-cnt"></span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="DEVING">개발중<span
+						class="row-cnt"></span></a></li>
+				<li class="nav-item"><a class="nav-link tb-tab"
+					data-bs-toggle="tab" data-srstat="DEVDONE">개발완료<span
+						class="row-cnt"></span></a></li>
+			</ul>
+		</div>
 
 <!-- section -->
 <div>
@@ -173,6 +202,69 @@
 					</div>
 				</div>
 			</div>
+
+							<td>${sr001mt.rnum}</td>
+							<td>${sr001mt.srId}</td>
+							<td>${sr001mt.srTitle}</td>
+							<td><c:choose>
+									<c:when test="${sr001mt.relSys == 'EMPL'}">고용보험</c:when>
+									<c:when test="${sr001mt.relSys == 'HRDV'}">HRD</c:when>
+									<c:when test="${sr001mt.relSys == 'WORK'}">워크넷</c:when>
+									<c:otherwise>기타</c:otherwise>
+								</c:choose></td>
+							<td>${sr001mt.registerName}</td>
+							<td>${sr001mt.institutionName}</td>
+							<td>${sr001mt.departmentName}</td>
+							<td><c:choose>
+									<c:when test="${sr001mt.srStat == 'REGI'}">등록</c:when>
+									<c:when test="${sr001mt.srStat == 'REQT'}">요청</c:when>
+									<c:when test="${sr001mt.srStat == 'REJC'}">반려</c:when>
+									<c:when test="${sr001mt.srStat == 'RECE'}">접수</c:when>
+									<c:when test="${sr001mt.srStat == 'RERE'}">재검토</c:when>
+									<c:otherwise>기타</c:otherwise>
+								</c:choose></td>
+							<td><fmt:formatDate value="${sr001mt.reqDt}"
+									pattern="yy/MM/dd" /></td>
+							<td><fmt:formatDate value="${sr001mt.dueDt}"
+									pattern="yy/MM/dd" /></td>
+							<td>
+								<button class="detail-btn" data-bs-toggle="modal"
+									data-bs-target="#detail-modal">요청 상세</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- 페이지 버튼 -->
+		<div id="pagination">
+			<c:if test="${pager.groupNo > 1}">
+				<a class="btn page-btn shadow-sm"
+					data-page="${pager.startPageNo - 1}"> <i
+					class="bi bi-chevron-left"></i>
+				</a>
+			</c:if>
+
+			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
+				step="1" var="i">
+				<a
+					class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}"
+					data-page="${i}">${i}</a>
+			</c:forEach>
+
+			<c:if test="${pager.groupNo < pager.totalGroupNo}">
+				<a class="btn page-btn shadow-sm" data-page="${pager.endPageNo + 1}">
+					<i class="bi bi-chevron-right"></i>
+				</a>
+			</c:if>
+
+			<select class="row-select form-select" id="rowsPerPageSelect">
+				<option value="16" ${pager.rowsPerPage == 16 ? 'selected' : ''}>16</option>
+				<option value="32" ${pager.rowsPerPage == 32 ? 'selected' : ''}>32</option>
+				<option value="48" ${pager.rowsPerPage == 48 ? 'selected' : ''}>48</option>
+				<option value="64" ${pager.rowsPerPage == 64 ? 'selected' : ''}>64</option>
+			</select> <input type="hidden" id="currentPage" value="${pager.pageNo}" />
 		</div>
 		<div></div>
 	</div>
@@ -184,7 +276,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<p class="modal-title" id="exampleModalLabel">개발계획입력</p>
+				<p class="modal-title" id="exampleModalLabel">요청상세</p>
 				<button id="close-btn" type="button" data-bs-dismiss="modal">
 					<i class="bi bi-x-square"></i>
 				</button>
@@ -245,9 +337,9 @@
 							</div>
 
 							<div class="form-row">
-								<label for="attachment">첨부파일</label> 
-								<input type="file" class="form-control form-control-sm"
-									id="attachment" name="attachment" multiple>
+								<label for="attachment">첨부파일</label> <input type="file"
+									class="form-control form-control-sm" id="attachment"
+									name="attachment" multiple>
 							</div>
 						</div>
 

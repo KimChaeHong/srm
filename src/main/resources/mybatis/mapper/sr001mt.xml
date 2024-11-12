@@ -12,21 +12,30 @@
 	<!-- 나의 할 일 목록 가져오기 -->
 	<select id="selectMysrList" parameterType="Pager"
 		resultType="SR001MT">
-        <![CDATA[
-		    SELECT rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
-		    FROM (
-		        SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
-		        FROM (
-		            SELECT SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
-		            FROM TB_SR_001MT
-		            WHERE DELT_YN = 'N' 
-		            ORDER BY SR_ID DESC
-		        )
-		        WHERE rownum <= #{endRowNo}
-		    )
-		    WHERE rnum >= #{startRowNo}
-		]]>
+    <![CDATA[
+        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
+               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID, 
+               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
+        FROM (
+            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+            FROM (
+                SELECT SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                       FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+                FROM TB_SR_001MT
+                WHERE DELT_YN = 'N'
+                ORDER BY REQ_DT DESC
+            )
+            WHERE rownum <= #{endRowNo}
+        ) s
+        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
+        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
+        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
+        WHERE s.rnum >= #{startRowNo}
+        ORDER BY s.REQ_DT DESC
+    ]]>
 	</select>
+
 
 	<!-- 상태별 게시물 갯수 가져오기 -->
 	<select id="selectCountRowsByStatus" parameterType="String"
@@ -34,27 +43,118 @@
 		select count(*)
 		from TB_SR_001MT
 		where SR_STAT = #{srStat}
-		 AND DELT_YN = 'N'
+		AND DELT_YN = 'N'
 	</select>
 
 	<!-- 상태별 SR 목록 가져오기 -->
 	<select id="selectMysrListByStatus" parameterType="map"
 		resultType="SR001MT">
     <![CDATA[
-        SELECT rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
+               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID,
+               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
         FROM (
-            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
             FROM (
-                SELECT SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+                SELECT SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                       FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
                 FROM TB_SR_001MT
                 WHERE DELT_YN = 'N'
-                AND SR_STAT = #{srStat}
-                ORDER BY SR_ID DESC
+                  AND SR_STAT = #{srStat}
+                ORDER BY REQ_DT DESC
             )
             WHERE rownum <= #{pager.endRowNo}
-        )
-        WHERE rnum >= #{pager.startRowNo}
+        ) s
+        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
+        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
+        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
+        WHERE s.rnum >= #{pager.startRowNo}
+        ORDER BY s.REQ_DT DESC
     ]]>
 	</select>
+
+	<!-- 로그인한 사용자의 할 일 목록 행 갯수 세기 -->
+	<select id="selectCountRowsByUser" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_001MT sr
+		JOIN TB_MB_001MT m ON
+		sr.FIRST_INPT_ID = m.MEM_NO
+		WHERE sr.DELT_YN = 'N'
+		AND m.MEM_ID = #{memNo}
+	</select>
+
+	<!-- 로그인한 사용자의 할 일 목록 가져오기 -->
+	<select id="selectMysrListByUser" parameterType="map"
+		resultType="SR001MT">
+    <![CDATA[
+        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
+               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID, 
+               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
+        FROM (
+            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+            FROM (
+                SELECT sr.SR_ID, sr.SR_TITLE, sr.REQ_DT, sr.DUE_DT, sr.SR_CONT, sr.REL_SYS, sr.SR_STAT, sr.DELT_YN, 
+                       sr.FIRST_INPT_DT, sr.FIRST_INPT_ID, sr.LAST_INPT_DT, sr.LAST_INPT_ID
+                FROM TB_SR_001MT sr
+                JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+                WHERE sr.DELT_YN = 'N'
+                AND m.MEM_ID = #{memNo}	
+                ORDER BY sr.REQ_DT DESC
+            )
+            WHERE rownum <= #{pager.endRowNo}
+        ) s
+        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
+        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
+        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
+        WHERE s.rnum >= #{pager.startRowNo}
+        ORDER BY s.REQ_DT DESC
+    ]]>
+	</select>
+
+
+	<!-- 상태별 게시물 갯수 가져오기 -->
+	<select id="selectCountRowsByStatusAndUser" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_001MT sr
+		JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+		WHERE sr.SR_STAT = #{srStat}
+		AND sr.DELT_YN = 'N'
+		AND m.MEM_ID = #{memNo}
+	</select>
+
+	<!-- 상태별 SR 목록 가져오기 -->
+	<select id="selectMysrListByStatusAndUser" parameterType="map"
+		resultType="SR001MT">
+    <![CDATA[
+        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
+               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID,
+               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
+        FROM (
+            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+            FROM (
+                SELECT sr.SR_ID, sr.SR_TITLE, sr.REQ_DT, sr.DUE_DT, sr.SR_CONT, sr.REL_SYS, sr.SR_STAT, sr.DELT_YN, 
+                       sr.FIRST_INPT_DT, sr.FIRST_INPT_ID, sr.LAST_INPT_DT, sr.LAST_INPT_ID
+                FROM TB_SR_001MT sr
+                JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+                WHERE sr.DELT_YN = 'N'
+                  AND sr.SR_STAT = #{srStat} 
+                  AND m.MEM_ID = #{memNo}	
+                ORDER BY sr.REQ_DT DESC
+            )
+            WHERE rownum <= #{pager.endRowNo}
+        ) s
+        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
+        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
+        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
+        WHERE s.rnum >= #{pager.startRowNo}
+        ORDER BY s.REQ_DT DESC
+    ]]>
+	</select>
+
 
 </mapper>

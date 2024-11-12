@@ -135,18 +135,24 @@ table {
 .mytask-1 {
     width: 50px;
 }
-.mytask-2, .mytask-3  {
-	width: 250px
-}
-.mytask-4 {
-	width: 105px
+.mytask-2{
+	width: 180px
 }
 
-.mytask-5, .mytask-6, .mytask-7,.mytask-8 {
+.mytask-3  {
+	width: 300px
+}
+.mytask-4 {
+	width: 100px
+}
+.mytask-7, .mytask-6{
+    width: 100px;
+}
+.mytask-5,.mytask-8 {
     width: 70px;
 }
 .mytask-9, .mytask-10 {
-    width: 110px;
+    width: 100px;
 }
 
 thead th {

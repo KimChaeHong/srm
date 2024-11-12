@@ -4,17 +4,17 @@
  <!-- 페이지 버튼 -->
 <div id="pagination">
 <c:if test="${pager.groupNo > 1}">
-    <a href="#" class="btn page-btn shadow-sm" data-page="${pager.startPageNo - 1}">
+    <a class="btn page-btn shadow-sm" data-page="${pager.startPageNo - 1}">
         <i class="bi bi-chevron-left"></i>
     </a>
 </c:if>
 
 <c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}" step="1" var="i">
-    <a href="#" class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}" data-page="${i}">${i}</a>
+    <a  class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}" data-page="${i}">${i}</a>
 </c:forEach>
 
 <c:if test="${pager.groupNo < pager.totalGroupNo}">
-    <a href="#" class="btn page-btn shadow-sm" data-page="${pager.endPageNo + 1}">
+    <a  class="btn page-btn shadow-sm" data-page="${pager.endPageNo + 1}">
         <i class="bi bi-chevron-right"></i>
     </a>
 </c:if>
