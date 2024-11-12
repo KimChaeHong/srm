@@ -53,6 +53,20 @@ hr {
     width: 400px;
     border: 1px solid #EDF2F9;
     margin: 0px auto;
+    height: 165px; /* 원하는 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+
+#hr-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#hr-table thead {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
 }
 
 .hr-col-1 {
@@ -78,7 +92,7 @@ hr {
 }
 
 #hr-table tr {
-    height: 25px;
+    height: 25px !important; 
     border-bottom: 1px solid #EDF2F9;
 }
 
@@ -112,7 +126,7 @@ hr {
     margin-left: 3px;
 }
 .btn-container {
-    margin: 110px 0 0 267px;
+    margin: 10px 0 0 267px;
 }
 .pln {
     width: 50px;

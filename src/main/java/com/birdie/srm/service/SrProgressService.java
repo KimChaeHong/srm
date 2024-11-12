@@ -64,7 +64,6 @@ public class SrProgressService {
 
 	/*SR계획정보 저장*/
 	public void updateSrPlan(SR002MT sr002mt) {
-		log.info("서비스 - SR계획정보 업데이트");
 		sr002mtDao.updateSrPlan(sr002mt);
 	}
 
@@ -105,6 +104,25 @@ public class SrProgressService {
 			cntUpdate += sr002ntDao.updatePrgRatio(sr002nt);			
 		}
 		return cntUpdate;
+	}
+
+	// 자원 리스트 저장
+    public void saveHrList(String appSrId, List<SR001NT> hrList) {
+        for (SR001NT hr : hrList) {
+        	hr.setAppSrId(appSrId);
+
+            if (sr001ntDao.exists(hr) > 0) {
+                sr001ntDao.updateHr(hr);	// 존재하면 업데이트
+            } else {
+                sr001ntDao.insertHr(hr);	// 없으면 인서트
+            }
+        }
+    }
+    // 자원 삭제
+	public void deleteHr(List<SR001NT> hrList) {
+		for (SR001NT hr : hrList) {
+			sr001ntDao.deleteHr(hr);
+		}
 	}
 
 	
