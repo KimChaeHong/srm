@@ -24,7 +24,8 @@ public class MyportalService {
 	@Autowired
 	private SR001MTDao sr001mtDao;
 
-
+	@Autowired
+	private SR002MTDao sr002mtDao;
 
 	// 전체 게시물 갯수
 	public int getTotalRows() {
@@ -66,6 +67,25 @@ public class MyportalService {
 		return sr001mtDao.selectCountRowsByUser(memNo);
 	}
 
+    // 사용자별 SR 목록 가져오기
+	public List<SR001MT> getMySrListByUser(String memNo, PagerDto pager) {
+	    return sr001mtDao.selectMysrListByUser(memNo, pager);
+	}
+	
+	// 특정 상태의 사용자별 총 행 수 가져오기
+	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {
+	    return "ALL".equals(srStat) ? 
+	           sr001mtDao.selectCountRowsByUser(memberInfo) : 
+	           sr001mtDao.selectCountRowsByStatusAndUser(srStat, memberInfo);
+	}
+	
+    // 특정 상태의 사용자별 SR 목록 가져오기
+	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
+	    return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
+
+	}
+	
+	
 	public List<SR002MT> getEvents(MB001MT mb001mt) {
 		List<SR002MT> eventList = new ArrayList<>();
 		switch(mb001mt.getRole1()) {
@@ -100,24 +120,14 @@ public class MyportalService {
 			log.info("유저정보 잘못 넘어옴");
 		}
 		return processBarDataList;
-
-    // 사용자별 SR 목록 가져오기
-	public List<SR001MT> getMySrListByUser(String memNo, PagerDto pager) {
-	    return sr001mtDao.selectMysrListByUser(memNo, pager);
 	}
 	
-	// 특정 상태의 사용자별 총 행 수 가져오기
-	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {
-	    return "ALL".equals(srStat) ? 
-	           sr001mtDao.selectCountRowsByUser(memberInfo) : 
-	           sr001mtDao.selectCountRowsByStatusAndUser(srStat, memberInfo);
-	}
 	
-    // 특정 상태의 사용자별 SR 목록 가져오기
-	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
-	    return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
-
-	}
+	
+	
+	
+	
+	
 
 	
 	
