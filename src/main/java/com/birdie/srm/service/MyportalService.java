@@ -7,7 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.birdie.srm.dao.NT001MTDao;
 import com.birdie.srm.dao.SR001MTDao;
+import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 
@@ -16,6 +18,8 @@ public class MyportalService {
 
 	@Autowired
 	private SR001MTDao sr001mtDao;
+	@Autowired
+	private NT001MTDao nt001mtDao;
 
 	// 전체 게시물 갯수
 	public int getTotalRows() {
@@ -72,6 +76,17 @@ public class MyportalService {
     // 특정 상태의 사용자별 SR 목록 가져오기
 	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
 	    return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
+	}
+
+	//공지사항 조회
+	public List<NT001MT> getNotices() {
+		List<NT001MT> noticeList = nt001mtDao.selectNoticeAll();
+		return noticeList;
+	}
+
+	//공지사항 등록
+	public void saveNotice(NT001MT notice) {
+		nt001mtDao.insertNotice(notice);
 	}
 
 	

@@ -11,12 +11,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.birdie.srm.dto.MB001MT;
+import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.security.MemberDetails;
+import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.MyportalService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 public class MyportalController {
 	@Autowired
 	private MyportalService myPortalService;
+	@Autowired
+	private MemberService memberService;
 
 	// 나의 할 일 목록 보기
 	@GetMapping("mytask")
@@ -151,4 +157,30 @@ public class MyportalController {
 	    return ResponseEntity.ok(statusCounts);
 	}
 
+	
+	// 공지사항 조회
+	@GetMapping("/selectNotice")
+	public String noticeSelect(Model model) {
+		List<NT001MT> notices = myPortalService.getNotices();
+		model.addAttribute("notices", notices);
+		return "myportal/selectNotice";
+	}
+	// 공지사항 등록 폼
+	@GetMapping("/addNotice")
+    public String showAddNoticeForm() {
+        return "myportal/addNotice"; 
+    }
+	// 공지사항 등록
+	@PostMapping("/addNotice")
+    public String addNotice(NT001MT notice, Authentication authentication) {
+        if (authentication != null) {
+            MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+            if (memInfo != null) {
+                notice.setMemId(memInfo.getMemId());
+            }
+        }
+        myPortalService.saveNotice(notice);
+
+        return "redirect:/myportal/selectNotice";
+    }
 }

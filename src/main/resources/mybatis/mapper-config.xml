@@ -43,5 +43,8 @@
 		<!-- 검색 -->
 		<typeAlias type="com.birdie.srm.dto.SearchDto"
 				    alias="Search"/>
+		<!-- 공지사항 -->
+		<typeAlias type="com.birdie.srm.dto.NT001MT"
+				    alias="NT001MT"/>
 	</typeAliases>
 </configuration>

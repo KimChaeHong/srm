@@ -197,10 +197,15 @@ public class PrgController {
 	
 	// 자원 jsp호출
 	@PostMapping("/srHr")
-	public void loadSrHr(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception {
+	public void loadSrHr(String appSrId, HttpServletResponse response, HttpServletRequest request,
+			Authentication authentication) throws Exception {
 		// appSrId가 일치하는 자원 가져오기
 		List<SR001NT> hrList = srProgressService.getHrList(appSrId);
-		// response에 담을 jsp 경로 설정
+		if (authentication != null) {
+			MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+			request.setAttribute("memInfo", memInfo);
+		}
+		
 		String jspUrl = "/WEB-INF/views/prg/srHr.jsp";
 		request.setAttribute("appSrId", appSrId);
 		request.setAttribute("hrList", hrList);
@@ -212,10 +217,11 @@ public class PrgController {
 	// 자원 저장
 	@PostMapping("/updateHr")
 	public void updateHr(@RequestBody Map<String, Object> data, 
-			HttpServletResponse response) throws Exception  {
+			HttpServletResponse response, Authentication authentication) throws Exception  {
 		String appSrId = (String) data.get("appSrId");
 		// memId와 plnMd를 포함한 Map
 		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
+		String userId = authentication.getName();
 		
 		// SR001NT타입으로 각 정보들(appSrId, memId, plnMd) dto에 추가
 		List<SR001NT> hr = new ArrayList<>();
@@ -224,7 +230,8 @@ public class PrgController {
 	        srHr.setAppSrId(appSrId);
 	        srHr.setMemId((String) memInfo.get("memId"));
 	        srHr.setPlnMd((Integer) memInfo.get("plnMd"));
-
+	        srHr.setFirstInptId(userId);
+	        srHr.setLastInptId(userId);
 	        hr.add(srHr);
 		}
 		srProgressService.saveHrList(appSrId, hr);
