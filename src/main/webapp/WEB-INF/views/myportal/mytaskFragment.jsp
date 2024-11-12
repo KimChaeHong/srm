@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- 테이블 데이터 행 부분 -->
 <div>
@@ -17,9 +17,9 @@
 						<c:when test="${sr001mt.relSys == 'WORK'}">워크넷</c:when>
 						<c:otherwise>기타</c:otherwise>
 					</c:choose></td>
-				<td>등록자</td>
-				<td>소속</td>
-				<td>부서</td>
+				<td>${sr001mt.registerName}</td>
+				<td>${sr001mt.institutionName}</td>
+				<td>${sr001mt.departmentName}</td>
 				<td><c:choose>
 						<c:when test="${sr001mt.srStat == 'REGI'}">등록</c:when>
 						<c:when test="${sr001mt.srStat == 'REQT'}">요청</c:when>

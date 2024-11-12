@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const instSelect = document.getElementById('instId');
         const deptSelect = document.getElementById('deptId');
         
-        if (role === 'GUSR') {
+        if (role === 'ROLE_GUSR') {
             // GUSR 선택 시 기관 목록 가져오기
             instSelect.innerHTML = '<option selected>선택</option>';
             deptSelect.innerHTML = '<option selected>선택</option>';
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 })
                 .catch(error => console.error('Error fetching institutions:', error));
 
-        } else if (role === 'DEVE') {
+        } else if (role === 'ROLE_DEVE') {
             // 개발자 선택 시 고정된 기관 및 부서 설정
             instSelect.innerHTML = '<option value="OTI3" selected>OTI3</option>';
             deptSelect.innerHTML = `
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <option value="DEV2">개발 2팀</option>
             `;
 
-        } else if (role === 'ADMI') {
+        } else if (role === 'ROLE_ADMI') {
             // 관리자 선택 시 고정된 기관 및 부서 설정
             instSelect.innerHTML = '<option value="BD" selected>버디</option>';
             deptSelect.innerHTML = '<option value="MNG">관리 1팀</option>';

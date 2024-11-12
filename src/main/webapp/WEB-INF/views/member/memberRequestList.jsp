@@ -6,13 +6,12 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/member/memList.css" />
-	
+
 <!-- jQuery 라이브러리 추가 (CDN) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- JavaScript 파일 로드 -->
 <script src="${pageContext.request.contextPath}/resources/js/memList.js"></script>
-
 
 <!-- section -->
 <div id="section">
@@ -70,7 +69,7 @@
 	</div>
 	<!-- 회원목록 -->
 	<div id="member-list">
-		<h2 id="mem-list-title">회원 목록</h2>
+		<h2 id="mem-list-title">가입 요청 목록</h2>
 		<hr id="mem-list-hr">
 		<div id="table-container">
 			<table id="pg-table">
@@ -88,7 +87,7 @@
 					</tr>
 				</thead>
 				<tbody id="allmember">
-					<c:forEach items="${memberList}" var="mb001mt">
+					<c:forEach items="${memberRequestList}" var="mb001mt">
 						<tr>
 							<td class="col-1">${mb001mt.memNm}</td>
 							<td class="col-2">${mb001mt.memNo}</td>
@@ -101,8 +100,9 @@
 							<td class="col-8">${mb001mt.appYn}</td>
 							<td class="col-9">
 								<button class="detail-btn" data-id="${mb001mt.memId}"
-								data-bs-toggle="modal" id="detial-btn"
-									data-bs-target="#detail-modal">회원 상세</button>
+									data-bs-toggle="modal" data-bs-target="#detail-modal">
+									회원 상세
+								</button>
 							</td>
 						</tr>
 					</c:forEach>
@@ -141,7 +141,7 @@
 		</div>
 	</div>
 </div>
-<!-- Modal -->
+
 <div class="modal fade" id="detail-modal" data-bs-backdrop="static"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="detail-modalLabel" aria-hidden="true">
@@ -168,7 +168,7 @@
 										<label>아이디</label> <input type="text" id="mem-id"
 											name="mem-id" required>
 									</div>
-									<div class="input-div">
+									<div class="input-div">	
 										<label>사번</label> <input type="text" id="mem-no" name="mem-no"
 											required>
 									</div>
@@ -205,6 +205,7 @@
 		</div>
 	</div>
 </div>
+
 </div>
 </body>
 </html>

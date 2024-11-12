@@ -18,7 +18,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 			AuthenticationException exception) throws IOException, ServletException {
 
 		log.info("로그인 실패");
-		setDefaultFailureUrl("/member/loginform");
+		setDefaultFailureUrl("/");
 
 		super.onAuthenticationFailure(request, response, exception);
 	}

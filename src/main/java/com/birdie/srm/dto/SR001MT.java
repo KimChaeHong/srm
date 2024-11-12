@@ -28,9 +28,15 @@ public class SR001MT {
 	private String lastInptId;
 	private String revCmt;
 	
+	private String registerName; // 등록자 이름
+	private String institutionName; // 등록자 부서
+	private String departmentName; // 등록자 부서
+	
+	private String instId;
+	private String deptId; 
+	
 	private int rnum;
 	private String memNm;
-	private String instId;
 	private String instNm;
 	
 	private List<MultipartFile> attachment;
