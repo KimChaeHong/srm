@@ -35,25 +35,55 @@
 			<h2 id="h2-style">나의 할 일</h2>
 		</div>
 		<div class="tabs-container">
-			<ul class="nav nav-tabs">
-				<li class="nav-item"><a class="nav-link tb-tab active"
-					data-bs-toggle="tab" data-srstat="ALL">전체<span class="row-cnt"></span></a></li>
-				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" data-srstat="REGI">등록<span class="row-cnt"></span></a></li>
-				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" data-srstat="REQT">요청<span class="row-cnt"></span></a></li>
-				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" data-srstat="REJC">반려/재검토<span
-						class="row-cnt"></span></a></li>
-				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" data-srstat="RECE">접수<span class="row-cnt"></span></a></li>
-				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" data-srstat="DEVING">개발중<span
-						class="row-cnt"></span></a></li>
-				<li class="nav-item"><a class="nav-link tb-tab"
-					data-bs-toggle="tab" data-srstat="DEVDONE">개발완료<span
-						class="row-cnt"></span></a></li>
-			</ul>
+			<sec:authorize access="hasAnyRole('ROLE_GUSR', 'ROLE_ADMI')">
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link tb-tab active"
+						data-bs-toggle="tab" data-srstat="ALL">전체<span class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="REGI">등록<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="REQT">요청<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="REJC">반려/재검토<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="RECE">접수<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="DEVING">개발중<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="DEVDONE">개발완료<span
+							class="row-cnt"></span></a></li>
+				</ul>
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_DEVE')">
+				<ul class="nav nav-tabs">
+					<li class="nav-item"><a class="nav-link tb-tab active"
+						data-bs-toggle="tab" data-srstat="ALL">전체
+						<span class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="ANAL">분석<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="DESI">설계<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="IMPL">구현<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="TEST">시험<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="OPER">반영요청<span
+							class="row-cnt"></span></a></li>
+					<li class="nav-item"><a class="nav-link tb-tab"
+						data-bs-toggle="tab" data-srstat="REFL">운영반영<span
+							class="row-cnt"></span></a></li>
+				</ul>
+			</sec:authorize>
 		</div>
 
 <!-- section -->
