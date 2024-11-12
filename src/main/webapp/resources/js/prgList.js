@@ -350,17 +350,6 @@ $(document).ready(function(){
 
 
 
-/* 선택삭제 - 선택된 자원을 메인 테이블에서 제거 */
-/*$('#del-btn').on('click', function () {
-    // 체크된 행을 제거
-    $('#hr-table .form-check-input:checked').each(function () {
-        $(this).closest('tr').remove();
-    });
-
-    alert("선택된 자원이 삭제되었습니다!");
-});*/
-/* 선택삭제 - 선택된 자원을 메인 테이블에서 제거 */
-
 /*//자원 등록 버튼 클릭 시 선택한 자원 추가
 $(document).on('click', '.hr-modal-add-btn', function () {
     // 선택된 자원들의 memId, 이름, 역할을 배열로 저장

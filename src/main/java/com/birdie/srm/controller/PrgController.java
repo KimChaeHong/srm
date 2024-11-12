@@ -233,6 +233,9 @@ public class PrgController {
 		response.setContentType("text/plain; charset=UTF-8");
 	    response.getWriter().write("자원 정보가 성공적으로 저장되었습니다!");
 	}
+/*	// 자원 삭제
+	@PostMapping("/deleteHr")
+	public void deleteHr(@RequestBody Map<String, Object> )*/
 	
 	// 진척율 jsp호출
 	@PostMapping("/srRatio")
