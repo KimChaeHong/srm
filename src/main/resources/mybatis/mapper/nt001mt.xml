@@ -4,9 +4,9 @@
 
 	<!-- 공지사항 조회 -->
 	<select id="selectNoticeAll"  parameterType="NT001MT">
-		select NOTICE_ID, NOTICE_TITLE, MEM_ID, FIRST_INPT_DT
-		from TB_NT_001MT
-		order by NOTICE_ID asc
+		SELECT NOTICE_ID, NOTICE_TITLE, MEM_ID, FIRST_INPT_DT
+		FROM TB_NT_001MT
+		ORDER BY NOTICE_ID ASC
     </select>
     
     <!-- 공지사항 등록 -->
@@ -20,4 +20,36 @@
 	        #{firstInptId}, sysdate, #{firstInptId}, sysdate
 	    )
 	</insert>
+	
+	<!-- id로 해당 공지사항 정보 가져옴 -->
+	<select id="selectNotice" parameterType="int" resultType="NT001MT">
+	    SELECT 
+	        NOTICE_ID, 
+	        NOTICE_TITLE, 
+	        NOTICE_CONTENT, 
+	        FIRST_INPT_DT, 
+	        FIRST_INPT_ID
+	    FROM TB_NT_001MT
+	    WHERE NOTICE_ID = #{noticeId}
+	</select>
+	
+	<!-- 공지사항 업데이트  -->
+	<update id="updateNotice" parameterType="NT001MT">
+	    UPDATE TB_NT_001MT
+	    SET 
+	        NOTICE_TITLE = #{noticeTitle},
+	        NOTICE_CONTENT = #{noticeContent},
+	        LAST_INPT_ID = #{lastInptId}, 
+	        LAST_INPT_DT = sysdate
+	    WHERE NOTICE_ID = #{noticeId}
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM TB_NT_001MT
+		WHERE NOTICE_ID = #{noticeId}
+	</delete>
+	
+	
+	
 </mapper>

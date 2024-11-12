@@ -78,15 +78,31 @@ public class MyportalService {
 	    return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
 	}
 
-	//공지사항 조회
+	// 공지사항 조회
 	public List<NT001MT> getNotices() {
 		List<NT001MT> noticeList = nt001mtDao.selectNoticeAll();
 		return noticeList;
 	}
 
-	//공지사항 등록
+	// 공지사항 등록
 	public void saveNotice(NT001MT notice) {
 		nt001mtDao.insertNotice(notice);
+	}
+	
+	// id로 공지사항 정보 가져옴
+	public NT001MT getNotice(int noticeId) {
+		nt001mtDao.selectNotice(noticeId);
+		return null;
+	}
+	
+	// 공지사항 수정
+	public void updateNotice(NT001MT noticeDto) {
+		nt001mtDao.updateNotice(noticeDto);
+	}
+	
+	// 공지사항 삭제
+	public void deleteNotice(int noticeId) {
+		nt001mtDao.deleteNotice(noticeId);
 	}
 
 	

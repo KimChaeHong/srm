@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -160,17 +161,23 @@ public class MyportalController {
 	
 	// 공지사항 조회
 	@GetMapping("/selectNotice")
-	public String noticeSelect(Model model) {
+	public String noticeSelect(Model model, Authentication authentication) {
 		List<NT001MT> notices = myPortalService.getNotices();
+		if (authentication != null) {
+			MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+			if (memInfo != null) {
+	            model.addAttribute("memRole1", memInfo.getRole1());
+	        }
+		}
 		model.addAttribute("notices", notices);
 		return "myportal/selectNotice";
 	}
-	// 공지사항 등록 폼
+	// 공지사항 등록 폼 get
 	@GetMapping("/addNotice")
-    public String showAddNoticeForm() {
+    public String addNoticeForm() {
         return "myportal/addNotice"; 
     }
-	// 공지사항 등록
+	// 공지사항 등록 post
 	@PostMapping("/addNotice")
     public String addNotice(NT001MT notice, Authentication authentication) {
         if (authentication != null) {
@@ -183,4 +190,41 @@ public class MyportalController {
 
         return "redirect:/myportal/selectNotice";
     }
+	// 공지사항 수정 폼
+	@GetMapping("/noticeDetail/{noticeId}")
+	public String updateNoticeForm(@PathVariable("noticeId") int noticeId, Model model) {
+	    NT001MT noticeDto = myPortalService.getNotice(noticeId);
+	    model.addAttribute("noticeDto", noticeDto);
+	    return "myportal/addNotice"; 
+	}
+
+
+	/*// 공지사항 수정 폼
+	@GetMapping("/noticeDetail")
+	public String updateNoticeForm(int noticeId, Model model) {
+	    NT001MT noticeDto = myPortalService.getNotice(noticeId);
+	    model.addAttribute("noticeDto", noticeDto);
+	    return "myportal/addNotice"; 
+	}*/
+	
+	// 공지사항 수정
+	@PostMapping("/updateNotice")
+	public String updateNotice(NT001MT noticeDto, Authentication authentication) {
+	    if (authentication != null) {
+	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+	        if (memInfo != null) {
+	        	noticeDto.setLastInptId(memInfo.getMemId());
+	        }
+	    }
+	    myPortalService.updateNotice(noticeDto);
+	    return "redirect:/myportal/selectNotice"; 
+	}
+	
+	//공지사항 삭제
+	@PostMapping("/deleteNotice")
+	public String deleteNotice(int noticeId) {
+		myPortalService.deleteNotice(noticeId);
+		return "redirect:/admin/selectNotice";
+	}
+	
 }

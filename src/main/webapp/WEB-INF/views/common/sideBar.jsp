@@ -80,7 +80,7 @@
 				aria-disabled="true">게시판</a>
 			<hr class="navbar-vertical-divider" id="sr-hr">
 		</div>
-		<a class="side-nav-link" id="sr-request" href="#"> <i id="chart"
+		<a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/myportal/selectNotice"> <i id="chart"
 			class="bi bi-book-half"></i>공지사항 <i id="chevron"
 			class="bi bi-chevron-right"></i>
 		</a>
