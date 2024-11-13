@@ -175,6 +175,7 @@ public class MyportalController {
 	// 공지사항 등록 폼 get
 	@GetMapping("/addNotice")
     public String addNoticeForm() {
+		log.info("등록 폼 불러오기");
         return "myportal/addNotice"; 
     }
 	// 공지사항 등록 post
@@ -187,9 +188,10 @@ public class MyportalController {
             }
         }
         myPortalService.saveNotice(notice);
-
+        log.info("공지 등록----------------");
         return "redirect:/myportal/selectNotice";
     }
+	
 	// 공지사항 수정 폼
 	@GetMapping("/noticeDetail/{noticeId}")
 	public String updateNoticeForm(@PathVariable("noticeId") int noticeId, Model model) {
@@ -197,16 +199,6 @@ public class MyportalController {
 	    model.addAttribute("noticeDto", noticeDto);
 	    return "myportal/addNotice"; 
 	}
-
-
-	/*// 공지사항 수정 폼
-	@GetMapping("/noticeDetail")
-	public String updateNoticeForm(int noticeId, Model model) {
-	    NT001MT noticeDto = myPortalService.getNotice(noticeId);
-	    model.addAttribute("noticeDto", noticeDto);
-	    return "myportal/addNotice"; 
-	}*/
-	
 	// 공지사항 수정
 	@PostMapping("/updateNotice")
 	public String updateNotice(NT001MT noticeDto, Authentication authentication) {
@@ -220,11 +212,21 @@ public class MyportalController {
 	    return "redirect:/myportal/selectNotice"; 
 	}
 	
-	//공지사항 삭제
-	@PostMapping("/deleteNotice")
-	public String deleteNotice(int noticeId) {
-		myPortalService.deleteNotice(noticeId);
-		return "redirect:/admin/selectNotice";
+	// 공지사항 삭제
+	@PostMapping("/deleteNotice/{noticeId}")
+	public String deleteNotice(@PathVariable("noticeId") int noticeId) {
+	    myPortalService.deleteNotice(noticeId);
+	    log.info("공지사항 삭제 -------------");
+	    return "redirect:/myportal/selectNotice";
 	}
+	// 공지사항 상세 조회
+	@GetMapping("detailNotice/{noticeId}")
+	public String detailNotice(@PathVariable("noticeId") int noticeId, Model model) {
+	    NT001MT notice = myPortalService.getNotice(noticeId);
+	    model.addAttribute("notice", notice);
+	    
+	    return "myportal/detailNotice";
+	}
+
 	
 }

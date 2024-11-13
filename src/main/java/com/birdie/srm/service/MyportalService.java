@@ -13,7 +13,10 @@ import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MyportalService {
 
 	@Autowired
@@ -91,8 +94,9 @@ public class MyportalService {
 	
 	// id로 공지사항 정보 가져옴
 	public NT001MT getNotice(int noticeId) {
-		nt001mtDao.selectNotice(noticeId);
-		return null;
+		NT001MT noticeDto = nt001mtDao.selectNotice(noticeId);
+		log.info("서비스 호출");
+		return noticeDto;
 	}
 	
 	// 공지사항 수정

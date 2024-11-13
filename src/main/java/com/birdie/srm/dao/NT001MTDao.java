@@ -15,7 +15,7 @@ public interface NT001MTDao {
 	public void insertNotice(NT001MT notice);
 	
 	// id로 공지사항 정보 가져옴
-	public int selectNotice(int noticeId);
+	public NT001MT selectNotice(int noticeId);
 
 	// 공지사항 업데이트
 	public int updateNotice(NT001MT noticeDto);

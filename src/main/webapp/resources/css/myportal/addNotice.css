@@ -45,20 +45,36 @@ body {
 }
 
 .btn-register {
-    height: 25px;
-    cursor: pointer;
+    height: 27px;
     font-size: 12px;
     color: #4D5969;
     background-color: white;
     border: 1px solid #DCDCE1;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
+    text-decoration: none;
+    padding: 5px 15px;
 }
 
 .btn-register:hover {
     background-color: #f2f2f2;
 }
+.btn-list {
+    height: 27px;
+    font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 5px 15px;
+    margin-right: 10px; /* 등록/수정 버튼과 간격 조정 */
+}
 
+.btn-list:hover {
+    background-color: #f2f2f2;
+}
 h2 {
     font-size: 18px;
     font-weight: bold;
@@ -135,19 +151,19 @@ textarea.form-control {
 }
 
 .btn-submit {
-    background-color: white;
+    height: 27px;
+    width: 80px;
+    font-size: 12px;
     color: #4D5969;
-    border: none;
-    padding: 7px 15px;
-    font-size: 15px;
-    font-weight: bold;
+    background-color: white;
     border: 1px solid #DCDCE1;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
-    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 15px;
     
 }
 
 .btn-submit:hover {
-    background-color: #c3e6cb;
+    background-color: #f2f2f2;
 }
