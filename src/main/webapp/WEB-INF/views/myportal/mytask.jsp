@@ -162,26 +162,28 @@
 	</div>
 
 	<!-- sr 일정 달력 -->
-	<div id="calendar-container" class="">
-		<div class="task-line">
-			<h2 class="h2-style">Calendar</h2>
-		</div>
+	<div id="calendar-container">
 		<div class="d-flex">
 			<div id="calendar-box">
 				<div id="calendar"></div>
 			</div>
-			<div>
+			<div id="progress">
 				<div>
 					<h2 id="process-title">현재 진행중인 SR</h2>
 				</div>
 				<div id="task-processbar">
-					<div class="progressbar-container">
-						<progressbar v-for="(item, index) in items" :key="index"
-							:target="item.value" :border-color="item.color">
-						<div class="progress-value" slot-scope="props">
-							<span class="lang">{{ item.key }}</span> <span>{{
-								item.value }}%</span>
-						</div>
+					<div class="progressbar-container overflow-auto">
+						<progressbar
+						    v-for="(item, index) in items"
+						    :key="index"
+						    :target="item.value"
+						    :border-color="item.color"
+						    :start-date="item.startDate"
+						    :end-date="item.endDate">
+						    <div class="progress-value" slot-scope="props">
+						        <span class="lang">{{ item.key }}</span>
+						        <span>{{ item.value }}%</span>
+						    </div>
 						</progressbar>
 					</div>
 				</div>
