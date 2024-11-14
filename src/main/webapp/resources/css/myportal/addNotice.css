@@ -1,0 +1,169 @@
+/* 공통 스타일 */
+body {
+    background-color: #EDF2F9;
+    margin: 0;
+    padding: 0;
+}
+
+/* 메인 콘텐츠 영역 */
+#main-content {
+    display: flex;
+    width: 1534px; /* 고정 너비 */
+    margin: 10px auto 0; /* 중앙 정렬 */
+    align-items: flex-start;
+}
+
+/* 섹션 스타일 */
+#section {
+    width: 1270px;
+    height: 480px;
+    margin-left: 44px;
+    background-color: white;
+    box-shadow: 4px 4px 10px rgba(190, 190, 190, 0.5);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 상단 정렬로 변경 */
+    padding-top: 20px; /* 상단 여백 추가 */
+}
+
+/* SR 목록 스타일 */
+#container {
+    width: 100%;
+    height: 400px;
+    padding: 15px 20px;
+    position: relative;
+}
+
+/* 제목 스타일 */
+.line {
+    display: flex;
+    justify-content: space-between; /* 제목과 버튼을 양쪽 끝으로 배치 */
+    align-items: center;
+    border-bottom: 2px solid #EBEBEB;
+    padding-bottom: 10px;
+}
+
+.btn-register {
+    height: 27px;
+    font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 5px 15px;
+}
+
+.btn-register:hover {
+    background-color: #f2f2f2;
+}
+.btn-list {
+    height: 27px;
+    font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 5px 15px;
+    margin-right: 10px; /* 등록/수정 버튼과 간격 조정 */
+}
+
+.btn-list:hover {
+    background-color: #f2f2f2;
+}
+h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#h2-style {
+    margin: 0 0 0 1px;
+}
+
+/* 공지사항 등록/수정 폼 스타일 */
+.notice-container {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.notice-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #EBEBEB;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.notice-body {
+    padding: 10px 0;
+}
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.form-table th {
+    width: 10%; /* 너비를 줄여서 간격 조정 */
+    font-weight: bold;
+    text-align: left;
+    padding: 5px 10px; /* 좌우 간격을 조금 더 좁힘 */
+    vertical-align: top;
+}
+
+.form-table td {
+    padding: 5px 10px; /* 좌우 간격을 조금 더 좁힘 */
+    position: relative;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea.form-control {
+    resize: none;
+}
+
+.char-count {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 12px;
+    color: #888;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 15px;
+}
+
+.btn-submit {
+    height: 27px;
+    width: 80px;
+    font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 5px 15px;
+    
+}
+
+.btn-submit:hover {
+    background-color: #f2f2f2;
+}

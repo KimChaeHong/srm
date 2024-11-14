@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.NT001MTDao">
+
+	<!-- 공지사항 조회 -->
+	<select id="selectNoticeAll"  parameterType="NT001MT">
+		SELECT NOTICE_ID, NOTICE_TITLE, MEM_ID, FIRST_INPT_DT
+		FROM TB_NT_001MT
+		ORDER BY NOTICE_ID ASC
+    </select>
+    
+    <!-- 공지사항 등록 -->
+    <insert id="insertNotice" parameterType="NT001MT">
+	    INSERT INTO TB_NT_001MT (
+	        NOTICE_ID, NOTICE_TITLE, NOTICE_CONTENT, MEM_ID, DELT_YN, FIRST_INPT_ID, 
+	        FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
+	    )
+	    VALUES (
+	        NOTICE_SEQ.NEXTVAL, #{noticeTitle}, #{noticeContent}, #{memId}, 'N', 
+	        #{firstInptId}, sysdate, #{firstInptId}, sysdate
+	    )
+	</insert>
+	
+	<!-- id로 해당 공지사항 정보 가져옴 -->
+	<select id="selectNotice" parameterType="int" resultType="NT001MT">
+	    SELECT 
+	        NOTICE_ID, 
+	        NOTICE_TITLE, 
+	        NOTICE_CONTENT, 
+	        FIRST_INPT_DT, 
+	        FIRST_INPT_ID
+	    FROM TB_NT_001MT
+	    WHERE NOTICE_ID = #{noticeId}
+	</select>
+	
+	<!-- 공지사항 업데이트  -->
+	<update id="updateNotice" parameterType="NT001MT">
+	    UPDATE TB_NT_001MT
+	    SET 
+	        NOTICE_TITLE = #{noticeTitle},
+	        NOTICE_CONTENT = #{noticeContent},
+	        LAST_INPT_ID = #{lastInptId}, 
+	        LAST_INPT_DT = sysdate
+	    WHERE NOTICE_ID = #{noticeId}
+	</update>
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM TB_NT_001MT
+		WHERE NOTICE_ID = #{noticeId}
+	</delete>
+	
+	
+	
+</mapper>

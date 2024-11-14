@@ -1,0 +1,187 @@
+/* 공통 스타일 */
+body {
+    background-color: #EDF2F9;
+    margin: 0;
+    padding: 0;
+}
+
+/* 메인 콘텐츠 영역 */
+#main-content {
+    display: flex;
+    width: 1534px; /* 고정 너비 */
+    margin: 10px auto 0; /* 중앙 정렬 */
+    align-items: flex-start;
+}
+
+/* 섹션 스타일 */
+#section {
+    width: 1270px;
+    height: 700px; /* 높이 줄이기 */
+    margin-left: 44px;
+    background-color: white;
+    box-shadow: 4px 4px 10px rgba(190, 190, 190, 0.5);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 상단에 정렬 */
+    padding-top: 20px;
+}
+
+/* SR 목록 스타일 */
+#container {
+    width: 100%;
+    height: 500px; /* 높이 줄이기 */
+    padding: 15px 20px;
+    position: relative;
+}
+
+/* 제목 스타일 */
+.line {
+    display: flex;
+    justify-content: space-between; /* 제목과 버튼을 양쪽 끝으로 배치 */
+    align-items: center;
+    border-bottom: 2px solid #EBEBEB;
+    padding-bottom: 10px;
+}
+
+.btn-register {
+    height: 27px;
+    width: 110px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-register:hover {
+    background-color: #f2f2f2;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#h2-style {
+    margin: 0 0 0 1px;
+}
+
+/* 공지사항 테이블 스타일 */
+.notice-container {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+}
+
+/* 테이블 스타일 */
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px 10px 0 0;
+}
+
+/* 테이블 헤더와 셀 스타일 */
+.notice-table th,
+.notice-table td {
+    padding: 12px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.notice-table th {
+    background-color: #f8f9fc;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 마지막 행에 대한 스타일 */
+.notice-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 작업 버튼을 위아래로 배치하고, 그 div를 가로로 가운데 정렬 */
+.action-buttons {
+    display: flex;
+    flex-direction: column; /* 버튼을 세로로 배치 */
+    align-items: center;
+    gap: 5px; /* 버튼 간의 간격 */
+}
+
+/* 작업 버튼 스타일 */
+.btn-edit, .btn-delete {
+    height: 25px;
+    font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 0 15px; /* 버튼의 가로 크기 조정 */
+}
+
+.btn-edit:hover, .btn-delete:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* 테이블 본문에 스크롤 추가 */
+.table-body {
+    max-height: 500px; /* 테이블의 최대 높이 */
+    overflow-y: auto;
+}
+/* 행 클릭 시 커서 변경 */
+.clickable-row {
+    cursor: pointer;
+    
+}
+.clickable-row:hover {
+    cursor: pointer;
+    background-color: #f2f2f2;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 20px 0;
+}
+
+.page-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #dcdce1;
+    color: #555;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+.page-link:hover {
+    background-color: #f0f0f0;
+}
+
+.page-link.active {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    pointer-events: none;
+}

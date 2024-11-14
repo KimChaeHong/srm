@@ -72,6 +72,7 @@
 	</div>
 
 	<div class="form-group">
+
 		<label for="status">접수 상태</label> <select id="status"
 			class="form-select" name="rcpStat">
 			<option value="DECE" ${srPlan.rcpStat == 'DECE' ? 'selected' : ''}>접수</option>
