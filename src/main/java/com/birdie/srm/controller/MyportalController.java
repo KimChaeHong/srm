@@ -152,6 +152,7 @@ public class MyportalController {
 	// 날짜 포메팅 메서드
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+	// FullCalendar 데이터 받아오기
 	@ResponseBody
 	@GetMapping("/getEventDate")
 	public List<Map<String, Object>> getEventDate(Authentication authentication) {
@@ -168,7 +169,8 @@ public class MyportalController {
 			return map;
 		}).collect(Collectors.toList());
 	}
-
+	
+	//ProcessBar 데이터 받아오기
 	@ResponseBody
 	@GetMapping("/getProcessBarData")
 	public List<Map<String, Object>> getProcessBarData(Authentication authentication) {
@@ -182,6 +184,8 @@ public class MyportalController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("key", data.getSrTitle()); // 작업 이름
 			map.put("value", data.getPrg()); // 진행률
+	        map.put("startDate", data.getTrgStDt() != null ? sdf.format(data.getTrgStDt()) : ""); // 시작일
+	        map.put("endDate", data.getTrgEndDt() != null ? sdf.format(data.getTrgEndDt()) : ""); // 마감일
 			return map;
 		}).collect(Collectors.toList());
 	}

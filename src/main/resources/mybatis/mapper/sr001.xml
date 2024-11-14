@@ -135,7 +135,7 @@
 	<update id="updateSr" parameterType="SR001MT">
 		update TB_SR_001MT
 		set LAST_INPT_DT = sysdate,
-			LAST_INT_ID = #{lastInptId},
+			LAST_INPT_ID = #{lastInptId},
 			DUE_DT = #{dueDt},
 			SR_TITLE = #{srTitle},
 			REL_SYS = #{relSys},
