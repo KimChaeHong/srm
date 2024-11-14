@@ -147,15 +147,6 @@ public class MyportalService {
 		}
 		return processBarDataList;
 	}
-<<<<<<< HEAD
-=======
-	
-	
-	
-	
-	
-	
-	
 
 	// 공지사항 조회
 	public List<NT001MT> getNotices() {
@@ -185,8 +176,5 @@ public class MyportalService {
 		nt001mtDao.deleteNotice(noticeId);
 	}
 
-	
-	
->>>>>>> branch 'master' of https://github.com/KimChaeHong/srm.git
 
 }
