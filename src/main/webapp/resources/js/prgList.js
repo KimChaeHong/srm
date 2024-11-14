@@ -347,84 +347,14 @@ $(document).ready(function(){
 	});
 	
 });
-
-
-
-/*//자원 등록 버튼 클릭 시 선택한 자원 추가
-$(document).on('click', '.hr-modal-add-btn', function () {
-    // 선택된 자원들의 memId, 이름, 역할을 배열로 저장
-    let selectedResources = [];
-
-    $('#hr-modal-results-tbody .form-check-input:checked').each(function () {
-        const memId = $(this).val();
-        const memNm = $(this).closest('tr').find('.col-4').text().trim(); // 이름 가져오기
-        const role1 = $(this).closest('tr').find('.col-3').text().trim(); // 역할 가져오기
-        selectedResources.push({ memId: memId, memNm: memNm, role1: role1 });
-    });
-
-    let currentRowCount = $('#hr-table tbody tr').length;
-    // 선택한 자원을 메인 테이블에 추가
-    selectedResources.forEach(resource => {
-    	currentRowCount++;
-        $('#hr-table tbody').append(`
-            <tr>
-                <td class="hr-col-1">${currentRowCount}</td>
-                <td class="hr-col-2">
-                    <input class="form-check-input" type="checkbox" value="${resource.memId}">
-                </td>
-                <td class="hr-col-3">${resource.memNm}</td>
-                <td class="hr-col-4">${resource.role1}</td>
-                <td class="hr-col-5">
-                    <input type="number" name="plnMd" value="0" class="pln" min="0">
-                </td>
-                <td class="hr-col-6"></td>
-                <td class="hr-col-7">
-                    <i class="bi bi-journal"></i>
-                </td>
-            </tr>
-        `);
-    });
-
-    // 모달 닫기
-    $('#hr-modal').modal('hide');
-});
-
-
-자원 저장
-$('#save-btn').on('click', function (e) {
-	console.log("저장ㅂ ㅓ튼 클릭됨")
-	e.preventDefault();
-    const appSrId = $('#appSrId').val(); // 자원정보탭의 appSrId 값
-    let arr = [];
-
-    // 선택한 자원의 memId와 계획공수를 배열에 추가
-    $('#hr-table .form-check-input:checked').each(function () {
-        const memId = $(this).val();
-        const plnMd = $(this).closest('tr').find('.pln').val(); // 계획공수 값을 가져옴 (input 요소의 클래스에 'pln-input' 사용)
-        
-        arr.push({
-            memId: memId,
-            plnMd: parseInt(plnMd, 10) || 0 // 계획공수를 정수로 변환하며 값이 없으면 0으로 설정
-        });
-    });
-
-    const data = {
-        appSrId: appSrId,
-        memInfo : arr
-    };
-
-    // JSON
-    $.ajax({
-        url: '/srm/prg/updateHr',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function (response) {
-            alert("자원 정보가 저장되었습니다!");
-        },
-        error: function () {
-            alert("자원 정보 저장에 실패했습니다.");
-        }
+// 검색 조건 초기화
+$(document).ready(function() {
+    // 초기화 버튼 클릭 이벤트
+    $('#reset-btn').on('click', function(event) {
+        event.preventDefault();
+        $('#search-box input[type="text"]').val('');
+        $('#search-box input[type="date"]').val('');
+        $('#search-box select').prop('selectedIndex', 0);	//셀렉트 박스 첫 번째 옵션 선택함
     });
 });
-*/
+

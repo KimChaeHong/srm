@@ -440,3 +440,13 @@ th {
 #table-container::-webkit-scrollbar-track {
     background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
 }
+#reset-btn{
+	font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    width: 63px;
+    height: 28px;
+}

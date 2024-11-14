@@ -46,6 +46,7 @@
 				                       	</c:forEach>		
 	                               </select>
 	                           </li>
+	                           <button type="button" id="reset-btn" onclick="resetForm()">초기화</button>
 	                       </ul>
 	                   </div>
 	                   <div class="searchBox2">
