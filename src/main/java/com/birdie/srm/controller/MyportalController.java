@@ -114,47 +114,6 @@ public class MyportalController {
 	}
 	
 	// 관리자의 나의 할 일 상태 별로 가져오기 (AJAX 요청)
-	@GetMapping("/adminFragment")
-	public String getAdminSrListByStatus(
-			Authentication authentication, 
-			@RequestParam("srStat") String srStat,
-			@RequestParam(defaultValue = "1") int pageNo, 
-			@RequestParam(required = false) Integer rowsPerPage,
-			Model model,
-			HttpSession session) {
-
-		// 로그인한 사용자 아이디 가져오기
-		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-		String memberInfo = memberDetails.getUsername();
-
-		// 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
-		if (rowsPerPage == null) {
-			rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
-			if (rowsPerPage == null) {
-				rowsPerPage = 16; // 기본값 설정
-			}
-		} else {
-			session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
-		}
-
-		int totalRows;
-		List<SR002MT> appSrList;
-		PagerDto pager;
-
-		if ("ALL".equals(srStat)) { // 전체 목록 조회
-			totalRows = myPortalService.getAppTotalRowsByUser(memberInfo);
-			pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-			appSrList = myPortalService.getAppSrListByUser(memberInfo, pager);
-		} else { // 특정 상태 조회
-			totalRows = myPortalService.getAppTotalRowsByStatusAndUser(srStat, memberInfo);
-			pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-			appSrList = myPortalService.getAppSrListByStatusAndUser(pager, srStat, memberInfo);
-		}
-		session.setAttribute("pager", pager);
-		model.addAttribute("appSrList", appSrList);
-
-		return "myportal/admintaskFragment";
-	}
 	
 	
 	//개발자의 나의 할 일 가져오기
