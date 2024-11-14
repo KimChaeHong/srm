@@ -48,10 +48,13 @@
         </table>
         
     </div>
-    <div class="btn-container">
-        <button id="add-btn" class="btn srpg-btn" data-bs-toggle="modal" 
-        	data-bs-target="#hr-modal" type="button">추가</button>
-        <button id="del-btn" class="btn srpg-btn" type="button">선택삭제</button>
-        <button id="save-btn" class="btn srpg-btn" type="button">저장</button>
-    </div>
+    <c:if test="${memInfo != null && memInfo.role2 == 'LEAD' }">
+    	<div class="btn-container">
+	        <button id="add-btn" class="btn srpg-btn" data-bs-toggle="modal" 
+	        	data-bs-target="#hr-modal" type="button">추가</button>
+	        <button id="del-btn" class="btn srpg-btn" type="button">선택삭제</button>
+	        <button id="save-btn" class="btn srpg-btn" type="button">저장</button>
+	    </div>
+    </c:if>
+    
 </form>

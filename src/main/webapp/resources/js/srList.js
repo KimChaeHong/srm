@@ -77,7 +77,7 @@ $(document).ready(function() {
             confirmButtonColor: '#d33',
             cancelButtonColor: '#D9D9D9',
             confirmButtonText: '삭제',
-            cancelButtonText: '취소'
+            cancelButtonText: '취소',
         }).then(result => {
             if (result.isConfirmed) {
                 $('#detail-form').attr('action', 'srDelete').submit();

@@ -8,21 +8,25 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.birdie.srm.dao.NT001MTDao;
 import com.birdie.srm.dao.SR001MTDao;
 import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.MB001MT;
+import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
+@Slf4j
 public class MyportalService {
 
 	@Autowired
 	private SR001MTDao sr001mtDao;
+	@Autowired
+	private NT001MTDao nt001mtDao;
 
 	@Autowired
 	private SR002MTDao sr002mtDao;
@@ -143,5 +147,46 @@ public class MyportalService {
 		}
 		return processBarDataList;
 	}
+<<<<<<< HEAD
+=======
+	
+	
+	
+	
+	
+	
+	
+
+	// 공지사항 조회
+	public List<NT001MT> getNotices() {
+		List<NT001MT> noticeList = nt001mtDao.selectNoticeAll();
+		return noticeList;
+	}
+
+	// 공지사항 등록
+	public void saveNotice(NT001MT notice) {
+		nt001mtDao.insertNotice(notice);
+	}
+	
+	// id로 공지사항 정보 가져옴
+	public NT001MT getNotice(int noticeId) {
+		NT001MT noticeDto = nt001mtDao.selectNotice(noticeId);
+		log.info("서비스 호출");
+		return noticeDto;
+	}
+	
+	// 공지사항 수정
+	public void updateNotice(NT001MT noticeDto) {
+		nt001mtDao.updateNotice(noticeDto);
+	}
+	
+	// 공지사항 삭제
+	public void deleteNotice(int noticeId) {
+		nt001mtDao.deleteNotice(noticeId);
+	}
+
+	
+	
+>>>>>>> branch 'master' of https://github.com/KimChaeHong/srm.git
 
 }

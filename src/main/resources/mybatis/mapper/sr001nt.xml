@@ -21,14 +21,20 @@
 	<!-- 자원  업데이트 -->
 	<update id="updateHr" parameterType="SR001NT">
 	    UPDATE TB_SR_001NT
-	    SET PLN_MD = #{plnMd}
+	    SET PLN_MD = #{plnMd},
+	    	LAST_INPT_DT = sysdate,
+			LAST_INPT_ID = #{lastInptId}
 	    WHERE APP_SR_ID = #{appSrId} AND MEM_ID = #{memId}
 	</update>
 	
 	<!-- 자원 추가 -->
 	<insert id="insertHr" parameterType="SR001NT">
-	    INSERT INTO TB_SR_001NT (APP_SR_ID, MEM_ID, PLN_MD)
-	    VALUES (#{appSrId}, #{memId}, #{plnMd})
+	    INSERT INTO TB_SR_001NT (
+	    	APP_SR_ID, MEM_ID, PLN_MD, DELT_YN, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
+	    )
+	    VALUES (
+	    	#{appSrId}, #{memId}, #{plnMd}, 'N', #{firstInptId}, sysdate, #{firstInptId}, sysdate
+	    )
 	</insert>
 	
 	<!-- 자원 삭제 -->
