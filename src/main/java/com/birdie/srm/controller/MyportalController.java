@@ -25,7 +25,6 @@ import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
-import com.birdie.srm.service.MemberService;
 import com.birdie.srm.security.MemberDetails;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.MyportalService;
