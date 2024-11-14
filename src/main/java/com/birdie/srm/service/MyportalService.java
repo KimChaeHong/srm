@@ -10,16 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.birdie.srm.dao.NT001MTDao;
 import com.birdie.srm.dao.SR001MTDao;
-import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dao.SR002MTDao;
 import com.birdie.srm.dto.MB001MT;
+import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @Slf4j
 public class MyportalService {
