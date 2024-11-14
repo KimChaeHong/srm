@@ -88,8 +88,16 @@ h2{
     font-weight: bold;
     margin-bottom: 10px;
 }
-#h2-style {
+.h2-style {
     margin-left: 15px;
+}
+
+#process-title {
+	font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-left: 15px;
+    margin-top: 30px;
 }
 
 /* --------------탭------------- */
@@ -217,4 +225,242 @@ tbody td {
 /* 모달 */
 .modal-header{
 	justify-content: space-between;
+}
+
+/* 달력 CSS */
+#calendar-container {
+	width: 850px;
+    height: 400px;
+    margin-left: 44px;
+    margin-top: 23px;
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: white;
+    margin-bottom: 50px;
+}
+
+#calendar-box {
+	width: 400px;
+	padding-top: 20px;
+}
+
+
+#calendar {
+	width: 350px;
+	height: 350px;
+	margin: 0px auto;
+}
+
+.fc {
+    overflow: hidden; /* 캘린더 전체에서 스크롤 제거 */
+    height: auto; /* 부모 크기에 맞춤 */
+}
+
+.fc-view-container {
+    overflow: hidden; /* 내부 스크롤 제거 */
+}
+
+.fc-scroller {
+    overflow: hidden !important; /* 강제로 스크롤바 제거 */
+    height: auto !important; /* 자동 높이 설정 */
+}
+
+.fc-col-header {
+	margin-bottom: 0px !important;
+}
+
+/* 툴바 높이 조정 */
+.fc-header-toolbar {
+    height: 50px; /* 툴바 높이 설정 */
+    font-size: 14px; /* 툴바 텍스트 크기 설정 */
+    padding: 5px; /* 툴바 내부 여백 */
+}
+
+
+/* 이벤트의 시작 부분 */
+.fc-event.fc-event-start {
+    border-top-left-radius: 20px !important; /* 좌측 상단 둥글게 */
+    border-bottom-left-radius: 20px !important; /* 좌측 하단 둥글게 */
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start, .fc-direction-rtl .fc-daygrid-event.fc-event-end {
+    margin-left: 0px !important;
+}
+
+/* 이벤트의 끝 부분 */
+.fc-event.fc-event-end {
+    border-top-right-radius: 20px !important; /* 우측 상단 둥글게 */
+    border-bottom-right-radius: 20px !important; /* 우측 하단 둥글게 */
+}
+
+
+.fc-daygrid-event {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.fc-daygrid-event:nth-child(2) {
+    top: 22px; /* 두 번째 이벤트를 아래로 이동 */
+}
+
+.fc-daygrid-day-top {
+    width: 100%; /* 전체 너비 사용 */
+    display: flex; /* Flexbox를 사용 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    padding: 0; /* 패딩 제거 */
+    height: auto; /* 높이 자동 조절 */
+    pointer-events: none; /* 클릭 불가능하도록 설정 */
+    position: absolute; /* 위치 조정 */
+    top: 0; /* 상단 정렬 */
+    left: 0; /* 좌측 정렬 */
+    right: 0; /* 우측 정렬 */
+}
+
+.fc .fc-daygrid-day-number {
+    text-align: center; /* 가운데 정렬 */
+    padding: 0; /* 패딩 제거 */
+    margin: 0 auto; /* 자동 마진으로 중앙 정렬 */
+    display: block; /* 블록 레벨 요소로 변경 */
+    width: 100%; /* 전체 너비 */
+}
+
+
+.fc-daygrid-event {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%; /* 이벤트 기본 너비 */
+    height: 28px;
+}
+
+/* 이벤트가 겹치도록 설정 */
+.fc-daygrid-event-harness {
+    position: relative;
+}
+
+.fc-daygrid-day-frame {
+    width: 100%; /* 전체 너비 사용 */
+    height: 100%; /* 전체 너비 사용 */
+    display: flex; /* Flexbox를 사용 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    position: relative; /* 위치 조정 */
+	vertical-align: middle;
+}
+
+.fc-daygrid-day-top {
+    width: 100%; /* 전체 너비 사용 */
+    display: flex; /* Flexbox를 사용 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    padding: 0; /* 모든 패딩 제거 */
+    margin-top: 10px;
+    position: absolute; /* 위치 조정 */
+    top: 0; /* 상단 정렬 */
+    left: 0; /* 좌측 정렬 */
+    right: 0; /* 우측 정렬 */
+    z-index: 1; /* 다른 요소 위에 표시 */
+}
+
+.fc-daygrid-day-events {
+    width: 100%; /* 이벤트 너비 전체로 설정 */
+    position: absolute; /* 절대 위치 설정 */
+    top: -6%; /* 상위 요소 바로 아래에 위치 */
+    left: 0; /* 좌측 정렬 */
+    right: 0; /* 우측 정렬 */
+    z-index: 0; /* 날짜보다 아래에 표시 */
+    padding-bottom: 20px;
+    margin-bottom: :20px;
+}
+
+/* 오늘 날짜의 스타일 */
+.today-circle {
+    border-radius: 50% !important; /* 동그라미 모양 */
+    background-color: blue !important; /* 배경색 */
+    color: white !important; /* 글자색 */
+    text-align: center !important; /* 텍스트 정렬 */
+    width: 24px !important;
+    height: 24px !important;
+}
+
+/* FullCalendar 기본 오늘 날짜 강조 제거 */
+.fc-day-today {
+    background-color: transparent !important; /* 노란색 배경 제거 */
+    color: inherit !important; /* 기본 텍스트 색상 유지 */
+}
+
+
+
+
+/* 진행률 바 CSS */
+#progress {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background-color: rgba(249, 250, 253, 1) !important;
+}
+
+.progressbar-container {
+  width: 450px;
+  height: 327px;
+  padding: 1rem 1rem;
+  border-radius: 5px;
+}
+
+.progress-value {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  font-size: .875rem;
+  padding-bottom: .25rem;
+}
+
+progress {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  color: #273238;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #273238;
+  border-radius: 8px;
+}
+
+progress::-moz-progress-bar {
+  background-color: #eee;
+  border-radius: 8px;
+}
+
+
+/* 스크롤바 CSS */
+.progressbar-container::-webkit-scrollbar, body::-webkit-scrollbar{
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+.progressbar-container::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb{
+    height: 10%; /* 스크롤바의 길이 */
+    background: #3D86E7; /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+
+.progressbar-container::-webkit-scrollbar-track, body::-webkit-scrollbar-track{
+    background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
 }

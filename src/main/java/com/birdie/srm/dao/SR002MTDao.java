@@ -44,6 +44,15 @@ public interface SR002MTDao {
 	
 	// srId가 일치하는 appSrId 가져오기
 	public String selectAppSrId(String srId);
-
 	
+	// 회원의 ROLE1에 따라서 이벤트 가져오기
+	public List<SR002MT> selectGusrEvent(MB001MT mb001mt);
+	public List<SR002MT> selectDeveEvent(MB001MT mb001mt);
+	public List<SR002MT> selectAdmiEvent(MB001MT mb001mt);
+
+	// 회원의 ROLE1에 따라서 진척율 가져오기
+	public List<SR002MT> selectGusrProcess(MB001MT mb001mt);
+	public List<SR002MT> selectDeveProcess(MB001MT mb001mt);
+	public List<SR002MT> selectAdmiProcess(MB001MT mb001mt);
+
 }

@@ -424,3 +424,19 @@ th {
     border: none;
     background-color: white;
 }
+
+/* 스크롤바 CSS */
+#table-container::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+#table-container::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: #3D86E7; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+#table-container::-webkit-scrollbar-track {
+    background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
+}

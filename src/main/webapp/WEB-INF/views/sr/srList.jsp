@@ -18,6 +18,7 @@
 	                    <div class="searchBox1">
 	                        <ul class="ul-style">
 	                            <li class="li-style first-li">
+	                            	<input type="hidden" name="rowsPerPage" value="${searchCont.pager.rowsPerPage}">
 	                                <div id="search-thing">조회기간</div>
 	                                <div class="date-style">
 	                                    <input id="stdt-search" type="date" class="search-box date-form" name="startDate"
@@ -157,10 +158,11 @@
 
 	                <form id="row-select" action="list" method="get">
 					    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
-					    <input type="hidden" name="startDate" value="${searchCont.search.startDate}">
-					    <input type="hidden" name="endDate" value="${searchCont.search.endDate}">
+					    <input type="hidden" name="startDate" value="<fmt:formatDate value="${searchCont.search.startDate}" pattern="yyyy-MM-dd"/>">
+					    <input type="hidden" name="endDate" value="<fmt:formatDate value="${searchCont.search.endDate}" pattern="yyyy-MM-dd"/>">
 					    <input type="hidden" name="relSys" value="${searchCont.search.relSys}">
 					    <input type="hidden" name="srStat" value="${searchCont.search.srStat}">
+					    <input type="hidden" name="searchKey" value="${searchCont.search.searchKey}">
 					    <input type="hidden" name="keyword" value="${searchCont.search.keyword}">
 					    <input type="hidden" name="instId" value="${searchCont.search.instId}">
 					    
