@@ -28,4 +28,9 @@ public class MemberDetails extends User{
 	public MB001MT getMember() {
 		return member;
 	}
+	
+	// 역할 정보를 가져오는 메서드 추가
+    public String getRole1() {
+        return member.getRole1(); // 역할이 role1 필드에 저장된 경우
+    }
 }

@@ -25,6 +25,7 @@ public class MyportalService {
 
 	@Autowired
 	private SR001MTDao sr001mtDao;
+	
 	@Autowired
 	private NT001MTDao nt001mtDao;
 
@@ -53,20 +54,33 @@ public class MyportalService {
 		return sr001mtDao.selectMysrListByStatus(pager, srStat); // 상태별 목록 쿼리 호출
 	}
 
-	// 로그인한 사용자 별 상태별 SR 갯수 가져오기
-	public Map<String, Integer> getStatusCounts(String memberInfo) {
-		Map<String, Integer> counts = new HashMap<>();
-		counts.put("ALL", sr001mtDao.selectCountRowsByUser(memberInfo)); // 전체
-		counts.put("REQT", sr001mtDao.selectCountRowsByStatusAndUser("REQT", memberInfo));
-		counts.put("REGI", sr001mtDao.selectCountRowsByStatusAndUser("REGI", memberInfo));
-		counts.put("REJC", sr001mtDao.selectCountRowsByStatusAndUser("REJC", memberInfo));
-		counts.put("RECE", sr001mtDao.selectCountRowsByStatusAndUser("RECE", memberInfo));
-		counts.put("DEVING", sr001mtDao.selectCountRowsByStatusAndUser("DEVING", memberInfo));
-		counts.put("DEVDONE", sr001mtDao.selectCountRowsByStatusAndUser("DEVDONE", memberInfo));
-		return counts;
+	// 로그인한 사용자 또는 관리자의 상태별 SR 갯수 가져오기
+	public Map<String, Integer> getStatusCounts(String memNo, String userRole1) {
+	    Map<String, Integer> counts = new HashMap<>();
+	    
+	    if ("ROLE_ADMI".equals(userRole1)) {
+	        // 관리자의 경우, 관리자 전용 쿼리 사용
+	        counts.put("ALL", sr001mtDao.selectCountManagerRows(memNo));
+	        counts.put("REQT", sr001mtDao.selectCountManagerRowsByStatus("REQT", memNo));
+	        counts.put("REGI", sr001mtDao.selectCountManagerRowsByStatus("REGI", memNo));
+	        counts.put("REJC", sr001mtDao.selectCountManagerRowsByStatus("REJC", memNo));
+	        counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountManagerRowsByStatus("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByStatus("DEVDONE", memNo));
+	    } else {
+	        // 일반 사용자와 개발자의 경우
+	        counts.put("ALL", sr001mtDao.selectCountRowsByUser(memNo));
+	        counts.put("REQT", sr001mtDao.selectCountRowsByStatusAndUser("REQT", memNo));
+	        counts.put("REGI", sr001mtDao.selectCountRowsByStatusAndUser("REGI", memNo));
+	        counts.put("REJC", sr001mtDao.selectCountRowsByStatusAndUser("REJC", memNo));
+	        counts.put("RECE", sr001mtDao.selectCountRowsByStatusAndUser("RECE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountRowsByStatusAndUser("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByStatusAndUser("DEVDONE", memNo));
+	    }
+
+	    return counts;
 	}
 
-	/*sr001mt*/
 	// 사용자 별 총 행 수 가져오기
 	public int getTotalRowsByUser(String memNo) {
 		return sr001mtDao.selectCountRowsByUser(memNo);
@@ -88,28 +102,27 @@ public class MyportalService {
 		return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
 	}
 	
-	/*sr002mt*/
-	// 사용자 별 승인 받은 SR 총 행 수 가져오기
-	public int getAppTotalRowsByUser(String memNo) {
-		return sr002mtDao.selectAppCountRowsByUser(memNo);
+    // 관리자용 전체 SR 행 수 가져오기
+	public int getTotalManagerRows(String memNo) {
+		return sr001mtDao.selectCountManagerRows(memNo);
+	}
+	
+    // 관리자용 SR 목록 가져오기
+	public List<SR001MT> getManagerSrList(String memNo, PagerDto pager) {
+		return sr001mtDao.selectManagerSrList(memNo, pager);
+	}
+	
+	// 특정 상태별 관리자 총 행 수 조회
+	public int getTotalManagerRowsByStatus(String srStat, String memberInfo) {
+	    return "ALL".equals(srStat) ? sr001mtDao.selectCountManagerRows(memberInfo)
+	            : sr001mtDao.selectCountManagerRowsByStatus(srStat, memberInfo);
 	}
 
-	// 사용자 별 승인 받은 SR 목록 가져오기
-	public List<SR002MT> getAppSrListByUser(String memNo, PagerDto pager) {
-		return sr002mtDao.selectAppsrListByUser(memNo, pager);
+	// 특정 상태별 관리자 SR 목록 조회
+	public List<SR001MT> getManagerSrListByStatus(String srStat, String memberInfo, PagerDto pager) {
+	    return sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
 	}
-
-	// 특정 상태의 사용자 별 승인 된 SR 총 행 수 가져오기
-	public int getAppTotalRowsByStatusAndUser(String srStat, String memberInfo) {
-		return "ALL".equals(srStat) 
-				? sr002mtDao.selectAppCountRowsByUser(memberInfo)
-				: sr002mtDao.selectAppCountRowsByStatusAndUser(srStat, memberInfo);
-	}
-
-	// 특정 상태의 사용자 별 승인 된 SR 목록 가져오기
-	public List<SR002MT> getAppSrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
-		return sr002mtDao.selectAppsrListByStatusAndUser(pager, srStat, memNo);
-	}
+	
 
 	/*달력*/
 	public List<SR002MT> getEvents(MB001MT mb001mt) {
@@ -175,6 +188,10 @@ public class MyportalService {
 	public void deleteNotice(int noticeId) {
 		nt001mtDao.deleteNotice(noticeId);
 	}
+
+	
+
+
 
 
 }

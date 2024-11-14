@@ -67,6 +67,18 @@ public interface SR001MTDao {
 	// 관리자의 나의 할 일 전체 목록 가져오기
 	public List<SR001MT> selectAppsrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
 
+    // 관리자용 전체 SR 행 수 가져오기
+	public int selectCountManagerRows(@Param("memNo") String memberInfo);
+    
+	// 관리자용 SR 목록 가져오기
+	public List<SR001MT> selectManagerSrList(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
+	
+	// 관리자용 특정 상태별 총 행 수 조회
+    public int selectCountManagerRowsByStatus(@Param("srStat") String srStat, @Param("memNo") String memNo);
+
+    // 관리자용 특정 상태별 SR 목록 조회
+    public List<SR001MT> selectManagerSrListByStatus(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+
 	
 	
 }
