@@ -116,31 +116,32 @@ public class MyportalController {
 	    List<SR001MT> mySrList;
 	    PagerDto pager;
 
-	    if ("ROLE_ADMI".equals(userRole1)) { // 관리자의 경우
-	        if ("ALL".equals(srStat)) { // 전체 목록 조회
+	    //"ALL" 혹은 빈 srStat일 때 모든 상태 조회
+	    if ("ROLE_ADMI".equals(userRole1)) {
+	        if (srStat.isEmpty()) {
 	            totalRows = myPortalService.getTotalManagerRows(memberInfo);
 	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
 	            mySrList = myPortalService.getManagerSrList(memberInfo, pager);
-	        } else { // 특정 상태 조회
+	        } else {
 	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberInfo);
 	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
 	            mySrList = myPortalService.getManagerSrListByStatus(srStat, memberInfo, pager);
 	        }
-	    } else { // 일반 사용자와 개발자의 경우
-	        if ("ALL".equals(srStat)) { // 전체 목록 조회
+	    } else {
+	        if (srStat.isEmpty()) {
 	            totalRows = myPortalService.getTotalRowsByUser(memberInfo);
 	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
 	            mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
-	        } else { // 특정 상태 조회
+	        } else {
 	            totalRows = myPortalService.getTotalRowsByStatusAndUser(srStat, memberInfo);
 	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
 	            mySrList = myPortalService.getMySrListByStatusAndUser(pager, srStat, memberInfo);
 	        }
 	    }
 
+
 	    log.debug("Total rows: {}", totalRows);
 	    log.debug("SR List: {}", mySrList);
-	    
 	    
 	    session.setAttribute("pager", pager);
 	    model.addAttribute("mySrList", mySrList);
