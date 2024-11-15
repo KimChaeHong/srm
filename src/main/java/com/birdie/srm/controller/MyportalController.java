@@ -78,6 +78,15 @@ public class MyportalController {
 	        mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
 	    }
 
+
+		// 사용자별 SR 목록 가져오기
+		List<SR001MT> mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
+		model.addAttribute("mySrList", mySrList);
+		
+		// 공지사항 가져오기
+		List<NT001MT> notices = myPortalService.getNotices();
+		model.addAttribute("notices", notices);
+
 	    session.setAttribute("pager", pager);
 	    model.addAttribute("mySrList", mySrList);
 
@@ -327,5 +336,5 @@ public class MyportalController {
 	    return "myportal/detailNotice";
 	}
 
-	
+
 }

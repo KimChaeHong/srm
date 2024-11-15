@@ -229,6 +229,7 @@
 			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
+			ROLE_2,
 			DEPT_ID
 		FROM TB_MB_001MT
 		WHERE ROLE_1 = 'ROLE_DEVE'
@@ -242,6 +243,7 @@
 			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
+			ROLE_2,
 			DEPT_ID
 		FROM TB_MB_001MT
 		WHERE ROLE_1 = 'ROLE_DEVE'
