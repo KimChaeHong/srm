@@ -180,6 +180,7 @@
                 JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
                 WHERE sr.DELT_YN = 'N'
                   AND m.MEM_ID = #{memNo}	
+                  AND sr.SR_STAT = #{srStat} 
                 ORDER BY sr.REQ_DT DESC
             )
             WHERE rownum <= #{pager.endRowNo}
@@ -218,7 +219,7 @@
                 JOIN TB_MB_001MT m ON sr1.FIRST_INPT_ID = m.MEM_NO
                 JOIN TB_SR_002MT sr2 ON sr1.SR_ID = sr2.SR_ID
                 WHERE sr2.FIRST_INPT_ID = #{memNo}
-                  
+             	  AND sR1.SR_STAT = #{srStat} 
                   AND sr1.DELT_YN = 'N'
                 ORDER BY sr1.REQ_DT DESC
             )

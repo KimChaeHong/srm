@@ -20,4 +20,22 @@ $(document).ready(function() {
 		});
 	});
 
+	document.getElementById("rowsPerPageSelect").addEventListener("change", function () {
+	    const rowsPerPage = this.value;
+	    const currentPage = document.getElementById("currentPage").value;
+
+	    // 페이지 리로드 요청
+	    const url = `${window.location.pathname}?pageNo=${currentPage}&rowsPerPage=${rowsPerPage}`;
+	    window.location.href = url;
+	});
+	
+	document.getElementById("rowsPerPageSelect").addEventListener("change", function () {
+	    const rowsPerPage = this.value;
+
+	    // 첫 페이지로 이동 (pageNo=1)
+	    const url = `${window.location.pathname}?pageNo=1&rowsPerPage=${rowsPerPage}`;
+	    window.location.href = url;
+	});
+	
+	
 });

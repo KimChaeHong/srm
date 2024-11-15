@@ -99,7 +99,8 @@ public class MyportalService {
 
 	// 특정 상태의 사용자별 SR 목록 가져오기
 	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
-		return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
+		return "ALL".equals(srStat) ? sr001mtDao.selectMysrListByUser(memNo, pager)
+				:sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
 	}
 	
     // 관리자용 전체 SR 행 수 가져오기
@@ -120,10 +121,10 @@ public class MyportalService {
 
 	// 특정 상태별 관리자 SR 목록 조회
 	public List<SR001MT> getManagerSrListByStatus(String srStat, String memberInfo, PagerDto pager) {
-	    return sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
+	    return "ALL".equals(srStat) ? sr001mtDao.selectManagerSrList(memberInfo, pager)
+	    		:sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
 	}
 	
-
 	/*달력*/
 	public List<SR002MT> getEvents(MB001MT mb001mt) {
 		List<SR002MT> eventList = new ArrayList<>();
