@@ -125,6 +125,7 @@ body {
 
 /* 테이블 */
 #table-container {
+	height:460px;
 	width: 1230px;
 	border: 1px solid #EDF2F9;
 	margin: 0px auto;
