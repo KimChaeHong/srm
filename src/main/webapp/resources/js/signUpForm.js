@@ -30,8 +30,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
         } else if (role === 'ROLE_ADMI') {
             // 관리자 선택 시 고정된 기관 및 부서 설정
-            instSelect.innerHTML = '<option value="BD" selected>버디</option>';
-            deptSelect.innerHTML = '<option value="MNG">관리 1팀</option>';
+        	// GUSR 선택 시 기관 목록 가져오기
+            instSelect.innerHTML = '<option selected>선택</option>';
+            deptSelect.innerHTML = '<option selected>선택</option>';
+
+            // AJAX 요청으로 기관 목록 가져오기
+            fetch(`/srm/member/adminInstitutions`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(inst => {
+                        instSelect.innerHTML += `<option value="${inst.instId}">${inst.instNm}</option>`;
+                    });
+                })
+                .catch(error => console.error('Error fetching institutions:', error));
+
             
         } else {
             // 다른 역할 선택 시 기관 및 부서 드롭다운 초기화
