@@ -56,7 +56,7 @@
                         <th class="col-6" colspan="7">투입 실적</th>
                     </tr>
                     <tr>
-                    	<c:forEach >
+                    	 <c:forEach items="${dayList}" var="day">
 	                        <th class="col-7">
 	                        	<fmt:formatDate value="${day}" pattern="MM-dd(E)"/>
 	                        	<input type="hidden" name="wkDt" value="<fmt:formatDate value="${day}" pattern="yyyy-MM-dd"/>" />
