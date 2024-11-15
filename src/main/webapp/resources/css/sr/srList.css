@@ -156,6 +156,11 @@ body {
     margin: 0px auto;
 }
 
+#sr-table{
+	width: 1230px;
+	table-layout: fixed;
+}
+
 .col-1 {
     width: 50px;
 }
@@ -198,6 +203,10 @@ td {
     text-align: center;
     line-height: 1;
     font-weight: 510;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    text-overflow: ellipsis; /* '...' 표시 */
+
 }
 
 th {

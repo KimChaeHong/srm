@@ -300,50 +300,69 @@ $(document).ready(function(){
 	});
 	
 	$(document).off('click', '#ratio-save-btn').on('click', '#ratio-save-btn', function() {
-		var formData = $('#prg-ratio-form').serializeArray();
-		var jsonData = [];
-		var appSrId = $(this).data('appsrid');
-		
-		var groupData = {};
-		formData.forEach(function(field) {
-			var name = field.name;
-			var value = field.value;
-			
-			// 배열 형식으로 묶기
-			if (name.includes('[')) {
-				var key = name.split('[')[0];
-				var index = parseInt(name.match(/\[(\d+)\]/)[1], 10);
-				
-				if (!groupData[index]) {
-					groupData[index] = { appSrId: appSrId }; // 공통 데이터 추가
-				}
-				groupData[index][key] = value;
-			}
-		});
-		
-		// 객체를 배열로 변환
-		for (var key in groupData) {
-			jsonData.push(groupData[key]);
-		}
-		
-		$.ajax({
-			url: '/srm/prg/updatePrgRatio',
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(jsonData),
-			success: function(response) {
-				console.log('진척율 Update Ajax 통신 성공');
-				loadPrgRatio(appSrId);
-				Toast.fire({
-					icon: 'success',
-					title: '진척율이 저장되었습니다.'
-				});
-			},
-			error: function() {
-				console.log('Ajax 통신 실패');
-			}
-		});
-		
+	    var formData = $('#prg-ratio-form').serializeArray();
+	    var jsonData = [];
+	    var appSrId = $(this).data('appsrid');
+	    
+	    var groupData = {};
+	    var isValid = true;
+	    var previousValue = 0;
+
+	    formData.forEach(function(field) {
+	        var name = field.name;
+	        var value = parseInt(field.value, 10);
+
+	        if (name.startsWith('prg[')) {
+	            if (isNaN(value)) {
+	                return; // null 값은 검증 제외
+	            }
+	            if (value <= previousValue || value > 100) {
+	            	Toast.fire({
+		                icon: 'error',
+		                title: '유효하지 않은 진척율입니다.'
+		            });
+	                isValid = false;
+	                return false;
+	            }
+	            previousValue = value;
+	        }
+
+	        if (name.includes('[')) {
+	            var key = name.split('[')[0];
+	            var index = parseInt(name.match(/\[(\d+)\]/)[1], 10);
+
+	            if (!groupData[index]) {
+	                groupData[index] = { appSrId: appSrId }; 
+	            }
+	            groupData[index][key] = field.value;
+	        }
+	    });
+
+	    if (!isValid) {
+	        return;
+	    }
+
+	    for (var key in groupData) {
+	        jsonData.push(groupData[key]);
+	    }
+
+	    $.ajax({
+	        url: '/srm/prg/updatePrgRatio',
+	        type: 'POST',
+	        contentType: 'application/json',
+	        data: JSON.stringify(jsonData),
+	        success: function(response) {
+	            console.log('진척율 Update Ajax 통신 성공');
+	            loadPrgRatio(appSrId);
+	            Toast.fire({
+	                icon: 'success',
+	                title: '진척율이 저장되었습니다.'
+	            });
+	        },
+	        error: function() {
+	            console.log('Ajax 통신 실패');
+	        }
+	    });
 	});
 	
 });

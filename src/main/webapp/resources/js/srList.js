@@ -92,14 +92,16 @@ $(document).ready(function() {
         const formData = new FormData(form);
         const stat = formData.get('srStat');
         let successMessage = null;
-        if(stat == 'RECE'){
-        	successMessage = '승인처리 되었습니다.'
-        }else if(stat == 'REJC'){
-        	successMessage = '반려처리 되었습니다.'    	
-        }else if(stat == 'RERE'){
-        	successMessage = '재검토처리 되었습니다.'    	
-        }else if(stat == 'REQT'){
-        	successMessage = '접수요청이 완료되었습니다.'    	
+        if(action == 'srProcess'){
+        	if(stat == 'RECE'){
+        		successMessage = '승인처리 되었습니다.'
+        	}else if(stat == 'REJC'){
+        		successMessage = '반려처리 되었습니다.'
+        	}else if(stat == 'RERE'){
+        		successMessage = '재검토처리 되었습니다.'
+        	}
+        }else{
+        	successMessage = '접수요청이 완료되었습니다.'
         }
 
         $.ajax({

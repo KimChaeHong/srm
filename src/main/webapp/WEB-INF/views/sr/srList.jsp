@@ -88,7 +88,7 @@
                 </div>
                 <hr id="sr-list-hr">
                 <div id="table-container" class="overflow-auto">
-                    <table id="pg-table">
+                    <table id="sr-table">
                         <thead>
                             <tr>
                                 <th class="col-1"></th>

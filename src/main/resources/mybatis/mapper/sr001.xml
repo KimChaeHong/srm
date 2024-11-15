@@ -5,10 +5,10 @@
 	<!-- TB_SR_001MT에 INSERT(SR 등록) -->
 	<insert id="insertSr" parameterType="SR001MT">
 		insert into TB_SR_001MT (
-			SR_TITLE, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
+			SR_TITLE, DUE_DT, SR_CONT, REL_SYS, SR_STAT, REQ_DT ,DELT_YN, FIRST_INPT_ID, FIRST_INPT_DT, LAST_INPT_ID, LAST_INPT_DT
 		)
 		values (
-			#{srTitle}, #{dueDt, jdbcType=DATE}, #{srCont}, #{relSys}, 'REGI', 'N', #{firstInptId}, sysdate, #{lastInptId}, sysdate
+			#{srTitle}, #{dueDt, jdbcType=DATE}, #{srCont}, #{relSys}, 'REGI', sysdate ,'N', #{firstInptId}, sysdate, #{lastInptId}, sysdate
 		)
 	</insert>
 	
@@ -138,7 +138,6 @@
 			LAST_INPT_ID = #{lastInptId},
 			DUE_DT = #{dueDt},
 			SR_TITLE = #{srTitle},
-			REL_SYS = #{relSys},
 			SR_CONT = #{srCont}
 		where SR_ID = #{srId}
 	</update>

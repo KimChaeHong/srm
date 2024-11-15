@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script> --%>
 <%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srPlan.css" /> --%>
 
 

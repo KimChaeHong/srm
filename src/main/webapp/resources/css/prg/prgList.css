@@ -131,6 +131,11 @@ body {
     width: 70px;
 }
 
+#pg-table{
+	width: 780px;
+	table-layout: fixed;
+}
+
 tr {
     height: 47px;
     border-bottom: 1px solid #EDF2F9;
@@ -152,6 +157,9 @@ td {
     text-align: center;
     line-height: 1;
     font-weight: 510;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    text-overflow: ellipsis; /* '...' 표시 */
 }
 
 th {
@@ -760,6 +768,7 @@ input#person {
     overflow-y: auto;  /* 수직 스크롤 생성 */
 }
 
+
 /* 스크롤바 CSS */
 #hr-scroll::-webkit-scrollbar {
     width: 8px;  /* 스크롤바의 너비 */
@@ -791,3 +800,4 @@ input#person {
 #table-container::-webkit-scrollbar-track {
     background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
 }
+
