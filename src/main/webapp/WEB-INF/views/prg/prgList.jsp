@@ -8,6 +8,7 @@
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/srHr.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srHr.css" />
 
 

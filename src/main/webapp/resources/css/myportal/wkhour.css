@@ -1,19 +1,19 @@
-.modal-dialog {
+#wkhour-modal .modal-dialog {
     max-width: 100%;
     width: 1140px;
     top: 20%;
 }
 
-#modal-title {
+#wkhour-modal #modal-title {
     font-size: 15px;
     font-weight: 900;
 }
 
-#coment {
+#wkhour-modal #coment {
     font-size: 9px;
 }
 
-table {
+#wkhour-modal table {
     width: 1100px;
     border: 1px solid #EDF2F9;
     border-collapse: collapse;
@@ -21,7 +21,7 @@ table {
     margin-bottom: 20px;
 }
 
-thead th {
+#wkhour-modal thead th {
     background-color: #EDF2F9;
     padding: 10px 0px;
     text-align: left;
@@ -31,14 +31,14 @@ thead th {
     vertical-align: middle;
 }
 
-tbody td {
+#wkhour-modal tbody td {
     font-size: 13px;
     padding: 10px 0px;
     text-align: center;
     border: 1px solid #EDF2F9 !important;
 }
 
-.last-btn{
+#wkhour-modal .last-btn{
     width: 60px;
     height: 30px;
     border: 1px solid #DCDCE1 !important;
@@ -47,7 +47,7 @@ tbody td {
     color: #4D5969;
 }
 
-#close-btn{
+#wkhour-modal #close-btn{
     width: 30px !important;
     height: 30px !important;
     padding: 4px;
@@ -55,48 +55,48 @@ tbody td {
     background-color: white;
 }
 
-.bi-x-square {
+#wkhour-modal .bi-x-square {
     color: #DCDCE1;
 }
 
-.col-1 {
+#wkhour-modal .col-1 {
     width: 180px;
 }
 
-.col-2 {
+#wkhour-modal .col-2 {
     width: 150px;
 }
-.col-3 {
+#wkhour-modal .col-3 {
     width: 150px;
 }
-.col-4 {
+#wkhour-modal .col-4 {
     width: 100px;
 }
-.col-5 {
+#wkhour-modal .col-5 {
     width: 100px;
 }
-.col-6 {
+#wkhour-modal .col-6 {
     width: 420px;
 }
-.col-7 {
+#wkhour-modal .col-7 {
     width: 60px;
 }
-.col-8 {
+#wkhour-modal .col-8 {
     width: 60px;
 }
-.col-9 {
+#wkhour-modal .col-9 {
     width: 60px;
 }
-.col-10 {
+#wkhour-modal .col-10 {
     width: 60px;
 }
-.col-11 {
+#wkhour-modal .col-11 {
     width: 60px;
 }
-.col-12 {
+#wkhour-modal .col-12 {
     width: 60px;
 }
 
-th.col-6, th.col-7, th.col-8, th.col-9, th.col-10, th.col-11, th.col-12 {
+#wkhour-modal th.col-6, th.col-7, th.col-8, th.col-9, th.col-10, th.col-11, th.col-12 {
     border: 1px solid white;
 }

@@ -132,6 +132,11 @@ table {
     margin-bottom: 20px;
 }
 
+#task-table{
+	width:1236px;
+	table-layout: fixed;
+}
+
 .mytask-1 {
     width: 50px;
 }
@@ -172,6 +177,15 @@ tbody td {
     padding: 5px 0px;
     text-align: center;
     font-weight:510;
+}
+#task-table tbody td {
+    font-size: 13px;
+    padding: 5px 0px;
+    text-align: center;
+    font-weight:510;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    text-overflow: ellipsis; /* '...' 표시 */
 }
 
 .detail-btn {

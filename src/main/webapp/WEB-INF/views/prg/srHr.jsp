@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script> --%>
-<script src="${pageContext.request.contextPath}/resources/js/srHr.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/js/srHr.js"></script> --%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srHr.css" />
 
 <form id="sr-hr-form" action="" method="post">

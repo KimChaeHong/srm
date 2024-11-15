@@ -10,7 +10,7 @@
 			
 			<!-- 로그를 찍기위해 로거 설정 -->
 			<property name="driverClassName" value = "net.sf.log4jdbc.DriverSpy"></property>
-			<property name="url" value="jdbc:log4jdbc:oracle:thin:@kosa160.iptime.org:1521:orcl"></property>
+			<property name="url" value="jdbc:log4jdbc:oracle:thin:@kosa402.iptime.org:1521:orcl"></property>
 			<property name="username" value="user_2024_oti_final_team2"></property>
 			<property name="password" value="oracle"></property>
 

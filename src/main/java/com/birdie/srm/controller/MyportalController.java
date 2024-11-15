@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
+import com.birdie.srm.dto.SR004NT;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.security.MemberDetails;
 import com.birdie.srm.service.MemberService;
@@ -262,6 +267,20 @@ public class MyportalController {
 	    model.addAttribute("notice", notice);
 	    
 	    return "myportal/detailNotice";
+	}
+	
+	@PostMapping("/srDetail")
+	public String getSrDetail(Model model, Authentication authentication) throws Exception{
+		//로그인 된 회원의 MEM_ID를 통해 회원의 모든 정보 가져오기 (로그인 되어 있을 때에만 들어올 수 있도록 설정한 후에는 if 지울예정)
+		if(authentication != null) {
+			MB001MT memInfo = memberService.getUserInfo(authentication.getName());			
+			model.addAttribute("memInfo", memInfo);
+		}
+		
+		String jspUrl = "/WEB-INF/views/myportal/wkhour.jsp";
+		//요청에  값 설정
+		
+		return "myportal/wkhour";
 	}
 
 	
