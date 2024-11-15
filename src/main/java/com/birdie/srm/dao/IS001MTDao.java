@@ -14,4 +14,7 @@ public interface IS001MTDao {
 	//사용자 역할에 따른 기관 가져오기
 	public List<IS001MT> selectInstitutionsByRole(String role);
 
+	//관리자 기관 가져오기
+	public List<IS001MT> selectAdminInstitutionsByRole(String role);
+
 }

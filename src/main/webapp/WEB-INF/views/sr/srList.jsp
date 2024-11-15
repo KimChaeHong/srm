@@ -47,6 +47,7 @@
 	                                    <option value="RERE" ${searchCont.search.srStat == 'RERE' ? 'selected' : ''}>재검토</option>
 	                                </select>
 	                            </li>
+	                            <button type="button" id="reset-btn" onclick="resetForm()">초기화</button>
 	                        </ul>
 	                    </div>
 	                    <div class="searchBox2">

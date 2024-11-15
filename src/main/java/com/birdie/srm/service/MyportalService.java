@@ -25,6 +25,7 @@ public class MyportalService {
 
 	@Autowired
 	private SR001MTDao sr001mtDao;
+	
 	@Autowired
 	private NT001MTDao nt001mtDao;
 
@@ -43,7 +44,7 @@ public class MyportalService {
 		return mySrList;
 	}
 
-	// 특정 상태별 게시물 갯수
+	// 특정 상태 별 게시물 갯수
 	public int getTotalRowsByStatus(String srStat) {
 		return sr001mtDao.selectCountRowsByStatus(srStat); // 상태별 갯수 쿼리 호출
 	}
@@ -53,71 +54,106 @@ public class MyportalService {
 		return sr001mtDao.selectMysrListByStatus(pager, srStat); // 상태별 목록 쿼리 호출
 	}
 
-	// 로그인한 사용자별 상태별 SR 갯수 가져오기
-	public Map<String, Integer> getStatusCounts(String memberInfo) {
+	// 로그인한 사용자 또는 관리자의 상태별 SR 갯수 가져오기
+	public Map<String, Integer> getStatusCounts(String memNo, String userRole1) {
 	    Map<String, Integer> counts = new HashMap<>();
-	    counts.put("ALL", sr001mtDao.selectCountRowsByUser(memberInfo)); // 전체
-	    counts.put("REQT", sr001mtDao.selectCountRowsByStatusAndUser("REQT", memberInfo));
-	    counts.put("REGI", sr001mtDao.selectCountRowsByStatusAndUser("REGI", memberInfo));
-	    counts.put("REJC", sr001mtDao.selectCountRowsByStatusAndUser("REJC", memberInfo));
-	    counts.put("RECE", sr001mtDao.selectCountRowsByStatusAndUser("RECE", memberInfo));
-	    counts.put("DEVING", sr001mtDao.selectCountRowsByStatusAndUser("DEVING", memberInfo));
-	    counts.put("DEVDONE", sr001mtDao.selectCountRowsByStatusAndUser("DEVDONE", memberInfo));
+	    
+	    if ("ROLE_ADMI".equals(userRole1)) {
+	        // 관리자의 경우, 관리자 전용 쿼리 사용
+	        counts.put("ALL", sr001mtDao.selectCountManagerRows(memNo));
+	        counts.put("REQT", sr001mtDao.selectCountManagerRowsByStatus("REQT", memNo));
+	        counts.put("REGI", sr001mtDao.selectCountManagerRowsByStatus("REGI", memNo));
+	        counts.put("REJC", sr001mtDao.selectCountManagerRowsByStatus("REJC", memNo));
+	        counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountManagerRowsByStatus("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByStatus("DEVDONE", memNo));
+	    } else {
+	        // 일반 사용자와 개발자의 경우
+	        counts.put("ALL", sr001mtDao.selectCountRowsByUser(memNo));
+	        counts.put("REQT", sr001mtDao.selectCountRowsByStatusAndUser("REQT", memNo));
+	        counts.put("REGI", sr001mtDao.selectCountRowsByStatusAndUser("REGI", memNo));
+	        counts.put("REJC", sr001mtDao.selectCountRowsByStatusAndUser("REJC", memNo));
+	        counts.put("RECE", sr001mtDao.selectCountRowsByStatusAndUser("RECE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountRowsByStatusAndUser("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByStatusAndUser("DEVDONE", memNo));
+	    }
+
 	    return counts;
 	}
-	
-	// 사용자별 총 행 수 가져오기
+
+	// 사용자 별 총 행 수 가져오기
 	public int getTotalRowsByUser(String memNo) {
 		return sr001mtDao.selectCountRowsByUser(memNo);
 	}
 
-    // 사용자별 SR 목록 가져오기
+	// 사용자 별 SR 목록 가져오기
 	public List<SR001MT> getMySrListByUser(String memNo, PagerDto pager) {
-	    return sr001mtDao.selectMysrListByUser(memNo, pager);
+		return sr001mtDao.selectMysrListByUser(memNo, pager);
 	}
-	
-	// 특정 상태의 사용자별 총 행 수 가져오기
-	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {
-	    return "ALL".equals(srStat) ? 
-	           sr001mtDao.selectCountRowsByUser(memberInfo) : 
-	           sr001mtDao.selectCountRowsByStatusAndUser(srStat, memberInfo);
-	}
-	
-    // 특정 상태의 사용자별 SR 목록 가져오기
-	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
-	    return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
 
+	// 특정 상태의 사용자 별 총 행 수 가져오기
+	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {
+		return "ALL".equals(srStat) ? sr001mtDao.selectCountRowsByUser(memberInfo)
+				: sr001mtDao.selectCountRowsByStatusAndUser(srStat, memberInfo);
+	}
+
+	// 특정 상태의 사용자별 SR 목록 가져오기
+	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
+		return "ALL".equals(srStat) ? sr001mtDao.selectMysrListByUser(memNo, pager)
+				:sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
 	}
 	
+    // 관리자용 전체 SR 행 수 가져오기
+	public int getTotalManagerRows(String memNo) {
+		return sr001mtDao.selectCountManagerRows(memNo);
+	}
 	
+    // 관리자용 SR 목록 가져오기
+	public List<SR001MT> getManagerSrList(String memNo, PagerDto pager) {
+		return sr001mtDao.selectManagerSrList(memNo, pager);
+	}
+	
+	// 특정 상태별 관리자 총 행 수 조회
+	public int getTotalManagerRowsByStatus(String srStat, String memberInfo) {
+	    return "ALL".equals(srStat) ? sr001mtDao.selectCountManagerRows(memberInfo)
+	            : sr001mtDao.selectCountManagerRowsByStatus(srStat, memberInfo);
+	}
+
+	// 특정 상태별 관리자 SR 목록 조회
+	public List<SR001MT> getManagerSrListByStatus(String srStat, String memberInfo, PagerDto pager) {
+	    return "ALL".equals(srStat) ? sr001mtDao.selectManagerSrList(memberInfo, pager)
+	    		:sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
+	}
+	
+	/*달력*/
 	public List<SR002MT> getEvents(MB001MT mb001mt) {
 		List<SR002MT> eventList = new ArrayList<>();
-		switch(mb001mt.getRole1()) {
-			case "ROLE_GUSR" :
-				eventList = sr002mtDao.selectGusrEvent(mb001mt);
-				break;
-			case "ROLE_DEVE" :
-				eventList = sr002mtDao.selectDeveEvent(mb001mt);
-				break;
-			case "ROLE_ADMI" :
-				eventList = sr002mtDao.selectAdmiEvent(mb001mt);
-				break;
-			default:
-				log.info("역할이 안맞음");
+		switch (mb001mt.getRole1()) {
+		case "ROLE_GUSR":
+			eventList = sr002mtDao.selectGusrEvent(mb001mt);
+			break;
+		case "ROLE_DEVE":
+			eventList = sr002mtDao.selectDeveEvent(mb001mt);
+			break;
+		case "ROLE_ADMI":
+			eventList = sr002mtDao.selectAdmiEvent(mb001mt);
+			break;
+		default:
+			log.info("역할이 안맞음");
 		}
 		return eventList;
 	}
 
 	public List<SR002MT> getProcessBarData(MB001MT mb001mt) {
 		List<SR002MT> processBarDataList = new ArrayList<>();
-		switch(mb001mt.getRole1()) {
-		case "ROLE_GUSR" :
+		switch (mb001mt.getRole1()) {
+		case "ROLE_GUSR":
 			processBarDataList = sr002mtDao.selectGusrProcess(mb001mt);
 			break;
-		case "ROLE_DEVE" :
+		case "ROLE_DEVE":
 			processBarDataList = sr002mtDao.selectDeveProcess(mb001mt);
 			break;
-		case "ROLE_ADMI" :
+		case "ROLE_ADMI":
 			processBarDataList = sr002mtDao.selectAdmiProcess(mb001mt);
 			break;
 		default:
@@ -125,13 +161,6 @@ public class MyportalService {
 		}
 		return processBarDataList;
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	// 공지사항 조회
 	public List<NT001MT> getNotices() {
@@ -162,6 +191,8 @@ public class MyportalService {
 	}
 
 	
-	
+
+
+
 
 }

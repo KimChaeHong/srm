@@ -151,3 +151,14 @@ $(document).ready(function() {
         });
     });
 });
+
+//검색 조건 초기화
+$(document).ready(function() {
+    // 초기화 버튼 클릭 이벤트
+    $('#reset-btn').on('click', function(event) {
+        event.preventDefault();
+        $('#search-box input[type="text"]').val('');
+        $('#search-box input[type="date"]').val('');
+        $('#search-box select').prop('selectedIndex', 0);	//셀렉트 박스 첫 번째 옵션 선택함
+    });
+});

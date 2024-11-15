@@ -47,7 +47,7 @@
                 <!-- 스크롤 추가 -->
                 <div class="table-body">
                     <table class="notice-table">
-                        <tbody>
+           	            <tbody>
                             <c:forEach var="notice" items="${notices}">
                                 <tr class="clickable-row" onclick="window.location='${pageContext.request.contextPath}/myportal/detailNotice/${notice.noticeId}'">
                                     <td>${notice.noticeId}</td>

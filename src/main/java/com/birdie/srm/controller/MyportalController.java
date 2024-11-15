@@ -37,7 +37,7 @@ import com.birdie.srm.service.MyportalService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
+@Controller 
 @RequestMapping("myportal")
 @Slf4j
 public class MyportalController {
@@ -50,112 +50,180 @@ public class MyportalController {
 	// 나의 할 일 목록 보기
 	@GetMapping("mytask")
 	public String mySrList(Authentication authentication, // 로그인 사용자 정보 가져오기
-			Model model, @RequestParam(defaultValue = "1") int pageNo,
-			@RequestParam(required = false) Integer rowsPerPage, HttpSession session) {
+	                       Model model, @RequestParam(defaultValue = "1") int pageNo,
+	                       @RequestParam(required = false) Integer rowsPerPage, HttpSession session) {
 
-		// 로그인한 사용자 아이디 가져오기
-		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-		String memberInfo = memberDetails.getUsername(); // Member 객체에서 사용자 ID 가져오기
+	    // 로그인한 사용자 사번 및 역할 가져오기
+	    MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+	    String memberInfo = memberDetails.getMember().getMemNo(); // 사번 가져오기
+	    String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
+	    log.debug("Member Info (사번): {}", memberInfo); // 로그 추가
 
-		// 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
-		if (rowsPerPage == null) {
-			rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
-			if (rowsPerPage == null) {
-				rowsPerPage = 16; // 기본값 설정
-			}
-		} else {
-			session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
-		}
+	    // 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
+	    if (rowsPerPage == null) {
+	        rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
+	        if (rowsPerPage == null) {
+	            rowsPerPage = 16; // 기본값 설정
+	        }
+	    } else {
+	        session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
+	    } 
 
-		// 사용자별 총 행 수 가져오기
-		int totalRows = myPortalService.getTotalRowsByUser(memberInfo);
-		PagerDto pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-		session.setAttribute("pager", pager);
+	    // 역할에 따른 총 행 수와 SR 목록 가져오기
+	    int totalRows;
+	    List<SR001MT> mySrList;
+	    PagerDto pager;
 
-		// 사용자별 SR 목록 가져오기
-		List<SR001MT> mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
-		model.addAttribute("mySrList", mySrList);
+	    if ("ROLE_ADMI".equals(userRole1)) { // 관리자의 경우
+	        totalRows = myPortalService.getTotalManagerRows(memberInfo); // 관리자용 쿼리로 총 행 수 가져오기
+	        pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	        mySrList = myPortalService.getManagerSrList(memberInfo, pager); // 관리자용 SR 목록 가져오기
+	    } else { // 일반 사용자와 개발자의 경우
+	        totalRows = myPortalService.getTotalRowsByUser(memberInfo);
+	        pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	        mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
+	    }
+		
+		// 공지사항 가져오기
+		List<NT001MT> notices = myPortalService.getNotices();
+		model.addAttribute("notices", notices);
 
-		return "myportal/mytask";
+	    session.setAttribute("pager", pager);
+	    model.addAttribute("mySrList", mySrList);
+
+	    return "myportal/mytask";
 	}
 
 	// 특정 상태의 SR 목록 가져오기 (AJAX 요청)
 	@GetMapping("/mytaskFragment")
-	public String getMySrListByStatus(Authentication authentication, @RequestParam("srStat") String srStat,
-			@RequestParam(defaultValue = "1") int pageNo, @RequestParam(required = false) Integer rowsPerPage,
-			Model model, HttpSession session) {
+	public String getMySrListByStatus(
+	        Authentication authentication, 
+	        @RequestParam("srStat") String srStat,
+	        @RequestParam(defaultValue = "1") int pageNo, 
+	        @RequestParam(required = false) Integer rowsPerPage,
+	        Model model, HttpSession session) {
 
-		// 로그인한 사용자 아이디 가져오기
-		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-		String memberInfo = memberDetails.getUsername();
+	    // 로그인한 사용자 정보 가져오기
+	    MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+	    String memberInfo = memberDetails.getUsername(); // 아이디 가져오기
+	    String memberNo = memberDetails.getMember().getMemNo(); // 사번 가져오기
+	    String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 
-		// 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
-		if (rowsPerPage == null) {
-			rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
-			if (rowsPerPage == null) {
-				rowsPerPage = 16; // 기본값 설정
-			}
-		} else {
-			session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
-		}
+	    log.debug("User Role: {}", userRole1);
+	    log.debug("Member Info (사번): {}", memberInfo);
 
-		int totalRows;
-		List<SR001MT> mySrList;
-		PagerDto pager;
+	    
+	    // 세션에서 rowsPerPage 값을 가져오거나 기본값 설정
+	    if (rowsPerPage == null) {
+	        rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
+	        if (rowsPerPage == null) {
+	            rowsPerPage = 16; // 기본값 설정
+	        }
+	    } else {
+	        session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
+	    }
 
-		if ("ALL".equals(srStat)) { // 전체 목록 조회
-			totalRows = myPortalService.getTotalRowsByUser(memberInfo);
-			pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-			mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
-		} else { // 특정 상태 조회
-			totalRows = myPortalService.getTotalRowsByStatusAndUser(srStat, memberInfo);
-			pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-			mySrList = myPortalService.getMySrListByStatusAndUser(pager, srStat, memberInfo);
-		}
+	    int totalRows;
+	    List<SR001MT> mySrList;
+	    PagerDto pager;
 
-		session.setAttribute("pager", pager);
-		model.addAttribute("mySrList", mySrList);
+	    //"ALL" 혹은 빈 srStat일 때 모든 상태 조회
+	    if ("ROLE_ADMI".equals(userRole1)) {
+	        if (srStat.isEmpty()) {
+	            totalRows = myPortalService.getTotalManagerRows(memberNo);
+	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	            mySrList = myPortalService.getManagerSrList(memberNo, pager);
+	        } else {
+	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberNo);
+	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	            mySrList = myPortalService.getManagerSrListByStatus(srStat, memberNo, pager);
+	        }
+	    } else {
+	        if (srStat.isEmpty()) {
+	            totalRows = myPortalService.getTotalRowsByUser(memberInfo);
+	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	            mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
+	        } else {
+	            totalRows = myPortalService.getTotalRowsByStatusAndUser(srStat, memberInfo);
+	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	            mySrList = myPortalService.getMySrListByStatusAndUser(pager, srStat, memberInfo);
+	        }
+	    }
 
-		return "myportal/mytaskFragment";
+
+	    log.debug("Total rows: {}", totalRows);
+	    log.debug("SR List: {}", mySrList);
+	    
+	    session.setAttribute("pager", pager);
+	    model.addAttribute("mySrList", mySrList);
+
+	    return "myportal/mytaskFragment";
 	}
 
-	//페이징처리
+
+	// 페이징 처리
 	@GetMapping("/pagination")
-	public String getPagination(Authentication authentication, @RequestParam("srStat") String srStat,
-			@RequestParam(defaultValue = "1") int pageNo, @RequestParam(required = false) Integer rowsPerPage,
-			Model model, HttpSession session) {
+	public String getPagination(
+	        Authentication authentication, 
+	        @RequestParam("srStat") String srStat,
+	        @RequestParam(defaultValue = "1") int pageNo, 
+	        @RequestParam(required = false) Integer rowsPerPage,
+	        Model model, 
+	        HttpSession session) {
 
-		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-		String memberInfo = memberDetails.getUsername();
+	    MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+	    String memberInfo = memberDetails.getUsername(); // 사용자 아이디 가져오기
+	    String memberNo = memberDetails.getMember().getMemNo(); // 사번 가져오기
+	    String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 
-		if (rowsPerPage == null) {
-			rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
-			if (rowsPerPage == null) {
-				rowsPerPage = 16;
-			}
-		} else {
-			session.setAttribute("rowsPerPage", rowsPerPage);
-		}
+	    if (rowsPerPage == null) {
+	        rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
+	        if (rowsPerPage == null) {
+	            rowsPerPage = 16; // 기본값 설정
+	        }
+	    } else {
+	        session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
+	    }
 
-		// 전체 목록 또는 특정 상태의 목록을 가져오기 위한 조건 처리
-		int totalRows = "ALL".equals(srStat) ? myPortalService.getTotalRowsByUser(memberInfo)
-				: myPortalService.getTotalRowsByStatusAndUser(srStat, memberInfo);
+	    int totalRows;
+	    PagerDto pager;
 
-		PagerDto pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	    // 관리자의 경우와 일반 사용자의 경우를 구분하여 처리
+	    if ("ROLE_ADMI".equals(userRole1)) { // 관리자의 경우
+	        if ("ALL".equals(srStat)) { // 전체 목록 조회
+	            totalRows = myPortalService.getTotalManagerRows(memberNo);
+	        } else { // 특정 상태 조회
+	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberNo);
+	        }
+	    } else { // 일반 사용자와 개발자의 경우
+	        if ("ALL".equals(srStat)) { // 전체 목록 조회
+	            totalRows = myPortalService.getTotalRowsByUser(memberInfo);
+	        } else { // 특정 상태 조회
+	            totalRows = myPortalService.getTotalRowsByStatusAndUser(srStat, memberInfo);
+	        }
+	    }
 
-		model.addAttribute("pager", pager);
+	    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	    model.addAttribute("pager", pager);
 
-		return "myportal/pagination";
+	    return "myportal/pagination";
 	}
-
-	// 상태별 SR 행 갯수 반환 (AJAX 요청)
+	
 	@GetMapping("/countStatus")
 	public ResponseEntity<Map<String, Integer>> getStatusCounts(Authentication authentication) {
-		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-		String memberInfo = memberDetails.getUsername();
+	    MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+	    String userRole1 = memberDetails.getMember().getRole1(); // 사용자 역할 가져오기
+	    String memNo;
 
-		Map<String, Integer> statusCounts = myPortalService.getStatusCounts(memberInfo);
-		return ResponseEntity.ok(statusCounts);
+	    // 역할에 따라 memNo 값 설정
+	    if ("ROLE_ADMI".equals(userRole1)) {
+	        memNo = memberDetails.getMember().getMemNo(); // 관리자는 사번을 가져오기
+	    } else {
+	        memNo = memberDetails.getUsername(); // 일반 사용자는 아이디를 가져오기
+	    }
+
+	    Map<String, Integer> statusCounts = myPortalService.getStatusCounts(memNo, userRole1);
+	    return ResponseEntity.ok(statusCounts);
 	}
 
 	// 날짜 포메팅 메서드
@@ -283,5 +351,5 @@ public class MyportalController {
 		return "myportal/wkhour";
 	}
 
-	
+
 }

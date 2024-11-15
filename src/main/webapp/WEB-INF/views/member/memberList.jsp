@@ -72,7 +72,7 @@
 	<div id="member-list">
 		<h2 id="mem-list-title">회원 목록</h2>
 		<hr id="mem-list-hr">
-		<div id="table-container">
+		<div id="table-container" class="overflow-auto">
 			<table id="pg-table">
 				<thead>
 					<tr>
