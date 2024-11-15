@@ -133,7 +133,7 @@ function loadSrHr(appSrId) {
         success: function(response) {
             console.log('자원정보 Ajax 통신 성공');
             console.log(appSrId);
-            $('#sr-container').html(response); // response로 받은 JSP를 sr-container에 넣기
+            $('#sr-container').html(response); // response로 받은 srHr.JSP를 sr-container에 넣기
             
             $('.hr-modal-search-btn').off('click').on('click', function(e){
                 e.preventDefault(); // form 기본 제출 막기
@@ -231,7 +231,7 @@ $('.modal-search-btn').on('click', function(e){
 })
 /* 모달 - 등록 버튼 클릭 시 선택한 담당자 정보를 가져와서 설정함 */
 $('.modal-last-btn').on('click', function() {
-    const selectedPerson = $('input[name="selectedMgr"]:checked');  // 선택한 라디오 버튼
+    const selectedPerson = $('input[name="selectedMgr"]:checked');
     const selectedMemNo = selectedPerson.val();  // 선택한 담당자 사번
     const selectedDept = selectedPerson.closest('tr').find('.col-2').text().trim();  // 부서명
     const selectedName = selectedPerson.closest('tr').find('.col-4').text().trim();  // 담당자명

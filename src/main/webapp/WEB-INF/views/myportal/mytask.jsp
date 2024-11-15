@@ -188,35 +188,66 @@
 		</div>
 	</div>
 
-	<!-- sr 일정 달력 -->
-	<div id="calendar-container">
-		<div class="d-flex">
-			<div id="calendar-box">
-				<div id="calendar"></div>
-			</div>
-			<div id="progress">
-				<div>
-					<h2 id="process-title">현재 진행중인 SR</h2>
+	<div id="footer-container" class="d-flex">
+		<!-- sr 일정 달력 -->
+		<div id="calendar-container">
+			<div class="d-flex">
+				<div id="calendar-box">
+					<div id="calendar"></div>
 				</div>
-				<div id="task-processbar">
-					<div class="progressbar-container overflow-auto">
-						<progressbar
-						    v-for="(item, index) in items"
-						    :key="index"
-						    :target="item.value"
-						    :border-color="item.color"
-						    :start-date="item.startDate"
-						    :end-date="item.endDate">
-						    <div class="progress-value" slot-scope="props">
-						        <span class="lang">{{ item.key }}</span>
-						        <span>{{ item.value }}%</span>
-						    </div>
-						</progressbar>
+				<div id="progress">
+					<div>
+						<h2 id="process-title">현재 진행중인 SR</h2>
+					</div>
+					<div id="task-processbar">
+						<div class="progressbar-container overflow-auto">
+							<progressbar
+							    v-for="(item, index) in items"
+							    :key="index"
+							    :target="item.value"
+							    :border-color="item.color"
+							    :start-date="item.startDate"
+							    :end-date="item.endDate">
+							    <div class="progress-value" slot-scope="props">
+							        <span class="lang">{{ item.key }}</span>
+							        <span>{{ item.value }}%</span>
+							    </div>
+							</progressbar>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div class="myportalNotice-container">
+				<div class="notice-container">
+					<div class="notice-header">공지사항</div>
+					<div class="notice-body">
+						<table class="notice-table">
+							<thead>
+								<tr>
+									<th>글번호</th>
+									<th>제목</th>
+									<th>등록일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="notice" items="${notices}">
+									<tr class="clickable-row" id="notice-tr" onclick="window.location='${pageContext.request.contextPath}/myportal/detailNotice/${notice.noticeId}'">
+										<td>${notice.noticeId}</td>
+	                                    <td>${notice.noticeTitle}</td>
+	                                    <td><fmt:formatDate value="${notice.firstInptDt}" pattern="yyyy-MM-dd" /></td>
+									</tr>
+								</c:forEach> 
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 	</div>
+	
+	
+	
 </div>
 <!-- Modal -->
 <div class="modal fade" id="detail-modal" data-bs-backdrop="static"

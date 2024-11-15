@@ -5,7 +5,7 @@
 	<!-- appSrId값이 일치하는 모든 자원 가져오기 -  조회 -->
 	<select id="selectHrList" parameterType="String" resultType="SR001NT">
 		select
-			rownum rnum, MB.MEM_ID, MB.MEM_NM, MB.ROLE_2, HR.PLN_MD
+			rownum rnum, MB.MEM_ID, MB.MEM_NM, MB.ROLE_1, MB.ROLE_2, HR.PLN_MD
 		from TB_SR_001NT HR
 		join TB_MB_001MT MB on MB.MEM_ID = HR.MEM_ID
 		where APP_SR_ID = #{appSrId}

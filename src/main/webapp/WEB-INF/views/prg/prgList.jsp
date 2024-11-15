@@ -419,7 +419,7 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header ps-3">
-									<span class="modal-title">담당자 검색</span>
+									<span class="modal-title">인적자원 검색</span>
 									<button id="hr-modal-close-btn" type="button"
 										data-bs-dismiss="modal">
 										<i class="bi modal-bi-x-square"></i>
@@ -472,7 +472,9 @@
 									                    </td>
 									                    <td class="col-3">
 									                        <c:choose>
-									                            <c:when test="${mgr.role1 == 'ROLE_DEVE'}">개발자</c:when>
+									                            <%-- <c:when test="${mgr.role1 == 'ROLE_DEVE'}">개발자</c:when> --%>
+									                            <c:when test="${mgr.role2 ==  'LEAD'}">개발팀장</c:when>
+									                            <c:when test="${mgr.role2 ==  'MEMB'}">개발팀원</c:when>
 									                        </c:choose>
 									                    </td>
 									                    <td class="col-4">${mgr.memNm}</td>
