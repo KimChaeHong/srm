@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.SR002MTDao">
+	<!-- 로그인한 사용자의 할 일 목록 행 갯수 세기 -->
+	<select id="selectAppCountRowsByUser" parameterType="string"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_002MT sr
+		JOIN TB_MB_001MT m ON
+		sr.FIRST_INPT_ID = m.MEM_NO
+		WHERE sr.DELT_YN = 'N'
+		AND m.MEM_ID =
+		#{memNo}
+	</select>
+
+	<!-- 로그인한 관리자의 승인 된 할 일 목록 가져오기 -->
+	<select id="selectAppsrListByUser" parameterType="map"
+		resultType="SR002MT">
+    <![CDATA[
+		SELECT *
+		FROM (
+		    SELECT rownum AS rnum, sr.APP_SR_ID, sr.SR_ID, 
+		           cd_dept.CD_NM AS departmentName, 
+		           cd_wk.CD_NM AS workType, 
+		           sr.TRG_ST_DT, sr.TRG_END_DT, sr.RVW_CONT, 
+		           sr.SR_TYPE, sr.MGR, sr.RCP_STAT, sr.DELT_YN, 
+		           sr.FIRST_INPT_DT, sr.FIRST_INPT_ID, sr.LAST_INPT_DT, sr.LAST_INPT_ID, sr.TASK_TYPE,
+		           m.MEM_NM AS registerName
+		    FROM TB_SR_002MT sr
+		    JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+		    LEFT JOIN TB_CD_MT cd_dept ON sr.DEPT_ID = cd_dept.CD_ID
+		    LEFT JOIN TB_CD_MT cd_wk ON sr.WK_TYPE = cd_wk.CD_ID
+		    WHERE sr.DELT_YN = 'N'
+		      AND sr.FIRST_INPT_ID = #{memberInfo}
+		      AND rownum <= #{endRowNo} 
+		    ORDER BY sr.TRG_ST_DT DESC
+		)
+		WHERE rnum >= #{startRowNo} 
+		ORDER BY rnum
+    ]]>
+	</select>
+
+	<!-- 상태별 게시물 갯수 가져오기 -->
+	<select id="selectAppCountRowsByStatusAndUser"
+		parameterType="map" resultType="int">
+		SELECT sr001.SR_STAT, COUNT(*) AS statusCount
+		FROM TB_SR_002MT sr
+		JOIN TB_SR_001MT sr001 ON sr.SR_ID = sr001.SR_ID
+		JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+		WHERE sr001.SR_STAT = #{srStat}
+		  AND sr.DELT_YN = 'N'
+		  AND m.MEM_ID = #{memNo}       
+		GROUP BY sr001.SR_STAT
+	</select>
+
+	<!-- 상태별 SR 목록 가져오기 -->
+	<select id="selectAppsrListByStatusAndUser" parameterType="map"
+		resultType="SR002MT">
+
+	</select>
+
+</mapper>
