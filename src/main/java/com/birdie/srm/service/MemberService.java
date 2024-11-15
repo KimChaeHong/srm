@@ -89,6 +89,11 @@ public class MemberService {
 	public List<IS001MT> getInstitutionsByRole(String role) {
 		return is001mtDao.selectInstitutionsByRole(role);
 	}
+	
+	// ADMI 역할에 따른 기관 정보 가져오기
+	public List<IS001MT> getAdminInstitutionsByRole(String role) {
+		return is001mtDao.selectAdminInstitutionsByRole(role);
+	}
 
 	//전체 사용자 목록 가져오기
 	public List<MB001MT> getMemberList(PagerDto pager) {

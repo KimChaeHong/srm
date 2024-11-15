@@ -71,6 +71,13 @@ public class MemberController {
 		List<IS001MT> institutions = memberService.getInstitutionsByRole("ROLE_GUSR");
 		return ResponseEntity.ok(institutions);
 	}
+	
+	@GetMapping("/adminInstitutions")
+	public ResponseEntity<List<IS001MT>> getAdminInstitutions() {
+		log.info("역할에 따른 기관 목록 조회 - role ");
+		List<IS001MT> adminInst = memberService.getAdminInstitutionsByRole("ROLE_ADMI");
+		return ResponseEntity.ok(adminInst);
+	}
 
 	// 기관에 따른 부서 목록 조회
 	@GetMapping("/departments")
