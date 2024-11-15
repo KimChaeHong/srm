@@ -215,10 +215,10 @@
                 SELECT sr1.SR_ID, sr1.SR_TITLE, sr1.REQ_DT, sr1.DUE_DT, sr1.SR_CONT, sr1.REL_SYS, sr1.SR_STAT, sr1.DELT_YN, 
                        sr1.FIRST_INPT_DT, sr1.FIRST_INPT_ID, sr1.LAST_INPT_DT, sr1.LAST_INPT_ID
                 FROM TB_SR_001MT sr1
-                JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+                JOIN TB_MB_001MT m ON sr1.FIRST_INPT_ID = m.MEM_NO
                 JOIN TB_SR_002MT sr2 ON sr1.SR_ID = sr2.SR_ID
                 WHERE sr2.FIRST_INPT_ID = #{memNo}
-                  AND sr1.SR_STAT = #{srStat}
+                  
                   AND sr1.DELT_YN = 'N'
                 ORDER BY sr1.REQ_DT DESC
             )

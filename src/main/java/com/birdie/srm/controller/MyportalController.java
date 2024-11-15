@@ -96,6 +96,7 @@ public class MyportalController {
 	    // 로그인한 사용자 정보 가져오기
 	    MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 	    String memberInfo = memberDetails.getUsername(); // 아이디 가져오기
+	    String memberNo = memberDetails.getMember().getMemNo(); // 사번 가져오기
 	    String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 
 	    log.debug("User Role: {}", userRole1);
@@ -119,13 +120,13 @@ public class MyportalController {
 	    //"ALL" 혹은 빈 srStat일 때 모든 상태 조회
 	    if ("ROLE_ADMI".equals(userRole1)) {
 	        if (srStat.isEmpty()) {
-	            totalRows = myPortalService.getTotalManagerRows(memberInfo);
+	            totalRows = myPortalService.getTotalManagerRows(memberNo);
 	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-	            mySrList = myPortalService.getManagerSrList(memberInfo, pager);
+	            mySrList = myPortalService.getManagerSrList(memberNo, pager);
 	        } else {
-	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberInfo);
+	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberNo);
 	            pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-	            mySrList = myPortalService.getManagerSrListByStatus(srStat, memberInfo, pager);
+	            mySrList = myPortalService.getManagerSrListByStatus(srStat, memberNo, pager);
 	        }
 	    } else {
 	        if (srStat.isEmpty()) {
@@ -162,6 +163,7 @@ public class MyportalController {
 
 	    MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 	    String memberInfo = memberDetails.getUsername(); // 사용자 아이디 가져오기
+	    String memberNo = memberDetails.getMember().getMemNo(); // 사번 가져오기
 	    String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 
 	    if (rowsPerPage == null) {
@@ -179,9 +181,9 @@ public class MyportalController {
 	    // 관리자의 경우와 일반 사용자의 경우를 구분하여 처리
 	    if ("ROLE_ADMI".equals(userRole1)) { // 관리자의 경우
 	        if ("ALL".equals(srStat)) { // 전체 목록 조회
-	            totalRows = myPortalService.getTotalManagerRows(memberInfo);
+	            totalRows = myPortalService.getTotalManagerRows(memberNo);
 	        } else { // 특정 상태 조회
-	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberInfo);
+	            totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberNo);
 	        }
 	    } else { // 일반 사용자와 개발자의 경우
 	        if ("ALL".equals(srStat)) { // 전체 목록 조회
