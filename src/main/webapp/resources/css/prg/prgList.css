@@ -131,6 +131,11 @@ body {
     width: 70px;
 }
 
+#pg-table{
+	width: 780px;
+	table-layout: fixed;
+}
+
 tr {
     height: 47px;
     border-bottom: 1px solid #EDF2F9;
@@ -139,7 +144,7 @@ tr {
 
 #tr-style:hover {
 	cursor: pointer;
-	background-color: #B0E0E6;
+	background-color: #ececec;
 }
 tr td, tr th {
     vertical-align: middle; /* 세로 가운데 정렬 */
@@ -152,6 +157,9 @@ td {
     text-align: center;
     line-height: 1;
     font-weight: 510;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    text-overflow: ellipsis; /* '...' 표시 */
 }
 
 th {
@@ -174,15 +182,18 @@ th {
 }
 
 .relSys-empl {
-    background-color: #CDE1FF; /* 고용보험 */
+	color: #215cac;
+    background-color: #d9e7fa; /* 고용보험 */
 }
 
 .relSys-hrdv {
-    background-color: #FFF1B8; /* HRD  */
+    color: #c48e00; 
+    background-color: #fff7d1; /* HRD  */
 }
 
 .relSys-work {
-    background-color: #D3F3F1; /* 워크넷 */
+    color: #2d8c8b; 
+    background-color: #e0f8f7; /* 워크넷 */
 }
 
 /* --------접수상태에 따라 색상 지정-------- */
@@ -198,16 +209,20 @@ th {
 
 /* 상태별 색상 */
 .status-dece {
-    background-color: #CFF7D3; /* 접수 */
+    color: #00894f;
+    background-color: #d9f8eb; /* 접수 */
 }
 
 .status-canc {
-    background-color: #F7CFCF; /* 취소  */
+	color: #b82c46;
+    background-color: #fbdbe1; /* 취소  */
 }
 
 .status-hold {
-    background-color: #F7E1CF; /* 보류  */
+	color: #ac5a2b;
+    background-color: #fde6d8; /* 보류  */
 }
+
 
 
 /* Pagination */
@@ -331,7 +346,16 @@ th {
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
     border-radius: 4px;
 }
-
+#reset-btn{
+	font-size: 12px;
+    color: #4D5969;
+    background-color: white;
+    border: 1px solid #DCDCE1;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    width: 63px;
+    height: 28px;
+}
 
 /*------------------- SR 관리 정보 -------------------*/
 #sr-prg-mgmt{
@@ -457,10 +481,6 @@ hr{
 	cursor: pointer;
 }
 
-label{
-    font-size: 8px;
-    width: 40px;
-}
 
 .form-group{
     display: flex;              /* 가로 정렬 */
@@ -524,7 +544,7 @@ input{
 
 }
 .selected-sr {
-    background-color: #e0f7fa; /* 원하는 색상으로 변경 */
+    background-color: #f2f2f2; /* 원하는 색상으로 변경 */
 }
 
 input#person {
@@ -558,7 +578,7 @@ input#person {
 }
 
 /* -------------------------------------------------모달----------------------------------- */
-#modal-search-box {
+#modal-search-box, #hr-modal-search-box {
     height: 60px;
     background-color: #F9FAFD;
     margin-bottom: 20px;
@@ -575,11 +595,11 @@ input#person {
     font-weight: 900;
 }
 
-#modal-dept-select {
+#modal-dept-select, #hr-modal-dept-select {
     width: 250px;
 }
 
-#modal-name-search {
+#modal-name-search, #hr-modal-name-search{
     width: 250px;
 }
 
@@ -599,13 +619,16 @@ input#person {
     width: 100%;
     border: 1px solid #EDF2F9;
     border-collapse: collapse;
-    margin-top: 10px;
     margin-bottom: 20px;
 }
 
 .modal-thead th {
+	position: sticky; /* 제목 행 고정 */
+	z-index: 1;
+	top: 0;
     background-color: #EDF2F9;
-    padding: 10px 0px;
+    padding: 8px 0; /* 수직 여백을 균일하게 설정 */
+    margin: 0;
     text-align: center;
     font-size: 12px;
 }
@@ -620,7 +643,7 @@ input#person {
     text-align: center;
 }
 
-.modal-search-btn {
+.modal-search-btn, .hr-modal-search-btn {
     width: 60px;
     height: 30px;
     border: 1px solid #DCDCE1 !important;
@@ -638,8 +661,15 @@ input#person {
     font-size: 12px;
     color: #4D5969;
 }
-
-#modal-close-btn {
+.hr-modal-add-btn, .hr-modal-close-btn{
+	width: 60px;
+    height: 30px;
+    border: 1px solid #DCDCE1 !important;
+    box-shadow: 0px 1px 3px rgb(0, 0, 0, 0.25);
+    font-size: 12px;
+    color: #4D5969;
+}
+#modal-close-btn, #hr-modal-close-btn {
     width: 30px !important;
     height: 30px !important;
     padding: 4px;
@@ -660,15 +690,15 @@ input#person {
 }
 
 .modal-col-2 {
-    width: 300px;
+    width: 250px;
 }
 
 .modal-col-3 {
-    width: 240px;
+    width: 248px;
 }
 
 .modal-col-4 {
-    width: 200px;
+    width: 248px;
 }
 
 .form-check-input {
@@ -732,3 +762,42 @@ input#person {
     padding: 3px !important;
     margin: 0 0 5px 375px;
 }
+
+#hr-scroll {
+    max-height: 300px; /* 스크롤 높이 설정 */
+    overflow-y: auto;  /* 수직 스크롤 생성 */
+}
+
+
+/* 스크롤바 CSS */
+#hr-scroll::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+#hr-scroll::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: #3D86E7; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+#hr-scroll::-webkit-scrollbar-track {
+    background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
+}
+
+/* 스크롤바 CSS */
+#table-container::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+#table-container::-webkit-scrollbar-thumb {
+    height: 10%; /* 스크롤바의 길이 */
+    background: #3D86E7; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+#table-container::-webkit-scrollbar-track {
+    background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
+}
+

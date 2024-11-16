@@ -8,6 +8,8 @@
 <script src="${pageContext.request.contextPath}/resources/jquery/jquery.min.js" defer></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/srHr.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srHr.css" />
 
 
        <!-- section -->
@@ -45,6 +47,7 @@
 				                       	</c:forEach>		
 	                               </select>
 	                           </li>
+	                           <button type="button" id="reset-btn" onclick="resetForm()">초기화</button>
 	                       </ul>
 	                   </div>
 	                   <div class="searchBox2">
@@ -97,8 +100,13 @@
                    <div id="sr-header-container">
 					   <h2 id="sr-list-title">SR처리 목록</h2>
 					   <div id="filter-container">
-				           <span id="my-sr">내가 담당한 SR만 보기</span>
-				           <input type="checkbox" id="my-sr-filter" onclick="filterMySRs()" />
+						   <c:if test="${memInfo != null && memInfo.role1 == 'ROLE_DEVE'}">
+							    <span id="my-sr">내가 담당한 SR만 보기</span>
+							    <input type="checkbox" id="my-sr-filter" onclick="filterMySRs()" 
+							           <c:if test="${onlyMySr}">checked="checked"</c:if> />
+							</c:if>
+
+				           
 					   </div>
 				   </div>
                    <hr>
@@ -158,13 +166,25 @@
 										</td>
 	                                    <td class="col-9">	<!-- 진행상태(작업구분) -->
 	                                    	<c:choose>
-	                                    		<c:when test="${sr002MT.taskType == 'ANAL' }">분석</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'DESI' }">설계</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'IMPL' }">구현</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'TEST' }">시험</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'REFL' }">반영요청</c:when>
-	                                    		<c:when test="${sr002MT.taskType == 'OPER' }">운영반영</c:when>
-	                                    	</c:choose>
+										        <c:when test="${sr002MT.taskType == 'ANAL'}">
+										            <span class="btn-task task-anal">분석</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'DESI'}">
+										            <span class="btn-task task-desi">설계</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'IMPL'}">
+										            <span class="btn-task task-impl">구현</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'TEST'}">
+										            <span class="btn-task task-test">시험</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'REFL'}">
+										            <span class="btn-task task-refl">반영요청</span>
+										        </c:when>
+										        <c:when test="${sr002MT.taskType == 'OPER'}">
+										            <span class="btn-task task-oper">운영반영</span>
+										        </c:when>
+										    </c:choose>
 	                                    </td> 
                                		</tr>
                                </c:forEach>
@@ -197,13 +217,14 @@
 	                    
 		                <form id="row-select" action="list" method="get">
 						    <!-- 검색값  유지를 위한 숨겨진 태그들 -->
-						    <input type="hidden" name="startDate" value="${searchCont.searchDto.startDate}">
-						    <input type="hidden" name="endDate" value="${searchCont.searchDto.endDate}">
+						    <input type="hidden" name="startDate" value="<fmt:formatDate value="${searchCont.searchDto.startDate}" pattern="yyyy-MM-dd"/>">
+							<input type="hidden" name="endDate" value="<fmt:formatDate value="${searchCont.searchDto.endDate}" pattern="yyyy-MM-dd"/>">
 						    <input type="hidden" name="relSys" value="${searchCont.searchDto.relSys}">		
 						    <input type="hidden" name="wkType" value="${searchCont.searchDto.wkType}">
 						    <input type="hidden" name="keyword" value="${searchCont.searchDto.keyword}">
 						    <input type="hidden" name="tkType" value="${searchCont.searchDto.tkType}">
 						    <input type="hidden" name="rcpStat" value="${searchCont.searchDto.rcpStat}">
+						    
 						    
 						    <!--rowsPerPage 선택 -->
 						    <select class="row-select form-select" name="rowsPerPage" onchange="this.form.submit();">
@@ -280,48 +301,29 @@
 
 
 
-                   <!------------------------------ SR 요청 처리 정보------------------------ -->
-					<div id="sr-plan-info"> 
-				        <div id="title">
-				            SR 요청 처리정보
-				        </div>
-				        <hr>
-				        <div class="tabs-container d-flex align-items-center">
-				            <ul class="nav nav-tabs">
-				                <li class="nav-item">
-								    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}" >SR계획정보</a>
-								</li>
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR자원정보</a>
-				                </li>
-				                <li class="nav-item">
-				                    <a class="nav-link pg-tab" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}">SR진척율</a>
-				                </li>
-				            </ul>
-				
-				        </div>
-
-				        <!-- ---------------SR계획정보(SR진척 페이지를 열었을 때 기본적으로 보이는 계획정보(기본적으로 비활성화 상태)) ----------------------->
-                    	<div id="sr-container">
-	                    	<form id="sr-plan-form">
-					            <div class="form-group">
-					                <label for="request-type">요청 구분</label>
-					                <select id="request-type" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                </select>
-					            </div>
+                    <!------------------------------ SR 요청 처리 정보------------------------ -->
+					<div id='tab-box'>
+						<div id="sr-plan-info"> 
+					        <div id="title">
+					            SR 요청 처리정보
+					        </div>
+					        <hr>
+					        <div class="tabs-container d-flex align-items-center">
+					            <ul class="nav nav-tabs">
+					                <li class="nav-item">
+									    <a class="nav-link pg-tab active" data-bs-toggle="tab" data-appsrid="${srPlan.appSrId}" >SR계획정보</a>
+									</li>
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab" data-bs-toggle="tab" id="sr-resource-tab"
+					                    	data-appsrid="${srPlan.appSrId}">SR자원정보</a>
+					                </li>
+					                <li class="nav-item">
+					                    <a class="nav-link pg-tab" data-bs-toggle="tab" id="sr-ratio-tab"
+					                    	data-appsrid="${srPlan.appSrId}">SR진척율</a>
+					                </li>
+					            </ul>
 					
-					            <div class="form-group">
-					                <label for="team">처리팀</label>
-					                <input type="text" id="team" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="work-type">업무 구분</label>
-					                <select id="work-type" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                </select>
-					            </div>
+					        </div>
 
 					        <!-- ---------------SR계획정보(SR진척 페이지를 열었을 때 기본적으로 보이는 계획정보(기본적으로 비활성화 상태)) ----------------------->
 	                    	<div id="sr-container">
@@ -331,47 +333,13 @@
 			    		</div>
 					</div>
 					
-					            <div class="form-group">
-					                <label for="person">담당자</label>
-					                <input type="text" id="person" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="start-date">목표 시작일</label>
-					                <input type="date" id="start-date" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="end-date">목표 완료일</label>
-					                <input type="date" id="end-date" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="status">접수 상태</label>
-					                <select id="status" class="form-select" disabled>
-					                    <option selected>선택</option>
-					                </select>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="total-hours">총계획공수</label>
-					                <input type="text" id="total-hours" disabled>
-					            </div>
-					
-					            <div class="form-group">
-					                <label for="review">검토 내용</label>
-					                <textarea id="review" disabled></textarea>
-					            </div>
-					            
-					        </form>
-				        </div>
+					           
 				        
-		    		</div>
 					
-					<!-- Modal -->
+					<!-- -----------------계획정보 Modal ----------------------------->
 					<div class="modal modal-lg fade" id="mgr-modal" tabindex="-1"
 						aria-hidden="true" aria-labelledby="staticBackdropLabel"
-						data-bs-backdrop="s	tatic" data-bs-keyboard="false">
+						data-bs-backdrop="static" data-bs-keyboard="false">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header ps-3">
@@ -382,7 +350,6 @@
 									</button>
 								</div>
 								<div class="modal-body p-3">
-		
 									<form id="modal-search-box" method="GET"
 										class="d-flex justify-content-between align-items-center">
 		
@@ -445,7 +412,88 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- --------------자원 모달---------------- -->
+					<div class="modal modal-lg fade" id="hr-modal" tabindex="-1"
+						aria-hidden="true" aria-labelledby="hrModalLabel"
+						data-bs-backdrop="static" data-bs-keyboard="false">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header ps-3">
+									<span class="modal-title">인적자원 검색</span>
+									<button id="hr-modal-close-btn" type="button"
+										data-bs-dismiss="modal">
+										<i class="bi modal-bi-x-square"></i>
+									</button>
+								</div>
+								<div class="modal-body p-3">
+									<form id="hr-modal-search-box" method="GET"
+										class="d-flex justify-content-between align-items-center">
+										<div id="hr-modal-dept-select"
+											class="d-flex justify-content-center align-items-center">
+											<label for="hr-modal-hr-select" class="me-3 modal-label">부서</label>
+											<select id="hr-modal-hr-select"
+												class="modal-hr-select form-select" name="deptId">
+												<option value="">전체</option>
+												<option value="DEV1">개발 1팀</option>
+												<option value="DEV2">개발 2팀</option>
+											</select>
+										</div>
+										<div id="hr-modal-name-search"
+											class="d-flex justify-content-center align-items-center">
+											<label for="hr-modal-hr-input" class="me-3 modal-label">담당자명</label>
+											<input type="text" id="hr-modal-hr-input"
+												class="modal-hr-input form-control" name="memNm">
+										</div>
+										<button class="btn btn-sm hr-modal-search-btn">검색</button>
+									</form>
 		
+									<span class="modal-title ms-2">조회 결과</span>
+									<div id="hr-scroll" class="overflow-auto">
+									    <table id="hr-modal-task-table" class="modal-table table">
+									        <thead class="modal-thead">
+									            <tr class="modal-tr">
+									                <th class="modal-col-1">선택</th>
+									                <th class="modal-col-2">부서</th>
+									                <th class="modal-col-3">역할</th>
+									                <th class="modal-col-4">직원명</th>
+									            </tr>
+									        </thead>
+									        <tbody class="modal-tbody" id="hr-modal-results-tbody">
+									            <c:forEach items="${mgrs }" var="mgr">
+									                <tr>
+									                    <td class="col-1">
+									                        <input class="form-check-input" type="checkbox" value="${mgr.memId}" name="selectedMgr">
+									                    </td>
+									                    <td class="col-2">
+									                        <c:choose>
+									                            <c:when test="${mgr.deptId == 'DEV1'}">개발 1팀</c:when>
+									                            <c:when test="${mgr.deptId == 'DEV2'}">개발 2팀</c:when>
+									                        </c:choose>
+									                    </td>
+									                    <td class="col-3">
+									                        <c:choose>
+									                            <%-- <c:when test="${mgr.role1 == 'ROLE_DEVE'}">개발자</c:when> --%>
+									                            <c:when test="${mgr.role2 ==  'LEAD'}">개발팀장</c:when>
+									                            <c:when test="${mgr.role2 ==  'MEMB'}">개발팀원</c:when>
+									                        </c:choose>
+									                    </td>
+									                    <td class="col-4">${mgr.memNm}</td>
+									                </tr>
+									            </c:forEach>
+									        </tbody>
+									    </table>
+									</div>
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn hr-modal-add-btn">등록</button>
+									<button type="button" class="btn hr-modal-close-btn"
+										data-bs-dismiss="modal">닫기</button>
+								</div>
+							</div>
+						</div>
+					</div>
 		
 		
 		

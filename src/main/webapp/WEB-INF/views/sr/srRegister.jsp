@@ -55,7 +55,7 @@
 	                            </div>
 	                            <div class="form-row">
 	                                <label for="dueDt">완료(예정)일</label>
-	                                <input type="date" id="dueDt" name="dueDt" required>
+	                                <input type="date" min="<%= today %>" id="dueDt" name="dueDt" required>
 	                            </div>
 	                        </div>
 	

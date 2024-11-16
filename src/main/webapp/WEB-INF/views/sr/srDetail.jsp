@@ -2,7 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
+<% SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String today = sdf.format(new Date());
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,14 +53,14 @@
 	            </div>
 	            <div class="form-row">
 	                <label for="dueDt">완료(예정)일</label>
-	                <input type="date" id="dueDt" name="dueDt" value="<fmt:formatDate value="${srDetail.dueDt}" pattern="yyyy-MM-dd"/>" ${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <input type="date" id="dueDt" min="<%= today %>" name="dueDt" value="<fmt:formatDate value="${srDetail.dueDt}" pattern="yyyy-MM-dd"/>" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
 	            </div>
 	        </div>
 	
 	        <div>
 	            <div class="form-row">
 	                <label for="sys-select">관련 시스템</label>
-	                <select id="sys-select" name="relSys" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <select id="sys-select" name="relSys" disabled>
 						<option value=''>선택</option>
 						<c:forEach items="${sysList}" var="sysList">
 							<option value="${sysList.cdId}" ${sysList.cdId == srDetail.relSys ? 'selected' : ''}>${sysList.cdNm}</option>

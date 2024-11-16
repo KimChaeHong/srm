@@ -22,8 +22,15 @@
 	rel="stylesheet">
 
 <!-- SweetAlert2 -->
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+=======
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" defer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+	
+>>>>>>> branch 'feature/1' of https://github.com/KimChaeHong/srm.git
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -60,15 +67,14 @@
 			<!-- 로그인 했다는 뜻 -->
 			<div id="info-container">
 				<div class="user-profile">
-									
+					<span class="badge" id="user-role"><sec:authentication property="principal.member.role1Nm" /></span>				
 					<i class="bi bi-person-circle icon"></i>
-					
 					<div class="user-name">
 						<sec:authentication property="principal.member.memNm" />
 					</div>
-
-					<a href="${pageContext.request.contextPath}/member/logout"><i
-						class="bi bi-box-arrow-right logout"></i></a>
+					<a href="${pageContext.request.contextPath}/member/logout">
+						<i class="bi bi-box-arrow-right logout"></i>
+					</a>
 				</div>
 			</div>
 		</sec:authorize>

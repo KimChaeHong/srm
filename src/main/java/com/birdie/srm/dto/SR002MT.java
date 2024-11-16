@@ -20,7 +20,7 @@ public class SR002MT {
 	
 	private String rvwCont;		// 검토내용
 	private String srType;		// 요청 구분(개선, 신규, 오류, 기타)
-	private String mgr;			// 담당자
+	private String mgr;			// 담당자(사번)
 	private String rcpStat;		// 접수상태(접수, 취소, 보류)
 	
 	private String deltYn;		// 삭제여부
@@ -35,6 +35,7 @@ public class SR002MT {
 	private String srTitle;		// sr001 - sr제목
 	private String srCont;		// sr001 - sr내용
 	private String instNm;		// is001 - 기관이름
+	private int prg;			// 진척율
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date reqDt;			// sr001 - 완료요청일
@@ -44,6 +45,6 @@ public class SR002MT {
 	private String srStat;		// sr001 - 진행상태
 	private String taskType;	// TB_SR_001NT(진척율) - TASK_TYPE 컬럼
 	private String memNm;		// 회원(담당자) 이름
-	
+	private int totalPlnMd; 	// 총계획공수
 	private String rnum;
 }

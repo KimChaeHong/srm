@@ -2,7 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member/memList.css" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/member/memList.css" />
+	
+<!-- jQuery 라이브러리 추가 (CDN) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript 파일 로드 -->
+<script src="${pageContext.request.contextPath}/resources/js/memList.js"></script>
+
 
 <!-- section -->
 <div id="section">
@@ -62,7 +72,7 @@
 	<div id="member-list">
 		<h2 id="mem-list-title">회원 목록</h2>
 		<hr id="mem-list-hr">
-		<div id="table-container">
+		<div id="table-container" class="overflow-auto">
 			<table id="pg-table">
 				<thead>
 					<tr>
@@ -70,7 +80,7 @@
 						<th class="col-2">사번</th>
 						<th class="col-3">소속</th>
 						<th class="col-4">부서</th>
-						<th class="col-5">사용자역할</th>
+						<th class="col-5">사용자</th>
 						<th class="col-6">직급</th>
 						<th class="col-7">가입일</th>
 						<th class="col-8">승인 여부</th>
@@ -82,14 +92,16 @@
 						<tr>
 							<td class="col-1">${mb001mt.memNm}</td>
 							<td class="col-2">${mb001mt.memNo}</td>
-							<td class="col-3">${mb001mt.instId}</td>
-							<td class="col-4">${mb001mt.deptId}</td>
-							<td class="col-5">${mb001mt.role1}</td>
-							<td class="col-6">${mb001mt.role2}</td>
-							<td class="col-7">${mb001mt.firstInptDt}</td>
+							<td class="col-3">${mb001mt.instNm}</td>
+							<td class="col-4">${mb001mt.deptNm}</td>
+							<td class="col-5">${mb001mt.role1Nm}</td>
+							<td class="col-6">${mb001mt.role2Nm}</td>
+							<td class="col-7"><fmt:formatDate
+									value="${mb001mt.firstInptDt}" pattern="yy/MM/dd" /></td>
 							<td class="col-8">${mb001mt.appYn}</td>
 							<td class="col-9">
-								<button class="detail-btn" data-bs-toggle="modal"
+								<button class="detail-btn" data-id="${mb001mt.memId}"
+								data-bs-toggle="modal" id="detial-btn"
 									data-bs-target="#detail-modal">회원 상세</button>
 							</td>
 						</tr>
@@ -105,27 +117,28 @@
 					class="bi bi-chevron-left"></i>
 				</a>
 			</c:if>
-			
+
 			<c:forEach begin="${pager.startPageNo}" end="${pager.endPageNo}"
 				step="1" var="i">
-				<a href="${pageContext.request.contextPath}/member/list?pageNo=${i}" class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}"
+				<a href="${pageContext.request.contextPath}/member/list?pageNo=${i}"
+					class="btn page-btn shadow-sm ${pager.pageNo == i ? 'active' : ''}"
 					data-page="${i}">${i}</a>
 			</c:forEach>
-			
+
 			<c:if test="${pager.groupNo < pager.totalGroupNo}">
 				<a class="btn page-btn shadow-sm" data-page="${pager.endPageNo + 1}">
 					<i class="bi bi-chevron-right"></i>
 				</a>
 			</c:if>
-			
+
 			<select class="row-select form-select" id="rowsPerPageSelect">
 				<option value="10" ${pager.rowsPerPage == 10 ? 'selected' : ''}>10</option>
 				<option value="20" ${pager.rowsPerPage == 20 ? 'selected' : ''}>20</option>
 				<option value="30" ${pager.rowsPerPage == 30 ? 'selected' : ''}>30</option>
 				<option value="40" ${pager.rowsPerPage == 40 ? 'selected' : ''}>40</option>
 			</select> <input type="hidden" id="currentPage" value="${pager.pageNo}" />
-		</div>
 
+		</div>
 	</div>
 </div>
 <!-- Modal -->
@@ -135,7 +148,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<p class="modal-title" id="exampleModalLabel">요청 상세</p>
+				<p class="modal-title" id="exampleModalLabel">가입 요청 관리</p>
 				<button class="close-btn ms-auto" type="button"
 					data-bs-dismiss="modal">
 					<i class="bi bi-x-square"></i>
@@ -144,67 +157,41 @@
 			<div class="modal-body">
 				<div class="container-fluid">
 					<form>
-						<div class="row">
-							<div class="col-md-6">
-								<div>
-									<label for="registrant">등록자</label> <input type="text"
-										id="registrant" placeholder="이민성" disabled>
-								</div>
-								<div>
-									<label for="registration-date">등록일</label> <input type="date"
-										id="registration-date" name="registration-date"
-										placeholder="2024.10.01" disabled>
-								</div>
-								<div class="form-row">
-									<label for="completion-date">요청일</label> <input type="date"
-										id="completion-date" name="completion-date"
-										placeholder="2024.10.01" disabled>
-								</div>
-
-							</div>
-							<div class="col-md-6">
-								<div class="form-row">
-									<label for="department">부서</label> <input type="text"
-										id="department" name="department" placeholder="고용노동부" disabled>
-								</div>
-								<div class="form-row">
-									<label for="sr-status">요청 상태</label> <input type="text"
-										id="sr-status" name="related-system" placeholder="요청" disabled>
-								</div>
-								<div class="form-row">
-									<label for="completion-date">완료(예정)일</label> <input type="date"
-										id="completion-date" name="completion-date"
-										placeholder="2024.10.01" disabled>
-								</div>
-							</div>
-
-							<div>
-								<div class="form-row">
-									<label for="sr-title">SR 제목</label> <input type=" text"
-										id="sr-title" name="related-system" placeholder="고용 24 화면 개선"
-										disabled>
-								</div>
-
-								<div class="form-row">
-									<label for="related-system">관련 시스템</label> <input type="text"
-										id="related-system" name="related-system" placeholder="고용 보험"
-										disabled>
-								</div>
-
-								<div class="form-row">
-									<label for="sr-content">SR 내용</label>
-									<textarea id="sr-content" name="sr-content" disabled>
-    1. 목적:
-
-    2. 개선 내용:
-    
-    3. 고려 사항:
-                                            </textarea>
-								</div>
-
-								<div class="form-row">
-									<label for="attachment">첨부파일</label> <input type="file"
-										id="attachment" name="attachment" disabled>
+						<div id="sr-list">
+							<div class="container">
+								<div class="request">
+									<div class="input-div">
+										<label>이름</label> <input type="text" id="mem-name"
+											name="mem-name" required>
+									</div>
+									<div class="input-div">
+										<label>아이디</label> <input type="text" id="mem-id"
+											name="mem-id" required>
+									</div>
+									<div class="input-div">
+										<label>사번</label> <input type="text" id="mem-no" name="mem-no"
+											required>
+									</div>
+									<div class="input-div">
+										<label>소속</label> <input type="text" id="inst-id"
+											name="inst-id" required>
+									</div>
+									<div class="input-div">
+										<label>부서</label> <input type="text" id="dept-id"
+											name="dept-id" required>
+									</div>
+									<div class="input-div">
+										<label>사용자 역할</label> <input type="text" id="role1"
+											name="role1" required>
+									</div>
+									<div class="input-div">
+										<label>팀 역할</label> <input type="text" id="role2" name="role2"
+											required>
+									</div>
+									<div class="input-div">
+										<label>가입 요청일</label> <input type="text" id="first-inpt-dt"
+											name="first-inpt-dt" required>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -212,9 +199,9 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button id="save-btn" type="button" class="btn btn-primary">처리</button>
+				<button type="submit" id="ok">가입승인</button>
+				<button type="submit" id="reject">거부</button>
 			</div>
-
 		</div>
 	</div>
 </div>

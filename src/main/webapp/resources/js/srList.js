@@ -77,7 +77,7 @@ $(document).ready(function() {
             confirmButtonColor: '#d33',
             cancelButtonColor: '#D9D9D9',
             confirmButtonText: '삭제',
-            cancelButtonText: '취소'
+            cancelButtonText: '취소',
         }).then(result => {
             if (result.isConfirmed) {
                 $('#detail-form').attr('action', 'srDelete').submit();
@@ -92,14 +92,16 @@ $(document).ready(function() {
         const formData = new FormData(form);
         const stat = formData.get('srStat');
         let successMessage = null;
-        if(stat == 'RECE'){
-        	successMessage = '승인처리 되었습니다.'
-        }else if(stat == 'REJC'){
-        	successMessage = '반려처리 되었습니다.'    	
-        }else if(stat == 'RERE'){
-        	successMessage = '재검토처리 되었습니다.'    	
-        }else if(stat == 'REQT'){
-        	successMessage = '접수요청이 완료되었습니다.'    	
+        if(action == 'srProcess'){
+        	if(stat == 'RECE'){
+        		successMessage = '승인처리 되었습니다.'
+        	}else if(stat == 'REJC'){
+        		successMessage = '반려처리 되었습니다.'
+        	}else if(stat == 'RERE'){
+        		successMessage = '재검토처리 되었습니다.'
+        	}
+        }else{
+        	successMessage = '접수요청이 완료되었습니다.'
         }
 
         $.ajax({
@@ -147,5 +149,16 @@ $(document).ready(function() {
                 console.log('첨부파일 삭제 ajax 실패');
             }
         });
+    });
+});
+
+//검색 조건 초기화
+$(document).ready(function() {
+    // 초기화 버튼 클릭 이벤트
+    $('#reset-btn').on('click', function(event) {
+        event.preventDefault();
+        $('#search-box input[type="text"]').val('');
+        $('#search-box input[type="date"]').val('');
+        $('#search-box select').prop('selectedIndex', 0);	//셀렉트 박스 첫 번째 옵션 선택함
     });
 });

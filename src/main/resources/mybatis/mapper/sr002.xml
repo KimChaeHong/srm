@@ -21,24 +21,37 @@
 	        AND R.SR_STAT = 'OK'
 	</select> -->
 
-	<!-- 승인된 SR 리스트 검색 기능 --> 
+	<!-- 승인된 SR 리스트(+ 검색) --> 
 	<select id="getSearchedSr" parameterType="Map" resultType="SR002MT">	    
 	    SELECT
 	        RNUM, APP_SR_ID, SR_ID, SR_TITLE, REL_SYS, MEM_NM,
-        	FIRST_INPT_ID, RCP_STAT, REQ_DT, DUE_DT
+        	FIRST_INPT_ID, RCP_STAT, REQ_DT, DUE_DT, TASK_TYPE
 	    FROM (
 	        SELECT
 	            A.APP_SR_ID, R.SR_ID, R.SR_TITLE, R.REL_SYS, M.MEM_NM,
-	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT, 
+	            R.FIRST_INPT_ID, A.RCP_STAT, R.REQ_DT, R.DUE_DT, T.TASK_TYPE,
 	            ROW_NUMBER() OVER (ORDER BY R.FIRST_INPT_DT DESC) AS RNUM
 	        FROM TB_SR_002MT A 
 	        JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
 	        JOIN TB_MB_001MT M ON R.FIRST_INPT_ID = M.MEM_NO
-	        <!-- JOIN TB_SR_001NT H ON M.MEM_ID = H.MEM_ID -->
+			LEFT JOIN (
+				SELECT APP_SR_ID, TASK_TYPE
+				FROM TB_SR_002NT
+				WHERE (APP_SR_ID, PRG) IN (
+					SELECT APP_SR_ID, MAX(PRG)
+					FROM TB_SR_002NT
+					GROUP BY APP_SR_ID
+				)
+			) T ON A.APP_SR_ID = T.APP_SR_ID
+			LEFT JOIN (
+	            SELECT distinct 
+	            <if test="searchDto.memId != null and searchDto.memId != ''">               <!-- 내가 담당한 SR만 보기 -->
+	                MEM_ID,
+	            </if>
+	            APP_SR_ID  FROM TB_SR_001NT
+	        ) H ON A.APP_SR_ID = H.APP_SR_ID
 	        WHERE A.DELT_YN = 'N'
-	        	<!-- <if test="searchDto.onlyMySr == true">
-	        		AND H.MEM_ID = #{searchDto.memId}
-	        	</if> -->
+
           		<!-- AND R.SR_STAT = 'DECE' -->
 	            <if test="searchDto.startDate != null and searchDto.endDate != null">		<!-- 조회기간 -->
 	                AND R.FIRST_INPT_DT BETWEEN #{searchDto.startDate} AND #{searchDto.endDate}
@@ -65,44 +78,81 @@
 	            	</if>
 	            </if>
 	            <if test="searchDto.tkType != null and searchDto.tkType !=''">			<!-- 진행상태 -->
-	                AND NT.TASK_TYPE = #{searchDto.tkType}
-	            </if>
+				    AND T.TASK_TYPE = #{searchDto.tkType}
+				</if>
 	            <if test="searchDto.rcpStat != null and searchDto.rcpStat !=''">			<!-- 접수상태 -->
 	                AND A.RCP_STAT = #{searchDto.rcpStat}
+	           </if>
+	           <if test="searchDto.memId != null and searchDto.memId != ''">               <!-- 내가 담당한 SR만 보기 -->
+	                AND H.MEM_ID = #{searchDto.memId}
 	           </if>
 	          
 	    	)
 	    WHERE RNUM BETWEEN #{pager.startRowNo} AND #{pager.endRowNo}
+	    ORDER BY RNUM ASC
 	</select>
 	
 	<!-- 검색에 따라 반환되는 행 개수 -->
 	<select id="countRows" parameterType="Search" resultType="int">
-		select count(*)
-		from TB_SR_002MT A
-		JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
-		JOIN TB_SR_002NT NT ON A.APP_SR_ID = NT.APP_SR_ID
-		where 1=1 
-			<!-- <if test="startDate != null and startDate != '' and endDate != null and endDate != ''"> -->
-			<if test="startDate != null and endDate != null">
-				and R.FIRST_INPT_DT between #{startDate} and #{endDate}
-			</if>
-			<if test="relSys != null and relSys != ''">
-				and R.REL_SYS = #{relSys}
-			</if>
-			<if test="wkType != null and wkType != ''">
-				and A.WK_TYPE = #{wkType}
-			</if>
-			<if test="keyword != null and keyword != ''">
-				and R.SR_TITLE LIKE '%' || #{keyword} || '%'
-			</if>
-			<if test="tkType != null and tkType != ''">
-				and NT.TASK_TYPE = #{tkType}
-			</if>
-			<if test="rcpStat != null and rcpStat != ''">
-				and A.RCP_STAT = #{rcpStat}
-			</if>
-			
+	    SELECT COUNT(DISTINCT A.APP_SR_ID)
+	    FROM TB_SR_002MT A
+	    JOIN TB_SR_001MT R ON A.SR_ID = R.SR_ID
+	    LEFT JOIN TB_MB_001MT M ON R.FIRST_INPT_ID = M.MEM_NO
+	    LEFT JOIN (
+	        SELECT APP_SR_ID, TASK_TYPE
+	        FROM TB_SR_002NT
+	        WHERE (APP_SR_ID, PRG) IN (
+	            SELECT APP_SR_ID, MAX(PRG)
+	            FROM TB_SR_002NT
+	            GROUP BY APP_SR_ID
+	        )
+	    ) T ON A.APP_SR_ID = T.APP_SR_ID
+	    LEFT JOIN (
+	        SELECT DISTINCT
+	            <if test="memId != null and memId != ''">
+	                MEM_ID,
+	            </if>
+	            APP_SR_ID
+	        FROM TB_SR_001NT
+	    ) H ON A.APP_SR_ID = H.APP_SR_ID
+	    WHERE A.DELT_YN = 'N'
+	    
+	    <if test="startDate != null and endDate != null">
+	        AND R.FIRST_INPT_DT BETWEEN #{startDate} AND #{endDate}
+	    </if>
+	    <if test="relSys != null and relSys != ''">
+	        AND R.REL_SYS = #{relSys}
+	    </if>
+	    <if test="wkType != null and wkType != ''">
+	        AND A.WK_TYPE = #{wkType}
+	    </if>
+	    <if test="keyword != null and keyword !=''">
+	        <if test="searchKey == 'title'">
+	            AND (R.SR_TITLE LIKE '%' || #{keyword} || '%' 
+	            OR UPPER(R.SR_TITLE) LIKE UPPER('%' || #{keyword} || '%'))
+	        </if>
+	        <if test="searchKey == 'srid'">
+	            AND A.APP_SR_ID LIKE '%' || #{keyword} || '%'
+	        </if>
+	        <if test="searchKey == 'name'">
+	            AND M.MEM_NM LIKE '%' || #{keyword} || '%'
+	        </if>
+	        <if test="searchKey == 'content'">
+	            AND A.RVW_CONT LIKE '%' || #{keyword} || '%'
+	        </if>
+	    </if>
+	    <if test="tkType != null and tkType != ''">
+	        AND T.TASK_TYPE = #{tkType}
+	    </if>
+	    <if test="rcpStat != null and rcpStat != ''">
+	        AND A.RCP_STAT = #{rcpStat}
+	    </if>
+	    <if test="memId != null and memId != ''">
+	        AND H.MEM_ID = #{memId}
+	    </if>
 	</select>
+
+	
 	
 	<!-- 접수요청된 SR이 승인처리 될 때 TB_SR_002MT에 INSERT -->
 	<insert id="insertAppSr" parameterType="SR001MT">
@@ -125,11 +175,16 @@
 	        A.RCP_STAT,          <!-- 접수 상태 -->
 	        A.RVW_CONT,          <!-- 검토 내용 -->
 	        M.DEPT_ID,           <!-- 처리팀  -->
-	        M.MEM_NM AS MGR      <!-- 담당자 이름- MGR 필드로 매핑 -->
+	        M.MEM_NM AS MGR,     <!-- 담당자 이름- MGR 필드로 매핑 -->
+	        SUM(HR.PLN_MD) as TOTAL_PLN_MD		 <!-- 총 계획 공수 -->
 	    FROM TB_SR_002MT A
 	    LEFT JOIN TB_MB_001MT M
 	        ON A.MGR = M.MEM_NO   <!-- 승인된SR MGR(사번)으로 MEM_NO이랑 조인 -->
+	    LEFT JOIN TB_SR_001NT HR
+	    	ON A.APP_SR_ID = HR.APP_SR_ID
 	    WHERE A.APP_SR_ID = #{appSrId}
+	    GROUP BY A.APP_SR_ID, A.SR_TYPE, A.WK_TYPE, A.TRG_ST_DT, A.TRG_END_DT, 
+             A.RCP_STAT, A.RVW_CONT, M.DEPT_ID, M.MEM_NM	
 	</select>
 
 	<!-- SR계획정보 수정 -->
@@ -170,9 +225,11 @@
 	<!-- SR계획정보 - 담당자 조회 -->
 	<select id="selectMgr" resultType="MB001MT">
 		SELECT 
+			MEM_ID,
 			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
+			ROLE_2,
 			DEPT_ID
 		FROM TB_MB_001MT
 		WHERE ROLE_1 = 'ROLE_DEVE'
@@ -182,9 +239,11 @@
 	<!-- SR계획정보 - 담당자 검색 조회 -->
 	<select id="selectSearchMgr" resultType="MB001MT">
 		SELECT 
+			MEM_ID,
 			MEM_NO,	
 			MEM_NM,
 			ROLE_1,
+			ROLE_2,
 			DEPT_ID
 		FROM TB_MB_001MT
 		WHERE ROLE_1 = 'ROLE_DEVE'
@@ -203,6 +262,164 @@
 		where SR_ID = #{srId}
 	</select>
 	
+	<!-- 일반사용자 Event 가져오기 -->
+	<select id="selectGusrEvent" parameterType="MB001MT" resultType="SR002MT">
+	    SELECT 
+	        TB_SR_001MT.SR_TITLE,
+	        TB_SR_002MT.TRG_ST_DT,
+	        TB_SR_002MT.TRG_END_DT,
+	        MAX(TB_SR_002NT.PRG) AS MAX_PRG
+	    FROM 
+	        TB_SR_001MT
+	    JOIN 
+	        TB_SR_002MT ON TB_SR_001MT.SR_ID = TB_SR_002MT.SR_ID
+	    JOIN 
+	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
+	    WHERE 
+	        TB_SR_001MT.FIRST_INPT_ID = #{memNo}
+	    GROUP BY 
+	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
+	    HAVING 
+	        MAX(TB_SR_002NT.PRG) &lt; 100
+	    ORDER BY 
+	        TB_SR_002MT.TRG_END_DT ASC
+	</select>
 	
+	<!-- 개발자 Event 가져오기 -->
+	<select id="selectDeveEvent" parameterType="MB001MT" resultType="SR002MT">
+	    SELECT 
+	        TB_SR_002MT.TRG_ST_DT,
+	        TB_SR_002MT.TRG_END_DT,
+	        TB_SR_001MT.SR_TITLE,
+	        MAX(TB_SR_002NT.PRG) AS MAX_PRG
+	    FROM 
+	        TB_SR_002MT
+	    JOIN 
+	        TB_SR_001NT ON TB_SR_002MT.APP_SR_ID = TB_SR_001NT.APP_SR_ID
+	    JOIN 
+	        TB_SR_001MT ON TB_SR_002MT.SR_ID = TB_SR_001MT.SR_ID
+	    JOIN 
+	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
+	    WHERE 
+	        TB_SR_001NT.MEM_ID = #{memId}
+	    GROUP BY 
+	        TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT, TB_SR_001MT.SR_TITLE
+	    HAVING 
+	        MAX(TB_SR_002NT.PRG) &lt; 100
+	    ORDER BY 
+	        TB_SR_002MT.TRG_END_DT ASC
+	</select>
+	
+	<!-- 관리자 Event 가져오기 -->
+	<select id="selectAdmiEvent" parameterType="MB001MT" resultType="SR002MT">
+	    SELECT 
+	        TB_SR_001MT.SR_TITLE,
+			TB_SR_002MT.TRG_ST_DT,
+	        TB_SR_002MT.TRG_END_DT,	
+	        MAX(TB_SR_002NT.PRG) AS PRG
+	    FROM 
+	        TB_SR_002MT
+	    JOIN 
+	        TB_SR_001MT ON TB_SR_002MT.SR_ID = TB_SR_001MT.SR_ID
+	    JOIN 
+	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
+	    WHERE 
+	        TB_SR_002MT.FIRST_INPT_ID = #{memNo}
+<!-- 	        <if test="deptId == 'MGEM'"> 혹시 부서별 정렬 추가하면 다시 복구할 수 도있어서 남겨둠
+	            AND TB_SR_001MT.REL_SYS = 'EMPL'
+	        </if>
+	        <if test="deptId == 'MGHR'">
+	            AND TB_SR_001MT.REL_SYS = 'HRD'
+	        </if>
+	        <if test="deptId == 'MGWK'">
+	            AND TB_SR_001MT.REL_SYS = 'WORK'
+	        </if> -->
+	    GROUP BY 
+	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
+	    HAVING 
+	        MAX(TB_SR_002NT.PRG) &lt; 100
+	    ORDER BY 
+	        TB_SR_002MT.TRG_END_DT ASC
+	</select>
+	
+	<!-- 일반사용자 ProcessBar 정보 가져오기 -->
+	<select id="selectGusrProcess" parameterType="MB001MT" resultType="SR002MT">
+	    SELECT 
+	        TB_SR_001MT.SR_TITLE,
+	        TB_SR_002MT.TRG_ST_DT,
+	        TB_SR_002MT.TRG_END_DT,	        
+	        MAX(TB_SR_002NT.PRG) PRG
+	    FROM 
+	        TB_SR_001MT
+	    JOIN 
+	        TB_SR_002MT ON TB_SR_001MT.SR_ID = TB_SR_002MT.SR_ID
+	    JOIN 
+	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
+	    WHERE 
+	        TB_SR_001MT.FIRST_INPT_ID = #{memNo}
+	    GROUP BY 
+	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
+	    HAVING 
+	        MAX(TB_SR_002NT.PRG) &lt; 100
+	    ORDER BY 
+	        TB_SR_002MT.TRG_END_DT ASC
 
+	</select>
+	
+	<!-- 개발자 ProcessBar 정보 가져오기 -->
+	<select id="selectDeveProcess" parameterType="MB001MT" resultType="SR002MT">
+	    SELECT 
+	        TB_SR_001MT.SR_TITLE,
+	        TB_SR_002MT.TRG_ST_DT,
+        	TB_SR_002MT.TRG_END_DT,	 
+	        MAX(TB_SR_002NT.PRG) AS PRG
+	    FROM 
+	        TB_SR_002MT
+	    JOIN 
+	        TB_SR_001NT ON TB_SR_002MT.APP_SR_ID = TB_SR_001NT.APP_SR_ID
+	    JOIN 
+	        TB_SR_001MT ON TB_SR_002MT.SR_ID = TB_SR_001MT.SR_ID
+	    JOIN 
+	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
+	    WHERE 
+	        TB_SR_001NT.MEM_ID = #{memId}
+	    GROUP BY 
+	        TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT, TB_SR_001MT.SR_TITLE
+	    HAVING 
+	        MAX(TB_SR_002NT.PRG) &lt; 100
+	    ORDER BY 
+	        TB_SR_002MT.TRG_END_DT ASC
+	</select>
+	
+		<!-- 관리자 ProcessBar 정보 가져오기 -->
+	<select id="selectAdmiProcess" parameterType="MB001MT" resultType="SR002MT">
+	    SELECT 
+	        TB_SR_001MT.SR_TITLE,
+			TB_SR_002MT.TRG_ST_DT,
+	        TB_SR_002MT.TRG_END_DT,	
+	        MAX(TB_SR_002NT.PRG) AS PRG
+	    FROM 
+	        TB_SR_002MT
+	    JOIN 
+	        TB_SR_001MT ON TB_SR_002MT.SR_ID = TB_SR_001MT.SR_ID
+	    JOIN 
+	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
+	    WHERE 
+	        TB_SR_002MT.FIRST_INPT_ID = #{memNo}
+<!-- 	        <if test="deptId == 'MGEM'"> 혹시 부서별 정렬 추가하면 다시 복구할 수 도있어서 남겨둠
+	            AND TB_SR_001MT.REL_SYS = 'EMPL'
+	        </if>
+	        <if test="deptId == 'MGHR'">
+	            AND TB_SR_001MT.REL_SYS = 'HRD'
+	        </if>
+	        <if test="deptId == 'MGWK'">
+	            AND TB_SR_001MT.REL_SYS = 'WORK'
+	        </if> -->
+	    GROUP BY 
+	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
+	    HAVING 
+	        MAX(TB_SR_002NT.PRG) &lt; 100
+	    ORDER BY 
+	        TB_SR_002MT.TRG_END_DT ASC
+	</select>
 </mapper>

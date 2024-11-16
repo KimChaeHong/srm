@@ -9,6 +9,7 @@ import com.birdie.srm.dto.PagerDto;
 
 @Mapper
 public interface MB001MTDao {
+	
 	// 회원 정보 가져오기
 	public MB001MT selectByMemId(String memId);
 	
@@ -23,7 +24,11 @@ public interface MB001MTDao {
 
 	// 전체 사용자 목록 행 갯수 가져오기
 	public int selectCountMemRows();
-	
-	
 
+	// 승인 받기 전 사용자 목록 페이징 처리해서 가져오기
+	public List<MB001MT> selectMemberRequestList(PagerDto pager);
+
+	// 회원 정보 수정하기
+	public void updateMember(MB001MT member);
+	
 }

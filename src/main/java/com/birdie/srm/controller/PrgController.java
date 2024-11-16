@@ -2,6 +2,7 @@ package com.birdie.srm.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
+import com.birdie.srm.dto.SR001NT;
 import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SearchDto;
@@ -81,11 +83,17 @@ public class PrgController {
 		List<MB001MT> mgrs = srProgressService.getMgr();
 		model.addAttribute("mgrs", mgrs);
 
-		// 로그인 사용자 정보
-		if (onlyMySr) {
-			String memId = memberService.getUserInfo(authentication.getName()).getMemId();
-			searchDto.setMemId(memId);
-		}
+		// 로그인 사용자 정보 설정
+	    if (authentication != null) {
+	        MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+	        model.addAttribute("memInfo", memInfo);
+
+	        // 내가 담당한 SR만 보기 - 로그인한 회원 id설정
+	        if (onlyMySr) {
+	            searchDto.setMemId(memInfo.getMemId());
+	        }
+	    }
+		
 		// 기본 날짜 입력 처리
 		if (searchDto.getStartDate() == null) {
 			searchDto.setStartDate(
@@ -123,7 +131,7 @@ public class PrgController {
 
 		int rows = srProgressService.countRows(searchDto); // jsp에서 받은 검색 정보를 가지고 그 검색 결과에 해당하는 행을 반환
 		PagerDto pager = new PagerDto(rowsPerPage, 5, rows, pageNo); // 반환된 행을 페이저 객체에 저장
-
+		log.info("rows--------------" + rows);
 		Map<String, Object> searchCont = new HashMap<String, Object>();
 		searchCont.put("searchDto", searchDto);
 		searchCont.put("pager", pager);
@@ -132,7 +140,7 @@ public class PrgController {
 		log.info(srList.toString());
 		model.addAttribute("srList", srList);
 		model.addAttribute("searchCont", searchCont);
-
+		model.addAttribute("onlyMySr", onlyMySr);
 		return "prg/prgList";
 	}
 
@@ -163,15 +171,8 @@ public class PrgController {
 	@PostMapping("/updateSrPlan")
 	public void updateSrPlan(SR002MT sr002mt, Authentication authentication, HttpServletResponse response)
 			throws Exception {
-		log.info("컨트롤러 1 - SR계획정보 업데이트");
 
-		/*
-		 * // 로그인 했을 경우 담당자 사번 설정 if (authentication != null) { MB001MT memInfo =
-		 * memberService.getUserInfo(authentication.getName());
-		 * sr002mt.setMgr(memInfo.getMemNo()); }
-		 */
 		srProgressService.updateSrPlan(sr002mt);
-		log.info("컨트롤러 2 - SR계획정보 업데이트 완료");
 
 		response.setContentType("text/plain; charset=UTF-8");
 		response.getWriter().write("SR 계획 정보가 성공적으로 업데이트되었습니다!");
@@ -193,25 +194,72 @@ public class PrgController {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
 		dispatcher.include(request, response);
 	}
+	
+	// 자원 jsp호출
+	@PostMapping("/srHr")
+	public void loadSrHr(String appSrId, HttpServletResponse response, HttpServletRequest request,
+			Authentication authentication) throws Exception {
+		// appSrId가 일치하는 자원 가져오기
+		List<SR001NT> hrList = srProgressService.getHrList(appSrId);
+		if (authentication != null) {
+			MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+			request.setAttribute("memInfo", memInfo);
+		}
+		
+		String jspUrl = "/WEB-INF/views/prg/srHr.jsp";
+		request.setAttribute("appSrId", appSrId);
+		request.setAttribute("hrList", hrList);
 
-	// SR계획정보 탭
-	@GetMapping("/srPlan")
-	public String loadSrPlan() {
-		return "prg/srPlan";
+		response.setContentType("text/html; charset=UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+		dispatcher.include(request, response);
 	}
-
-	// SR자원관리 탭
-	@GetMapping("/srHr")
-	public String loadSrHr() {
-		return "prg/srHr";
+	// 자원 저장
+	@PostMapping("/updateHr")
+	public void updateHr(@RequestBody Map<String, Object> data, 
+			HttpServletResponse response, Authentication authentication) throws Exception  {
+		String appSrId = (String) data.get("appSrId");
+		// memId와 plnMd를 포함한 Map
+		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
+		String userId = authentication.getName();
+		
+		// SR001NT타입으로 각 정보들(appSrId, memId, plnMd) dto에 추가
+		List<SR001NT> hr = new ArrayList<>();
+		for (Map<String, Object> memInfo : memInfoList) {
+	        SR001NT srHr = new SR001NT();
+	        srHr.setAppSrId(appSrId);
+	        srHr.setMemId((String) memInfo.get("memId"));
+	        srHr.setPlnMd((Integer) memInfo.get("plnMd"));
+	        srHr.setFirstInptId(userId);
+	        srHr.setLastInptId(userId);
+	        hr.add(srHr);
+		}
+		srProgressService.saveHrList(appSrId, hr);
+		log.info(appSrId);
+		response.setContentType("text/plain; charset=UTF-8");
+	    response.getWriter().write("자원 정보가 성공적으로 저장되었습니다!");
 	}
-
-	// SR진척율 탭
-	@GetMapping("/srRatio")
-	public String loadSrRatio() {
-		return "prg/srRatio";
+	// 자원 삭제
+	@PostMapping("/deleteHr")
+	public void deleteHr(@RequestBody Map<String, Object> data, 
+			HttpServletResponse response) throws Exception {
+		String appSrId = (String) data.get("appSrId");
+		List<Map<String, Object>> memInfoList = (List<Map<String, Object>>) data.get("memInfo");
+		
+		List<SR001NT> hr = new ArrayList<>();
+		for (Map<String, Object> memInfo : memInfoList) {
+			SR001NT srHr = new SR001NT();
+			srHr.setAppSrId(appSrId);
+			srHr.setMemId((String) memInfo.get("memId"));
+			hr.add(srHr);
+		}
+		srProgressService.deleteHr(hr);
+		
+		response.setContentType("text/plain; charset=UTF-8");
+	    response.getWriter().write("선택된 자원이 삭제되었습니다!");
 	}
-
+	
+	// 진척율 jsp호출
 	@PostMapping("/srRatio")
 	public void loadSrRatio(String appSrId, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		// appSrId가 일치하는 진척율 가져오기
@@ -227,26 +275,26 @@ public class PrgController {
 		dispatcher.include(request, response);
 	}
 
-	/*
-	 * // SR계획정보 - 담당자 조회
-	 * 
-	 * @GetMapping("/getMgr") public void getMgr(HttpServletResponse response,
-	 * HttpServletRequest request) throws Exception{ List<MB001MT> mgrs =
-	 * srProgressService.getMgr();
-	 * 
-	 * //response에 담을 jsp 경로 설정 String jspUrl = "/WEB-INF/views/prg/searchHr.jsp";
-	 * //요청에 값 설정 request.setAttribute("mgrs", mgrs);
-	 * 
-	 * // response 타입설정 및 요청에 request와 response 설정
-	 * response.setContentType("text/html; charset=UTF-8"); RequestDispatcher
-	 * dispatcher = request.getRequestDispatcher(jspUrl);
-	 * dispatcher.include(request, response); log.info("컨트롤러 실행됨");
-	 * log.info(mgrs.toString()); }
-	 */
 
 	// SR계획정보 - 담당자 검색
 	@GetMapping("/searchMgr")
 	public void searchMgr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
+		request.setAttribute("mgrs", mgrs);
+
+		String jspUrl = "/WEB-INF/views/prg/searchMgr.jsp";
+		response.setContentType("text/html; charset=UTF-8");
+
+		// RequestDispatcher로 JSP 페이지의 특정 부분만 렌더링하여 응답으로 전달
+		RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+		dispatcher.include(request, response);
+
+		log.info(mgrs.toString());
+	}
+	// SR자원정보 - 자원 검색
+	@GetMapping("/searchHr")
+	public void searchHr(MB001MT mb001mt, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<MB001MT> mgrs = srProgressService.getSearchMgr(mb001mt);
 		request.setAttribute("mgrs", mgrs);
@@ -268,6 +316,7 @@ public class PrgController {
 	public int updatePrgRatio(@RequestBody List<SR002NT> prgRatioList) {
 		int cntUpdate = srProgressService.updatePrgRatio(prgRatioList);
 		return cntUpdate;
-
 	}
+	
+	
 }

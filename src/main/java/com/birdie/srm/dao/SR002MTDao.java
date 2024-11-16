@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
@@ -44,6 +45,27 @@ public interface SR002MTDao {
 	
 	// srId가 일치하는 appSrId 가져오기
 	public String selectAppSrId(String srId);
-
 	
+	// 회원의 ROLE1에 따라서 이벤트 가져오기
+	public List<SR002MT> selectGusrEvent(MB001MT mb001mt);
+	public List<SR002MT> selectDeveEvent(MB001MT mb001mt);
+	public List<SR002MT> selectAdmiEvent(MB001MT mb001mt);
+
+	// 회원의 ROLE1에 따라서 진척율 가져오기
+	public List<SR002MT> selectGusrProcess(MB001MT mb001mt);
+	public List<SR002MT> selectDeveProcess(MB001MT mb001mt);
+	public List<SR002MT> selectAdmiProcess(MB001MT mb001mt);
+
+	// 사용자에 따른 승인 된 SR 행 갯수 가져오기
+	public int selectAppCountRowsByUser(@Param("memNo") String memberInfo);
+
+ 	// 사용자에 따른 승인 된 나의 할 일 전체 목록 가져오기
+	public List<SR002MT> selectAppsrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
+
+	// 특정 상태의 사용자 별 승인 된 SR 총 행 수 가져오기
+	public int selectAppCountRowsByStatusAndUser(@Param("srStat") String srStat, @Param("memNo") String memNo);
+
+	// 특정 상태의 사용자 별 승인 된 SR 목록 가져오기
+	public List<SR002MT> selectAppsrListByStatusAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+
 }

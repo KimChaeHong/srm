@@ -36,6 +36,41 @@
     ]]>
 	</select>
 
+	<select id="selectCountManagerRows" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_002MT
+		WHERE FIRST_INPT_ID =
+		#{memNo}
+	</select>
+
+	<select id="selectManagerSrList" parameterType="map"
+		resultType="SR001MT">
+    <![CDATA[
+        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
+               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID, 
+               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
+        FROM (
+            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+            FROM (
+                SELECT sr.SR_ID, sr.SR_TITLE, sr.REQ_DT, sr.DUE_DT, sr.SR_CONT, sr.REL_SYS, sr.SR_STAT, sr.DELT_YN, 
+                       sr.FIRST_INPT_DT, sr.FIRST_INPT_ID, sr.LAST_INPT_DT, sr.LAST_INPT_ID
+                FROM TB_SR_001MT sr
+                JOIN TB_SR_002MT sr2 ON sr.SR_ID = sr2.SR_ID
+                WHERE sr2.FIRST_INPT_ID = #{memNo}
+                  AND sr.DELT_YN = 'N'
+                ORDER BY sr.REQ_DT DESC
+            )
+            WHERE rownum <= #{pager.endRowNo}
+        ) s
+        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
+        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
+        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
+        WHERE s.rnum >= #{pager.startRowNo}
+        ORDER BY s.REQ_DT DESC
+    ]]>
+	</select>
 
 	<!-- 상태별 게시물 갯수 가져오기 -->
 	<select id="selectCountRowsByStatus" parameterType="String"
@@ -82,7 +117,8 @@
 		JOIN TB_MB_001MT m ON
 		sr.FIRST_INPT_ID = m.MEM_NO
 		WHERE sr.DELT_YN = 'N'
-		AND m.MEM_ID = #{memNo}
+		AND m.MEM_ID =
+		#{memNo}
 	</select>
 
 	<!-- 로그인한 사용자의 할 일 목록 가져오기 -->
@@ -114,15 +150,16 @@
     ]]>
 	</select>
 
-
 	<!-- 상태별 게시물 갯수 가져오기 -->
 	<select id="selectCountRowsByStatusAndUser" parameterType="map"
 		resultType="int">
 		SELECT COUNT(*)
 		FROM TB_SR_001MT sr
-		JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+		JOIN TB_MB_001MT m ON
+		sr.FIRST_INPT_ID = m.MEM_NO
 		WHERE sr.SR_STAT = #{srStat}
-		AND sr.DELT_YN = 'N'
+		AND sr.DELT_YN
+		= 'N'
 		AND m.MEM_ID = #{memNo}
 	</select>
 
@@ -142,9 +179,49 @@
                 FROM TB_SR_001MT sr
                 JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
                 WHERE sr.DELT_YN = 'N'
-                  AND sr.SR_STAT = #{srStat} 
                   AND m.MEM_ID = #{memNo}	
+                  AND sr.SR_STAT = #{srStat} 
                 ORDER BY sr.REQ_DT DESC
+            )
+            WHERE rownum <= #{pager.endRowNo}
+        ) s
+        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
+        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
+        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
+        WHERE s.rnum >= #{pager.startRowNo}
+        ORDER BY s.REQ_DT DESC
+    ]]>
+	</select>
+
+	<select id="selectCountManagerRowsByStatus" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_002MT sr2
+		JOIN TB_SR_001MT sr1 ON sr1.SR_ID = sr2.SR_ID
+		WHERE sr2.FIRST_INPT_ID = #{memNo}
+		AND sr1.SR_STAT = #{srStat}
+		AND sr1.DELT_YN = 'N'
+	</select>
+
+	<select id="selectManagerSrListByStatus" parameterType="map"
+		resultType="SR001MT">
+    <![CDATA[
+        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
+               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID, 
+               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
+        FROM (
+            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
+                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
+            FROM (
+                SELECT sr1.SR_ID, sr1.SR_TITLE, sr1.REQ_DT, sr1.DUE_DT, sr1.SR_CONT, sr1.REL_SYS, sr1.SR_STAT, sr1.DELT_YN, 
+                       sr1.FIRST_INPT_DT, sr1.FIRST_INPT_ID, sr1.LAST_INPT_DT, sr1.LAST_INPT_ID
+                FROM TB_SR_001MT sr1
+                JOIN TB_MB_001MT m ON sr1.FIRST_INPT_ID = m.MEM_NO
+                JOIN TB_SR_002MT sr2 ON sr1.SR_ID = sr2.SR_ID
+                WHERE sr2.FIRST_INPT_ID = #{memNo}
+             	  AND sR1.SR_STAT = #{srStat} 
+                  AND sr1.DELT_YN = 'N'
+                ORDER BY sr1.REQ_DT DESC
             )
             WHERE rownum <= #{pager.endRowNo}
         ) s

@@ -73,7 +73,7 @@ public class MemberService {
 		return LoginResult.SUCCESS;
 	}
 
-
+	//기관명과 회원 정보 가져오기
 	public MB001MT getUserInfo(String memId) {
 		MB001MT meminfo = memberDao.selectJoinedMemInfo(memId);
 		return meminfo;
@@ -89,6 +89,11 @@ public class MemberService {
 	public List<IS001MT> getInstitutionsByRole(String role) {
 		return is001mtDao.selectInstitutionsByRole(role);
 	}
+	
+	// ADMI 역할에 따른 기관 정보 가져오기
+	public List<IS001MT> getAdminInstitutionsByRole(String role) {
+		return is001mtDao.selectAdminInstitutionsByRole(role);
+	}
 
 	//전체 사용자 목록 가져오기
 	public List<MB001MT> getMemberList(PagerDto pager) {
@@ -101,6 +106,21 @@ public class MemberService {
 		return totalMemRows;
 	}
 
-	
+	//승인 받기 전 사용자 목록 가져오기
+	public List<MB001MT> getMemberRequestList(PagerDto pager) {
+		return memberDao.selectMemberRequestList(pager);
+	}
+
+	//회원 정보 가져오기
+	public MB001MT getMemberById(String memId) {
+		MB001MT memberInfo= memberDao.selectByMemId(memId);
+		return memberInfo;
+	}
+
+	//회원 정보 수정하기
+	public void updateMember(MB001MT member) {
+		memberDao.updateMember(member);
+
+	}
 
 }
