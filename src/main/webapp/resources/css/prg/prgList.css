@@ -541,7 +541,9 @@ input{
     background-color: #FFFFFF;
     padding: 3px;
     margin: 0 0 5px 333px;
-
+}
+#plan-btn:hover, #add-person-btn:hover{
+    background-color: #f2f2f2;
 }
 .selected-sr {
     background-color: #f2f2f2; /* 원하는 색상으로 변경 */
@@ -800,4 +802,6 @@ input#person {
 #table-container::-webkit-scrollbar-track {
     background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
 }
-
+#del-btn:hover, #save-btn:hover, #add-btn:hover{
+    background-color: #f2f2f2;
+}

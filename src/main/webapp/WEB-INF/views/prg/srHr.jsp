@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- <script src="${pageContext.request.contextPath}/resources/js/prgList.js"></script> --%>
-<%-- <script src="${pageContext.request.contextPath}/resources/js/srHr.js"></script> --%>
+<script src="${pageContext.request.contextPath}/resources/js/srHr.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/prg/srHr.css" />
 
 <form id="sr-hr-form" action="" method="post">
@@ -21,13 +21,14 @@
                 </tr>
             </thead>
             <tbody>
-            	<c:forEach items="${hrList }" var="hr">
+            	<c:forEach items="${hrList}" var="hr">
             		<tr>
-	                    <td class="hr-col-1" >${hr.rnum }</td>
+	                    <td class="hr-col-1">${hr.rnum}</td>
 	                    <td class="hr-col-2">
-	                        <input class="form-check-input" type="checkbox" value="${hr.memId }">
+	                        <input class="form-check-input" type="checkbox" value="${hr.memId}" 
+	                        	<c:if test="${memInfo == null || memInfo.role2 != 'LEAD'}">disabled</c:if>>
 	                    </td>
-	                    <td class="hr-col-3">${hr.memNm }</td>
+	                    <td class="hr-col-3">${hr.memNm}</td>
 	                    <td class="hr-col-4">
 	                    	<c:choose>
 	                    		<c:when test="${hr.role2 == 'LEAD'}">개발팀장</c:when>
@@ -35,8 +36,8 @@
 	                    	</c:choose>
 	                    </td>
 	                    <td class="hr-col-5">
-	                    	<input type="number" name="plnMd" value="${hr.plnMd }" 
-	                    		class="pln" min="0">
+	                    	<input type="number" name="plnMd" value="${hr.plnMd}" 
+	                    		class="pln" min="0" <c:if test="${memInfo == null || memInfo.role2 != 'LEAD'}">disabled</c:if>>
 	                    </td>
 	                    <td class="hr-col-6"></td>
 	                    <td class="hr-col-7">
@@ -46,15 +47,14 @@
             	</c:forEach>
             </tbody>
         </table>
-        
     </div>
-    <c:if test="${memInfo != null && memInfo.role2 == 'LEAD' }">
-    	<div class="btn-container">
+    
+    <c:if test="${memInfo != null && memInfo.role2 == 'LEAD'}">
+	    <div class="btn-container">
 	        <button id="add-btn" class="btn srpg-btn" data-bs-toggle="modal" 
 	        	data-bs-target="#hr-modal" type="button">추가</button>
 	        <button id="del-btn" class="btn srpg-btn" type="button">선택삭제</button>
 	        <button id="save-btn" class="btn srpg-btn" type="button">저장</button>
 	    </div>
     </c:if>
-    
 </form>
