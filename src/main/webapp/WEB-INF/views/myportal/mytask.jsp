@@ -348,11 +348,28 @@
 	</div>
 
 <!-- 실적등록 모달 버튼 -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#wkhour-modal">
+<button id="wkhour-modal-btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#wkhour-modal">
     실적등록
 </button>
 <!-- 실적등록 Modal -->
 <div class="modal fade" id="wkhour-modal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header ps-3">
+	            <span class="modal-title">SR실적등록</span>
+	            <button id="close-btn" type="button" data-bs-dismiss="modal">
+	                <i class="bi bi-x-square"></i>
+	            </button>
+        	</div>
+        	<div id="wkhour-modal-body" class="modal-body p-3">
+        	</div>
+        	
+	        <div class="modal-footer">
+	            <button id="wkhour-save-btn" type="button" class="btn last-btn">저장</button>
+	            <button type="button" class="btn last-btn" data-bs-dismiss="modal">닫기</button>
+	        </div>
+	    </div>
+	</div>
 </div>
 
 </div>

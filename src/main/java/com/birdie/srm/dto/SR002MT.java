@@ -36,6 +36,8 @@ public class SR002MT {
 	private String srCont;		// sr001 - sr내용
 	private String instNm;		// is001 - 기관이름
 	private int prg;			// 진척율
+	private double plnMd;		//계획공수
+	private double actualMd;	//실적공수
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")	
 	private Date reqDt;			// sr001 - 완료요청일

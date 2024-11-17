@@ -67,5 +67,8 @@ public interface SR002MTDao {
 
 	// 특정 상태의 사용자 별 승인 된 SR 목록 가져오기
 	public List<SR002MT> selectAppsrListByStatusAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+	
+	//회원이 할당된 SR의 appSrId 목록 가져오기
+	public List<SR002MT> selectAssignedSrId(MB001MT memInfo);
 
 }
