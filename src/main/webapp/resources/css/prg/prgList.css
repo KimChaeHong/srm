@@ -541,7 +541,9 @@ input{
     background-color: #FFFFFF;
     padding: 3px;
     margin: 0 0 5px 333px;
-
+}
+#plan-btn:hover, #add-person-btn:hover{
+    background-color: #f2f2f2;
 }
 .selected-sr {
     background-color: #f2f2f2; /* 원하는 색상으로 변경 */
@@ -791,18 +793,18 @@ input#person {
 
 
 /* 스크롤바 CSS */
-#hr-scroll::-webkit-scrollbar {
+#hr-scroll::-webkit-scrollbar, #scroll::-webkit-scrollbar {
     width: 8px;  /* 스크롤바의 너비 */
 }
 
-#hr-scroll::-webkit-scrollbar-thumb {
+#hr-scroll::-webkit-scrollbar-thumb, #scroll::-webkit-scrollbar-thumb {
     height: 10%; /* 스크롤바의 길이 */
     background: #3D86E7; /* 스크롤바의 색상 */
     
     border-radius: 10px;
 }
 
-#hr-scroll::-webkit-scrollbar-track {
+#hr-scroll::-webkit-scrollbar-track, #scroll::-webkit-scrollbar-track {
     background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
 }
 
@@ -821,4 +823,6 @@ input#person {
 #table-container::-webkit-scrollbar-track {
     background: #DCDCE1;  /*스크롤바 뒷 배경 색상*/
 }
-
+#del-btn:hover, #save-btn:hover, #add-btn:hover{
+    background-color: #f2f2f2;
+}
