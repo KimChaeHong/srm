@@ -30,9 +30,15 @@ span {
     margin: auto;
 }
 
-.input-div {
-    display: flex;
-    align-items: center;
+.label{
+	width: 139px;
+    padding-top: 12px;
+}
+
+.check-id, .check-pw{
+	font-size: 13px;
+    color: rgb(240, 63, 64);
+    margin-top: -4px;
 }
 
 .select-div {
@@ -42,17 +48,30 @@ span {
     margin-bottom: 51px;
 }
 
+
+.check-pw, .check-id{
+	display: flex;
+    flex-direction: row;
+    padding: 10px 0px;
+}
+
+
 label{
     width: 140px;
     text-align: left;
 }
 
+.input-div{
+	padding-bottom: 15px;
+	display: inline-flex
+	
+}
+
 input {
-    width: 70%;
+	width:300px;
     padding: 5px;
-    margin: 15px 0;
     border: none;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid rgb(221, 221, 221);
     font-size: 0.8rem;
 }
 

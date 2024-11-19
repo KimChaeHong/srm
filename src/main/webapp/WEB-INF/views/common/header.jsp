@@ -22,15 +22,13 @@
 	rel="stylesheet">
 
 <!-- SweetAlert2 -->
-<<<<<<< HEAD
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-=======
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" defer>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
-	
->>>>>>> branch 'feature/1' of https://github.com/KimChaeHong/srm.git
+
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 

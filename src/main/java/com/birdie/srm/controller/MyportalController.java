@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.birdie.srm.dto.CDMT;
 import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
-import com.birdie.srm.dto.SR004NT;
-import com.birdie.srm.service.MemberService;
 import com.birdie.srm.security.MemberDetails;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.MyportalService;

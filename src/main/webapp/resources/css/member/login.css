@@ -23,18 +23,19 @@ span {
     border-radius: 10px;
     text-align: center;
 }
-
-input {
-    width: 70%;
-    padding: 5px;
-    margin: 15px 0;
+#mem-id-1{
+	padding-bottom: 15px;
+}
+input { 
+   	width: 340px;
+    height: 46px;
     border: none;
     border-bottom: 2px solid #ccc;
     font-size: 0.8rem;
 }
 
 #btn-login {
-    width: 70%;
+    width: 340px;
     padding: 3px;
     background-color: #EDF2F9;
     color: rgb(0, 0, 0);
