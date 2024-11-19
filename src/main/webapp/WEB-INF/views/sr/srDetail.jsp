@@ -53,7 +53,7 @@
 	            </div>
 	            <div class="form-row">
 	                <label for="dueDt">완료(예정)일</label>
-	                <input type="date" id="dueDt" min="<%= today %>" name="dueDt" value="<fmt:formatDate value="${srDetail.dueDt}" pattern="yyyy-MM-dd"/>" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <input type="date" id="dueDt" min="<%= today %>" name="dueDt" value="<fmt:formatDate value="${srDetail.dueDt}" pattern="yyyy-MM-dd"/>" ${srDetail.firstInptId != memInfo.memNo || (srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE') ? 'disabled' : ''}>
 	            </div>
 	        </div>
 	
@@ -70,17 +70,17 @@
 
 	            <div class="form-row">
 	                <label for="sr-title">SR 제목</label>
-	                <input type="text" id="sr-title" name="srTitle" value="${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+	                <input type="text" id="sr-title" name="srTitle" value="${srDetail.srTitle}" ${srDetail.firstInptId != memInfo.memNo || (srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE') ? 'disabled' : ''}>
 	            </div>	
 	
 	            <div class="form-row">
 	                <label for="sr-content">SR 내용</label>
-	                <textarea id="sr-content" class="sr-content" name="srCont" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>${srDetail.srCont}</textarea>
+	                <textarea id="sr-content" class="sr-content" name="srCont" ${srDetail.firstInptId != memInfo.memNo || (srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE') ? 'disabled' : ''}>${srDetail.srCont}</textarea>
 	            </div>
 	
 	            <div class="form-row">
 		            <label for="attachment">첨부파일</label>
-		            <input type="file" id="attachment" class="form-control" multiple="multiple" name="attachment" ${srDetail.firstInptId != memInfo.memNo && srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE' ? 'disabled' : ''}>
+		            <input type="file" id="attachment" class="form-control" multiple="multiple" name="attachment" ${srDetail.firstInptId != memInfo.memNo || (srDetail.srStat != 'REGI' && srDetail.srStat != 'RERE') ? 'disabled' : ''}>
 	        	</div>
 	            <div class="form-row">
 		            <label for="file-list">파일 목록</label>

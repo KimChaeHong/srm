@@ -114,6 +114,25 @@ $(document).on('click', '#wkhour-modal-btn', function(){
 });
 
 $(document).ready(function () {
+	// Toast 알림 설정
+	let Toast = Swal.mixin({
+		toast: true,
+		position: 'center',
+		showConfirmButton: false,
+		timer: 2000,
+		timerProgressBar: true,
+		showClass: {
+			popup: '' // 나타날 때 애니메이션 없음
+		},
+		hideClass: {
+			popup: '' // 사라질 때 애니메이션 없음
+		},
+		didOpen: (toast) => {
+			toast.addEventListener('mouseenter', Swal.stopTimer);
+			toast.addEventListener('mouseleave', Swal.resumeTimer);
+		}
+	});
+	
     // 부모 요소에서 이벤트 위임
     $(document).on('blur', '.wkhour-input', function () {
         const maxValue = 2.0; // 최대값
@@ -122,10 +141,16 @@ $(document).ready(function () {
 
         if (value < minValue) {
             value = minValue; // 최소값으로 설정
-            alert("0 이상의 값을 입력해주세요.");
+            Toast.fire({
+                icon: 'warning',
+                title: "0.0 이상의 값을 입력해주세요."
+            });
         } else if (value > maxValue) {
             value = maxValue; // 최대값으로 설정
-            alert("2 이하의 값을 입력해주세요.");
+            Toast.fire({
+                icon: 'warning',
+                title: "2.0 이하의 값을 입력해주세요."
+            });
         }
 
         // 소수점 첫째 자리까지 유지
@@ -134,6 +159,25 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+	// Toast 알림 설정
+	let Toast = Swal.mixin({
+		toast: true,
+		position: 'center',
+		showConfirmButton: false,
+		timer: 2000,
+		timerProgressBar: true,
+		showClass: {
+			popup: '' // 나타날 때 애니메이션 없음
+		},
+		hideClass: {
+			popup: '' // 사라질 때 애니메이션 없음
+		},
+		didOpen: (toast) => {
+			toast.addEventListener('mouseenter', Swal.stopTimer);
+			toast.addEventListener('mouseleave', Swal.resumeTimer);
+		}
+	});
+	
     $('#wkhour-save-btn').on('click', function () {
         const wkhourData = [];
         const memId = $('#hidden-mem-id').val();
@@ -157,8 +201,11 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(wkhourData),
             success: function (updateCount) {
-            	loadWkhour()
-                alert(updateCount + '개의 항목이 업데이트되었습니다.');
+            	loadWkhour();
+            	Toast.fire({
+                    icon: 'success',
+                    title: updateCount+'개의 항목의 저장이 완료되었습니다.'
+                });
             },
             error: function (xhr, status, error) {
                 alert('저장 실패: ' + error);
