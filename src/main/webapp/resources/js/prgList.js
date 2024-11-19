@@ -91,7 +91,7 @@ function loadSrDetails(appSrId) {
                     }
                 });
             });
-
+            // 담당자 등록 시 계획정보의 담당자, 처리팀에 데이터 추가
             $('.modal-last-btn').off('click').on('click', function() {
                 const selectedPerson = $('input[name="selectedMgr"]:checked');
                 const selectedMemNo = selectedPerson.val();

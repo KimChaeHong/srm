@@ -146,3 +146,6 @@ hr {
 .pln {
     width: 50px;
 }
+#del-btn:hover, #save-btn:hover, #add-btn:hover{
+    background-color: #f2f2f2;
+}

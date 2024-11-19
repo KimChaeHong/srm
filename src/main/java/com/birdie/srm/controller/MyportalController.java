@@ -1,6 +1,9 @@
 package com.birdie.srm.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,9 +29,11 @@ import com.birdie.srm.dto.NT001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
+import com.birdie.srm.dto.SR003NT;
 import com.birdie.srm.security.MemberDetails;
 import com.birdie.srm.service.MemberService;
 import com.birdie.srm.service.MyportalService;
+import com.birdie.srm.service.SrProgressService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +46,10 @@ public class MyportalController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private SrProgressService srProgressService;
+
 
 	// 나의 할 일 목록 보기
 	@GetMapping("mytask")
@@ -331,18 +341,43 @@ public class MyportalController {
 	    return "myportal/detailNotice";
 	}
 	
-	@PostMapping("/srDetail")
-	public String getSrDetail(Model model, Authentication authentication) throws Exception{
-		//로그인 된 회원의 MEM_ID를 통해 회원의 모든 정보 가져오기 (로그인 되어 있을 때에만 들어올 수 있도록 설정한 후에는 if 지울예정)
-		if(authentication != null) {
-			MB001MT memInfo = memberService.getUserInfo(authentication.getName());			
-			model.addAttribute("memInfo", memInfo);
-		}
-		
-		String jspUrl = "/WEB-INF/views/myportal/wkhour.jsp";
-		//요청에  값 설정
-		
-		return "myportal/wkhour";
+	@PostMapping("/wkhour")
+	public void wkhour(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws Exception {
+	    // 로그인된 사용자의 MEM_ID를 통해 회원의 모든 정보 가져오기
+	    MB001MT memInfo = memberService.getUserInfo(authentication.getName());
+
+	    // 오늘 날짜 기준으로 날짜 리스트 생성
+	    Calendar cal = Calendar.getInstance();
+	    cal.setFirstDayOfWeek(Calendar.MONDAY);
+	    cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+	    List<Date> dayList = new ArrayList<>();
+	    for (int i = 0; i < 7; i++) {
+	        dayList.add(cal.getTime()); // Date 객체 추가
+	        cal.add(Calendar.DAY_OF_MONTH, 1); // 하루 증가
+	    }
+
+	    //데이터 조회
+	    List<SR002MT> assignedSrList = srProgressService.getAssignedSrIdList(memInfo);
+	    List<List<SR003NT>> wkhourList = srProgressService.getWkhourList(memInfo, dayList);
+
+	    // JSP에 전달할 데이터 설정
+	    request.setAttribute("memId", memInfo.getMemId());
+	    request.setAttribute("assignedSrList", assignedSrList);
+	    request.setAttribute("dayList", dayList);
+	    request.setAttribute("wkhourList", wkhourList);
+
+	    // JSP로 포워드
+	    String jspUrl = "/WEB-INF/views/myportal/wkhour.jsp";
+	    response.setContentType("text/html; charset=UTF-8");
+	    RequestDispatcher dispatcher = request.getRequestDispatcher(jspUrl);
+	    dispatcher.include(request, response);
+	}
+	
+	@PostMapping("/updateWkhour")
+	@ResponseBody
+	public int updateWkhour(@RequestBody List<SR003NT> dataList) {
+	    return srProgressService.updateWkhour(dataList);
 	}
 
 
