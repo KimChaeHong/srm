@@ -5,10 +5,11 @@
 	<!-- appSrId값이 일치하는 모든 자원 가져오기 -  조회 -->
 	<select id="selectHrList" parameterType="String" resultType="SR001NT">
 		select
-			rownum rnum, MB.MEM_ID, MB.MEM_NM, MB.ROLE_1, MB.ROLE_2, HR.PLN_MD
+			rownum rnum, MB.MEM_ID, MB.MEM_NM, MB.ROLE_1, MB.ROLE_2, HR.PLN_MD, HR.DELT_YN
 		from TB_SR_001NT HR
 		join TB_MB_001MT MB on MB.MEM_ID = HR.MEM_ID
 		where APP_SR_ID = #{appSrId}
+			and HR.DELT_YN = 'N'
 	</select>
 	
 	<!-- 자원테이블에서 appSrId와 memId 존재 여부 확인 -->
@@ -38,9 +39,10 @@
 	</insert>
 	
 	<!-- 자원 삭제 -->
-	<delete id="deleteHr" parameterType="SR001NT">
-		DELETE FROM TB_SR_001NT
+	<update id="deleteHr" parameterType="SR001NT">
+		UPDATE TB_SR_001NT
+		SET DELT_YN = 'Y'
 		WHERE APP_SR_ID = #{appSrId} and MEM_ID = #{memId}
-	</delete>
+	</update>
 	
 </mapper>
