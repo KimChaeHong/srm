@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.birdie.srm.dao.SR003NTDao">
+	<select id="selectWkhour" parameterType="map" resultType="SR003NT">
+	    SELECT 
+	        d.WK_DT, 
+	        NVL(t.WK_HOUR, 0) AS WK_HOUR
+	    FROM (
+	        <foreach collection="dates" item="date" separator=" UNION ALL ">
+	            SELECT #{date} AS WK_DT FROM DUAL
+	        </foreach>
+	    ) d
+	    LEFT JOIN TB_SR_003NT t
+	        ON TRUNC(d.WK_DT) = TRUNC(t.WK_DT)
+	        AND t.MEM_ID = #{memId}
+	        AND t.APP_SR_ID = #{appSrId}
+	</select>
+	
+	<insert id="insertWkhour" parameterType="SR003NT">
+	    INSERT INTO TB_SR_003NT (MEM_ID, APP_SR_ID, WK_DT, WK_HOUR)
+	    VALUES (#{memId}, #{appSrId}, TRUNC(#{wkDt}), 0)
+	</insert>
+	
+	<select id="existsWkhour" parameterType="SR003NT" resultType="int">
+	    SELECT 1
+	    FROM TB_SR_003NT
+	    WHERE MEM_ID = #{memId}
+	      AND APP_SR_ID = #{appSrId}
+	      AND WK_DT = TRUNC(#{wkDt})
+	</select>
+	
+	<update id="updateWkhour" parameterType="SR003NT">
+	    UPDATE TB_SR_003NT
+	    SET WK_HOUR = #{wkHour}
+	    WHERE MEM_ID = #{memId}
+	      AND APP_SR_ID = #{appSrId}
+	      AND TRUNC(WK_DT) = TRUNC(#{wkDt})
+	</update>
+</mapper>

@@ -111,7 +111,7 @@
 				   </div>
                    <hr>
                    <div id="table-container" class="overflow-auto">
-                       <table id="pg-table">
+                       <table id="prg-table">
                            <thead>
                                <tr>
                                    <th class="col-1"></th>

@@ -131,7 +131,7 @@ body {
     width: 70px;
 }
 
-#pg-table{
+#prg-table{
 	width: 780px;
 	table-layout: fixed;
 }
@@ -726,6 +726,27 @@ input#person {
 .form-date{
 	width: 90px !important;
 	margin: 0;
+}
+
+#prg-table-container tr {
+    height: 25px !important;
+    border-bottom: 1px solid #EDF2F9;
+}
+
+#prg-table-container td {
+    font-size: 10px;
+    padding: 5px 0px;
+    text-align: center;
+    line-height: 1;
+    font-weight: 510;
+}
+
+#prg-table-container th {
+    height: 30px;
+    background-color: #EDF2F9;
+    padding: 9px 0px;
+    font-size: 10px;
+    text-align: center;
 }
 
 #pg-table-container tr {
