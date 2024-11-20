@@ -16,6 +16,7 @@
 
 <!-- JavaScript 파일 로드 -->
 <script src="${pageContext.request.contextPath}/resources/js/myTask.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/wkhour.js"></script>
 
 <script
 	src="${pageContext.request.contextPath}/resources/js/librarys.js" defer></script>
@@ -348,9 +349,11 @@
 	</div>
 
 <!-- 실적등록 모달 버튼 -->
-<button id="wkhour-modal-btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#wkhour-modal">
-    실적등록
-</button>
+<c:if test="${userRole == 'ROLE_DEVE'}">
+	<button id="wkhour-modal-btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#wkhour-modal">
+	    실적등록
+	</button>
+</c:if>
 <!-- 실적등록 Modal -->
 <div class="modal fade" id="wkhour-modal" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog">
