@@ -56,6 +56,8 @@ $(document).ready(function () {
                 $(cell).text(sum.toFixed(1)); // 소수점 이하 1자리로 설정
             }
         });
+
+        return columnSums; // 열 합계를 반환
     }
 
     // 입력 필드 값 변경 시 합계 업데이트
@@ -91,7 +93,20 @@ $(document).ready(function () {
     $('#wkhour-save-btn').on('click', function () {
         const wkhourData = [];
         const memId = $('#hidden-mem-id').val();
+        const columnSums = updateColumnSums(); // 합계 재계산
 
+        // 열 합계가 2.0을 초과하는지 확인
+        for (let i = 5; i < columnSums.length; i++) { // 3번 열부터 체크
+            if (columnSums[i] > 2.0) {
+                Toast.fire({
+                    icon: 'error',
+                    title: '일 합계는 2.0을 초과할 수 없습니다.'
+                });
+                return; // 저장 중단
+            }
+        }
+
+        // 입력 데이터를 수집
         $('.wkhour-input').each(function () {
             const appSrId = $(this).data('appsrid');
             const wkDt = $(this).data('wkdt');
