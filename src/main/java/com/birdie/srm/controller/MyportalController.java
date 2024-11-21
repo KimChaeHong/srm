@@ -97,6 +97,7 @@ public class MyportalController {
 
 	    session.setAttribute("pager", pager);
 	    model.addAttribute("mySrList", mySrList);
+	    model.addAttribute("userRole", userRole1);
 
 	    return "myportal/mytask";
 	}

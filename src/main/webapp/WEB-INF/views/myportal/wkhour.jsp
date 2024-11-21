@@ -54,19 +54,19 @@
 		                </c:forEach>
 		            </tr>
 		        </c:forEach>
-	            <tr>
+	            <tr class="sum-row">
 	                <td class="col-1"></td>
-	                <td class="col-2">일 합계</td>
-	                <td class="col-3"></td>
-	                <td class="col-4">3.0</td>
-	                <td class="col-5">0.0</td>
-	                <td class="col-7">0</td>
-	                <td class="col-8">0</td>
-	                <td class="col-9">0</td>
-	                <td class="col-10">0</td>
-	                <td class="col-11">0</td>
-	                <td class="col-12">0</td>
-	                <td class="col-13">0</td>
+	                <td class="col-2"></td>
+	                <td class="col-3">일 합계</td>
+	                <td class="col-4 sum-col">0.0</td>
+	                <td class="col-5 sum-col">0.0</td>
+	                <td class="col-7 sum-col">0.0</td>
+	                <td class="col-8 sum-col">0.0</td>
+	                <td class="col-9 sum-col">0.0</td>
+	                <td class="col-10 sum-col">0.0</td>
+	                <td class="col-11 sum-col">0.0</td>
+	                <td class="col-12 sum-col">0.0</td>
+	                <td class="col-13 sum-col">0.0</td>
 	            </tr>
 	        </tbody>
 	    </table>
