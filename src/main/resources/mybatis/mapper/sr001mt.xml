@@ -36,6 +36,7 @@
     ]]>
 	</select>
 
+	<!-- 관리자용 전체 SR 행 수 가져오기 -->
 	<select id="selectCountManagerRows" parameterType="String"
 		resultType="int">
 		SELECT COUNT(*)
@@ -44,6 +45,45 @@
 		#{memNo}
 	</select>
 
+	<!-- 개발자용 전체 SR 행 수 가져오기 -->
+	<select id="selectCountDeveloperRows" parameterType="String"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_001MT sr1
+		JOIN TB_SR_002MT sr2 ON
+		sr1.SR_ID = sr2.SR_ID
+		JOIN TB_SR_001NT nt1 ON sr2.APP_SR_ID =
+		nt1.APP_SR_ID
+		WHERE nt1.MEM_ID = #{memNo}
+	</select>
+
+	<!-- 개발자용 SR 목록 가져오기 -->
+	<select id="selectDeveloperSrList" parameterType="map"
+		resultType="SR001MT">
+    <![CDATA[
+		SELECT rnum, s.APP_SR_ID, s.REL_SYS, s.WK_TYPE, s.SR_TITLE, s.FIRST_INPT_ID, s.REQ_DT, s.DUE_DT, s.RCP_STAT, s.MEM_ID
+		FROM (
+		SELECT rownum AS rnum, APP_SR_ID, REL_SYS, WK_TYPE, SR_TITLE, FIRST_INPT_ID, REQ_DT, DUE_DT, RCP_STAT, MEM_ID
+		    FROM (
+		        SELECT sr1.SR_ID, sr1.REL_SYS, sr2.WK_TYPE, sr1.SR_TITLE, sr1.FIRST_INPT_ID, sr1.REQ_DT, sr1.DUE_DT, sr2.RCP_STAT, sr2.APP_SR_ID, nt1.MEM_ID
+		        FROM TB_SR_001MT sr1
+		        JOIN TB_SR_002MT sr2 ON sr1.SR_ID = sr2.SR_ID
+		        JOIN TB_SR_001NT nt1 ON sr2.APP_SR_ID = nt1.APP_SR_ID
+		        WHERE nt1.MEM_ID = #{memNo}
+		          AND sr1.DELT_YN = 'N'
+		          AND sr2.DELT_YN = 'N'
+		          AND nt1.DELT_YN = 'N'
+		          
+		        ORDER BY sr1.REQ_DT DESC
+		)
+		WHERE rownum <= #{pager.endRowNo}
+		) s
+		WHERE s.rnum >=  #{pager.startRowNo}
+		ORDER BY s.REQ_DT DESC
+    ]]>
+	</select>
+
+	<!-- 관리자용 SR 목록 가져오기 -->
 	<select id="selectManagerSrList" parameterType="map"
 		resultType="SR001MT">
     <![CDATA[
@@ -150,59 +190,22 @@
     ]]>
 	</select>
 
-	<!-- 상태별 게시물 갯수 가져오기 -->
-	<select id="selectCountRowsByStatusAndUser" parameterType="map"
-		resultType="int">
-		SELECT COUNT(*)
-		FROM TB_SR_001MT sr
-		JOIN TB_MB_001MT m ON
-		sr.FIRST_INPT_ID = m.MEM_NO
-		WHERE sr.SR_STAT = #{srStat}
-		AND sr.DELT_YN
-		= 'N'
-		AND m.MEM_ID = #{memNo}
-	</select>
 
-	<!-- 상태별 SR 목록 가져오기 -->
-	<select id="selectMysrListByStatusAndUser" parameterType="map"
-		resultType="SR001MT">
-    <![CDATA[
-        SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
-               s.FIRST_INPT_DT, s.FIRST_INPT_ID, s.LAST_INPT_DT, s.LAST_INPT_ID,
-               m.MEM_NM AS registerName, inst.inst_nm AS institutionName, cd.cd_nm AS departmentName
-        FROM (
-            SELECT rownum AS rnum, SR_ID, SR_TITLE, REQ_DT, DUE_DT, SR_CONT, REL_SYS, SR_STAT, DELT_YN, 
-                   FIRST_INPT_DT, FIRST_INPT_ID, LAST_INPT_DT, LAST_INPT_ID
-            FROM (
-                SELECT sr.SR_ID, sr.SR_TITLE, sr.REQ_DT, sr.DUE_DT, sr.SR_CONT, sr.REL_SYS, sr.SR_STAT, sr.DELT_YN, 
-                       sr.FIRST_INPT_DT, sr.FIRST_INPT_ID, sr.LAST_INPT_DT, sr.LAST_INPT_ID
-                FROM TB_SR_001MT sr
-                JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
-                WHERE sr.DELT_YN = 'N'
-                  AND m.MEM_ID = #{memNo}	
-                  AND sr.SR_STAT = #{srStat} 
-                ORDER BY sr.REQ_DT DESC
-            )
-            WHERE rownum <= #{pager.endRowNo}
-        ) s
-        LEFT JOIN TB_MB_001MT m ON s.FIRST_INPT_ID = m.MEM_NO
-        LEFT JOIN TB_IS_001MT inst ON m.INST_ID = inst.INST_ID
-        LEFT JOIN TB_CD_MT cd ON m.DEPT_ID = cd.CD_ID
-        WHERE s.rnum >= #{pager.startRowNo}
-        ORDER BY s.REQ_DT DESC
-    ]]>
-	</select>
 
+	<!-- 관리자용 특정 상태별 총 행 수 조회 -->
 	<select id="selectCountManagerRowsByStatus" parameterType="map"
 		resultType="int">
 		SELECT COUNT(*)
 		FROM TB_SR_002MT sr2
-		JOIN TB_SR_001MT sr1 ON sr1.SR_ID = sr2.SR_ID
+		JOIN TB_SR_001MT sr1 ON
+		sr1.SR_ID = sr2.SR_ID
 		WHERE sr2.FIRST_INPT_ID = #{memNo}
-		AND sr1.SR_STAT = #{srStat}
+		AND sr1.SR_STAT
+		= #{srStat}
 		AND sr1.DELT_YN = 'N'
 	</select>
 
+	<!-- 관리자용 특정 상태별 SR 목록 조회 -->
 	<select id="selectManagerSrListByStatus" parameterType="map"
 		resultType="SR001MT">
     <![CDATA[
@@ -232,6 +235,55 @@
         ORDER BY s.REQ_DT DESC
     ]]>
 	</select>
+
+	<select id="selectCountDeveloperRowsByStatus"
+		parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_001MT sr1
+		JOIN TB_SR_002MT sr2 ON
+		sr1.SR_ID = sr2.SR_ID
+		JOIN TB_SR_001NT nt1 ON
+		sr2.APP_SR_ID =
+		nt1.APP_SR_ID
+		WHERE nt1.MEM_ID = #{memNo}
+		AND sr1.DELT_YN
+		= 'N'
+		AND
+		sr2.DELT_YN = 'N'
+		AND nt1.DELT_YN = 'N'
+		AND sr2.TASK_TYPE =
+		#{taskType};
+	</select>
+
+	<select id="selectDeveloperSrListByStatus" parameterType="map"
+		resultType="SR001MT">
+		 <![CDATA[
+		SELECT rnum, s.APP_SR_ID, s.REL_SYS, s.WK_TYPE, s.SR_TITLE,
+		s.FIRST_INPT_ID, s.REQ_DT, s.DUE_DT, s.RCP_STAT, s.MEM_ID
+		FROM (
+		SELECT rownum AS rnum, APP_SR_ID, REL_SYS, WK_TYPE, SR_TITLE, FIRST_INPT_ID,
+		REQ_DT, DUE_DT, RCP_STAT, MEM_ID
+		FROM (
+		SELECT sr1.SR_ID, sr1.REL_SYS, sr2.WK_TYPE, sr1.SR_TITLE, sr1.FIRST_INPT_ID,
+		sr1.REQ_DT, sr1.DUE_DT, sr2.RCP_STAT, sr2.APP_SR_ID, nt1.MEM_ID
+		FROM TB_SR_001MT sr1
+		JOIN TB_SR_002MT sr2 ON sr1.SR_ID = sr2.SR_ID
+		JOIN TB_SR_001NT nt1 ON sr2.APP_SR_ID = nt1.APP_SR_ID
+		WHERE nt1.MEM_ID = #{memNo}
+		AND sr1.DELT_YN = 'N'
+		AND sr2.DELT_YN = 'N'
+		AND nt1.DELT_YN = 'N'
+		AND sr2.TASK_TYPE = #{taskType}
+		ORDER BY sr1.REQ_DT DESC
+		)
+		WHERE rownum <= #{pager.startRowNo}
+		) s
+		WHERE s.rnum >= #{pager.startRowNo}
+		ORDER BY s.REQ_DT DESC;
+		   ]]>
+	</select>
+
+
 
 
 </mapper>

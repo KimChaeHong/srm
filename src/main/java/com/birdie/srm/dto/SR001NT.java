@@ -20,4 +20,5 @@ public class SR001NT {
     private String role2;          // 역할2(팀장, 팀원)
     private int rnum;				// 순서
 	
+    private String memNo;
 }

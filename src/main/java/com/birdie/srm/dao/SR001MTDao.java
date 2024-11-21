@@ -79,6 +79,18 @@ public interface SR001MTDao {
     // 관리자용 특정 상태별 SR 목록 조회
     public List<SR001MT> selectManagerSrListByStatus(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
 
+    // 개발자용 전체 SR 행 수 가져오기
+	public int selectCountDeveloperRows(@Param("memNo") String memberInfo);
+
+	// 개발자용 SR 목록 가져오기
+	public List<SR001MT> selectDeveloperSrList(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
+
+	// 개발자용 특정 상태별 총 행 수 조회
+    public int selectCountDeveloperRowsByStatus(@Param("srStat") String srStat, @Param("memNo") String memNo);
+
+    // 개발자용 특정 상태별 SR 목록 조회
+    public List<SR001MT> selectDeveloperSrListByStatus(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+	
 	
 	
 }

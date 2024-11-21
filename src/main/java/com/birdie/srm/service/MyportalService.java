@@ -113,6 +113,17 @@ public class MyportalService {
 		return sr001mtDao.selectManagerSrList(memNo, pager);
 	}
 	
+    // 개발자용 전체 SR 행 수 가져오기
+	public int getTotalDeveloperRows(String memNo) {
+		return sr001mtDao.selectCountDeveloperRows(memNo);
+	}
+	
+    // 개발자용 SR 목록 가져오기
+	public List<SR001MT> getDeveloperSrList(String memNo, PagerDto pager) {
+		return sr001mtDao.selectDeveloperSrList(memNo, pager);
+
+	}
+	
 	// 특정 상태별 관리자 총 행 수 조회
 	public int getTotalManagerRowsByStatus(String srStat, String memberInfo) {
 	    return "ALL".equals(srStat) ? sr001mtDao.selectCountManagerRows(memberInfo)
@@ -123,6 +134,18 @@ public class MyportalService {
 	public List<SR001MT> getManagerSrListByStatus(String srStat, String memberInfo, PagerDto pager) {
 	    return "ALL".equals(srStat) ? sr001mtDao.selectManagerSrList(memberInfo, pager)
 	    		:sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
+	}
+	
+	// 특정 상태별 개발자 총 행 수 조회
+	public int getTotalDeveloperRowsByStatus(String memberInfo, String taskType) {
+		 return "ALL".equals(taskType) ? sr001mtDao.selectCountDeveloperRows(memberInfo)
+		            : sr001mtDao.selectCountDeveloperRowsByStatus(taskType, memberInfo);
+	}
+	
+	// 특정 상태별 개발자 SR 목록 조회
+	public List<SR001MT> getDeveloperSrListByStatusAndTaskType(String memberInfo, String taskType, PagerDto pager) {
+		 return "ALL".equals(taskType) ? sr001mtDao.selectDeveloperSrList(memberInfo, pager)
+		    		:sr001mtDao.selectDeveloperSrListByStatus(pager, taskType, memberInfo);
 	}
 	
 	/*달력*/
@@ -190,6 +213,10 @@ public class MyportalService {
 		nt001mtDao.deleteNotice(noticeId);
 	}
 
+
+
+
+	
 	
 
 
