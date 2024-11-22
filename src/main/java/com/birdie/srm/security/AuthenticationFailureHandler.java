@@ -18,6 +18,9 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 			AuthenticationException exception) throws IOException, ServletException {
 
 		log.info("로그인 실패");
+		
+		// 로그인 실패 메시지를 세션에 저장
+        request.getSession().setAttribute("loginFailMessage", "회원 가입 승인이 완료되지 않았습니다.");
 		setDefaultFailureUrl("/");
 
 		super.onAuthenticationFailure(request, response, exception);

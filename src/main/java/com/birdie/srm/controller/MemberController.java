@@ -168,7 +168,7 @@ public class MemberController {
 		String currentMemberId = authentication.getName(); 
 		member.setLastInptId(currentMemberId);// lastInptId를 현재 사용자 ID로 설정
 		memberService.updateMember(member); // member 객체로 업데이트 처리
-		return "redirect:/member/memberRequestList";
+		return "redirect:/member/list";
 	}
 
 	
