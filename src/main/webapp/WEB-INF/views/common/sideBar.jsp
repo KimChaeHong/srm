@@ -64,13 +64,13 @@
 					aria-disabled="true">회원관리</a>
 				<hr class="navbar-vertical-divider" id="sr-hr">
 			</div>
-			<a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/member/list"> <i id="chart"
-				class="bi bi-person-lines-fill"></i> 회원 목록 <i id="chevron"
-				class="bi bi-chevron-right"></i>
-			</a>
 			<a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/member/memberRequestList"> 
 				<i id="chart" class="bi bi-person-fill-add"></i>
 				가입 요청 목록 <i id="chevron"
+				class="bi bi-chevron-right"></i>
+			</a>
+			<a class="side-nav-link" id="sr-request" href="${pageContext.request.contextPath}/member/list"> <i id="chart"
+				class="bi bi-person-lines-fill"></i> 회원 목록 <i id="chevron"
 				class="bi bi-chevron-right"></i>
 			</a>
 		</sec:authorize>

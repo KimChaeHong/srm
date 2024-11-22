@@ -53,12 +53,12 @@
 					<label>팀 역할</label>
 
 					<div>
-						<input class="check-radio" type="checkbox" name="role2"
+						<input class="check-radio" type="radio" name="role2"
 							value="MEMB" ${member.role2 == 'MEMB' ? 'checked' : ''}>
 						팀원
 					</div>
 					<div>
-						<input class="check-radio" type="checkbox" name="role2"
+						<input class="check-radio" type="radio" name="role2"
 							value="LEAD" ${member.role2 == 'LEAD' ? 'checked' : ''}>
 						팀장
 					</div>

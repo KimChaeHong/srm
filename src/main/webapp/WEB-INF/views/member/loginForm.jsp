@@ -51,5 +51,18 @@
 			<a id="btn-search" class="btn">아이디 & 비밀번호 찾기</a>
 		</div>
 	</div>
+	
+	<script>
+        // JSP에서 세션에 저장된 메시지를 가져옴
+        const loginFailMessage = '<%= session.getAttribute("loginFailMessage") != null ? session.getAttribute("loginFailMessage") : "" %>';
+
+        if (loginFailMessage) {
+            alert(loginFailMessage); // 알림 창 표시
+            <%
+                // 메시지를 표시한 후 세션에서 제거
+                session.removeAttribute("loginFailMessage");
+            %>
+        }
+    </script>
 </body>
 </html>
