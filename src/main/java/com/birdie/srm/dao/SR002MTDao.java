@@ -10,7 +10,6 @@ import com.birdie.srm.dto.MB001MT;
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
 import com.birdie.srm.dto.SR002MT;
-import com.birdie.srm.dto.SR002NT;
 import com.birdie.srm.dto.SearchDto;
 
 @Mapper
