@@ -30,7 +30,7 @@
 	                               </div>
 	                           </li>
 	                           <li class="li-style">
-	                               <div id="search-thing">관련 시스템</div>
+	                               <div id="search-thing">시스템</div>
 	                               <select class="select-style prg-search" name="relSys" onchange="changeRelSys(this)"> 
 	                               		<option value="" <c:if test="${sys.cdId==''}">selected</c:if>>전체</option>
 										<c:forEach items="${listSys}" var="sys">
@@ -111,12 +111,12 @@
 				   </div>
                    <hr>
                    <div id="table-container" class="overflow-auto">
-                       <table id="pg-table">
+                       <table id="prg-table">
                            <thead>
                                <tr>
                                    <th class="col-1"></th>
                                    <th class="col-2">SR번호</th>
-                                   <th class="col-3">시스템 구분</th>
+                                   <th class="col-3">시스템</th>
                                    <th class="col-4">SR제목</th>
                                    <th class="col-5">요청자</th>
                                    <th class="col-6">완료요청일</th>
@@ -130,7 +130,7 @@
                                		<tr onclick="loadSrDetails('${sr002MT.appSrId }')" id="tr-style" data-appsrid="${sr002MT.appSrId}">
                                			<td class="col-1">${sr002MT.rnum }</td>
 	                                    <td class="col-2">${sr002MT.appSrId }</td>
-		                                <td class="col-3">	<!-- 관련시스템 -->
+		                                <td class="col-3">	<!-- 시스템 -->
 		                                    <c:choose>
 										        <c:when test="${sr002MT.relSys == 'EMPL'}">
 										            <span class="btn-relSys relSys-empl">고용보험</span>
@@ -257,7 +257,7 @@
                                <label for="srNumber">SR번호</label>
                                <input type="text" id="srNumber" class="detail-input" name="srNumber" readonly>
 
-                               <label for="systemCategory">시스템 구분</label>
+                               <label for="systemCategory">시스템</label>
                                <input type="text" id="systemCategory" class="detail-input" name="systemCategory" readonly>
                            </div>
 

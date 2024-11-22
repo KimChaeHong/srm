@@ -47,7 +47,7 @@ public class PrgController {
 	private SrProgressService srProgressService;
 	@Autowired
 	private MemberService memberService;
-
+ 
 	// SR진척 검색창 - 업무구분
 	@GetMapping("/getWkTypeList")
 	public void getWkTypeList(HttpServletResponse response, String selectedCdId) throws IOException {

@@ -86,10 +86,18 @@ $(document).ready(function() {
             }
         });
     });
-    // 삭제 
+ // 삭제 
     $('#del-btn').on('click', function () {
         let arr = [];
-        $('#hr-table .form-check-input:checked').each(function () {
+
+        // 체크된 자원 수 확인
+        const selectedResources = $('#hr-table .form-check-input:checked');
+        if (selectedResources.length === 0) {
+            alert("삭제할 자원을 선택해 주세요.");
+            return; // 선택된 자원이 없으면 실행 중단
+        }
+
+        selectedResources.each(function () {
             const memId = $(this).val();
             arr.push({ memId: memId });			// 각 memId를 객체로 추가
             
@@ -116,6 +124,7 @@ $(document).ready(function() {
             }
         });
     });
+
 
     
 });

@@ -150,7 +150,7 @@ body {
 
 /* 테이블 */
 #table-container {
-    width: 1230px;
+    width: 1270px;
     height: 460px;
     border: 1px solid #EDF2F9;
     margin: 0px auto;
@@ -159,6 +159,7 @@ body {
 #sr-table{
 	width: 1230px;
 	table-layout: fixed;
+	margin: 0px auto;
 }
 
 .col-1 {
