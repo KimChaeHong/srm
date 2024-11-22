@@ -40,7 +40,7 @@
                                 class="pln" min="0" 
                                 <c:if test="${memInfo == null || (memInfo.role2 != 'LEAD' && memInfo.role2 != 'MEMB')}">disabled</c:if>>
                         </td>
-                        <td class="hr-col-6"></td>
+                        <td class="hr-col-6">${hr.wkHour}</td>
                         <td class="hr-col-7">
                             <i class="bi bi-journal"></i>
                         </td>

@@ -118,12 +118,23 @@
 	                                <td class="col-6">${sr.instNm}</td>
 	                                <td class="col-7">
 	                                	<c:choose>
-	                                		<c:when test="${sr.srStat == 'REGI'}">등록</c:when>
-	                                		<c:when test="${sr.srStat == 'REQT'}">요청</c:when>
-	                                		<c:when test="${sr.srStat == 'REJC'}">반려</c:when>
-	                                		<c:when test="${sr.srStat == 'RECE'}">접수</c:when>
-	                                		<c:when test="${sr.srStat == 'RERE'}">재검토</c:when>
-	                                	</c:choose>
+										    <c:when test="${sr.srStat == 'REGI'}">
+										        <span class="btn-srStat srStat-regi">등록</span>
+										    </c:when>
+										    <c:when test="${sr.srStat == 'REQT'}">
+										        <span class="btn-srStat srStat-reqt">요청</span>
+										    </c:when>
+										    <c:when test="${sr.srStat == 'REJC'}">
+										        <span class="btn-srStat srStat-rejc">반려</span>
+										    </c:when>
+										    <c:when test="${sr.srStat == 'RECE'}">
+										        <span class="btn-srStat srStat-rece">접수</span>
+										    </c:when>
+										    <c:when test="${sr.srStat == 'RERE'}">
+										        <span class="btn-srStat srStat-rere">재검토</span>
+										    </c:when>
+										</c:choose>
+
 	                                </td>
 	                                <td class="col-8"><fmt:formatDate value="${sr.reqDt}" pattern="yyyy-MM-dd"/></td>
 	                                <td class="col-9"><fmt:formatDate value="${sr.dueDt}" pattern="yyyy-MM-dd"/></td>
