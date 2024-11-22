@@ -64,6 +64,7 @@ public class MyportalService {
 	        counts.put("REQT", sr001mtDao.selectCountManagerRowsByStatus("REQT", memNo));
 	        counts.put("REGI", sr001mtDao.selectCountManagerRowsByStatus("REGI", memNo));
 	        counts.put("REJC", sr001mtDao.selectCountManagerRowsByStatus("REJC", memNo));
+	        counts.put("RERE", sr001mtDao.selectCountManagerRowsByStatus("RERE", memNo));
 	        counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
 	        counts.put("DEVING", sr001mtDao.selectCountManagerRowsByStatus("DEVING", memNo));
 	        counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByStatus("DEVDONE", memNo));
@@ -73,6 +74,7 @@ public class MyportalService {
 	        counts.put("REQT", sr001mtDao.selectCountRowsByStatusAndUser("REQT", memNo));
 	        counts.put("REGI", sr001mtDao.selectCountRowsByStatusAndUser("REGI", memNo));
 	        counts.put("REJC", sr001mtDao.selectCountRowsByStatusAndUser("REJC", memNo));
+	        counts.put("RERE", sr001mtDao.selectCountRowsByStatusAndUser("RERE", memNo));
 	        counts.put("RECE", sr001mtDao.selectCountRowsByStatusAndUser("RECE", memNo));
 	        counts.put("DEVING", sr001mtDao.selectCountRowsByStatusAndUser("DEVING", memNo));
 	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByStatusAndUser("DEVDONE", memNo));

@@ -54,7 +54,10 @@
 							data-bs-toggle="tab" data-srstat="REQT">요청<span
 								class="row-cnt"></span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
-							data-bs-toggle="tab" data-srstat="REJC">반려/재검토<span
+							data-bs-toggle="tab" data-srstat="REJC">반려<span
+								class="row-cnt"></span></a></li>
+						<li class="nav-item"><a class="nav-link tb-tab"
+							data-bs-toggle="tab" data-srstat="RERE">재검토<span
 								class="row-cnt"></span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
 							data-bs-toggle="tab" data-srstat="RECE">접수<span
