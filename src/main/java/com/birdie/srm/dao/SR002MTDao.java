@@ -62,5 +62,10 @@ public interface SR002MTDao {
  	// 사용자에 따른 승인 된 나의 할 일 전체 목록 가져오기
 	public List<SR002MT> selectAppsrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
 
+	// 특정 상태의 사용자 별 승인 된 SR 총 행 수 가져오기
+	public int selectAppCountRowsByStatusAndUser(@Param("srStat") String srStat, @Param("memNo") String memNo);
+
+	// 특정 상태의 사용자 별 승인 된 SR 목록 가져오기
+	public List<SR002MT> selectAppsrListByStatusAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
 
 }
