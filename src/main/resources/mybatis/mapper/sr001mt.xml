@@ -197,9 +197,11 @@
 		resultType="int">
 		SELECT COUNT(*)
 		FROM TB_SR_002MT sr2
-		JOIN TB_SR_001MT sr1 ON sr1.SR_ID = sr2.SR_ID
+		JOIN TB_SR_001MT sr1 ON
+		sr1.SR_ID = sr2.SR_ID
 		WHERE sr2.FIRST_INPT_ID = #{memNo}
-		AND sr1.SR_STAT = #{srStat}
+		AND sr1.SR_STAT
+		= #{srStat}
 		AND sr1.DELT_YN = 'N'
 	</select>
 
