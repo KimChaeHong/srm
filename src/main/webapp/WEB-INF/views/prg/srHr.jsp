@@ -17,7 +17,6 @@
                     <th class="hr-col-4">역할</th>
                     <th class="hr-col-5">계획공수(M/D)</th>
                     <th class="hr-col-6">실적공수(M/D)</th>
-                    <th class="hr-col-7">일자별실적조회</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,9 +40,7 @@
                                 <c:if test="${memInfo == null || (memInfo.role2 != 'LEAD')}">disabled</c:if>>
                         </td>
                         <td class="hr-col-6">${hr.wkHour}</td>
-                        <td class="hr-col-7">
-                            <i class="bi bi-journal"></i>
-                        </td>
+                        
                     </tr>
                 </c:forEach>
             </tbody>
