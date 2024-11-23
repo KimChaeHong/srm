@@ -38,7 +38,7 @@
                         <td class="hr-col-5">
                             <input type="number" name="plnMd" value="${hr.plnMd}" 
                                 class="pln" min="0" 
-                                <c:if test="${memInfo == null || (memInfo.role2 != 'LEAD' && memInfo.role2 != 'MEMB')}">disabled</c:if>>
+                                <c:if test="${memInfo == null || (memInfo.role2 != 'LEAD')}">disabled</c:if>>
                         </td>
                         <td class="hr-col-6">${hr.wkHour}</td>
                         <td class="hr-col-7">
@@ -59,10 +59,10 @@
 	            <button id="del-btn" class="btn srpg-btn" type="button">선택삭제</button>
 	            <button id="save-btn" class="btn srpg-btn" type="button">저장</button>
 	        </c:when>
-	        <%-- 팀원이면 저장 버튼만 표시 --%>
+	        <%-- 팀원이면 저장 버튼만 표시
 	        <c:when test="${memInfo != null && memInfo.role2 == 'MEMB'}">
 	            <button id="save-btn" class="btn srpg-btn" type="button" style="margin-left: 100px;">저장</button>
-	        </c:when>
+	        </c:when> --%>
 	    </c:choose>
 	</div>
 
