@@ -170,7 +170,7 @@ th {
     text-align: center;
     font-weight: 600;
 }
-/* --------시스템에 따라 색상 지정-------- */
+/* --------시스템에 따라 색상 지정-------- */ 
 .btn-relSys {
     border: none;
     border-radius: 10px;
@@ -226,7 +226,6 @@ th {
 
 
 /* Pagination */
-
 #pagination {
     width: 100%;
     display: flex;

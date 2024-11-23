@@ -9,6 +9,7 @@ public class SR001NT {
 	private String memId; 			// 회원 id
 	private String appSrId;			// 승인된 SR_ID
 	private int plnMd;				// 계획공수
+	private double wkHour; 			// 실적공수
 	
 	private String deltYn;			// 삭제여부
 	private Date firstInptDt;		// 최초등록일
