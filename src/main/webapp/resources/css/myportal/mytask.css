@@ -65,7 +65,7 @@ body {
 /* 섹션 스타일 */
 #section {
     width: 1270px;
-    height: 700px;
+    height: 500px;
     margin-left: 44px;
     background-color: white;
     box-shadow: 4px 4px 10px rgba(190, 190, 190, 0.5);
@@ -74,7 +74,7 @@ body {
 
 /* SR 목록 스타일 */
 #sr-list {
-    height: 700px;
+    height: 500px;
     padding: 15px 0;
     position: relative;
 }
@@ -103,7 +103,7 @@ h2{
 /* --------------탭------------- */
 .tabs-container {
     width: 100%;
-    padding: 15px 17px 0 17px;
+    padding: 15px 35px 0 17px;
 }
 
 .tb-tab {
@@ -121,7 +121,7 @@ h2{
 
 /* ---------------테이블 ---------------*/
 #table-container {
-    height: 560px;
+    height: 380px;
     margin: 0 17px;
 }
 
@@ -133,7 +133,7 @@ table {
 }
 
 #task-table{
-	width:1236px;
+	width:1218px;
 	table-layout: fixed;
 }
 
@@ -141,7 +141,7 @@ table {
     width: 50px;
 }
 .mytask-2{
-	width: 180px
+	width: 160px
 }
 
 .mytask-3  {
