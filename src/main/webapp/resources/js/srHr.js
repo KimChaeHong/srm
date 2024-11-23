@@ -64,14 +64,22 @@ $(document).ready(function() {
         });
 
         if (arr.length === 0) {
-            alert("저장할 자원을 선택해 주세요.");
+            Swal.fire({
+                title: '알림',
+                text: '저장할 자원을 선택해 주세요.',
+                icon: 'warning',
+                confirmButtonText: '확인'
+            });
             return;
         }
+
         const data = {
             appSrId: appSrId,
             memInfo: arr
         };
+
         console.log(data);
+        
         // 서버로 JSON 데이터 전송
         $.ajax({
             url: '/srm/prg/updateHr',
@@ -79,29 +87,45 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function(response) {
-                alert("자원 정보가 저장되었습니다!");
+                Swal.fire({
+                    title: '성공!',
+                    text: '자원 정보가 저장되었습니다!',
+                    icon: 'success',
+                    confirmButtonText: '확인'
+                });
             },
             error: function(xhr, status, error) {
-                alert("자원 정보 저장에 실패했습니다.");
+                Swal.fire({
+                    title: '오류!',
+                    text: '자원 정보 저장에 실패했습니다.',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
             }
         });
     });
- // 삭제 
+
+    // 삭제 버튼 클릭 시 이벤트
     $('#del-btn').on('click', function () {
         let arr = [];
 
         // 체크된 자원 수 확인
         const selectedResources = $('#hr-table .form-check-input:checked');
         if (selectedResources.length === 0) {
-            alert("삭제할 자원을 선택해 주세요.");
+            Swal.fire({
+                title: '알림',
+                text: '삭제할 자원을 선택해 주세요.',
+                icon: 'warning',
+                confirmButtonText: '확인'
+            });
             return; // 선택된 자원이 없으면 실행 중단
         }
 
         selectedResources.each(function () {
             const memId = $(this).val();
-            arr.push({ memId: memId });			// 각 memId를 객체로 추가
+            arr.push({ memId: memId }); // 각 memId를 객체로 추가
             
-            $(this).closest('tr').remove();			// UI에서 행 삭제
+            $(this).closest('tr').remove(); // UI에서 행 삭제
         });
 
         const appSrId = $('#appSrId').val();
@@ -117,14 +141,22 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (response) {
-                alert("선택된 자원이 삭제되었습니다!");
+                Swal.fire({
+                    title: '성공!',
+                    text: '선택된 자원이 삭제되었습니다!',
+                    icon: 'success',
+                    confirmButtonText: '확인'
+                });
             },
             error: function (xhr, status, error) {
-                alert("자원 삭제에 실패했습니다.");
+                Swal.fire({
+                    title: '오류!',
+                    text: '자원 삭제에 실패했습니다.',
+                    icon: 'error',
+                    confirmButtonText: '확인'
+                });
             }
         });
     });
-
-
     
 });

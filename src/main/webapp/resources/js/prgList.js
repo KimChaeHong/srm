@@ -68,13 +68,26 @@ function loadSrDetails(appSrId) {
                     type: 'post',
                     data: formData,
                     success: function(response){
-                        alert(response);
+                        // SweetAlert 사용하여 성공 메시지 표시
+                        Swal.fire({
+                            title: '저장완료!',
+                            text: response,
+                            icon: 'success',
+                            confirmButtonText: '확인'
+                        });
                     },
                     error: function() {
-                        alert('저장 중 오류가 발생했습니다.');
+                        // SweetAlert 사용하여 에러 메시지 표시
+                        Swal.fire({
+                            title: '오류!',
+                            text: '저장 중 오류가 발생했습니다.',
+                            icon: 'error',
+                            confirmButtonText: '확인'
+                        });
                     }
                 });
             });
+
 
             $('.modal-search-btn').off('click').on('click', function(e){
                 e.preventDefault(); // form 기본 제출 막기
