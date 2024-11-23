@@ -66,8 +66,8 @@ public class MyportalService {
 	        counts.put("REJC", sr001mtDao.selectCountManagerRowsByStatus("REJC", memNo));
 	        counts.put("RERE", sr001mtDao.selectCountManagerRowsByStatus("RERE", memNo));
 	        counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
-	        counts.put("DEVING", sr001mtDao.selectCountManagerRowsByStatus("DEVING", memNo));
-	        counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByStatus("DEVDONE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountRowsByDevingAndUser("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByDevdoneAndUser("DEVDONE", memNo));
 	    } else {
 	        // 일반 사용자와 개발자의 경우
 	        counts.put("ALL", sr001mtDao.selectCountRowsByUser(memNo));
@@ -76,8 +76,8 @@ public class MyportalService {
 	        counts.put("REJC", sr001mtDao.selectCountRowsByStatusAndUser("REJC", memNo));
 	        counts.put("RERE", sr001mtDao.selectCountRowsByStatusAndUser("RERE", memNo));
 	        counts.put("RECE", sr001mtDao.selectCountRowsByStatusAndUser("RECE", memNo));
-	        counts.put("DEVING", sr001mtDao.selectCountRowsByStatusAndUser("DEVING", memNo));
-	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByStatusAndUser("DEVDONE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountRowsByDevingAndUser("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByDevdoneAndUser("DEVDONE", memNo));
 	    }
 
 	    return counts;
@@ -101,8 +101,15 @@ public class MyportalService {
 
 	// 특정 상태의 사용자별 SR 목록 가져오기
 	public List<SR001MT> getMySrListByStatusAndUser(PagerDto pager, String srStat, String memNo) {
-		return "ALL".equals(srStat) ? sr001mtDao.selectMysrListByUser(memNo, pager)
-				:sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
+		if ("ALL".equals(srStat)) {
+	        return sr001mtDao.selectMysrListByUser(memNo, pager);
+	    } else if ("DEVING".equals(srStat)) {
+	        return sr001mtDao.selectMysrListByDevingAndUser(pager, srStat, memNo);
+	    } else if ("DEVDONE".equals(srStat)) {
+	        return sr001mtDao.selectMysrListByDevdoneAndUser(pager, srStat, memNo);
+	    } else {
+	        return sr001mtDao.selectMysrListByStatusAndUser(pager, srStat, memNo);
+	    }   
 	}
 	
     // 관리자용 전체 SR 행 수 가져오기
