@@ -8,7 +8,7 @@
 	        rownum rnum, 
 	        MB.MEM_ID, 
 	        MB.MEM_NM, 
-	        MB.ROLE_1, 
+	        MB.ROLE_1,  
 	        MB.ROLE_2, 
 	        HR.PLN_MD, 
 	        HR.DELT_YN, 
