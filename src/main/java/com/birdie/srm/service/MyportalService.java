@@ -66,8 +66,8 @@ public class MyportalService {
 	        counts.put("REJC", sr001mtDao.selectCountManagerRowsByStatus("REJC", memNo));
 	        counts.put("RERE", sr001mtDao.selectCountManagerRowsByStatus("RERE", memNo));
 	        counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
-	        counts.put("DEVING", sr001mtDao.selectCountRowsByDevingAndUser("DEVING", memNo));
-	        counts.put("DEVDONE", sr001mtDao.selectCountRowsByDevdoneAndUser("DEVDONE", memNo));
+	        counts.put("DEVING", sr001mtDao.selectCountManagerRowsByDevingAndUser("DEVING", memNo));
+	        counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByDevdoneAndUser("DEVDONE", memNo));
 	    } else {
 	        // 일반 사용자와 개발자의 경우
 	        counts.put("ALL", sr001mtDao.selectCountRowsByUser(memNo));
@@ -94,9 +94,16 @@ public class MyportalService {
 	}
 
 	// 특정 상태의 사용자 별 총 행 수 가져오기
-	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {
-		return "ALL".equals(srStat) ? sr001mtDao.selectCountRowsByUser(memberInfo)
-				: sr001mtDao.selectCountRowsByStatusAndUser(srStat, memberInfo);
+	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {;
+		if ("ALL".equals(srStat)) {
+	        return sr001mtDao.selectCountRowsByUser(memberInfo);
+	    } else if ("DEVING".equals(srStat)) {
+	        return sr001mtDao.selectCountRowsByDevingAndUser(srStat, memberInfo);
+	    } else if ("DEVDONE".equals(srStat)){
+	        return sr001mtDao.selectCountRowsByDevdoneAndUser(srStat, memberInfo);
+	    } else {
+	    	return sr001mtDao.selectCountRowsByStatusAndUser(srStat, memberInfo);
+	    }
 	}
 
 	// 특정 상태의 사용자별 SR 목록 가져오기
@@ -123,15 +130,29 @@ public class MyportalService {
 	}
 	
 	// 특정 상태별 관리자 총 행 수 조회
-	public int getTotalManagerRowsByStatus(String srStat, String memberInfo) {
-	    return "ALL".equals(srStat) ? sr001mtDao.selectCountManagerRows(memberInfo)
-	            : sr001mtDao.selectCountManagerRowsByStatus(srStat, memberInfo);
+	public int getTotalManagerRowsByStatus(String srStat, String memberInfo) {	    
+	    if ("ALL".equals(srStat)) {
+	        return sr001mtDao.selectCountManagerRows(memberInfo);
+	    } else if ("DEVING".equals(srStat)) {
+	        return sr001mtDao.selectCountManagerRowsByDevingAndUser(srStat, memberInfo);
+	    } else if ("DEVDONE".equals(srStat)){
+	        return sr001mtDao.selectCountManagerRowsByDevdoneAndUser(srStat, memberInfo);
+	    } else {
+	    	return sr001mtDao.selectCountManagerRowsByStatus(srStat, memberInfo);
+	    }
 	}
 
 	// 특정 상태별 관리자 SR 목록 조회
 	public List<SR001MT> getManagerSrListByStatus(String srStat, String memberInfo, PagerDto pager) {
-	    return "ALL".equals(srStat) ? sr001mtDao.selectManagerSrList(memberInfo, pager)
-	    		:sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
+	    if("ALL".equals(srStat)) {
+			return sr001mtDao.selectManagerSrList(memberInfo, pager);
+		}else if("DEVING".equals(srStat)) {
+			return sr001mtDao.selectMangerSrListByDevingAndUser(pager, srStat, memberInfo);
+		}else if("DEVDONE".equals(srStat)) {
+			return sr001mtDao.selectMangerSrListByDevdoneAndUser(pager, srStat, memberInfo);
+		}else
+			return sr001mtDao.selectManagerSrListByStatus(pager, srStat, memberInfo);
+
 	}
 	
 	/*달력*/
