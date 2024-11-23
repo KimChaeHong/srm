@@ -56,7 +56,7 @@ public interface SR001MTDao {
  	public int selectCountRowsByUser(@Param("memNo") String memberInfo);
 
  	// 사용자에 따른 나의 할 일 전체 목록 가져오기
-	public  List<SR001MT> selectMysrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
+	public List<SR001MT> selectMysrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
 
 	// 특정 상태의 사용자 별 총 행 수 가져오기
 	public int selectCountRowsByStatusAndUser(@Param("srStat") String srStat, @Param("memNo") String memNo);
@@ -64,6 +64,18 @@ public interface SR001MTDao {
 	// 특정 상태의 사용자별 SR 목록 가져오기
 	public List<SR001MT> selectMysrListByStatusAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
 
+	// 개발 중인 상태의 사용자 별 총 행 수 가져오기
+	public int selectCountRowsByDevingAndUser(@Param("srStat") String srStat, @Param("memNo") String memNo);
+	
+	// 개발 중인 된 상태의 사용자 sr 목록 가져오기
+	public List<SR001MT> selectMysrListByDevingAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+	
+	// 개발 완료 상태의 사용자 별 총 행 수 가져오기
+	public int selectCountRowsByDevdoneAndUser(@Param("srStat") String srStat, @Param("memNo") String memNo);
+
+	//개발 완료 된 상태의 사용자 sr 목록 가져오기
+	public List<SR001MT> selectMysrListByDevdoneAndUser(@Param("pager") PagerDto pager, @Param("srStat") String srStat, @Param("memNo") String memNo);
+	
 	// 관리자의 나의 할 일 전체 목록 가져오기
 	public List<SR001MT> selectAppsrListByUser(@Param("memNo") String memNo, @Param("pager") PagerDto pager);
 
