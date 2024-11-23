@@ -170,7 +170,7 @@
 
 			<!-- 페이지 버튼 -->
 			<div id="pagination">
-				<c:if test="${pager.groupNo > 1}">
+ 				<c:if test="${pager.groupNo > 1}">
 					<a class="btn page-btn shadow-sm"
 						data-page="${pager.startPageNo - 1}"> <i
 						class="bi bi-chevron-left"></i>
@@ -196,7 +196,7 @@
 					<option value="20" ${pager.rowsPerPage == 20 ? 'selected' : ''}>20</option>
 					<option value="30" ${pager.rowsPerPage == 30 ? 'selected' : ''}>30</option>
 					<option value="40" ${pager.rowsPerPage == 40 ? 'selected' : ''}>40</option>
-				</select> <input type="hidden" id="currentPage" value="${pager.pageNo}" />
+				</select> <input type="hidden" id="currentPage" value="${pager.pageNo}" /> 
 			</div>
 		</div>
 	</div>

@@ -211,7 +211,7 @@ public class MyportalController {
 	        }
 	    }
 
-	    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	    pager = new PagerDto(rowsPerPage, 1, totalRows, pageNo);
 	    model.addAttribute("pager", pager);
 
 	    return "myportal/pagination";
