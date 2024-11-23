@@ -120,6 +120,19 @@
 		where SR_STAT = #{srStat}
 		AND DELT_YN = 'N'
 	</select>
+	
+		<!-- 상태별 게시물 갯수 가져오기 -->
+	<select id="selectCountRowsByStatusAndUser" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_001MT sr
+		JOIN TB_MB_001MT m ON
+		sr.FIRST_INPT_ID = m.MEM_NO
+		WHERE sr.SR_STAT = #{srStat}
+		AND sr.DELT_YN
+		= 'N'
+		AND m.MEM_ID = #{memNo}
+	</select>
 
 	<!-- 상태별 SR 목록 가져오기 -->
 	<select id="selectMysrListByStatus" parameterType="map"
