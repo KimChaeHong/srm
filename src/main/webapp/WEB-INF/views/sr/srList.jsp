@@ -105,7 +105,7 @@
                         </thead>
                         <tbody>
                         	<c:forEach items="${srList}" var="sr">
-	                            <tr>
+	                            <tr class="${sr.firstInptId == memInfo.memNo ? 'my-sr' : ''}">
 	                                <td class="col-1">${sr.rnum}</td>
 	                                <td class="col-2">${sr.srId}</td>
 	                                <td class="col-3">${sr.srTitle}</td>
