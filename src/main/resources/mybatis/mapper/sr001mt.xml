@@ -373,31 +373,37 @@
 	</select>
 
 	<!-- 개발 중 관리자 게시물 갯수 가져오기 -->
-	<select id="selectCountManagerRowsByDevingAndUser" parameterType="map"
-		resultType="int">
+	<select id="selectCountManagerRowsByDevingAndUser"
+		parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM TB_SR_001MT sr1
 		JOIN TB_MB_001MT m ON
 		sr1.FIRST_INPT_ID = m.MEM_NO
-		JOIN TB_SR_002MT sr2 ON sr1.SR_ID =
+		JOIN TB_SR_002MT sr2
+		ON sr1.SR_ID =
 		sr2.SR_ID
-		JOIN tb_sr_002nt nt2 ON sr2.APP_SR_ID = nt2.APP_SR_ID
+		JOIN tb_sr_002nt nt2 ON sr2.APP_SR_ID =
+		nt2.APP_SR_ID
 		WHERE
 		sr1.DELT_YN = 'N'
 		AND sr1.LAST_INPT_ID = #{memNo}
-		AND sr1.SR_STAT =
+		AND
+		sr1.SR_STAT =
 		'RECE'
 		AND sr2.RCP_STAT = 'DECE'
-		AND nt2.task_type != 'OPER'
+		AND nt2.task_type !=
+		'OPER'
 		AND nt2.PRG
-		= (SELECT MAX(nt2_inner.PRG) FROM tb_sr_002nt nt2_inner WHERE
-		nt2_inner.APP_SR_ID = nt2.APP_SR_ID AND nt2_inner.TASK_TYPE != 'OPER')
+		= (SELECT MAX(nt2_inner.PRG) FROM tb_sr_002nt
+		nt2_inner WHERE
+		nt2_inner.APP_SR_ID = nt2.APP_SR_ID AND
+		nt2_inner.TASK_TYPE != 'OPER')
 
 	</select>
 
 	<!-- 개발 중 관리자 상태별 SR 목록 가져오기 -->
-	<select id="selectMangerSrListByDevingAndUser" parameterType="map"
-		resultType="SR001MT">
+	<select id="selectMangerSrListByDevingAndUser"
+		parameterType="map" resultType="SR001MT">
     <![CDATA[
         
     SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
@@ -437,22 +443,22 @@ ORDER BY sr1.REQ_DT DESC
 
 
 	<!-- 개발 완료 관리자 게시물 갯수 가져오기 -->
-	<select id="selectCountManagerRowsByDevdoneAndUser" parameterType="map"
-		resultType="int">
+	<select id="selectCountManagerRowsByDevdoneAndUser"
+		parameterType="map" resultType="int">
 		SELECT COUNT(*)
-		FROM 
-    TB_SR_001MT sr
-JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO 
-JOIN TB_SR_002MT sr2 ON sr.SR_ID = sr2.SR_ID 
-JOIN tb_sr_002nt nt2 ON sr2.APP_SR_ID = nt2.APP_SR_ID 
-WHERE 
-sr.DELT_YN = 'N'
-AND sr.LAST_INPT_ID = #{memNo}
-AND sr.SR_STAT = 'RECE' 
-AND sr2.RCP_STAT = 'DECE'
-AND nt2.task_type = 'OPER'  
-AND nt2.PRG = 100
-ORDER BY sr.REQ_DT DESC
+		FROM
+		TB_SR_001MT sr
+		JOIN TB_MB_001MT m ON sr.FIRST_INPT_ID = m.MEM_NO
+		JOIN TB_SR_002MT sr2 ON sr.SR_ID = sr2.SR_ID
+		JOIN tb_sr_002nt nt2 ON sr2.APP_SR_ID = nt2.APP_SR_ID
+		WHERE
+		sr.DELT_YN = 'N'
+		AND sr.LAST_INPT_ID = #{memNo}
+		AND sr.SR_STAT = 'RECE'
+		AND sr2.RCP_STAT = 'DECE'
+		AND nt2.task_type = 'OPER'
+		AND nt2.PRG = 100
+		ORDER BY sr.REQ_DT DESC
 
 	</select>
 
@@ -460,9 +466,9 @@ ORDER BY sr.REQ_DT DESC
 
 
 
-<!-- 개발 완료 상태별 SR 목록 가져오기 -->
-	<select id="selectMangerSrListByDevdoneAndUser" parameterType="map"
-		resultType="SR001MT">
+	<!-- 개발 완료 상태별 SR 목록 가져오기 -->
+	<select id="selectMangerSrListByDevdoneAndUser"
+		parameterType="map" resultType="SR001MT">
     <![CDATA[
         
     SELECT rnum, s.SR_ID, s.SR_TITLE, s.REQ_DT, s.DUE_DT, s.SR_CONT, s.REL_SYS, s.SR_STAT, s.DELT_YN, 
