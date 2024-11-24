@@ -412,25 +412,32 @@
 	</select>
 	
 	<select id="selectAssignedSrId" parameterType="Map" resultType="SR002MT">
-		SELECT 
-		    sr002mt.APP_SR_ID,
-		    sr002mt.TRG_ST_DT,
-		    sr002mt.TRG_END_DT,
-		    sr001nt.PLN_MD,
-		    NVL(SUM(sr003nt.WK_HOUR), 0) AS ACTUAL_MD
-		FROM 
-		    TB_SR_001NT sr001nt
-		JOIN 
-		    TB_SR_002MT sr002mt 
-		    ON sr001nt.APP_SR_ID = sr002mt.APP_SR_ID
-		LEFT JOIN 
-		    TB_SR_003NT sr003nt 
-		    ON sr002mt.APP_SR_ID = sr003nt.APP_SR_ID
-        WHERE sr001nt.MEM_ID = #{memId}
-		GROUP BY 
-		    sr002mt.APP_SR_ID, 
-		    sr002mt.TRG_ST_DT, 
-		    sr002mt.TRG_END_DT, 
-		    sr001nt.PLN_MD
+	    SELECT 
+	        sr002mt.APP_SR_ID,
+	        sr002mt.TRG_ST_DT,
+	        sr002mt.TRG_END_DT,
+	        sr001nt.PLN_MD,
+	        NVL(SUM(sr003nt.WK_HOUR), 0) AS ACTUAL_MD
+	    FROM 
+	        TB_SR_001NT sr001nt
+	    JOIN 
+	        TB_SR_002MT sr002mt 
+	        ON sr001nt.APP_SR_ID = sr002mt.APP_SR_ID
+	        AND sr002mt.RCP_STAT = 'DECE'
+	    LEFT JOIN 
+	        TB_SR_003NT sr003nt 
+	        ON sr002mt.APP_SR_ID = sr003nt.APP_SR_ID
+	    JOIN (
+	        SELECT DISTINCT APP_SR_ID
+	        FROM TB_SR_002NT
+	        WHERE PRG &lt; 100
+	    ) sr002nt
+	        ON sr002mt.APP_SR_ID = sr002nt.APP_SR_ID
+	    WHERE sr001nt.MEM_ID = #{memId}
+	    GROUP BY 
+	        sr002mt.APP_SR_ID, 
+	        sr002mt.TRG_ST_DT, 
+	        sr002mt.TRG_END_DT, 
+	        sr001nt.PLN_MD
 	</select>
 </mapper>
