@@ -110,10 +110,23 @@
 	                                <td class="col-2">${sr.srId}</td>
 	                                <td class="col-3">${sr.srTitle}</td>
 	                                <td class="col-4">
-	                                	<c:forEach items="${sysList}" var="sysList">
-		                                	${sr.relSys == sysList.cdId ? sysList.cdNm : ''}
-	                                	</c:forEach>
-	                                </td>
+									    <c:choose>
+									        <c:when test="${sr.relSys == 'EMPL'}">
+									            <span class="btn-relSys relSys-empl">고용보험</span>
+									        </c:when>
+									        <c:when test="${sr.relSys == 'HRDV'}">
+									            <span class="btn-relSys relSys-hrdv">HRD</span>
+									        </c:when>
+									        <c:when test="${sr.relSys == 'WORK'}">
+									            <span class="btn-relSys relSys-work">워크넷</span>
+									        </c:when>
+									        <c:otherwise>
+									            ${sr.relSys}
+									        </c:otherwise>
+									    </c:choose>
+									</td>
+
+
 	                                <td class="col-5">${sr.memNm}</td>
 	                                <td class="col-6">${sr.instNm}</td>
 	                                <td class="col-7">

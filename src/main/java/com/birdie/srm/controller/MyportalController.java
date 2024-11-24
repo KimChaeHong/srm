@@ -70,7 +70,7 @@ public class MyportalController {
 	    if (rowsPerPage == null) {
 	        rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
 	        if (rowsPerPage == null) {
-	            rowsPerPage = 16; // 기본값 설정
+	            rowsPerPage = 10; // 기본값 설정
 	        }
 	    } else {
 	        session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
@@ -125,7 +125,7 @@ public class MyportalController {
 	    if (rowsPerPage == null) {
 	        rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
 	        if (rowsPerPage == null) {
-	            rowsPerPage = 16; // 기본값 설정
+	            rowsPerPage = 10; // 기본값 설정
 	        }
 	    } else {
 	        session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
@@ -187,7 +187,7 @@ public class MyportalController {
 	    if (rowsPerPage == null) {
 	        rowsPerPage = (Integer) session.getAttribute("rowsPerPage");
 	        if (rowsPerPage == null) {
-	            rowsPerPage = 16; // 기본값 설정
+	            rowsPerPage = 10; // 기본값 설정
 	        }
 	    } else {
 	        session.setAttribute("rowsPerPage", rowsPerPage); // 변경된 값을 세션에 저장
@@ -211,7 +211,7 @@ public class MyportalController {
 	        }
 	    }
 
-	    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
+	    pager = new PagerDto(rowsPerPage, 1, totalRows, pageNo);
 	    model.addAttribute("pager", pager);
 
 	    return "myportal/pagination";

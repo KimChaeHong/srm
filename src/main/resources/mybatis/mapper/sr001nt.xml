@@ -4,41 +4,24 @@
 	
 	<!-- appSrId값이 일치하는 모든 자원 가져오기 -  조회 -->
 	<select id="selectHrList" parameterType="String" resultType="SR001NT">
-    select
-        rownum rnum, 
-        MB.MEM_ID, 
-        MB.MEM_NM, 
-        MB.ROLE_1, 
-        MB.ROLE_2, 
-        HR.PLN_MD, 
-        HR.DELT_YN, 
-        -- 서브쿼리로 실적공수(WK_HOUR 합계) 계산
-        (select NVL(SUM(SR003.WK_HOUR), 0)
-         from TB_SR_003NT SR003
-         where SR003.MEM_ID = HR.MEM_ID
-           and SR003.APP_SR_ID = HR.APP_SR_ID) AS wkHour
-    from TB_SR_001NT HR
-    join TB_MB_001MT MB on MB.MEM_ID = HR.MEM_ID
-    where HR.APP_SR_ID = #{appSrId}
-      and HR.DELT_YN = 'N'
-</select>
+	    select
+	        rownum rnum, 
+	        MB.MEM_ID, 
+	        MB.MEM_NM, 
+	        MB.ROLE_1,  
+	        MB.ROLE_2, 
+	        HR.PLN_MD, 
+	        HR.DELT_YN, 
+	        (select NVL(SUM(SR003.WK_HOUR), 0)
+	         from TB_SR_003NT SR003
+	         where SR003.MEM_ID = HR.MEM_ID
+	           and SR003.APP_SR_ID = HR.APP_SR_ID) AS wkHour
+	    from TB_SR_001NT HR
+	    join TB_MB_001MT MB on MB.MEM_ID = HR.MEM_ID
+	    where HR.APP_SR_ID = #{appSrId}
+	      and HR.DELT_YN = 'N'
+	</select>
 	
-	<!-- <select id="selectHrList" parameterType="String" resultType="SR001NT">
-		select
-			rownum rnum, MB.MEM_ID, MB.MEM_NM, MB.ROLE_1, MB.ROLE_2, 
-			HR.PLN_MD, HR.DELT_YN, 
-			
-			(select NVL(SUM(SR003.WK_HOUR), 0)
-			 from TB_SR_003NT t
-			 where  t.MEM_ID = HR.MEM_ID
-			 	and SR003.APP_SR_ID = HR.APP_SR_ID)
-		from TB_SR_001NT HR
-		join TB_MB_001MT MB on MB.MEM_ID = HR.MEM_ID
-		left join TB_SR_003NT SR003 on SR003.MEM_ID = HR.MEM_ID
-			and SR003.APP_SR_ID = HR.APP_SR_ID
-		where HR.APP_SR_ID = #{appSrId}
-			and HR.DELT_YN = 'N'
-	</select> -->
 	
 	<!-- 자원테이블에서 appSrId와 memId 존재 여부 확인 -->
 	<select id="exists" resultType="int" parameterType="SR001NT">
