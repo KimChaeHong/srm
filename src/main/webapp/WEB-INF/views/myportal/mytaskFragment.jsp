@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <!-- 테이블 데이터 행 부분 -->
 <div>
@@ -38,3 +39,74 @@
 		</c:forEach>
 	</tbody>
 </div>
+
+<sec:authorize access="hasRole('ROLE_DEVE')">
+			
+	
+                
+                        
+                        <tbody>
+                            <tr>
+                            	<td>1</td>
+                                <td>SR1008_001</td>
+                                <td>화면 기능 수정해주세요.</td>
+                                <td>고용 보험</td>
+                                <td>이민성</td>
+                                <td>고용노동부</td>
+                                
+                                <td>24/10/09</td>
+                                <td>24/10/16</td>
+                                <td>설계</td>
+                            </tr>
+                               <tr>
+                            	<td>2</td>
+                                <td>SR1008_002</td>
+                                <td>화면 기능 수정해주세요.</td>
+                                <td>고용 보험</td>
+                                <td>이민성</td>
+                                <td>고용노동부</td>
+                                
+                                <td>24/10/09</td>
+                                <td>24/10/16</td>
+                                <td>설계</td>
+                            </tr>
+                           <tr>
+                            	<td>3</td>
+                                <td>SR1008_301</td>
+                                <td>화면 기능 수정해주세요.</td>
+                                <td>고용 보험</td>
+                                <td>이민성</td>
+                                <td>고용노동부</td>
+                                
+                                <td>24/10/09</td>
+                                <td>24/10/16</td>
+                                <td>설계</td>
+                            </tr>
+                             <tr>
+                            	<td>4</td>
+                                <td>SR1008_411</td>
+                                <td>화면 기능 수정해주세요.</td>
+                                <td>고용 보험</td>
+                                <td>이민성</td>
+                                <td>고용노동부</td>
+                                
+                                <td>24/10/09</td>
+                                <td>24/10/16</td>
+                                <td>설계</td>
+                            </tr>
+    						 <tr>
+                            	<td>5</td>
+                                <td>SR1008_581</td>
+                                <td>화면 기능 수정해주세요.</td>
+                                <td>고용 보험</td>
+                                <td>이민성</td>
+                                <td>고용노동부</td>
+                                
+                                <td>24/10/09</td>
+                                <td>24/10/16</td>
+                                <td>설계</td>
+                            </tr>
+                        </tbody>
+                 
+              
+</sec:authorize>
