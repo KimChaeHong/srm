@@ -32,6 +32,7 @@ $(document).ready(function() {
 		currentPage = 1; // 행 수 변경 시 첫 페이지로 이동
 		loadPage(currentPage, srStat, currentRowsPerPage);
 	});
+	
 	// AJAX로 페이지 로드 함수
 	function loadPage(pageNo, srStat, rowsPerPage) {
 		// mytaskFragment 데이터 로드

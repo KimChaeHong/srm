@@ -34,9 +34,7 @@ $(document).off('click', '.hr-modal-add-btn').on('click', '.hr-modal-add-btn', f
                     <input type="number" name="plnMd" value="0" class="pln" min="0">
                 </td>
                 <td class="hr-col-6"></td>
-                <td class="hr-col-7">
-                    <i class="bi bi-journal"></i>
-                </td>
+                
             </tr>
         `);
     });

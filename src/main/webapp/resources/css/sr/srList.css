@@ -501,7 +501,6 @@ th {
     color: #6c757d; /* 회색 */
     background-color: #e2e3e5; /* 연한 회색 */
 }
-/* --------시스템에 따라 색상 지정-------- */
 .btn-relSys {
     border: none;
     border-radius: 10px;
@@ -512,24 +511,22 @@ th {
     padding: 4px;
 }
 
-/* 고용보험 */
-.relSys-EMPL {
+.relSys-empl {
     color: #215cac;
-    background-color: #d9e7fa;
+    background-color: #d9e7fa; /* 고용보험 */
 }
 
-/* HRD */
-.relSys-HRDV {
+.relSys-hrdv {
     color: #c48e00;
-    background-color: #fff7d1;
+    background-color: #fff7d1; /* HRD */
 }
 
-/* 워크넷 */
-.relSys-WORK {
+.relSys-work {
     color: #2d8c8b;
-    background-color: #e0f8f7;
+    background-color: #e0f8f7; /* 워크넷 */
 }
 
+ feature/2
 .my-sr {
 	background-color: #f2f2f2;
 }

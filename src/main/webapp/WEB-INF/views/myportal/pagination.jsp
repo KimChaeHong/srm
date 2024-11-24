@@ -20,10 +20,10 @@
 </c:if>
 
 <select class="row-select form-select" id="rowsPerPageSelect">
-    <option value="16" ${pager.rowsPerPage == 16 ? 'selected' : ''}>16</option>
-    <option value="32" ${pager.rowsPerPage == 32 ? 'selected' : ''}>32</option>
-    <option value="48" ${pager.rowsPerPage == 48 ? 'selected' : ''}>48</option>
-    <option value="64" ${pager.rowsPerPage == 64 ? 'selected' : ''}>64</option>
+    <option value="10" ${pager.rowsPerPage == 10 ? 'selected' : ''}>10</option>
+    <option value="20" ${pager.rowsPerPage == 20 ? 'selected' : ''}>20</option>
+    <option value="30" ${pager.rowsPerPage == 30 ? 'selected' : ''}>30</option>
+    <option value="40" ${pager.rowsPerPage == 40 ? 'selected' : ''}>40</option>
 </select>
 <input type="hidden" id="currentPage" value="${pager.pageNo}" />
 </div>
