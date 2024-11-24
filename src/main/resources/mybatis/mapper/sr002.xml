@@ -268,7 +268,7 @@
 	        TB_SR_001MT.SR_TITLE,
 	        TB_SR_002MT.TRG_ST_DT,
 	        TB_SR_002MT.TRG_END_DT,
-	        MAX(TB_SR_002NT.PRG) AS MAX_PRG
+	        MAX(NVL(PRG, 0)) AS MAX_PRG
 	    FROM 
 	        TB_SR_001MT
 	    JOIN 
@@ -277,10 +277,11 @@
 	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
 	    WHERE 
 	        TB_SR_001MT.FIRST_INPT_ID = #{memNo}
+	        AND TB_SR_002MT.RCP_STAT = 'DECE'
 	    GROUP BY 
 	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
 	    HAVING 
-	        MAX(TB_SR_002NT.PRG) &lt; 100
+	        MAX(NVL(PRG, 0)) &lt; 100
 	    ORDER BY 
 	        TB_SR_002MT.TRG_END_DT ASC
 	</select>
@@ -291,7 +292,7 @@
 	        TB_SR_002MT.TRG_ST_DT,
 	        TB_SR_002MT.TRG_END_DT,
 	        TB_SR_001MT.SR_TITLE,
-	        MAX(TB_SR_002NT.PRG) AS MAX_PRG
+	        MAX(NVL(PRG, 0)) AS MAX_PRG
 	    FROM 
 	        TB_SR_002MT
 	    JOIN 
@@ -302,10 +303,11 @@
 	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
 	    WHERE 
 	        TB_SR_001NT.MEM_ID = #{memId}
+			AND TB_SR_002MT.RCP_STAT = 'DECE'
 	    GROUP BY 
 	        TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT, TB_SR_001MT.SR_TITLE
 	    HAVING 
-	        MAX(TB_SR_002NT.PRG) &lt; 100
+	        MAX(NVL(PRG, 0)) &lt; 100
 	    ORDER BY 
 	        TB_SR_002MT.TRG_END_DT ASC
 	</select>
@@ -316,7 +318,7 @@
 	        TB_SR_001MT.SR_TITLE,
 			TB_SR_002MT.TRG_ST_DT,
 	        TB_SR_002MT.TRG_END_DT,	
-	        MAX(TB_SR_002NT.PRG) AS PRG
+	        MAX(NVL(PRG, 0)) AS PRG
 	    FROM 
 	        TB_SR_002MT
 	    JOIN 
@@ -325,19 +327,11 @@
 	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
 	    WHERE 
 	        TB_SR_002MT.FIRST_INPT_ID = #{memNo}
-<!-- 	        <if test="deptId == 'MGEM'"> 혹시 부서별 정렬 추가하면 다시 복구할 수 도있어서 남겨둠
-	            AND TB_SR_001MT.REL_SYS = 'EMPL'
-	        </if>
-	        <if test="deptId == 'MGHR'">
-	            AND TB_SR_001MT.REL_SYS = 'HRD'
-	        </if>
-	        <if test="deptId == 'MGWK'">
-	            AND TB_SR_001MT.REL_SYS = 'WORK'
-	        </if> -->
+	        AND TB_SR_002MT.RCP_STAT = 'DECE'
 	    GROUP BY 
 	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
 	    HAVING 
-	        MAX(TB_SR_002NT.PRG) &lt; 100
+	        MAX(NVL(PRG, 0)) &lt; 100
 	    ORDER BY 
 	        TB_SR_002MT.TRG_END_DT ASC
 	</select>
@@ -357,10 +351,11 @@
 	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
 	    WHERE 
 	        TB_SR_001MT.FIRST_INPT_ID = #{memNo}
+	        AND TB_SR_002MT.RCP_STAT = 'DECE'
 	    GROUP BY 
 	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
 	    HAVING 
-	        MAX(TB_SR_002NT.PRG) &lt; 100
+	        MAX(NVL(PRG, 0)) &lt; 100
 	    ORDER BY 
 	        TB_SR_002MT.TRG_END_DT ASC
 
@@ -372,7 +367,7 @@
 	        TB_SR_001MT.SR_TITLE,
 	        TB_SR_002MT.TRG_ST_DT,
         	TB_SR_002MT.TRG_END_DT,	 
-	        MAX(TB_SR_002NT.PRG) AS PRG
+	        MAX(NVL(PRG, 0)) AS PRG
 	    FROM 
 	        TB_SR_002MT
 	    JOIN 
@@ -383,10 +378,11 @@
 	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
 	    WHERE 
 	        TB_SR_001NT.MEM_ID = #{memId}
+	        AND TB_SR_002MT.RCP_STAT = 'DECE'
 	    GROUP BY 
 	        TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT, TB_SR_001MT.SR_TITLE
 	    HAVING 
-	        MAX(TB_SR_002NT.PRG) &lt; 100
+	        MAX(NVL(PRG, 0)) &lt; 100
 	    ORDER BY 
 	        TB_SR_002MT.TRG_END_DT ASC
 	</select>
@@ -397,7 +393,7 @@
 	        TB_SR_001MT.SR_TITLE,
 			TB_SR_002MT.TRG_ST_DT,
 	        TB_SR_002MT.TRG_END_DT,	
-	        MAX(TB_SR_002NT.PRG) AS PRG
+	        MAX(NVL(PRG, 0)) AS PRG
 	    FROM 
 	        TB_SR_002MT
 	    JOIN 
@@ -406,19 +402,11 @@
 	        TB_SR_002NT ON TB_SR_002MT.APP_SR_ID = TB_SR_002NT.APP_SR_ID
 	    WHERE 
 	        TB_SR_002MT.FIRST_INPT_ID = #{memNo}
-<!-- 	        <if test="deptId == 'MGEM'"> 혹시 부서별 정렬 추가하면 다시 복구할 수 도있어서 남겨둠
-	            AND TB_SR_001MT.REL_SYS = 'EMPL'
-	        </if>
-	        <if test="deptId == 'MGHR'">
-	            AND TB_SR_001MT.REL_SYS = 'HRD'
-	        </if>
-	        <if test="deptId == 'MGWK'">
-	            AND TB_SR_001MT.REL_SYS = 'WORK'
-	        </if> -->
+	        AND TB_SR_002MT.RCP_STAT = 'DECE'
 	    GROUP BY 
 	        TB_SR_001MT.SR_TITLE, TB_SR_002MT.TRG_ST_DT, TB_SR_002MT.TRG_END_DT
 	    HAVING 
-	        MAX(TB_SR_002NT.PRG) &lt; 100
+	        MAX(NVL(PRG, 0)) &lt; 100
 	    ORDER BY 
 	        TB_SR_002MT.TRG_END_DT ASC
 	</select>
