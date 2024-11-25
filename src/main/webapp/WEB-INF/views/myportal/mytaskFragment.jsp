@@ -37,4 +37,39 @@
 			</tr>
 		</c:forEach>
 	</tbody>
+	<sec:authorize access="hasRole('ROLE_DEVE')">
+	<tbody id="mytask">
+		<c:forEach items="${mySrList}" var="sr001mt">
+			<tr>
+				<td>${sr002mt.rnum}</td>
+				<td>${sr002mt.srId}</td>
+				<td>${sr002mt.srTitle}</td>
+				<td><c:choose>
+						<c:when test="${sr002mt.relSys == 'EMPL'}">고용보험</c:when>
+						<c:when test="${sr002mt.relSys == 'HRDV'}">HRD</c:when>
+						<c:when test="${sr002mt.relSys == 'WORK'}">워크넷</c:when>
+						<c:otherwise>기타</c:otherwise>
+					</c:choose></td>
+				<td>${sr002mt.registerName}</td>
+				<td>${sr002mt.institutionName}</td>
+				<td>${sr002mt.departmentName}</td>
+				<td><c:choose>
+						<c:when test="${sr002mt.srStat == 'ANAL'}">분석</c:when>
+						<c:when test="${sr002mt.srStat == 'DESI'}">설계</c:when>
+						<c:when test="${sr002mt.srStat == 'IMPL'}">구현</c:when>
+						<c:when test="${sr002mt.srStat == 'TEST'}">시험</c:when>
+						<c:when test="${sr002mt.srStat == 'OPER'}">운영반영</c:when>
+						<c:when test="${sr002mt.srStat == 'REFL'}">반영요청</c:when>
+						<c:otherwise>기타</c:otherwise>
+					</c:choose></td>
+				<td><fmt:formatDate value="${sr002mt.reqDt}" pattern="yy/MM/dd" /></td>
+				<td><fmt:formatDate value="${sr002mt.dueDt}" pattern="yy/MM/dd" /></td>
+				<td>
+					<button class="detail-btn" data-bs-toggle="modal"
+						data-bs-target="#detail-modal">요청 상세</button>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+	</sec:authorize>
 </div>
