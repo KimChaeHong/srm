@@ -17,11 +17,10 @@
 	    LEFT JOIN (
 	        SELECT APP_SR_ID
 	        FROM TB_SR_002NT
-	        WHERE PRG &lt; 100
+	        WHERE NVL(PRG, 0) &lt; 100
 	        GROUP BY APP_SR_ID
 	    ) sr2
 	        ON t.APP_SR_ID = sr2.APP_SR_ID
-	    WHERE sr2.APP_SR_ID IS NOT NULL
 	</select>
 	
 	<insert id="insertWkhour" parameterType="SR003NT">
