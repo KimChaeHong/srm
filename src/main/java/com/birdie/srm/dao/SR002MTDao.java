@@ -69,5 +69,20 @@ public interface SR002MTDao {
 	
 	//회원이 할당된 SR의 appSrId 목록 가져오기
 	public List<SR002MT> selectAssignedSrId(MB001MT memInfo);
+	
+	// 개발자용 전체 SR 행 수 가져오기
+	public int selectCountDeveloperRows(String memNo);
+
+	// 개발자용 SR 목록 가져오기
+	public List<SR002MT> selectDeveloperSrListByUser(String taskType, PagerDto pager);
+
+	// 개발자용 상태별 총 행 수 조회
+	public int selectCountDeveloperRowsByStatus(String taskType, String memberInfo);
+
+	// 개발자용 특정 상태별 SR 목록 조회
+	public List<SR002MT> selectDeveloperSrListByStatus(PagerDto pager, String taskType, String memberInfo);
+	
+	
+	
 
 }

@@ -77,22 +77,24 @@ public class MyportalController {
 
 		// 역할에 따른 총 행 수와 SR 목록 가져오기
 		int totalRows;
-		List<SR001MT> mySrList;
+		List<SR001MT> mySrList1 = null;
+		List<SR002MT> mySrList2 = null;
+
 		PagerDto pager;
 
 		if ("ROLE_ADMI".equals(userRole1)) { // 관리자의 경우
 			totalRows = myPortalService.getTotalManagerRows(memberInfo); // 관리자용 쿼리로 총 행 수 가져오기
 			pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-			mySrList = myPortalService.getManagerSrList(memberInfo, pager); // 관리자용 SR 목록 가져오기
+			mySrList1 = myPortalService.getManagerSrList(memberInfo, pager); // 관리자용 SR 목록 가져오기
 		} 
 		else if ("ROLE_DEVE".equals(userRole1)) { // 개발자의 경우
 		    totalRows = myPortalService.getTotalDeveloperRows(memberInfo); // 개발자용 쿼리로 총 행 수 가져오기
 		    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-		    mySrList = myPortalService.getDeveloperSrList(memberInfo, pager); // 개발자용 SR 목록 가져오기
+		    mySrList2 = myPortalService.getDeveloperSrList(memberInfo, pager); // 개발자용 SR 목록 가져오기
 		} else { // 일반 사용자의 경우
 		    totalRows = myPortalService.getTotalRowsByUser(memberInfo); // 사용자용 쿼리로 총 행 수 가져오기
 		    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-		    mySrList = myPortalService.getMySrListByUser(memberInfo, pager); // 사용자용 SR 목록 가져오기
+		    mySrList1 = myPortalService.getMySrListByUser(memberInfo, pager); // 사용자용 SR 목록 가져오기
 		}
 
 		// 공지사항 가져오기
@@ -100,7 +102,8 @@ public class MyportalController {
 		model.addAttribute("notices", notices);
 
 		session.setAttribute("pager", pager);
-		model.addAttribute("mySrList", mySrList);
+		model.addAttribute("mySrList1", mySrList1);
+		model.addAttribute("mySrList2", mySrList2);
 		model.addAttribute("userRole", userRole1);
 
 		return "myportal/mytask";
@@ -132,7 +135,8 @@ public class MyportalController {
 		}
 
 		int totalRows;
-		List<SR001MT> mySrList;
+		List<SR001MT> mySrList1 = null;
+		List<SR002MT> mySrList2 = null;
 		PagerDto pager;
 
 		// "ALL" 혹은 빈 srStat일 때 모든 상태 조회
@@ -140,39 +144,41 @@ public class MyportalController {
 			if (srStat.isEmpty()) {
 				totalRows = myPortalService.getTotalManagerRows(memberNo);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList = myPortalService.getManagerSrList(memberNo, pager);
+				mySrList1 = myPortalService.getManagerSrList(memberNo, pager);
 			} else {
 				totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberNo);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList = myPortalService.getManagerSrListByStatus(srStat, memberNo, pager);
+				mySrList1 = myPortalService.getManagerSrListByStatus(srStat, memberNo, pager);
 			}
 		} else if ("ROLE_DEVE".equals(userRole1)) {
 			if (srStat.isEmpty()) {
 				totalRows = myPortalService.getTotalDeveloperRows(memberNo);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList = myPortalService.getDeveloperSrList(memberNo, pager);
+				mySrList2 = myPortalService.getDeveloperSrList(memberNo, pager);
 			} else {
 				totalRows = myPortalService.getTotalDeveloperRowsByStatus(srStat, memberNo);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList = myPortalService.getDeveloperSrListByStatus(srStat, memberNo, pager);
+				mySrList2 = myPortalService.getDeveloperSrListByStatus(srStat, memberNo, pager);
 			}
 		}else {
 			if (srStat.isEmpty()) {
 				totalRows = myPortalService.getTotalRowsByUser(memberInfo);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList = myPortalService.getMySrListByUser(memberInfo, pager);
+				mySrList1 = myPortalService.getMySrListByUser(memberInfo, pager);
 			} else {
 				totalRows = myPortalService.getTotalRowsByStatusAndUser(srStat, memberInfo);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList = myPortalService.getMySrListByStatusAndUser(pager, srStat, memberInfo);
+				mySrList1 = myPortalService.getMySrListByStatusAndUser(pager, srStat, memberInfo);
 			}
 		}
 
 		log.debug("Total rows: {}", totalRows);
-		log.debug("SR List: {}", mySrList);
+		log.debug("SR List1: {}", mySrList1);
+		log.debug("SR List2: {}", mySrList2);
 
 		session.setAttribute("pager", pager);
-		model.addAttribute("mySrList", mySrList);
+		model.addAttribute("mySrList1", mySrList1);
+		model.addAttribute("mySrList2", mySrList2);
 
 		return "myportal/mytaskFragment";
 	}
