@@ -137,14 +137,14 @@ table {
 	table-layout: fixed;
 }
 
-.mytask-1 {
+.mytask-1, .mytask-11 {
     width: 50px;
 }
-.mytask-2{
+.mytask-2, .mytask-22{
 	width: 160px
 }
 
-.mytask-3  {
+.mytask-3 , .mytask-33 {
 	width: 300px
 }
 .mytask-4 {

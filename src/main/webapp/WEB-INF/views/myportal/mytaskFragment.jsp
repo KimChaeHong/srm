@@ -43,7 +43,7 @@
 		<c:forEach items="${mySrList}" var="sr001mt">
 			<tr>
 				<td>${sr002mt.rnum}</td>
-				<td>${sr002mt.srId}</td>
+				<td>${sr002mt.appSrId}</td>
 				<td>${sr002mt.srTitle}</td>
 				<td><c:choose>
 						<c:when test="${sr002mt.relSys == 'EMPL'}">고용보험</c:when>
