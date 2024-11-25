@@ -15,12 +15,14 @@
 	        AND t.MEM_ID = #{memId}
 	        AND t.APP_SR_ID = #{appSrId}
 	    LEFT JOIN (
-	        SELECT APP_SR_ID
-	        FROM TB_SR_002NT
-	        WHERE NVL(PRG, 0) &lt; 100
-	        GROUP BY APP_SR_ID
+	        SELECT nt.APP_SR_ID, mt.FIRST_INPT_DT
+	        FROM TB_SR_002NT nt
+	        JOIN TB_SR_002MT mt ON nt.APP_SR_ID = mt.APP_SR_ID
+	        WHERE NVL(nt.PRG, 0) &lt; 100
+	        GROUP BY nt.APP_SR_ID, mt.FIRST_INPT_DT
 	    ) sr2
 	        ON t.APP_SR_ID = sr2.APP_SR_ID
+	    ORDER BY sr2.FIRST_INPT_DT DESC
 	</select>
 	
 	<insert id="insertWkhour" parameterType="SR003NT">
