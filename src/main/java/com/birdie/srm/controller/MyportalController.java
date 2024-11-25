@@ -154,7 +154,7 @@ public class MyportalController {
 				mySrList1 = myPortalService.getManagerSrListByStatus(srStat, memberNo, pager);
 			}
 		} else if ("ROLE_DEVE".equals(userRole1)) {
-			if (srStat.isEmpty()) {
+			if (taskType.isEmpty()) {
 				totalRows = myPortalService.getTotalDeveloperRows(memberId);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
 				mySrList2 = myPortalService.getDeveloperSrList(memberId, pager);
