@@ -68,8 +68,10 @@ public class MyportalService {
 			counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
 			counts.put("DEVING", sr001mtDao.selectCountManagerRowsByDevingAndUser("DEVING", memNo));
 			counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByDevdoneAndUser("DEVDONE", memNo));
-		} else {
-			// 일반 사용자와 개발자의 경우
+		} else if ("ROLE_ADMI".equals(userRole1)) {
+			
+		}else {
+			// 일반 사용자
 			counts.put("ALL", sr001mtDao.selectCountRowsByUser(memNo));
 			counts.put("REQT", sr001mtDao.selectCountRowsByStatusAndUser("REQT", memNo));
 			counts.put("REGI", sr001mtDao.selectCountRowsByStatusAndUser("REGI", memNo));
@@ -95,7 +97,6 @@ public class MyportalService {
 
 	// 특정 상태의 사용자 별 총 행 수 가져오기
 	public int getTotalRowsByStatusAndUser(String srStat, String memberInfo) {
-		;
 		if ("ALL".equals(srStat)) {
 			return sr001mtDao.selectCountRowsByUser(memberInfo);
 		} else if ("DEVING".equals(srStat)) {

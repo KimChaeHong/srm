@@ -48,7 +48,7 @@ $(document).ready(function() {
 				$("#mytask").html(data); // mytask 영역에 데이터 삽입
 			},
 			error : function(xhr, status, error) {
-				console.error("AJAX 요청 실패:", error);
+				console.error("AJAX 요청 실패-목록:", error);
 			}
 		});
 
@@ -65,7 +65,7 @@ $(document).ready(function() {
 				$("#pagination").html(data); // pagination 영역에 데이터 삽입
 			},
 			error : function(xhr, status, error) {
-				console.error("AJAX 요청 실패:", error);
+				console.error("AJAX 요청 실패- 페이징:", error);
 			}
 		});
 	}

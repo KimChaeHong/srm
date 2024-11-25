@@ -5,8 +5,7 @@
 <%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- 테이블 데이터 행 부분 -->
 <div>
-
-	<tbody id="mytask">
+<tbody id="mytask">
 		<c:forEach items="${mySrList}" var="sr001mt">
 			<tr>
 				<td>${sr001mt.rnum}</td>
@@ -38,7 +37,7 @@
 			</tr>
 		</c:forEach>
 	</tbody>
-<%-- 	
+
 	<sec:authorize access="hasRole('ROLE_DEVE')">
 	<tbody id="mytask">
 		<c:forEach items="${mySrList}" var="sr001mt">
@@ -73,5 +72,5 @@
 			</tr>
 		</c:forEach>
 	</tbody>
-	</sec:authorize> --%>
+	</sec:authorize>
 </div>
