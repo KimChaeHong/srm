@@ -40,6 +40,223 @@
     ]]>
 	</select>
 
+<!-- 개발자용 전체 SR 행 수 가져오기 -->
+	<select id="selectCountDeveloperRows" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_002MT sr002mt
+        JOIN TB_SR_001MT sr001mt 
+            ON sr002mt.SR_ID = sr001mt.SR_ID
+        JOIN TB_SR_001NT sr001nt 
+            ON sr002mt.APP_SR_ID = sr001nt.APP_SR_ID
+        LEFT JOIN (
+            SELECT t1.*
+            FROM TB_SR_002NT t1
+            JOIN (
+                SELECT APP_SR_ID, MAX(PRG) AS MAX_PRG
+                FROM TB_SR_002NT
+                GROUP BY APP_SR_ID
+            ) t2
+            ON t1.APP_SR_ID = t2.APP_SR_ID 
+            AND t1.PRG = t2.MAX_PRG
+        ) sr002nt
+            ON sr002mt.APP_SR_ID = sr002nt.APP_SR_ID
+        JOIN TB_MB_001MT mb001mt
+            ON sr001mt.FIRST_INPT_ID = mb001mt.MEM_NO
+        WHERE sr001nt.MEM_ID = #{memId}
+        ORDER BY sr002mt.TRG_ST_DT DESC
+
+	</select>
+
+<!-- 개발자 나의 할일 목록 -->
+<select id="selectDeveloperSrListByUser" parameterType="map"
+		resultType="SR002MT">
+    <![CDATA[
+SELECT rnum, 
+       cd_rel_sys.CD_NM AS REL_SYS, 
+       s.APP_SR_ID, 
+       cd_wk_type.CD_NM AS WK_TYPE, 
+       s.SR_TITLE, 
+       s.MEM_NM AS registerName, 
+       s.TRG_ST_DT, 
+       s.TRG_END_DT, 
+       cd_rcp_stat.CD_NM AS RCP_STAT, 
+       s.MEM_ID, 
+       s.PRG, 
+       cd_task_type.CD_NM AS TASK_TYPE
+FROM (
+    SELECT rownum AS rnum, 
+           REL_SYS, 
+           APP_SR_ID, 
+           WK_TYPE, 
+           SR_TITLE, 
+           MEM_NM, 
+           TRG_ST_DT, 
+           TRG_END_DT, 
+           RCP_STAT, 
+           MEM_ID, 
+           PRG, 
+           TASK_TYPE
+    FROM (
+        SELECT sr001mt.REL_SYS, 
+               sr002mt.APP_SR_ID, 
+               sr002mt.WK_TYPE, 
+               sr001mt.SR_TITLE, 
+               mb001mt.MEM_NM, 
+               sr002mt.TRG_ST_DT, 
+               sr002mt.TRG_END_DT, 
+               sr002mt.RCP_STAT, 
+               sr001nt.MEM_ID, 
+               sr002nt.PRG, 
+               sr002nt.TASK_TYPE
+        FROM TB_SR_002MT sr002mt
+        JOIN TB_SR_001MT sr001mt 
+            ON sr002mt.SR_ID = sr001mt.SR_ID
+        JOIN TB_SR_001NT sr001nt 
+            ON sr002mt.APP_SR_ID = sr001nt.APP_SR_ID
+        LEFT JOIN (
+            SELECT t1.*
+            FROM TB_SR_002NT t1
+            JOIN (
+                SELECT APP_SR_ID, MAX(PRG) AS MAX_PRG
+                FROM TB_SR_002NT
+                GROUP BY APP_SR_ID
+            ) t2
+            ON t1.APP_SR_ID = t2.APP_SR_ID 
+            AND t1.PRG = t2.MAX_PRG
+        ) sr002nt
+            ON sr002mt.APP_SR_ID = sr002nt.APP_SR_ID
+        JOIN TB_MB_001MT mb001mt
+            ON sr001mt.FIRST_INPT_ID = mb001mt.MEM_NO
+        WHERE sr001nt.MEM_ID = #{memId}
+
+        ORDER BY sr002mt.TRG_ST_DT DESC
+    )
+    WHERE rownum <= #{pager.endRowNo}
+) s
+LEFT JOIN TB_CD_MT cd_rel_sys
+    ON s.REL_SYS = cd_rel_sys.CD_ID
+LEFT JOIN TB_CD_MT cd_wk_type
+    ON s.WK_TYPE = cd_wk_type.CD_ID
+LEFT JOIN TB_CD_MT cd_rcp_stat
+    ON s.RCP_STAT = cd_rcp_stat.CD_ID
+LEFT JOIN TB_CD_MT cd_task_type
+    ON s.TASK_TYPE = cd_task_type.CD_ID
+WHERE s.rnum >= #{pager.startRowNo}
+ORDER BY s.rnum
+    ]]>
+	</select>
+
+
+
+<!-- 개발자용 상태별 SR 행 수 가져오기 -->
+	<select id="selectCountDeveloperRowsByStatus" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM TB_SR_002MT sr002mt
+        JOIN TB_SR_001MT sr001mt 
+            ON sr002mt.SR_ID = sr001mt.SR_ID
+        JOIN TB_SR_001NT sr001nt 
+            ON sr002mt.APP_SR_ID = sr001nt.APP_SR_ID
+        LEFT JOIN (
+            SELECT t1.*
+            FROM TB_SR_002NT t1
+            JOIN (
+                SELECT APP_SR_ID, MAX(PRG) AS MAX_PRG
+                FROM TB_SR_002NT
+                GROUP BY APP_SR_ID
+            ) t2
+            ON t1.APP_SR_ID = t2.APP_SR_ID 
+            AND t1.PRG = t2.MAX_PRG
+        ) sr002nt
+            ON sr002mt.APP_SR_ID = sr002nt.APP_SR_ID
+        JOIN TB_MB_001MT mb001mt
+            ON sr001mt.FIRST_INPT_ID = mb001mt.MEM_NO
+        WHERE sr001nt.MEM_ID = #{memId}
+        AND sr002nt.TASK_TYPE =#{taskType}
+        ORDER BY sr002mt.TRG_ST_DT DESC
+
+	</select>
+
+<!-- 개발자 상태별 나의 할일 목록 -->
+<select id="selectDeveloperSrListByStatus" parameterType="map"
+		resultType="SR002MT">
+    <![CDATA[
+       SELECT rnum, 
+       cd_rel_sys.CD_NM AS REL_SYS, 
+       s.APP_SR_ID, 
+       cd_wk_type.CD_NM AS WK_TYPE, 
+       s.SR_TITLE, 
+       s.MEM_NM AS registerName, 
+       s.TRG_ST_DT, 
+       s.TRG_END_DT, 
+       cd_rcp_stat.CD_NM AS RCP_STAT, 
+       s.MEM_ID, 
+       s.PRG, 
+       cd_task_type.CD_NM AS TASK_TYPE
+FROM (
+    SELECT rownum AS rnum, 
+           REL_SYS, 
+           APP_SR_ID, 
+           WK_TYPE, 
+           SR_TITLE, 
+           MEM_NM, 
+           TRG_ST_DT, 
+           TRG_END_DT, 
+           RCP_STAT, 
+           MEM_ID, 
+           PRG, 
+           TASK_TYPE
+    FROM (
+        SELECT sr001mt.REL_SYS, 
+               sr002mt.APP_SR_ID, 
+               sr002mt.WK_TYPE, 
+               sr001mt.SR_TITLE, 
+               mb001mt.MEM_NM, 
+               sr002mt.TRG_ST_DT, 
+               sr002mt.TRG_END_DT, 
+               sr002mt.RCP_STAT, 
+               sr001nt.MEM_ID, 
+               sr002nt.PRG, 
+               sr002nt.TASK_TYPE
+        FROM TB_SR_002MT sr002mt
+        JOIN TB_SR_001MT sr001mt 
+            ON sr002mt.SR_ID = sr001mt.SR_ID
+        JOIN TB_SR_001NT sr001nt 
+            ON sr002mt.APP_SR_ID = sr001nt.APP_SR_ID
+        LEFT JOIN (
+            SELECT t1.*
+            FROM TB_SR_002NT t1
+            JOIN (
+                SELECT APP_SR_ID, MAX(PRG) AS MAX_PRG
+                FROM TB_SR_002NT
+                GROUP BY APP_SR_ID
+            ) t2
+            ON t1.APP_SR_ID = t2.APP_SR_ID 
+            AND t1.PRG = t2.MAX_PRG
+        ) sr002nt
+            ON sr002mt.APP_SR_ID = sr002nt.APP_SR_ID
+        JOIN TB_MB_001MT mb001mt
+            ON sr001mt.FIRST_INPT_ID = mb001mt.MEM_NO
+        WHERE sr001nt.MEM_ID = #{memId}
+          AND sr002nt.TASK_TYPE = #{taskType}
+        ORDER BY sr002mt.TRG_ST_DT DESC
+    )
+    WHERE rownum <= #{pager.endRowNo}
+) s
+LEFT JOIN TB_CD_MT cd_rel_sys
+    ON s.REL_SYS = cd_rel_sys.CD_ID
+LEFT JOIN TB_CD_MT cd_wk_type
+    ON s.WK_TYPE = cd_wk_type.CD_ID
+LEFT JOIN TB_CD_MT cd_rcp_stat
+    ON s.RCP_STAT = cd_rcp_stat.CD_ID
+LEFT JOIN TB_CD_MT cd_task_type
+    ON s.TASK_TYPE = cd_task_type.CD_ID
+WHERE s.rnum >= #{pager.startRowNo}
+ORDER BY s.rnum
+    ]]>
+	</select>
+
 
 
 	

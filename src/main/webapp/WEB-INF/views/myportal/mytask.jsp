@@ -124,35 +124,36 @@
 						<tr>
 
 							<sec:authorize access="hasRole('ROLE_DEVE')">
-								<th class="mytask-1">No.</th>
-								<th class="mytask-2">SR 번호</th>
-								<th class="mytask-3">관련 시스템</th>
-								<th class="mytask-4">업무 구분</th>
-								<th class="mytask-5">제목</th>
-								<th class="mytask-6">요청자</th>
-								<th class="mytask-7">완료 요청일</th>
-								<th class="mytask-8">완료 예정일</th>
-								<th class="mytask-9">접수상태</th>
+								<th class="mytask-9728">No.</th>
+								<th class="mytask-22">SR 번호</th>
+								<th class="mytask-33">제목</th>
+								<th class="mytask-44">관련 시스템</th>
+								<th class="mytask-55">업무 구분</th>
+								<th class="mytask-66">요청자</th>
+								<th class="mytask-77">완료 요청일</th>
+								<th class="mytask-88">완료 예정일</th>
+								<th class="mytask-99">접수상태</th>
 							</sec:authorize>
 
 							<sec:authorize access="hasAnyRole('ROLE_GUSR', 'ROLE_ADMI')">
 								<th class="mytask-1">No.</th>
 								<th class="mytask-2">SR 번호</th>
-								<th class="mytask-3">관련 시스템</th>
-								<th class="mytask-4">제목</th>
+								<th class="mytask-3">제목</th>
+								<th class="mytask-4">관련 시스템</th>
 								<th class="mytask-5">등록자</th>
 								<th class="mytask-6">소속</th>
 								<th class="mytask-7">개발부서</th>
 								<th class="mytask-8">상태</th>
 								<th class="mytask-9">요청일</th>
 								<th class="mytask-10">완료(예정)일</th>
-								<th class="mytask-11">상세보기</th>
+								
 							</sec:authorize>
 
 						</tr>
 					</thead>
 					<tbody id="mytask">
 						<!-- AJAX로 불러온 데이터가 여기에 추가됩니다 -->
+						<sec:authorize access="hasAnyRole('ROLE_GUSR', 'ROLE_ADMI')">
 						<c:forEach items="${mySrList}" var="sr001mt">
 							<tr>
 								<td>${sr001mt.rnum}</td>
@@ -179,14 +180,31 @@
 										pattern="yy/MM/dd" /></td>
 								<td><fmt:formatDate value="${sr001mt.dueDt}"
 										pattern="yy/MM/dd" /></td>
-								<td>
-									<button class="detail-btn" data-bs-toggle="modal"
-										data-bs-target="#detail-modal">요청 상세</button>
-								</td>
+								
 							</tr>
 						</c:forEach>
+						</sec:authorize>
+						<sec:authorize access="hasRole('ROLE_DEVE')">
+								<c:forEach items="${mySrList}" var="sr002mt">
+							<tr>
+								<td>${sr002mt.rnum}</td>
+								<td>${sr002mt.appSrId}</td>
+								<td>${sr002mt.srTitle}</td>
+								<td>${sr002mt.relSys}</td>
+								<td>${sr002mt.wkType}</td>
+								<td>${sr002mt.registerName}</td>
+								<td><fmt:formatDate value="${sr002mt.trgStDt}"
+										pattern="yy/MM/dd" /></td>
+								<td><fmt:formatDate value="${sr002mt.trgEndDt}"
+										pattern="yy/MM/dd" /></td>
+								<td>${sr002mt.rcpStat}</td>
+								
+							</tr>
+						</c:forEach>
+						</sec:authorize>
 					</tbody>
 				</table>
+						
 			</div>
 
 			<!-- 페이지 버튼 -->
