@@ -25,7 +25,12 @@
 
 </head>
 <body>
-	<div class="login-container">
+<div class="login-wrapper">
+
+	<div class="login-bg" >
+		<img src="/srm/resources/images/bg3.png" height="300"/>
+	</div>
+	<div class="login-container" >
 		<span>SRM 시스템 로그인</span>
 		
 		<c:if test="${not empty loginError}">
@@ -50,6 +55,7 @@
 			<div class="line">|</div>
 			<a id="btn-search" class="btn">아이디 & 비밀번호 찾기</a>
 		</div>
+	</div>
 	</div>
 	
 	<script>

@@ -147,6 +147,7 @@
 		update TB_SR_001MT
 		set SR_STAT = #{srStat},
 			REV_CMT = #{revCmt},
+			LAST_INPT_ID = #{lastInptId},
 			LAST_INPT_DT = sysdate
 		where SR_ID = #{srId}
 	</update>
