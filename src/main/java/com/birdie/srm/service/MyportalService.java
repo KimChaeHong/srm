@@ -157,30 +157,30 @@ public class MyportalService {
 	}
 
 	// 개발자 전체 SR 행 수 가져오기
-	public int getTotalDeveloperRows(String memNo) {
-		return sr002mtDao.selectCountDeveloperRows(memNo);
+	public int getTotalDeveloperRows(String memberId) {
+		return sr002mtDao.selectCountDeveloperRows(memberId);
 	}
 
 	// 개발자 SR 목록 가져오기
-	public List<SR002MT> getDeveloperSrList(String memberNo, PagerDto pager) {
-		return sr002mtDao.selectDeveloperSrListByUser(memberNo, pager);
+	public List<SR002MT> getDeveloperSrList(String memberId, PagerDto pager) {
+		return sr002mtDao.selectDeveloperSrListByUser(memberId, pager);
 	}
 
 	// 특정 상태별 개발자 총 행 수 조회
-	public int getTotalDeveloperRowsByStatus(String srStat, String memberInfo) {
-		if ("ALL".equals(srStat)) {
-			return sr002mtDao.selectCountDeveloperRows(memberInfo);
+	public int getTotalDeveloperRowsByStatus(String taskType, String memberId) {
+		if ("ALL".equals(taskType)) {
+			return sr002mtDao.selectCountDeveloperRows(memberId);
 		} else {
-			return sr002mtDao.selectCountDeveloperRowsByStatus(srStat, memberInfo);
+			return sr002mtDao.selectCountDeveloperRowsByStatus(taskType, memberId);
 		}
 	}
 
 	// 특정 상태별 개발자 SR 목록 조회
-	public List<SR002MT> getDeveloperSrListByStatus(String srStat, String memberInfo, PagerDto pager) {
-		if ("ALL".equals(srStat)) {
-			return sr002mtDao.selectDeveloperSrListByUser(memberInfo, pager);
+	public List<SR002MT> getDeveloperSrListByStatus(String taskType, String memberId, PagerDto pager) {
+		if ("ALL".equals(taskType)) {
+			return sr002mtDao.selectDeveloperSrListByUser(memberId, pager);
 		} else
-			return sr002mtDao.selectDeveloperSrListByStatus(pager, srStat, memberInfo);
+			return sr002mtDao.selectDeveloperSrListByStatus(pager, taskType, memberId);
 	}
 
 	/* 달력 */

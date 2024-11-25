@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib  prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- 테이블 데이터 행 부분 -->
 <div>
 	<tbody id="mytask">
@@ -54,12 +54,12 @@
 				<td>${sr002mt.institutionName}</td>
 				<td>${sr002mt.departmentName}</td>
 				<td><c:choose>
-						<c:when test="${sr002mt.srStat == 'ANAL'}">분석</c:when>
-						<c:when test="${sr002mt.srStat == 'DESI'}">설계</c:when>
-						<c:when test="${sr002mt.srStat == 'IMPL'}">구현</c:when>
-						<c:when test="${sr002mt.srStat == 'TEST'}">시험</c:when>
-						<c:when test="${sr002mt.srStat == 'OPER'}">운영반영</c:when>
-						<c:when test="${sr002mt.srStat == 'REFL'}">반영요청</c:when>
+						<c:when test="${sr002mt.taskType == 'ANAL'}">분석</c:when>
+						<c:when test="${sr002mt.taskType == 'DESI'}">설계</c:when>
+						<c:when test="${sr002mt.taskType == 'IMPL'}">구현</c:when>
+						<c:when test="${sr002mt.taskType == 'TEST'}">시험</c:when>
+						<c:when test="${sr002mt.taskType == 'OPER'}">운영반영</c:when>
+						<c:when test="${sr002mt.taskType == 'REFL'}">반영요청</c:when>
 						<c:otherwise>기타</c:otherwise>
 					</c:choose></td>
 				<td><fmt:formatDate value="${sr002mt.reqDt}" pattern="yy/MM/dd" /></td>

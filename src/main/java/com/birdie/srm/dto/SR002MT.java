@@ -49,4 +49,5 @@ public class SR002MT {
 	private String memNm;		// 회원(담당자) 이름
 	private int totalPlnMd; 	// 총계획공수
 	private String rnum;
+
 }

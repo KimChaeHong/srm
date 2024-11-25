@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.birdie.srm.dto.PagerDto;
 import com.birdie.srm.dto.SR001MT;
-import com.birdie.srm.dto.SR002MT;
 import com.birdie.srm.dto.SearchDto;
 
 @Mapper
