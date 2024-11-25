@@ -95,14 +95,13 @@
 				<sec:authorize access="hasRole('ROLE_DEVE')">
 					<ul class="nav nav-tabs">
 						<li class="nav-item"><a class="nav-link tb-tab active"
-							data-bs-toggle="tab" data-srstat="ALL">전체 <span
-								class="row-cnt"></span></a></li>
+							data-bs-toggle="tab" data-srstat="ALL">전체 <span style="color: #2C7BE5 ">(10)</span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
 							data-bs-toggle="tab" data-srstat="ANAL">분석<span
 								class="row-cnt"></span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
 							data-bs-toggle="tab" data-srstat="DESI">설계<span
-								class="row-cnt"></span></a></li>
+							>(10)</span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
 							data-bs-toggle="tab" data-srstat="IMPL">구현<span
 								class="row-cnt"></span></a></li>

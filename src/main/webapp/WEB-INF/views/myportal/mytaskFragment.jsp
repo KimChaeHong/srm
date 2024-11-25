@@ -58,6 +58,4 @@
 			</c:forEach>
 		</sec:authorize>
 	</tbody>
-
-
 </div>
