@@ -125,7 +125,7 @@
 						<tr>
 
 							<sec:authorize access="hasRole('ROLE_DEVE')">
-								<th class="mytask-11">No.</th>
+								<th class="mytask-9728">No.</th>
 								<th class="mytask-22">SR 번호</th>
 								<th class="mytask-33">제목</th>
 								<th class="mytask-44">관련 시스템</th>
@@ -147,7 +147,7 @@
 								<th class="mytask-8">상태</th>
 								<th class="mytask-9">요청일</th>
 								<th class="mytask-10">완료(예정)일</th>
-								<th class="mytask-11">상세보기</th>
+								
 							</sec:authorize>
 
 						</tr>
@@ -181,10 +181,7 @@
 										pattern="yy/MM/dd" /></td>
 								<td><fmt:formatDate value="${sr001mt.dueDt}"
 										pattern="yy/MM/dd" /></td>
-								<td>
-									<button class="detail-btn" data-bs-toggle="modal"
-										data-bs-target="#detail-modal">요청 상세</button>
-								</td>
+								
 							</tr>
 						</c:forEach>
 						</sec:authorize>

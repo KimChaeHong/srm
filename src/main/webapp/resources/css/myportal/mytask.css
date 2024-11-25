@@ -132,12 +132,17 @@ table {
     margin-bottom: 20px;
 }
 
+td{
+	height: 30px;
+	vertical-align: middle;
+}
+
 #task-table{
 	width:1218px;
 	table-layout: fixed;
 }
 
-.mytask-1, .mytask-11 {
+.mytask-1, .mytask-9728 {
     width: 50px;
 }
 .mytask-2, .mytask-22{

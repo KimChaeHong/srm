@@ -55,7 +55,7 @@ public class MyportalService {
 	}
 
 	// 로그인한 사용자 또는 관리자의 상태별 SR 갯수 가져오기
-	public Map<String, Integer> getStatusCounts(String memNo, String userRole1) {
+	public Map<String, Integer> getStatusCounts(String memNo, String userRole1 ) {
 		Map<String, Integer> counts = new HashMap<>();
 
 		if ("ROLE_ADMI".equals(userRole1)) {
@@ -68,8 +68,14 @@ public class MyportalService {
 			counts.put("RECE", sr001mtDao.selectCountManagerRowsByStatus("RECE", memNo));
 			counts.put("DEVING", sr001mtDao.selectCountManagerRowsByDevingAndUser("DEVING", memNo));
 			counts.put("DEVDONE", sr001mtDao.selectCountManagerRowsByDevdoneAndUser("DEVDONE", memNo));
-		} else if ("ROLE_ADMI".equals(userRole1)) {
-			
+		} else if ("ROLE_DEVE".equals(userRole1)) {
+			counts.put("ALL", sr002mtDao.selectCountDeveloperRows(memNo));
+			counts.put("ANAL", sr002mtDao.selectCountDeveloperRowsByStatus("ANAL", memNo));
+			counts.put("DESI", sr002mtDao.selectCountDeveloperRowsByStatus("DESI", memNo));
+			counts.put("IMPL", sr002mtDao.selectCountDeveloperRowsByStatus("IMPL", memNo));
+			counts.put("TEST", sr002mtDao.selectCountDeveloperRowsByStatus("TEST", memNo));
+			counts.put("OPER", sr002mtDao.selectCountDeveloperRowsByStatus("OPER", memNo));
+			counts.put("REFL", sr002mtDao.selectCountDeveloperRowsByStatus("REFL", memNo));
 		}else {
 			// 일반 사용자
 			counts.put("ALL", sr001mtDao.selectCountRowsByUser(memNo));

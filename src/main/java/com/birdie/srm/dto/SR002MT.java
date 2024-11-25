@@ -50,6 +50,7 @@ public class SR002MT {
 	private int totalPlnMd; 	// 총계획공수
 	private String rnum;
 	private String registerName; // 등록자 이름
-
+	private String institutionName; // 등록자 부서
+	private String departmentName; // 등록자 부서
 
 }

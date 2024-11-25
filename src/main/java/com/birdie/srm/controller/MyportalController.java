@@ -113,7 +113,6 @@ public class MyportalController {
 	public String getMySrListByStatus(
 			Authentication authentication, 
 			@RequestParam("srStat") String srStat,
-			@RequestParam("taskType") String taskType,
 			@RequestParam(defaultValue = "1") int pageNo, @RequestParam(required = false) Integer rowsPerPage,
 			Model model, HttpSession session) {
 
@@ -162,9 +161,9 @@ public class MyportalController {
 				model.addAttribute("mySrList", mySrList);
 
 			} else {
-				totalRows = myPortalService.getTotalDeveloperRowsByStatus(taskType, memberId);
+				totalRows = myPortalService.getTotalDeveloperRowsByStatus(srStat, memberId);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				List<SR002MT> mySrList = myPortalService.getDeveloperSrListByStatus(taskType, memberId, pager);
+				List<SR002MT> mySrList = myPortalService.getDeveloperSrListByStatus(srStat, memberId, pager);
 				model.addAttribute("mySrList", mySrList);
 
 			}
@@ -193,12 +192,16 @@ public class MyportalController {
 
 	// 페이징 처리
 	@GetMapping("/pagination")
-	public String getPagination(Authentication authentication, @RequestParam("srStat") String srStat,
-			@RequestParam(defaultValue = "1") int pageNo, @RequestParam(required = false) Integer rowsPerPage,
+	public String getPagination(
+			Authentication authentication, 
+			@RequestParam("srStat") String srStat, 
+			@RequestParam(defaultValue = "1") int pageNo, 
+			@RequestParam(required = false) Integer rowsPerPage,
 			Model model, HttpSession session) {
 
 		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 		String memberInfo = memberDetails.getUsername(); // 사용자 아이디 가져오기
+		String memberId = authentication.getName(); //아이디 가져오기
 		String memberNo = memberDetails.getMember().getMemNo(); // 사번 가져오기
 		String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 
@@ -221,7 +224,15 @@ public class MyportalController {
 			} else { // 특정 상태 조회
 				totalRows = myPortalService.getTotalManagerRowsByStatus(srStat, memberNo);
 			}
-		} else { // 일반 사용자와 개발자의 경우
+			
+		}else if("ROLE_DEVE".equals(userRole1)) {
+			if ("ALL".equals(srStat)) { // 전체 목록 조회
+				totalRows = myPortalService.getTotalDeveloperRows(memberId);
+			} else { // 특정 상태 조회
+				totalRows = myPortalService.getTotalDeveloperRowsByStatus(srStat, memberId);
+			}
+		
+		}else { // 일반 사용자와 개발자의 경우
 			if ("ALL".equals(srStat)) { // 전체 목록 조회
 				totalRows = myPortalService.getTotalRowsByUser(memberInfo);
 			} else { // 특정 상태 조회
