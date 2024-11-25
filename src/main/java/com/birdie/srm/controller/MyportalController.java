@@ -62,6 +62,7 @@ public class MyportalController {
 		// 로그인한 사용자 사번 및 역할 가져오기
 		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
 		String memberInfo = memberDetails.getMember().getMemNo(); // 사번 가져오기
+		String memberId = authentication.getName(); // 아이디 가져오기
 		String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 		log.debug("Member Info (사번): {}", memberInfo); // 로그 추가
 
@@ -88,9 +89,9 @@ public class MyportalController {
 			mySrList1 = myPortalService.getManagerSrList(memberInfo, pager); // 관리자용 SR 목록 가져오기
 		} 
 		else if ("ROLE_DEVE".equals(userRole1)) { // 개발자의 경우
-		    totalRows = myPortalService.getTotalDeveloperRows(memberInfo); // 개발자용 쿼리로 총 행 수 가져오기
+		    totalRows = myPortalService.getTotalDeveloperRows(memberId); // 개발자용 쿼리로 총 행 수 가져오기
 		    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-		    mySrList2 = myPortalService.getDeveloperSrList(memberInfo, pager); // 개발자용 SR 목록 가져오기
+		    mySrList2 = myPortalService.getDeveloperSrList(memberId, pager); // 개발자용 SR 목록 가져오기
 		} else { // 일반 사용자의 경우
 		    totalRows = myPortalService.getTotalRowsByUser(memberInfo); // 사용자용 쿼리로 총 행 수 가져오기
 		    pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
@@ -156,13 +157,13 @@ public class MyportalController {
 			}
 		} else if ("ROLE_DEVE".equals(userRole1)) {
 			if (srStat.isEmpty()) {
-				totalRows = myPortalService.getTotalDeveloperRows(memberNo);
+				totalRows = myPortalService.getTotalDeveloperRows(memberId);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList2 = myPortalService.getDeveloperSrList(memberNo, pager);
+				mySrList2 = myPortalService.getDeveloperSrList(memberId, pager);
 			} else {
-				totalRows = myPortalService.getTotalDeveloperRowsByStatus(taskType, memberNo);
+				totalRows = myPortalService.getTotalDeveloperRowsByStatus(taskType, memberId);
 				pager = new PagerDto(rowsPerPage, 5, totalRows, pageNo);
-				mySrList2 = myPortalService.getDeveloperSrListByStatus(taskType, memberNo, pager);
+				mySrList2 = myPortalService.getDeveloperSrListByStatus(taskType, memberId, pager);
 			}
 		}else {
 			if (srStat.isEmpty()) {
@@ -195,7 +196,8 @@ public class MyportalController {
 			Model model, HttpSession session) {
 
 		MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-		String memberInfo = memberDetails.getUsername(); // 사용자 아이디 가져오기
+		String memberInfo = memberDetails.getUsername(); // 가져오기
+		String memberId = authentication.getName(); // 아이디 가져오기
 		String memberNo = memberDetails.getMember().getMemNo(); // 사번 가져오기
 		String userRole1 = memberDetails.getMember().getRole1(); // 역할 가져오기
 
@@ -220,9 +222,9 @@ public class MyportalController {
 			}
 		} else if("ROLE_DEVE".equals(userRole1)) { // 개발자의 경우
 			if ("ALL".equals(taskType)) { // 전체 목록 조회
-				totalRows = myPortalService.getTotalDeveloperRows(memberInfo);
+				totalRows = myPortalService.getTotalDeveloperRows(memberId);
 			} else { // 특정 상태 조회
-				totalRows = myPortalService.getTotalDeveloperRowsByStatus(taskType, memberInfo);
+				totalRows = myPortalService.getTotalDeveloperRowsByStatus(taskType, memberId);
 			}
 		}else { // 일반 사용자 
 			if ("ALL".equals(srStat)) { // 전체 목록 조회
