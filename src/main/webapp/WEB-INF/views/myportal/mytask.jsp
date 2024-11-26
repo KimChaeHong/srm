@@ -102,7 +102,7 @@
 								class="row-cnt"></span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
 							data-bs-toggle="tab" data-srstat="DESI">설계<span
-							></span></a></li>
+								class="row-cnt"></span></a></li>
 						<li class="nav-item"><a class="nav-link tb-tab"
 							data-bs-toggle="tab" data-srstat="IMPL">구현<span
 								class="row-cnt"></span></a></li>
