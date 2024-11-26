@@ -17,7 +17,7 @@
 
 <hr>
 <form id="sr-detail-form">
-    <div class="detail-form-group">
+    <div class="detail-form-group ">
         <label for="srNumber">SR번호</label>
         <input type="text" id="srNumber" class="detail-input" name="srNumber" value="${appSrDetail.appSrId}"
             readonly>
@@ -27,12 +27,12 @@
             value="${appSrDetail.sysNm}" readonly>
     </div>
 
-    <div class="detail-form-group">
+    <div class="detail-form-group mt-2">
         <label for="srTitle">SR제목</label>
         <input type="text" id="srTitle" name="srTitle" value="${appSrDetail.srTitle}" readonly>
     </div>
 
-    <div class="detail-form-group">
+    <div class="detail-form-group mt-2">
         <label for="requestTeam">요청기관</label>
         <input type="text" id="requestTeam" class="detail-input" name="requestTeam"
             value="${appSrDetail.instNm}" readonly>
@@ -41,7 +41,7 @@
         <input type="text" id="requester" class="detail-input" name="requester" value="${appSrDetail.memNm}" readonly>
     </div>
 
-    <div class="detail-form-group">
+    <div class="detail-form-group mt-2">
         <label for="requestDate">요청일</label>
         <input type="text" id="requestDate" class="detail-input" name="requestDate"
         	value="<fmt:formatDate value="${appSrDetail.reqDt}" pattern="yyyy-MM-dd"/>" readonly>
@@ -51,20 +51,15 @@
             value="<fmt:formatDate value="${appSrDetail.dueDt}" pattern="yyyy-MM-dd"/>" readonly>
     </div>
 
-    <div class="detail-form-group">
+    <div class="detail-form-group mt-2">
         <label for="srRequestNumber">SR요청번호</label>
         <input type="text" id="srRequestNumber" name="srRequestNumber" value="${appSrDetail.srId}"
             readonly>
     </div>
 
-    <div class="detail-form-group">
+    <div class="detail-form-group mt-2">
         <label for="srContent">SR 내용</label>
         <textarea id="srContent" name="srContent" rows="4" readonly>${appSrDetail.srCont}</textarea>
-    </div>
-
-    <div class="detail-form-group">
-        <label for="attachment">첨부파일</label>
-        <input type="text" id="attachment" name="attachment" value="example.xls" readonly>
     </div>
 </form>
 
